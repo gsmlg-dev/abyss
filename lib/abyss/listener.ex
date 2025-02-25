@@ -52,11 +52,11 @@ defmodule Abyss.Listener do
 
   @impl GenServer
   def handle_info({:udp, socket, ip, port, data}, state) do
-    IO.puts("📩 Received UDP message from #{inspect(ip)}:#{port} -> #{inspect(data)}")
+    IO.puts("📩 Received UDP message from #{:inet.ntoa(ip)}:#{port} -> #{inspect(data)}")
 
-    # Use a worker from the process pool
-    Task.Supervisor.start_child(Abyss.AcceptorSupervisor, fn ->
-      handle_request(socket, ip, port, data)
+    # Checkout a worker from Poolboy and send the request
+    :poolboy.transaction(:udp_worker_pool, fn pid ->
+      GenServer.cast(pid, {:process_packet, socket, ip, port, data})
     end)
 
     {:noreply, state}
@@ -76,16 +76,4 @@ defmodule Abyss.Listener do
   @spec terminate(reason, state) :: :ok
         when reason: :normal | :shutdown | {:shutdown, term} | term
   def terminate(_reason, state), do: Abyss.Telemetry.stop_span(state.listener_span)
-
-
-  defp handle_request(socket, ip, port, data) do
-    IO.puts("📩 Handling request from #{:inet.ntoa(ip)}:#{port} -> #{inspect(data)}")
-     # Simulate processing delay
-     Process.sleep(100)
-     response = "✅ Processed: #{data}"
-
-     # Send response back
-     :gen_udp.send(socket, ip, port, response)
-     IO.puts("📤 Sent response to #{:inet.ntoa(ip)}:#{port} -> #{inspect(response)}")
-  end
 end

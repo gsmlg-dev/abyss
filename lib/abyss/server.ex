@@ -75,7 +75,7 @@ defmodule Abyss.Server do
   def init(config) do
     children = [
       {Abyss.Listener, config} |> Supervisor.child_spec(id: :listener),
-      {Task.Supervisor, name: Abyss.AcceptorSupervisor} |> Supervisor.child_spec(id: :task_supervisor)
+      {Abyss.Pool, []} |> Supervisor.child_spec(id: :task_supervisor)
       # {Abyss.AcceptorPoolSupervisor, {self(), config}}
       # |> Supervisor.child_spec(id: :acceptor_pool_supervisor),
       # {Abyss.ShutdownListener, self()}
