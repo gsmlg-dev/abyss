@@ -43,11 +43,25 @@ defmodule Abyss.Listener do
       listener_span = Abyss.Telemetry.start_span(:listener, %{}, span_metadata)
 
       {:ok,
-       %{listener_socket: listener_socket, local_info: {ip, port}, listener_span: listener_span}}
+       %{listener_socket: listener_socket, local_info: {ip, port}, listener_span: listener_span},
+       {:continue, {:start_accepters, server_config}}}
     else
       {:error, reason} ->
         {:stop, reason}
     end
+  end
+
+  @impl GenServer
+  def handle_continue({:start_accepters, server_config}, state) do
+    num_acceptors = server_config.num_acceptors
+    listener_socket = state.listener_socket
+    for _ <- 1..num_acceptors do
+      Task.Supervisor.start_child(Abyss.AcceptorSupervisor, fn ->
+        accepter_loop(listener_socket)
+      end)
+    end
+
+    {:noreply, state}
   end
 
   @impl GenServer
@@ -61,7 +75,32 @@ defmodule Abyss.Listener do
     do: {:reply, {state.listener_socket, state.listener_span}, state}
 
   @impl GenServer
+  def handle_info(_msg, state), do: {:noreply, state}
+  # def handle_info({:udp, socket, ip, port, data}, state) do
+  #   IO.puts("📩 #{inspect(socket)} Received UDP message from #{:inet.ntoa(ip)}:#{port} -> #{inspect(data)}")
+  #   # Simulate processing
+  #   :gen_udp.send(socket, ip, port, "✅ Processed: #{data}")
+  #   {:noreply, state}
+  # end
+  # def handle_info(any, state) do
+  #   IO.inspect({:unhandled_info, any})
+  #   {:noreply, state}
+  # end
+
+  @impl GenServer
   @spec terminate(reason, state) :: :ok
         when reason: :normal | :shutdown | {:shutdown, term} | term
   def terminate(_reason, state), do: Abyss.Telemetry.stop_span(state.listener_span)
+
+  defp accepter_loop(socket) do
+    receive do
+      {:udp, _socket, ip, port, data} ->
+        IO.puts("📩 Received UDP message from #{:inet.ntoa(ip)}:#{port} -> #{inspect(data)}")
+        # Simulate processing
+        # :gen_udp.send(socket, ip, port, "✅ Processed: #{data}")
+    end
+
+    # Continue accepting messages
+    accepter_loop(socket)
+  end
 end
