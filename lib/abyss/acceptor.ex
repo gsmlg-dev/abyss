@@ -57,7 +57,7 @@ defmodule Abyss.Acceptor do
 
   defp recv(listener_socket, connection_sup_pid, server_config, span, count) do
     with {:ok, recv_data} <- server_config.transport_module.recv(listener_socket, 0),
-         :ok <- Abyss.Connection.start(connection_sup_pid, recv_data, server_config, span) do
+         :ok <- Abyss.Connection.start(connection_sup_pid, {listener_socket, recv_data}, server_config, span) do
       recv(listener_socket, connection_sup_pid, server_config, span, count + 1)
     else
       {:error, :too_many_connections} ->
@@ -66,6 +66,10 @@ defmodule Abyss.Acceptor do
 
       {:error, :econnaborted} ->
         Abyss.Telemetry.span_event(span, :econnaborted)
+        recv(listener_socket, connection_sup_pid, server_config, span, count + 1)
+
+      {:error, :econnrefused} ->
+        Abyss.Telemetry.span_event(span, :econnrefused)
         recv(listener_socket, connection_sup_pid, server_config, span, count + 1)
 
       {:error, reason} when reason in [:closed, :einval] ->

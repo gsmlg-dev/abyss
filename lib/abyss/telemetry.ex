@@ -297,6 +297,7 @@ defmodule Abyss.Telemetry do
           :ready
           | :spawn_error
           | :econnaborted
+          | :econnrefused
           | :recv_error
           | :send_error
           | :sendfile_error

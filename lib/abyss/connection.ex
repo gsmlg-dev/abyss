@@ -3,7 +3,7 @@ defmodule Abyss.Connection do
 
   @spec start(
           Supervisor.supervisor(),
-          Abyss.Transport.socket() | Abyss.Transport.recv_data(),
+          Abyss.Transport.socket() | {Abyss.Transport.socket(), Abyss.Transport.recv_data()},
           Abyss.ServerConfig.t(),
           Abyss.Telemetry.t()
         ) ::
@@ -44,7 +44,7 @@ defmodule Abyss.Connection do
   defp do_start(
          sup_pid,
          child_spec,
-         recv_data,
+         {listener_socket, recv_data},
          server_config,
          acceptor_span,
          start_time,
@@ -53,17 +53,10 @@ defmodule Abyss.Connection do
        when is_tuple(recv_data) do
     case DynamicSupervisor.start_child(sup_pid, child_spec) do
       {:ok, pid} ->
-        # Since this process owns the socket at this point, it needs to be the
-        # one to make this call. connection_pid is sitting and waiting for the
-        # word from us to start processing, in order to ensure that we've made
-        # the following call. Note that we purposefully do not match on the
-        # return from this function; if there's an error the connection process
-        # will see it, but it's no longer our problem if that's the case
-
         # Now that we have transferred ownership over to the new process, send a message to the
         # new process with all the info it needs to start working with the socket (note that the
         # new process will still need to handshake with the remote end)
-        send(pid, {:abyss_ready, recv_data, server_config, acceptor_span, start_time})
+        send(pid, {:abyss_ready, {listener_socket, recv_data}, server_config, acceptor_span, start_time})
 
         :ok
 
