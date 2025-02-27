@@ -18,3 +18,15 @@ def deps do
 end
 ```
 
+## Run Example
+
+```shell
+# run service
+mix run --no-halt -e 'Code.require_file("example/echo.ex"); Abyss.Logger.attach_logger(:trace); Abyss.start_link(handler_module: Echo, port: 1234); Process.sleep(300_000); '
+
+# test
+while true
+do 
+  echo "Hello, UDP $(date +%T)" | nc -4 -u -w1 127.0.0.1 1234
+done
+```

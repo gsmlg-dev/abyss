@@ -1,147 +1,6 @@
 defmodule Abyss do
   @moduledoc """
-  Abyss is a modern, pure Elixir socket server, inspired heavily by
-  [ranch](https://github.com/ninenines/ranch). It aims to be easy to understand
-  & reason about, while also being at least as stable and performant as alternatives.
-
-  Abyss is implemented as a supervision tree which is intended to be hosted
-  inside a host application, often as a dependency embedded within a higher-level
-  protocol library such as [Bandit](https://github.com/mtrudel/bandit). Aside from
-  supervising the Abyss process tree, applications interact with Abyss
-  primarily via the `Abyss.Handler` behaviour.
-
-  ## Handlers
-
-  The `Abyss.Handler` behaviour defines the interface that Abyss
-  uses to pass `Abyss.Socket`s up to the application level; together they
-  form the primary interface that most applications will have with Abyss.
-  Abyss comes with a few simple protocol handlers to serve as examples;
-  these can be found in the [examples](https://github.com/mtrudel/abyss/tree/main/examples)
-  folder of this project. A simple implementation would look like this:
-
-  ```elixir
-  defmodule Echo do
-    use Abyss.Handler
-
-    @impl Abyss.Handler
-    def handle_data(data, socket, state) do
-      Abyss.Socket.send(socket, data)
-      {:continue, state}
-    end
-  end
-
-  {:ok, pid} = Abyss.start_link(port: 1234, handler_module: Echo)
-  ```
-
-  For more information, please consult the `Abyss.Handler` documentation.
-
-  ## Starting a Abyss Server
-
-  A typical use of `Abyss` might look like the following:
-
-  ```elixir
-  defmodule MyApp.Supervisor do
-    # ... other Supervisor boilerplate
-
-    def init(config) do
-      children = [
-        # ... other children as dictated by your app
-        {Abyss, port: 1234, handler_module: MyApp.ConnectionHandler}
-      ]
-
-      Supervisor.init(children, strategy: :one_for_one)
-    end
-  end
-  ```
-
-  You can also start servers directly via the `start_link/1` function:
-
-  ```elixir
-  {:ok, pid} = Abyss.start_link(port: 1234, handler_module: MyApp.ConnectionHandler)
-  ```
-
-  ## Configuration
-
-  A number of options are defined when starting a server. The complete list is
-  defined by the `t:Abyss.options/0` type.
-
-  ## Connection Draining & Shutdown
-
-  `Abyss` instances are just a process tree consisting of standard
-  `Supervisor`, `GenServer` and `Task` modules, and so the usual rules regarding
-  shutdown and shutdown timeouts apply. Immediately upon beginning the shutdown
-  sequence the Abyss.ShutdownListener process will cause the listening
-  socket to shut down. At this point all that
-  is left in the supervision tree are several layers of Supervisors and whatever
-  `Handler` processes were in progress when shutdown was initiated. At this
-  point, standard `Supervisor` shutdown timeout semantics give existing
-  connections a chance to finish things up. `Handler` processes trap exit, so
-  they continue running beyond shutdown until they either complete or are
-  `:brutal_kill`ed after their shutdown timeout expires.
-
-  ## Logging & Telemetry
-
-  As a low-level library, Abyss purposely does not do any inline
-  logging of any kind. The `Abyss.Logger` module defines a number of
-  functions to aid in tracing connections at various log levels, and such logging
-  can be dynamically enabled and disabled against an already running server. This
-  logging is backed by telemetry events internally.
-
-  Abyss emits a rich set of telemetry events including spans for each
-  server, acceptor process, and individual client connection. These telemetry
-  events are documented in the `Abyss.Telemetry` module.
-  """
-
-  @typedoc """
-  Possible options to configure a server. Valid option values are as follows:
-
-  * `handler_module`: The name of the module used to handle connections to this server.
-  The module is expected to implement the `Abyss.Handler` behaviour. Required
-  * `handler_options`: A term which is passed as the initial state value to
-  `c:Abyss.Handler.handle_connection/2` calls. Optional, defaulting to nil
-  * `port`: The TCP port number to listen on. If not specified this defaults to 4000.
-  If a port number of `0` is given, the server will dynamically assign a port number
-  which can then be obtained via `Abyss.listener_info/1` or
-  `Abyss.Socket.sockname/1`
-  * `transport_module`: The name of the module which provides basic socket functions.
-  Abyss provides `Abyss.Transports.TCP` and `Abyss.Transports.UDP`,
-  which provide clear and TLS encrypted TCP sockets respectively. If not specified this
-  defaults to `Abyss.Transports.TCP`
-  * `transport_options`: A keyword list of options to be passed to the transport module's
-  `c:Abyss.Transport.listen/2` function. Valid values depend on the transport
-  module specified in `transport_module` and can be found in the documentation for the
-  `Abyss.Transports.TCP` and `Abyss.Transports.UDP` modules. Any options
-  in terms of interfaces to listen to / certificates and keys to use for SSL connections
-  will be passed in via this option
-  * `genserver_options`: A term which is passed as the option value to the handler module's
-  underlying `GenServer.start_link/3` call. Optional, defaulting to `[]`
-  * `supervisor_options`: A term which is passed as the option value to this server's top-level
-  supervisor's `Supervisor.start_link/3` call. Useful for setting the `name` for this server.
-  Optional, defaulting to `[]`
-  * `num_acceptors`: The number of acceptor processes to run. Defaults to 100
-  * `num_connections`: The maximum number of concurrent connections which each acceptor will
-  accept before throttling connections. Connections will be throttled by having the acceptor
-  process wait `max_connections_retry_wait` milliseconds, up to `max_connections_retry_count`
-  times for existing connections to terminate & make room for this new connection. If there is
-  still no room for this new connection after this interval, the acceptor will close the client
-  connection and emit a `[:abyss, :acceptor, :spawn_error]` telemetry event. This number
-  is expressed per-acceptor, so the total number of maximum connections for a Abyss
-  server is `num_acceptors * num_connections`. Defaults to `16_384`
-  * `max_connections_retry_wait`: How long to wait during each iteration as described in
-  `num_connectors` above, in milliseconds. Defaults to `1000`
-  * `max_connections_retry_count`: How many iterations to wait as described in `num_connectors`
-  above. Defaults to `5`
-  * `read_timeout`: How long to wait for client data before closing the connection, in
-  milliseconds. Defaults to 60_000
-  * `shutdown_timeout`: How long to wait for existing client connections to complete before
-  forcibly shutting those connections down at server shutdown time, in milliseconds. Defaults to
-  15_000. May also be `:infinity` or `:brutal_kill` as described in the `Supervisor`
-  documentation
-  * `silent_terminate_on_error`: Whether to silently ignore errors returned by the handler or to
-  surface them to the runtime via an abnormal termination result. This only applies to errors
-  returned via `{:error, reason, state}` responses; exceptions raised within a handler are always
-  logged regardless of this value. Note also that telemetry events will always be sent for errors
-  regardless of this value. Defaults to false
+  Abyss is a modern, pure Elixir UDP socket server
   """
   @type options :: [
           handler_module: module(),
@@ -161,10 +20,10 @@ defmodule Abyss do
         ]
 
   @typedoc "A module implementing `Abyss.Transport` behaviour"
-  @type transport_module :: Abyss.Transports.UDP
+  @type transport_module :: Abyss.Transport.UDP
 
   @typedoc "A keyword list of options to be passed to the transport module's `listen/2` function"
-  @type transport_options() :: :gen_udp.open_option()
+  @type transport_options() :: Abyss.Transport.listen_options()
 
   @doc false
   @spec child_spec(options()) :: Supervisor.child_spec()

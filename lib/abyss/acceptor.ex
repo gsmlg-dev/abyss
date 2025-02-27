@@ -15,16 +15,18 @@ defmodule Abyss.Acceptor do
         ) :: no_return
   def run({server_pid, parent_pid, %Abyss.ServerConfig{} = server_config}) do
     listener_pid = Abyss.Server.listener_pid(server_pid)
-    {listener_socket, listener_span} = Abyss.Listener.acceptor_info(listener_pid)
+    {_listener_socket, listener_span} = Abyss.Listener.acceptor_info(listener_pid)
+
+    {:ok, listener_socket} =
+      Abyss.Transport.UDP.listen(server_config.port, server_config.transport_options)
+
     connection_sup_pid = Abyss.AcceptorSupervisor.connection_sup_pid(parent_pid)
     acceptor_span = Abyss.Telemetry.start_child_span(listener_span, :acceptor)
     accept(listener_socket, connection_sup_pid, server_config, acceptor_span, 0)
   end
 
   defp accept(listener_socket, connection_sup_pid, server_config, span, count) do
-    :gen_udp.controlling_process(listener_socket, self())
-
-    with {:ok, recv_data} <- :gen_udp.recv(listener_socket, 0),
+    with {:ok, recv_data} <- Abyss.Transport.UDP.recv(listener_socket, 0),
          :ok <-
            Abyss.Connection.start(
              connection_sup_pid,

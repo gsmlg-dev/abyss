@@ -4,7 +4,7 @@ defmodule Abyss.Connection do
   @spec start(
           Supervisor.supervisor(),
           Abyss.Transport.socket(),
-          tuple(),
+          Abyss.Transport.recv_data(),
           Abyss.ServerConfig.t(),
           Abyss.Telemetry.t()
         ) ::
@@ -12,7 +12,13 @@ defmodule Abyss.Connection do
           | :ok
           | {:ok, pid, info :: term}
           | {:error, :too_many_connections | {:already_started, pid} | term}
-  def start(sup_pid, raw_socket, recv_data, %Abyss.ServerConfig{} = server_config, acceptor_span) do
+  def start(
+        sup_pid,
+        listener_socket,
+        recv_data,
+        %Abyss.ServerConfig{} = server_config,
+        acceptor_span
+      ) do
     # This is a multi-step process since we need to do a bit of work from within
     # the process which owns the socket (us, at this point).
 
@@ -29,7 +35,7 @@ defmodule Abyss.Connection do
     do_start(
       sup_pid,
       child_spec,
-      raw_socket,
+      listener_socket,
       recv_data,
       server_config,
       acceptor_span,
@@ -41,7 +47,7 @@ defmodule Abyss.Connection do
   defp do_start(
          sup_pid,
          child_spec,
-         raw_socket,
+         listener_socket,
          recv_data,
          server_config,
          acceptor_span,
@@ -50,18 +56,13 @@ defmodule Abyss.Connection do
        ) do
     case DynamicSupervisor.start_child(sup_pid, child_spec) do
       {:ok, pid} ->
-        # Since this process owns the socket at this point, it needs to be the
-        # one to make this call. connection_pid is sitting and waiting for the
-        # word from us to start processing, in order to ensure that we've made
-        # the following call. Note that we purposefully do not match on the
-        # return from this function; if there's an error the connection process
-        # will see it, but it's no longer our problem if that's the case
-        # _ = :gen_udp.controlling_process(raw_socket, pid)
-
         # Now that we have transferred ownership over to the new process, send a message to the
         # new process with all the info it needs to start working with the socket (note that the
         # new process will still need to handshake with the remote end)
-        send(pid, {:abyss_ready, raw_socket, recv_data, server_config, acceptor_span, start_time})
+        send(
+          pid,
+          {:abyss_received, listener_socket, recv_data, server_config, acceptor_span, start_time}
+        )
 
         :ok
 
@@ -74,7 +75,7 @@ defmodule Abyss.Connection do
         do_start(
           sup_pid,
           child_spec,
-          raw_socket,
+          listener_socket,
           recv_data,
           server_config,
           acceptor_span,

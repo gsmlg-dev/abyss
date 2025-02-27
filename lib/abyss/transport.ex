@@ -13,7 +13,7 @@ defmodule Abyss.Transport do
 
   @typedoc "A listener socket options"
   @type listen_options() ::
-          [:inet.inet_backend() | :gen_tcp.listen_option()] | [:gen_udp.open_option()]
+          [:inet.inet_backend() | :gen_udp.open_option()]
 
   @typedoc "A socket representing a client connection"
   @type socket() :: :inet.socket()
@@ -21,6 +21,15 @@ defmodule Abyss.Transport do
   @typedoc "Information about an endpoint, either remote ('peer') or local"
   @type socket_info() ::
           {:inet.ip_address(), :inet.port_number()} | :inet.returned_non_ip_address()
+
+  @typedoc "The return data format of :gen_udp.recv"
+  @type recv_data() ::
+          {
+            address(),
+            :inet.port_number(),
+            binary() | charlist()
+          }
+          | {address(), :inet.port_number(), :inet.ancillary_data(), binary() | charlist()}
 
   @typedoc "A socket address"
   @type address ::

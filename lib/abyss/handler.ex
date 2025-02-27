@@ -4,28 +4,6 @@ defmodule Abyss.Handler do
   Abyss server, you must pass the name of a module implementing this behaviour as the `handler_module` parameter.
   Abyss will then use the specified module to handle each connection that is made to the server.
 
-  The lifecycle of a Handler instance is as follows:
-
-  1. After a client connection to a Abyss server is made, Abyss will complete the initial setup of the
-  connection (performing a TLS handshake, for example), and then call `c:handle_connection/2`.
-
-  2. A handler implementation may choose to process a client connection within the `c:handle_connection/2` callback by
-  calling functions against the passed `Abyss.Socket`. In many cases, this may be all that may be required of
-  an implementation & the value `{:close, state}` can be returned which will cause Abyss to close the connection
-  to the client.
-
-  3. In cases where the server wishes to keep the connection open and wait for subsequent requests from the client on the
-  same socket, it may elect to return `{:continue, state}`. This will cause Abyss to wait for client data
-  asynchronously; `c:handle_data/3` will be invoked when the client sends more data.
-
-  4. In the meantime, the process which is hosting connection is idle & able to receive messages sent from elsewhere in your
-  application as needed. The implementation included in the `use Abyss.Handler` macro uses a `GenServer` structure,
-  so you may implement such behaviour via standard `GenServer` patterns. Note that in these cases that state is provided (and
-  must be returned) in a `{socket, state}` format, where the second tuple is the same state value that is passed to the various `handle_*` callbacks
-  defined on this behaviour. It also critical to maintain the socket's `read_timeout` value by
-  ensuring the relevant timeout value is returned as your callback's final argument. Both of these
-  concerns are illustrated in the following example:
-
       ```elixir
       defmodule ExampleHandler do
         use Abyss.Handler
@@ -157,9 +135,9 @@ defmodule Abyss.Handler do
   conventional `GenServer.on_start()` style tuple. Note that this newly created process is not
   passed the connection socket immediately.
   2. The raw `t:Abyss.Transport.socket()` socket will be passed to the new process via a
-  message of the form `{:abyss_ready, raw_socket, server_config, acceptor_span,
+  message of the form `{:abyss_received, listener_socket, server_config, acceptor_span,
   start_time}`.
-  3. Your implenentation must turn this into a `to:Abyss.Socket.t()` socket by using the
+  3. Your implenentation must turn this into a `to::inet.socket()` socket by using the
   `Abyss.Socket.new/3` call.
   4. Your implementation must then call `Abyss.Socket.handshake/1` with the socket as the
   sole argument in order to finalize the setup of the socket.
@@ -180,6 +158,8 @@ defmodule Abyss.Handler do
   likely that such spans will not behave as expected.
   """
 
+  alias Abyss.HandlerState
+
   @typedoc "The possible ways to indicate a timeout when returning values to Abyss"
   @type timeout_options :: timeout() | {:persistent, timeout()}
 
@@ -187,9 +167,6 @@ defmodule Abyss.Handler do
   @type handler_result ::
           {:continue, state :: term()}
           | {:continue, state :: term(), timeout_options()}
-          | {:switch_transport, {module(), upgrade_opts :: [term()]}, state :: term()}
-          | {:switch_transport, {module(), upgrade_opts :: [term()]}, state :: term(),
-             timeout_options()}
           | {:close, state :: term()}
           | {:error, term(), state :: term()}
 
@@ -221,7 +198,10 @@ defmodule Abyss.Handler do
   * Returning `{:error, reason, state}` will cause Abyss to close the socket & call the `c:handle_error/3` callback to
   allow final cleanup to be done.
   """
-  @callback handle_connection(socket :: Abyss.Socket.t(), state :: term()) ::
+  @callback handle_connection(
+              remote :: {:inet.ip_address(), :inet.port_number()},
+              state :: term()
+            ) ::
               handler_result()
 
   @doc """
@@ -246,7 +226,7 @@ defmodule Abyss.Handler do
   * Returning `{:error, reason, state}` will cause Abyss to close the socket & call the `c:handle_error/3` callback to
   allow final cleanup to be done.
   """
-  @callback handle_data(data :: binary(), socket :: Abyss.Socket.t(), state :: term()) ::
+  @callback handle_data(data :: binary(), state :: term()) ::
               handler_result()
 
   @doc """
@@ -257,7 +237,7 @@ defmodule Abyss.Handler do
   This callback is not called if the connection is explicitly closed via `Abyss.Socket.close/1`, however it
   will be called in cases where `handle_connection/2` or `handle_data/3` return a `{:close, state}` tuple.
   """
-  @callback handle_close(socket :: Abyss.Socket.t(), state :: term()) :: term()
+  @callback handle_close(state :: term()) :: term()
 
   @doc """
   This callback is called when the underlying socket encounters an error; it should perform any cleanup required
@@ -268,7 +248,7 @@ defmodule Abyss.Handler do
   return a `{:error, reason, state}` tuple, or when connection handshaking (typically TLS
   negotiation) fails.
   """
-  @callback handle_error(reason :: any(), socket :: Abyss.Socket.t(), state :: term()) ::
+  @callback handle_error(reason :: any(), state :: term()) ::
               term()
 
   @doc """
@@ -279,7 +259,7 @@ defmodule Abyss.Handler do
   This callback is only called when the shutdown reason is `:normal`, and is subject to the same caveats described
   in `c:GenServer.terminate/2`.
   """
-  @callback handle_shutdown(socket :: Abyss.Socket.t(), state :: term()) :: term()
+  @callback handle_shutdown(state :: term()) :: term()
 
   @doc """
   This callback is called when a handler process has gone more than `timeout` ms without receiving
@@ -290,14 +270,14 @@ defmodule Abyss.Handler do
   their own timeout semantics. The underlying socket has NOT been closed by the time this callback
   is called. The return value is ignored.
   """
-  @callback handle_timeout(socket :: Abyss.Socket.t(), state :: term()) :: term()
+  @callback handle_timeout(state :: term()) :: term()
 
   @optional_callbacks handle_connection: 2,
-                      handle_data: 3,
-                      handle_close: 2,
-                      handle_error: 3,
-                      handle_shutdown: 2,
-                      handle_timeout: 2
+                      handle_data: 2,
+                      handle_error: 2,
+                      handle_close: 1,
+                      handle_shutdown: 1,
+                      handle_timeout: 1
 
   @spec __using__(any) :: Macro.t()
   defmacro __using__(_opts) do
@@ -319,7 +299,7 @@ defmodule Abyss.Handler do
   @doc false
   defmacro add_handle_info_fallback(_module) do
     quote do
-      def handle_info({msg, _raw_socket, _data}, _state) when msg in [:udp] do
+      def handle_info({msg, _raw_ip, _port, _data}, _state) when msg in [:udp] do
         raise """
           The callback's `state` doesn't match the expected `{socket, state}` form.
           Please ensure that you are returning a `{socket, state}` tuple from any
@@ -335,73 +315,41 @@ defmodule Abyss.Handler do
       @impl true
       def init(handler_options) do
         Process.flag(:trap_exit, true)
-        {:ok, {nil, handler_options}}
+        {:ok, %HandlerState{handler_options: handler_options}}
       end
 
       @impl true
       def handle_info(
-            {:abyss_ready, raw_socket, server_config, acceptor_span, start_time},
-            {nil, state}
+            {:abyss_received, listener_socket, recv_data, server_config, acceptor_span,
+             start_time},
+            state
           ) do
-        {ip, port} =
-          case server_config.transport_module.peername(raw_socket) do
-            {:ok, remote_info} ->
-              remote_info
-
-            {:error, reason} ->
-              # the socket has been prematurely closed by the client, we can't do anything with it
-              # so we just close the socket, stop the GenServer with the error reason and move on.
-              _ = server_config.transport_module.close(raw_socket)
-              throw({:stop, {:shutdown, {:premature_conn_closing, reason}}, {raw_socket, state}})
-          end
-
-        span_meta = %{remote_address: ip, remote_port: port}
+        {ip, port, data} = recv_data
 
         connection_span =
           Abyss.Telemetry.start_child_span(
             acceptor_span,
             :connection,
             %{monotonic_time: start_time},
-            span_meta
+            %{remote_address: ip, remote_port: port}
           )
 
-        socket = Abyss.Socket.new(raw_socket, server_config, connection_span)
         Abyss.Telemetry.span_event(connection_span, :ready)
 
-        {:noreply, {socket, state}, {:continue, :handle_connection}}
+        {:noreply,
+         %HandlerState{
+           state
+           | listener: listener_socket,
+             remote: {ip, port},
+             server_config: server_config,
+             connection_span: connection_span
+         }, {:continue, {:handle_connection, {ip, port}, data}}}
       catch
         {:stop, _, _} = stop -> stop
       end
 
-      def handle_info(
-            {msg, raw_socket, data},
-            {%Abyss.Socket{socket: raw_socket} = socket, state}
-          )
-          when msg in [:tcp, :gen_udp] do
-        Abyss.Telemetry.untimed_span_event(socket.span, :async_recv, %{data: data})
-
-        __MODULE__.handle_data(data, socket, state)
-        |> Abyss.Handler.handle_continuation(socket)
-      end
-
-      def handle_info(
-            {msg, raw_socket},
-            {%Abyss.Socket{socket: raw_socket} = socket, state}
-          )
-          when msg in [:tcp_closed, :gen_udp_closed] do
-        {:stop, {:shutdown, :peer_closed}, {socket, state}}
-      end
-
-      def handle_info(
-            {msg, raw_socket, reason},
-            {%Abyss.Socket{socket: raw_socket} = socket, state}
-          )
-          when msg in [:tcp_error, :gen_udp_error] do
-        {:stop, reason, {socket, state}}
-      end
-
-      def handle_info(:timeout, {%Abyss.Socket{} = socket, state}) do
-        {:stop, {:shutdown, :timeout}, {socket, state}}
+      def handle_info(:timeout, state) do
+        {:stop, {:shutdown, :timeout}, state}
       end
 
       @before_compile {Abyss.Handler, :add_handle_info_fallback}
@@ -411,56 +359,45 @@ defmodule Abyss.Handler do
       # This ensures that the `c:terminate/2` calls below are able to properly
       # close down the process
       @impl true
-      def handle_continue(:handle_connection, {%Abyss.Socket{} = socket, state}) do
-        __MODULE__.handle_connection(socket, state)
-        |> Abyss.Handler.handle_continuation(socket)
+      def handle_continue({:handle_connection, remote, data}, state) do
+        __MODULE__.handle_connection(remote, state)
+        |> Abyss.Handler.handle_continuation(state, data)
       end
 
-      # Called if the remote end closed the connection before we could initialize it
+      def handle_continue({:handle_data, data}, state) do
+        __MODULE__.handle_data(data, state)
+        |> Abyss.Handler.handle_continuation(state)
+      end
+
       @impl true
-      def terminate({:shutdown, {:premature_conn_closing, _reason}}, {_raw_socket, _state}) do
-        :ok
-      end
-
       # Called by GenServer if we hit our read_timeout. Socket is still open
-      def terminate({:shutdown, :timeout}, {%Abyss.Socket{} = socket, state}) do
-        _ = __MODULE__.handle_timeout(socket, state)
-        Abyss.Handler.do_socket_close(socket, :timeout)
+      def terminate({:shutdown, :timeout}, state) do
+        _ = __MODULE__.handle_timeout(state)
       end
 
       # Called if we're being shutdown in an orderly manner. Socket is still open
-      def terminate(:shutdown, {%Abyss.Socket{} = socket, state}) do
-        _ = __MODULE__.handle_shutdown(socket, state)
-        Abyss.Handler.do_socket_close(socket, :shutdown)
+      def terminate(:shutdown, state) do
+        _ = __MODULE__.handle_shutdown(state)
       end
 
       # Called if the socket encountered an error and we are configured to shutdown silently.
       # Socket is closed
       def terminate(
             {:shutdown, {:silent_termination, reason}},
-            {%Abyss.Socket{} = socket, state}
+            state
           ) do
-        _ = __MODULE__.handle_error(reason, socket, state)
-        Abyss.Handler.do_socket_close(socket, reason)
-      end
-
-      # Called if the socket encountered an error during upgrading
-      def terminate({:shutdown, {:upgrade, reason}}, {socket, state}) do
-        _ = __MODULE__.handle_error(reason, socket, state)
-        Abyss.Handler.do_socket_close(socket, reason)
+        _ = __MODULE__.handle_error(reason, state)
       end
 
       # Called if the remote end shut down the connection, or if the local end closed the
       # connection by returning a `{:close,...}` tuple (in which case the socket will be open)
-      def terminate({:shutdown, reason}, {%Abyss.Socket{} = socket, state}) do
-        _ = __MODULE__.handle_close(socket, state)
-        Abyss.Handler.do_socket_close(socket, reason)
+      def terminate({:shutdown, reason}, state) do
+        _ = __MODULE__.handle_close(state)
       end
 
       # Called if the socket encountered an error. Socket is closed
-      def terminate(reason, {%Abyss.Socket{} = socket, state}) do
-        _ = __MODULE__.handle_error(reason, socket, state)
-        Abyss.Handler.do_socket_close(socket, reason)
+      def terminate(reason, state) do
+        _ = __MODULE__.handle_error(reason, state)
       end
 
       # This clause could happen if we do not have a socket defined in state (either because the
@@ -474,78 +411,48 @@ defmodule Abyss.Handler do
   def handler_impl do
     quote do
       @impl true
-      def handle_connection(_socket, state), do: {:continue, state}
+      def handle_connection(_remote, state), do: {:continue, state}
 
       @impl true
-      def handle_data(_data, _socket, state), do: {:continue, state}
+      def handle_data(_data, state), do: {:close, state}
 
       @impl true
-      def handle_close(_socket, _state), do: :ok
+      def handle_close(_state), do: :ok
 
       @impl true
-      def handle_error(_error, _socket, _state), do: :ok
+      def handle_error(_error, _state), do: :ok
 
       @impl true
-      def handle_shutdown(_socket, _state), do: :ok
+      def handle_shutdown(_state), do: :ok
 
       @impl true
-      def handle_timeout(_socket, _state), do: :ok
+      def handle_timeout(_state), do: :ok
 
       defoverridable Abyss.Handler
     end
   end
 
-  @spec do_socket_close(
-          Abyss.Socket.t(),
-          reason :: :shutdown | :local_closed | term()
-        ) :: :ok
   @doc false
-  def do_socket_close(socket, reason) do
-    measurements =
-      case Abyss.Socket.getstat(socket) do
-        {:ok, stats} ->
-          stats
-          |> Keyword.take([:send_oct, :send_cnt, :recv_oct, :recv_cnt])
-          |> Enum.into(%{})
-
-        _ ->
-          %{}
-      end
-
-    metadata =
-      if reason in [:shutdown, :local_closed, :peer_closed], do: %{}, else: %{error: reason}
-
-    _ = Abyss.Socket.close(socket)
-    Abyss.Telemetry.stop_span(socket.span, measurements, metadata)
-  end
-
-  @doc false
-  def handle_continuation(continuation, socket) do
+  def handle_continuation(continuation, state, data \\ nil) do
     case continuation do
-      {:continue, state} ->
-        _ = Abyss.Socket.setopts(socket, active: :once)
-        {:noreply, {socket, state}, socket.read_timeout}
-
-      {:continue, state, {:persistent, timeout}} ->
-        socket = %{socket | read_timeout: timeout}
-        _ = Abyss.Socket.setopts(socket, active: :once)
-        {:noreply, {socket, state}, timeout}
-
-      {:continue, state, timeout} ->
-        _ = Abyss.Socket.setopts(socket, active: :once)
-        {:noreply, {socket, state}, timeout}
-
-      {:close, state} ->
-        {:stop, {:shutdown, :local_closed}, {socket, state}}
-
-      {:error, :timeout, state} ->
-        {:stop, {:shutdown, :timeout}, {socket, state}}
-
-      {:error, reason, state} ->
-        if socket.silent_terminate_on_error do
-          {:stop, {:shutdown, {:silent_termination, reason}}, {socket, state}}
+      {:continue, _state} ->
+        if is_nil(data) do
+          {:noreply, state, state[:read_timeout]}
         else
-          {:stop, reason, {socket, state}}
+          {:noreply, state, {:continue, {:handle_data, data}}}
+        end
+
+      {:close, _state} ->
+        {:stop, {:shutdown, :local_closed}, state}
+
+      {:error, :timeout, _state} ->
+        {:stop, {:shutdown, :timeout}, state}
+
+      {:error, reason, _state} ->
+        if state.server_config.silent_terminate_on_error do
+          {:stop, {:shutdown, {:silent_termination, reason}}, state}
+        else
+          {:stop, reason, state}
         end
     end
   end

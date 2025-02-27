@@ -5,7 +5,7 @@ defmodule Abyss.Listener do
   use GenServer
 
   @type state :: %{
-          listener_socket: :gen_udp.socket(),
+          listener_socket: Abyss.Transport.socket(),
           listener_span: Abyss.Telemetry.t(),
           local_info: Abyss.Transport.socket_info()
         }
@@ -27,9 +27,9 @@ defmodule Abyss.Listener do
   @spec init(Abyss.ServerConfig.t()) :: {:ok, state} | {:stop, term}
   def init(%Abyss.ServerConfig{} = server_config) do
     with {:ok, listener_socket} <-
-           :gen_udp.open(
+           Abyss.Transport.UDP.listen(
              server_config.port,
-             [:binary, {:active, false}, {:reuseaddr, true}]
+             server_config.transport_options
            ),
          {:ok, {ip, port}} <-
            :inet.sockname(listener_socket) do
