@@ -8,7 +8,7 @@ defmodule Abyss.MixProject do
     [
       app: :abyss,
       version: @version,
-      elixir: "~> 1.14.1 or ~> 1.15",
+      elixir: "~> 1.13",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       name: "Abyss",
@@ -83,10 +83,6 @@ defmodule Abyss.MixProject do
     [
       publish: [
         "format",
-        fn _ ->
-          File.rm_rf!("priv")
-          File.mkdir!("priv")
-        end,
         "hex.publish --yes"
       ]
     ]
