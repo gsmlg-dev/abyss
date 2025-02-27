@@ -28,7 +28,7 @@ defmodule Abyss.ServerConfig do
             handler_options: [],
             genserver_options: [],
             supervisor_options: [],
-            num_acceptors: 10,
+            num_acceptors: 1,
             num_connections: 16_384,
             max_connections_retry_count: 5,
             max_connections_retry_wait: 1000,

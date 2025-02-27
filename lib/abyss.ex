@@ -274,14 +274,3 @@ defmodule Abyss do
     Supervisor.stop(supervisor, :normal, connection_wait)
   end
 end
-
-defmodule Echo do
-  use Abyss.Handler
-
-  @impl Abyss.Handler
-  def handle_data(data, socket, state) do
-    IO.inspect({:data, data, socket, state})
-    Abyss.Socket.send(socket, data)
-    {:continue, state}
-  end
-end
