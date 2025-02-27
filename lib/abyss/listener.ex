@@ -25,11 +25,18 @@ defmodule Abyss.Listener do
   @impl GenServer
   @spec init(Abyss.ServerConfig.t()) :: {:ok, state} | {:stop, reason :: term}
   def init(%Abyss.ServerConfig{} = server_config) do
+    Process.flag(:trap_exit, true)
+
     with {:ok, listener_socket} <-
            server_config.transport_module.listen(
              server_config.port,
              server_config.transport_options
            ),
+         # with {:ok, listener_socket} <-
+         #        :gen_udp.open(
+         #          server_config.port,
+         #          server_config.transport_options
+         #        ),
          {:ok, {ip, port}} <-
            server_config.transport_module.sockname(listener_socket) do
       span_metadata = %{
@@ -51,6 +58,12 @@ defmodule Abyss.Listener do
   end
 
   @impl GenServer
+  def handle_info(msg, state) do
+    IO.inspect({:unmatched, msg, state})
+    {:noreply, state}
+  end
+
+  @impl GenServer
   @spec handle_call(:listener_info | :acceptor_info, any, state) ::
           {:reply,
            Abyss.Transport.socket_info()
@@ -64,11 +77,4 @@ defmodule Abyss.Listener do
   @spec terminate(reason, state) :: :ok
         when reason: :normal | :shutdown | {:shutdown, term} | term
   def terminate(_reason, state), do: Abyss.Telemetry.stop_span(state.listener_span)
-
-  @impl GenServer
-  def handle_info({:udp, socket, ip, port, packet}, %{listener_socket: listener_socket, local_info: local_info, listener_span: listener_span} = state) do
-
-
-    {:noreply, state}
-  end
 end

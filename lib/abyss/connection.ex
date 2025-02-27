@@ -3,7 +3,7 @@ defmodule Abyss.Connection do
 
   @spec start(
           Supervisor.supervisor(),
-          Abyss.Transport.socket(),
+          Abyss.Transport.socket() | Abyss.Transport.recv_data(),
           Abyss.ServerConfig.t(),
           Abyss.Telemetry.t()
         ) ::
@@ -11,7 +11,12 @@ defmodule Abyss.Connection do
           | :ok
           | {:ok, pid, info :: term}
           | {:error, :too_many_connections | {:already_started, pid} | term}
-  def start(sup_pid, raw_socket, %Abyss.ServerConfig{} = server_config, acceptor_span) do
+  def start(
+        sup_pid,
+        raw_socket_or_recv_data,
+        %Abyss.ServerConfig{} = server_config,
+        acceptor_span
+      ) do
     # This is a multi-step process since we need to do a bit of work from within
     # the process which owns the socket (us, at this point).
 
@@ -28,12 +33,64 @@ defmodule Abyss.Connection do
     do_start(
       sup_pid,
       child_spec,
-      raw_socket,
+      raw_socket_or_recv_data,
       server_config,
       acceptor_span,
       start_time,
       server_config.max_connections_retry_count
     )
+  end
+
+  defp do_start(
+         sup_pid,
+         child_spec,
+         recv_data,
+         server_config,
+         acceptor_span,
+         start_time,
+         retries
+       )
+       when is_tuple(recv_data) do
+    case DynamicSupervisor.start_child(sup_pid, child_spec) do
+      {:ok, pid} ->
+        # Since this process owns the socket at this point, it needs to be the
+        # one to make this call. connection_pid is sitting and waiting for the
+        # word from us to start processing, in order to ensure that we've made
+        # the following call. Note that we purposefully do not match on the
+        # return from this function; if there's an error the connection process
+        # will see it, but it's no longer our problem if that's the case
+
+        # Now that we have transferred ownership over to the new process, send a message to the
+        # new process with all the info it needs to start working with the socket (note that the
+        # new process will still need to handshake with the remote end)
+        send(pid, {:abyss_ready, recv_data, server_config, acceptor_span, start_time})
+
+        :ok
+
+      {:error, :max_children} when retries > 0 ->
+        # We're in a tricky spot here; we have a client connection in hand, but no room to put it
+        # into the connection supervisor. We try to wait a maximum number of times to see if any
+        # room opens up before we give up
+        Process.sleep(server_config.max_connections_retry_wait)
+
+        do_start(
+          sup_pid,
+          child_spec,
+          recv_data,
+          server_config,
+          acceptor_span,
+          start_time,
+          retries - 1
+        )
+
+      {:error, :max_children} ->
+        # We gave up trying to find room for this connection in our supervisor.
+        # Drop data when connections reach the max value
+        {:error, :too_many_connections}
+
+      other ->
+        other
+    end
   end
 
   defp do_start(

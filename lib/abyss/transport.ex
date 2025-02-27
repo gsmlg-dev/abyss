@@ -22,6 +22,14 @@ defmodule Abyss.Transport do
   @type socket_info() ::
           {:inet.ip_address(), :inet.port_number()} | :inet.returned_non_ip_address()
 
+  @typedoc "The return data format of :gen_udp.recv"
+  @type recv_data() :: {
+          address(),
+          :inet.port_number(),
+          binary() | charlist()
+        }
+        | {address(), :inet.port_number(), :inet.ancillary_data(), binary() | charlist()}
+
   @typedoc "A socket address"
   @type address ::
           :inet.ip_address()

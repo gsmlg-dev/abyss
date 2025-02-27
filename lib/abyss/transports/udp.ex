@@ -41,7 +41,7 @@ defmodule Abyss.Transports.UDP do
 
   @behaviour Abyss.Transport
 
-  @hardcoded_options [mode: :binary, active: false]
+  @hardcoded_options [:binary, active: false]
 
   @impl Abyss.Transport
   @spec listen(:inet.port_number(), [:inet.inet_backend() | :gen_udp.open_option()]) ::
@@ -85,6 +85,9 @@ defmodule Abyss.Transports.UDP do
   @impl Abyss.Transport
   @spec recv(socket(), non_neg_integer(), timeout()) :: Abyss.Transport.on_recv()
   defdelegate recv(socket, length, timeout), to: :gen_udp
+
+  @spec recv(socket(), non_neg_integer()) :: Abyss.Transport.on_recv()
+  defdelegate recv(socket, length), to: :gen_udp
 
   @impl Abyss.Transport
   @spec send(socket(), iodata()) :: Abyss.Transport.on_send()
