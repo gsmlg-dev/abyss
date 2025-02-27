@@ -27,10 +27,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - uses: oven-sh/setup-bun@v2
-      with:
-        bun-version: latest
-
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
@@ -40,7 +36,6 @@ jobs:
     - name: Install dependencies
       run: |
         mix deps.get
-        bun install
 
     - name: Check source code format
       run: mix format --check-formatted
