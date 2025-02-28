@@ -74,10 +74,10 @@ defmodule Abyss.Server do
             [Supervisor.child_spec() | (old_erlang_child_spec :: :supervisor.child_spec())]}}
   def init(config) do
     children = [
-      {Abyss.Listener, config}
-      |> Supervisor.child_spec(id: :listener),
-      {Abyss.AcceptorPoolSupervisor, {self(), config}}
-      |> Supervisor.child_spec(id: :acceptor_pool_supervisor),
+      {Abyss.ListenerPool, {self(), config}}
+      |> Supervisor.child_spec(id: :listener_pool),
+      {Abyss.SenderPool, {self(), config}}
+      |> Supervisor.child_spec(id: :sender_pool),
       {Abyss.ShutdownListener, self()}
       |> Supervisor.child_spec(id: :shutdown_listener)
     ]

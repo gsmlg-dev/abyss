@@ -286,7 +286,7 @@ defmodule Abyss.Telemetry do
           start_metadata: metadata()
         }
 
-  @type span_name :: :listener | :acceptor | :connection
+  @type span_name :: :listener | :sender | :connection
   @type metadata :: :telemetry.event_metadata()
 
   @typedoc false
