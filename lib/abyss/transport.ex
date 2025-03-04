@@ -51,6 +51,10 @@ defmodule Abyss.Transport do
   @type on_listen() ::
           {:ok, listener_socket()} | {:error, :system_limit} | {:error, :inet.posix()}
 
+  @typedoc "The return value from a open/2 call"
+  @type on_open() ::
+          {:ok, socket()} | {:error, :system_limit} | {:error, :inet.posix()}
+
   @typedoc "The return value from a controlling_process/2 call"
   @type on_controlling_process() :: :ok | {:error, :closed | :not_owner | :badarg | :inet.posix()}
 
@@ -61,15 +65,10 @@ defmodule Abyss.Transport do
   @type on_close() :: :ok | {:error, any()}
 
   @typedoc "The return value from a recv/3 call"
-  @type on_recv() :: {:ok, binary()} | {:error, :closed | :timeout | :inet.posix()}
+  @type on_recv() :: {:ok, recv_data()} | {:error, :closed | :timeout | :inet.posix()}
 
   @typedoc "The return value from a send/2 call"
   @type on_send() :: :ok | {:error, :closed | {:timeout, rest_data :: binary()} | :inet.posix()}
-
-  @typedoc "The return value from a sendfile/4 call"
-  @type on_sendfile() ::
-          {:ok, non_neg_integer()}
-          | {:error, :inet.posix() | :closed | :badarg | :not_owner | :eof}
 
   @typedoc "The return value from a getopts/2 call"
   @type on_getopts() :: {:ok, [:inet.socket_optval()]} | {:error, :inet.posix()}
@@ -112,16 +111,6 @@ defmodule Abyss.Transport do
   Sends the given data (specified as a binary or an IO list) on the given socket.
   """
   @callback send(socket(), data :: iodata()) :: on_send()
-
-  @doc """
-  Sends the contents of the given file based on the provided offset & length
-  """
-  @callback sendfile(
-              socket(),
-              filename :: String.t(),
-              offset :: non_neg_integer(),
-              length :: non_neg_integer()
-            ) :: on_sendfile()
 
   @doc """
   Gets the given options on the socket.

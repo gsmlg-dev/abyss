@@ -30,8 +30,8 @@ defmodule Abyss.ShutdownListener do
   @impl true
   @spec handle_continue(:setup_listener_pid, state) :: {:noreply, state}
   def handle_continue(:setup_listener_pid, %{server_pid: server_pid}) do
-    listener_pid = Abyss.Server.listener_pid(server_pid)
-    {:noreply, %{listener_pid: listener_pid}}
+
+    {:noreply, %{server_pid: server_pid}}
   end
 
   @doc false

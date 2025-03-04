@@ -1,16 +1,20 @@
 defmodule Abyss.Listener do
   @moduledoc false
 
-  use GenServer
+  use GenServer, restart: :transient
 
   @type state :: %{
+          is_active: boolean(),
+          is_listening: boolean(),
           server_pid: pid(),
+          server_config: Abyss.ServerConfig.t(),
+          listener_id: binary(),
           listener_socket: Abyss.Transport.socket(),
           listener_span: Abyss.Telemetry.t(),
           local_info: Abyss.Transport.socket_info()
         }
 
-  @spec start_link({id :: pos_integer(), server_pid :: pid(), Abyss.ServerConfig.t()}) ::
+  @spec start_link({id :: binary(), server_pid :: pid(), Abyss.ServerConfig.t()}) ::
           GenServer.on_start()
   def start_link({id, server_pid, config}),
     do: GenServer.start_link(__MODULE__, {id, server_pid, config})
@@ -36,8 +40,15 @@ defmodule Abyss.Listener do
            ),
          {:ok, {ip, port}} <-
            :inet.sockname(listener_socket) do
+
+      acitve = case Abyss.Transport.UDP.getopts(listener_socket, [:active]) do
+        {:ok, [active: true]} -> true
+        _ -> false
+      end
+
       span_metadata = %{
         listener_id: listener_id,
+        listener_socket: listener_socket,
         handler: server_config.handler_module,
         local_address: ip,
         local_port: port,
@@ -48,10 +59,14 @@ defmodule Abyss.Listener do
 
       {:ok,
        %{
+         is_acitve: acitve,
+         is_listening: false,
+         server_config: server_config,
          server_pid: server_pid,
+         listener_id: listener_id,
          listener_socket: listener_socket,
-         local_info: {ip, port},
-         listener_span: listener_span
+         listener_span: listener_span,
+         local_info: {ip, port}
        }}
     else
       {:error, reason} ->
@@ -60,20 +75,175 @@ defmodule Abyss.Listener do
   end
 
   @impl GenServer
-  def handle_info(:start_listening, state) do
+  def handle_info(:start_listening, %{listener_socket: listener_socket} = state) do
+    if state.is_listening do
+      {:noreply, state}
+    else
+      case Abyss.Transport.UDP.getopts(listener_socket, [:active]) do
+        {:ok, [{:active, false}]} ->
+          Abyss.Telemetry.span_event(state.listener_span, :ready, %{}, %{
+            listener_id: state.listener_id,
+            listener_socket: state.listener_socket,
+            local_info: state.local_info
+          })
+          Process.send_after(self(), :do_recv, 0)
+          {:noreply, state |> Map.put(:is_listening, true)}
 
-    {:noreply, state, {:continue, :listening}}
+        {:ok, [active: true]} ->
+          {:noreply, state}
+      end
+    end
+  end
+  def handle_info({:udp, socket, ip, port, data}, %{listener_span: listener_span} = state) do
+    start_time = Abyss.Telemetry.monotonic_time()
+
+    connection_span =
+      Abyss.Telemetry.start_child_span(
+        listener_span,
+        :connection,
+        %{monotonic_time: start_time},
+        %{remote_address: ip, remote_port: port}
+      )
+
+    Abyss.Connection.start(state.server_pid, self(), socket, {ip, port, data}, state.server_config, connection_span)
+
+    {:noreply, state}
+  end
+  def handle_info(
+        :do_recv,
+        %{listener_span: listener_span, listener_socket: listener_socket} = state
+      ) do
+    Abyss.Telemetry.untimed_span_event(state.listener_span, :waiting, %{}, %{
+      listener_id: state.listener_id,
+      listener_socket: state.listener_socket,
+      local_info: state.local_info
+    })
+    case Abyss.Transport.UDP.recv(listener_socket, 0, :infinity) do
+      {:ok, {ip, port, data}} ->
+        Abyss.Telemetry.untimed_span_event(state.listener_span, :receiving, %{}, %{
+          listener_id: state.listener_id,
+          listener_socket: state.listener_socket,
+          local_info: state.local_info
+        })
+        start_time = Abyss.Telemetry.monotonic_time()
+
+        connection_span =
+          Abyss.Telemetry.start_child_span(
+            listener_span,
+            :connection,
+            %{monotonic_time: start_time},
+            %{remote_address: ip, remote_port: port}
+          )
+
+        Abyss.Connection.start(state.server_pid, self(), listener_socket, {ip, port, data}, state.server_config, connection_span)
+
+        Process.send_after(self(), :do_recv, 0)
+
+        {:noreply, state}
+
+      {:ok, {ip, port, _anc_data, data}} ->
+        Abyss.Telemetry.untimed_span_event(state.listener_span, :receiving, %{}, %{
+          listener_id: state.listener_id,
+          listener_socket: state.listener_socket,
+          local_info: state.local_info
+        })
+        start_time = Abyss.Telemetry.monotonic_time()
+
+        connection_span =
+          Abyss.Telemetry.start_child_span(
+            listener_span,
+            :connection,
+            %{monotonic_time: start_time},
+            %{remote_address: ip, remote_port: port}
+          )
+
+        Abyss.Connection.start(state.server_pid, self(), listener_socket, {ip, port, data}, state.server_config, connection_span)
+
+        Process.send_after(self(), :do_recv, 0)
+
+        {:noreply, state}
+
+      {:error, reason} ->
+        Abyss.Telemetry.span_event(listener_span, :recv_error, %{
+          reason: reason,
+          listener_socket: listener_socket
+        })
+
+        {:stop, reason, state}
+    end
+  end
+  def handle_info(:show_socket, state) do
+    Process.send_after(self(), :show_socket, :timer.seconds(5))
+    IO.inspect(:inet.getopts(state.listener_socket, [:active, :reuseaddr, :nodelay, :recbuf, :sndbuf, :mode, :reuseport, :tos, :ttl, :reuseport_lb, :debug, :buffer, :header]))
+    {:noreply, state}
+  end
+  def handle_info(msg, state) do
+    IO.puts("""
+    Unhandled message:
+      #{inspect(msg)}
+    with state:
+      #{inspect(state)}
+    """)
+    {:noreply, state}
   end
 
-  def handle_continue(:listening, state) do
-    case Abyss.Transport.UDP.recv(state.listener_socket, 0) do
-      {:ok, {socket, ip, port, data}} ->
-        send(state.server_pid, {:new_connection, socket, ip, port, data})
+  @impl GenServer
+   def handle_continue(
+        :listening,
+        %{listener_span: listener_span, listener_socket: listener_socket} = state
+      ) do
+    Abyss.Telemetry.untimed_span_event(state.listener_span, :waiting, %{}, %{
+      listener_id: state.listener_id,
+      listener_socket: state.listener_socket,
+      local_info: state.local_info
+    })
+    case Abyss.Transport.UDP.recv(listener_socket, 0, :infinity) do
+      {:ok, {ip, port, data}} ->
+        Abyss.Telemetry.untimed_span_event(state.listener_span, :receiving, %{}, %{
+          listener_id: state.listener_id,
+          listener_socket: state.listener_socket,
+          local_info: state.local_info
+        })
+        start_time = Abyss.Telemetry.monotonic_time()
+
+        connection_span =
+          Abyss.Telemetry.start_child_span(
+            listener_span,
+            :connection,
+            %{monotonic_time: start_time},
+            %{remote_address: ip, remote_port: port}
+          )
+
+        Abyss.Connection.start(state.server_pid, self(), listener_socket, {ip, port, data}, state.server_config, connection_span)
+
         {:noreply, state, {:continue, :listening}}
-      {:ok, {socket, ip, port, anc_data, data}} ->
-        send(state.server_pid, {:new_connection, socket, ip, port, data, anc_data})
+
+      {:ok, {ip, port, _anc_data, data}} ->
+        Abyss.Telemetry.untimed_span_event(state.listener_span, :receiving, %{}, %{
+          listener_id: state.listener_id,
+          listener_socket: state.listener_socket,
+          local_info: state.local_info
+        })
+        start_time = Abyss.Telemetry.monotonic_time()
+
+        connection_span =
+          Abyss.Telemetry.start_child_span(
+            listener_span,
+            :connection,
+            %{monotonic_time: start_time},
+            %{remote_address: ip, remote_port: port}
+          )
+
+        Abyss.Connection.start(state.server_pid, self(), listener_socket, {ip, port, data}, state.server_config, connection_span)
+
         {:noreply, state, {:continue, :listening}}
+
       {:error, reason} ->
+        Abyss.Telemetry.span_event(listener_span, :recv_error, %{
+          reason: reason,
+          listener_socket: listener_socket
+        })
+
         {:stop, reason, state}
     end
   end
@@ -91,6 +261,8 @@ defmodule Abyss.Listener do
   @impl GenServer
   @spec terminate(reason, state) :: :ok
         when reason: :normal | :shutdown | {:shutdown, term} | term
-  def terminate(_reason, state), do: Abyss.Telemetry.stop_span(state.listener_span)
-
+  def terminate(_reason, state) do
+    Abyss.Transport.UDP.close(state.listener_socket)
+    Abyss.Telemetry.stop_span(state.listener_span)
+  end
 end

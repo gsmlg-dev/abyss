@@ -32,15 +32,32 @@ defmodule Abyss.Transport.UDP do
   """
   @behaviour Abyss.Transport
 
-  @hardcoded_options [:binary, active: false]
+  @hardcoded_options [mode: :binary, active: false, reuseaddr: true, reuseport: true]
 
   @impl Abyss.Transport
   @spec listen(:inet.port_number(), [:inet.inet_backend() | :gen_udp.open_option()]) ::
           Abyss.Transport.on_listen()
   def listen(port, user_options) do
-    default_options = [
-      reuseaddr: true
-    ]
+    default_options = []
+
+    # We can't use Keyword functions here because :gen_udp accepts non-keyword style options
+    resolved_options =
+      Enum.uniq_by(
+        @hardcoded_options ++ user_options ++ default_options,
+        fn
+          {key, _} when is_atom(key) -> key
+          key when is_atom(key) -> key
+        end
+      )
+
+    :gen_udp.open(port, resolved_options)
+  end
+
+
+  @spec open(:inet.port_number(), [:inet.inet_backend() | :gen_udp.open_option()]) ::
+          Abyss.Transport.on_open()
+  def open(port, user_options) do
+    default_options = []
 
     # We can't use Keyword functions here because :gen_udp accepts non-keyword style options
     resolved_options =
@@ -75,27 +92,6 @@ defmodule Abyss.Transport.UDP do
   defdelegate send(socket, dest, data), to: :gen_udp
   defdelegate send(socket, ip, port, data), to: :gen_udp
   defdelegate send(socket, ip, port, anc_data, data), to: :gen_udp
-
-  @impl Abyss.Transport
-  @spec sendfile(
-          Abyss.Transport.socket(),
-          filename :: String.t(),
-          offset :: non_neg_integer(),
-          length :: non_neg_integer()
-        ) :: Abyss.Transport.on_sendfile()
-  def sendfile(socket, filename, offset, length) do
-    case :file.open(filename, [:raw]) do
-      {:ok, fd} ->
-        try do
-          :file.sendfile(fd, socket, offset, length, [])
-        after
-          :file.close(fd)
-        end
-
-      {:error, reason} ->
-        {:error, reason}
-    end
-  end
 
   @impl Abyss.Transport
   @spec getopts(Abyss.Transport.socket(), Abyss.Transport.socket_get_options()) ::

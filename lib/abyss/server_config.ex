@@ -24,13 +24,13 @@ defmodule Abyss.ServerConfig do
         }
 
   defstruct port: 4000,
-            transport_options: [],
-            handler_module: nil,
+            transport_options: [debug: true],
+            handler_module: Abyss.Echo,
             handler_options: [],
             genserver_options: [],
             supervisor_options: [],
-            num_listeners: 20,
-            num_senders: 20,
+            num_listeners: 1,
+            num_senders: 1,
             num_acceptors: 100,
             num_connections: 16_384,
             max_connections_retry_count: 5,

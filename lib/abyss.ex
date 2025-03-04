@@ -50,33 +50,6 @@ defmodule Abyss do
   end
 
   @doc """
-  Returns information about the address and port that the server is listening on
-  """
-  @spec listener_info(Supervisor.supervisor()) ::
-          {:ok, Abyss.Transport.socket_info()} | :error
-  def listener_info(supervisor) do
-    case Abyss.Server.listener_pid(supervisor) do
-      nil -> :error
-      pid -> {:ok, Abyss.Listener.listener_info(pid)}
-    end
-  end
-
-  @doc """
-  Gets a list of active connection processes. This is inherently a bit of a leaky notion in the
-  face of concurrency, as there may be connections coming and going during the period that this
-  function takes to run. Callers should account for the possibility that new connections may have
-  been made since / during this call, and that processes returned by this call may have since
-  completed. The order that connection processes are returned in is not specified
-  """
-  @spec connection_pids(Supervisor.supervisor()) :: {:ok, [pid()]} | :error
-  def connection_pids(supervisor) do
-    case Abyss.Server.acceptor_pool_supervisor_pid(supervisor) do
-      nil -> :error
-      acceptor_pool_pid -> {:ok, collect_connection_pids(acceptor_pool_pid)}
-    end
-  end
-
-  @doc """
   Suspend the server. This will close the listening port, and will stop the acceptance of new
   connections. Existing connections will stay connected and will continue to be processed.
 
@@ -97,29 +70,6 @@ defmodule Abyss do
   connections
   """
   defdelegate resume(supervisor), to: Abyss.Server
-
-  defp collect_connection_pids(acceptor_pool_pid) do
-    acceptor_pool_pid
-    |> Abyss.AcceptorPoolSupervisor.acceptor_supervisor_pids()
-    |> Enum.reduce([], fn acceptor_sup_pid, acc ->
-      case Abyss.AcceptorSupervisor.connection_sup_pid(acceptor_sup_pid) do
-        nil -> acc
-        connection_sup_pid -> connection_pids(connection_sup_pid, acc)
-      end
-    end)
-  end
-
-  defp connection_pids(connection_sup_pid, acc) do
-    connection_sup_pid
-    |> DynamicSupervisor.which_children()
-    |> Enum.reduce(acc, fn
-      {_, connection_pid, _, _}, acc when is_pid(connection_pid) ->
-        [connection_pid | acc]
-
-      _, acc ->
-        acc
-    end)
-  end
 
   @doc """
   Synchronously stops the given server, waiting up to the given number of milliseconds

@@ -309,6 +309,8 @@ defmodule Abyss.Telemetry do
           | :recv
           | :send
           | :sendfile
+          | :waiting
+          | :receiving
 
   @app_name :abyss
 

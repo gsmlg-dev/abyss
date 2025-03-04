@@ -36,6 +36,12 @@ defmodule Abyss.ListenerPool do
     |> if(do: :ok, else: :error)
   end
 
+  def start_listening(pid) do
+    pid
+    |> listener_pids()
+    |> Enum.each(&send(&1, :start_listening))
+  end
+
   @impl Supervisor
   @spec init({server_pid :: pid, Abyss.ServerConfig.t()}) ::
           {:ok,
@@ -44,7 +50,9 @@ defmodule Abyss.ListenerPool do
   def init({server_pid, %Abyss.ServerConfig{num_listeners: num_listeners} = config}) do
     1..num_listeners
     |> Enum.map(
-      &Supervisor.child_spec({Abyss.Listener, {&1, server_pid, config}}, id: "listener-#{&1}")
+      &Supervisor.child_spec({Abyss.Listener, {"listener-#{&1}", server_pid, config}},
+        id: "listener-#{&1}"
+      )
     )
     |> Supervisor.init(strategy: :one_for_one)
   end
