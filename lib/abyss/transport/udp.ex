@@ -53,7 +53,6 @@ defmodule Abyss.Transport.UDP do
     :gen_udp.open(port, resolved_options)
   end
 
-
   @spec open(:inet.port_number(), [:inet.inet_backend() | :gen_udp.open_option()]) ::
           Abyss.Transport.on_open()
   def open(port, user_options) do

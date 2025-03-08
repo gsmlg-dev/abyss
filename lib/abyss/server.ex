@@ -51,11 +51,10 @@ defmodule Abyss.Server do
             [Supervisor.child_spec() | (old_erlang_child_spec :: :supervisor.child_spec())]}}
   def init(config) do
     server_pid = self()
+
     children = [
       {Abyss.ListenerPool, {server_pid, config}}
       |> Supervisor.child_spec(id: :listener_pool),
-      # {Abyss.SenderPool, {server_pid, config}}
-      # |> Supervisor.child_spec(id: :sender_pool),
       {DynamicSupervisor, strategy: :one_for_one, max_children: config.num_connections}
       |> Supervisor.child_spec(id: :connection_sup),
       Supervisor.child_spec(
@@ -67,8 +66,8 @@ defmodule Abyss.Server do
          end},
         id: :activator
       ),
-      # {Abyss.ShutdownListener, server_pid}
-      # |> Supervisor.child_spec(id: :shutdown_listener)
+      {Abyss.ShutdownListener, server_pid}
+      |> Supervisor.child_spec(id: :shutdown_listener)
     ]
 
     Supervisor.init(children, strategy: :rest_for_one)

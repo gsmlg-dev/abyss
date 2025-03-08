@@ -20,26 +20,26 @@ defmodule Abyss.ShutdownListener do
 
   @doc false
   @impl true
-  @spec init(pid()) :: {:ok, state, {:continue, :setup_listener_pid}}
+  @spec init(pid()) :: {:ok, state, {:continue, :setup_listener_pool_pid}}
   def init(server_pid) do
     Process.flag(:trap_exit, true)
-    {:ok, %{server_pid: server_pid}, {:continue, :setup_listener_pid}}
+    {:ok, %{server_pid: server_pid}, {:continue, :setup_listener_pool_pid}}
   end
 
   @doc false
   @impl true
-  @spec handle_continue(:setup_listener_pid, state) :: {:noreply, state}
-  def handle_continue(:setup_listener_pid, %{server_pid: server_pid}) do
-
-    {:noreply, %{server_pid: server_pid}}
+  @spec handle_continue(:setup_listener_pool_pid, state) :: {:noreply, state}
+  def handle_continue(:setup_listener_pool_pid, %{server_pid: server_pid} = state) do
+    listener_pool_pid = Abyss.Server.listener_pool_pid(server_pid)
+    {:noreply, state |> Map.put(:listener_pool_pid, listener_pool_pid)}
   end
 
   @doc false
   @impl true
   @spec terminate(reason, state) :: :ok
         when reason: :normal | :shutdown | {:shutdown, term} | term
-  def terminate(_reason, %{listener_pid: listener_pid}) do
-    Abyss.Listener.stop(listener_pid)
+  def terminate(_reason, %{listener_pool_pid: listener_pool_pid}) do
+    Abyss.ListenerPool.suspend(listener_pool_pid)
   end
 
   def terminate(_reason, _state), do: :ok

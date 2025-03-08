@@ -28,7 +28,7 @@ defmodule Abyss.Connection do
     # Start by defining the worker process which will eventually handle this socket
     child_spec =
       {server_config.handler_module,
-       {connection_span, server_config}}
+       {connection_span, server_config, listener_pid, listener_socket}}
       |> Supervisor.child_spec(
         # id: {:connection, ip, port},
         shutdown: server_config.shutdown_timeout
@@ -54,7 +54,7 @@ defmodule Abyss.Connection do
          child_spec,
          listener_pid,
          listener_socket,
-         {ip, port, data} = recv_data,
+         recv_data,
          server_config,
          connection_span,
          retries
@@ -62,9 +62,10 @@ defmodule Abyss.Connection do
     case DynamicSupervisor.start_child(sup_pid, child_spec) do
       {:ok, pid} ->
         Abyss.Transport.UDP.controlling_process(listener_socket, pid)
+
         send(
           pid,
-          {:new_connection, listener_pid, listener_socket, ip, port, data}
+          {:new_connection, listener_socket, recv_data}
         )
 
         :ok

@@ -40,11 +40,11 @@ defmodule Abyss.Listener do
            ),
          {:ok, {ip, port}} <-
            :inet.sockname(listener_socket) do
-
-      acitve = case Abyss.Transport.UDP.getopts(listener_socket, [:active]) do
-        {:ok, [active: true]} -> true
-        _ -> false
-      end
+      acitve =
+        case Abyss.Transport.UDP.getopts(listener_socket, [:active]) do
+          {:ok, [active: true]} -> true
+          _ -> false
+        end
 
       span_metadata = %{
         listener_id: listener_id,
@@ -86,6 +86,7 @@ defmodule Abyss.Listener do
             listener_socket: state.listener_socket,
             local_info: state.local_info
           })
+
           Process.send_after(self(), :do_recv, 0)
           {:noreply, state |> Map.put(:is_listening, true)}
 
@@ -94,6 +95,7 @@ defmodule Abyss.Listener do
       end
     end
   end
+
   def handle_info({:udp, socket, ip, port, data}, %{listener_span: listener_span} = state) do
     start_time = Abyss.Telemetry.monotonic_time()
 
@@ -105,10 +107,18 @@ defmodule Abyss.Listener do
         %{remote_address: ip, remote_port: port}
       )
 
-    Abyss.Connection.start(state.server_pid, self(), socket, {ip, port, data}, state.server_config, connection_span)
+    Abyss.Connection.start(
+      state.server_pid,
+      self(),
+      socket,
+      {ip, port, data},
+      state.server_config,
+      connection_span
+    )
 
     {:noreply, state}
   end
+
   def handle_info(
         :do_recv,
         %{listener_span: listener_span, listener_socket: listener_socket} = state
@@ -118,6 +128,7 @@ defmodule Abyss.Listener do
       listener_socket: state.listener_socket,
       local_info: state.local_info
     })
+
     case Abyss.Transport.UDP.recv(listener_socket, 0, :infinity) do
       {:ok, {ip, port, data}} ->
         Abyss.Telemetry.untimed_span_event(state.listener_span, :receiving, %{}, %{
@@ -125,6 +136,7 @@ defmodule Abyss.Listener do
           listener_socket: state.listener_socket,
           local_info: state.local_info
         })
+
         start_time = Abyss.Telemetry.monotonic_time()
 
         connection_span =
@@ -135,7 +147,14 @@ defmodule Abyss.Listener do
             %{remote_address: ip, remote_port: port}
           )
 
-        Abyss.Connection.start(state.server_pid, self(), listener_socket, {ip, port, data}, state.server_config, connection_span)
+        Abyss.Connection.start(
+          state.server_pid,
+          self(),
+          listener_socket,
+          {ip, port, data},
+          state.server_config,
+          connection_span
+        )
 
         Process.send_after(self(), :do_recv, 0)
 
@@ -147,6 +166,7 @@ defmodule Abyss.Listener do
           listener_socket: state.listener_socket,
           local_info: state.local_info
         })
+
         start_time = Abyss.Telemetry.monotonic_time()
 
         connection_span =
@@ -157,7 +177,14 @@ defmodule Abyss.Listener do
             %{remote_address: ip, remote_port: port}
           )
 
-        Abyss.Connection.start(state.server_pid, self(), listener_socket, {ip, port, data}, state.server_config, connection_span)
+        Abyss.Connection.start(
+          state.server_pid,
+          self(),
+          listener_socket,
+          {ip, port, data},
+          state.server_config,
+          connection_span
+        )
 
         Process.send_after(self(), :do_recv, 0)
 
@@ -172,23 +199,37 @@ defmodule Abyss.Listener do
         {:stop, reason, state}
     end
   end
+
   def handle_info(:show_socket, state) do
     Process.send_after(self(), :show_socket, :timer.seconds(5))
-    IO.inspect(:inet.getopts(state.listener_socket, [:active, :reuseaddr, :nodelay, :recbuf, :sndbuf, :mode, :reuseport, :tos, :ttl, :reuseport_lb, :debug, :buffer, :header]))
+
+    IO.inspect(
+      :inet.getopts(state.listener_socket, [
+        :active,
+        :reuseaddr,
+        :nodelay,
+        :recbuf,
+        :sndbuf,
+        :mode,
+        :reuseport,
+        :tos,
+        :ttl,
+        :reuseport_lb,
+        :debug,
+        :buffer,
+        :header
+      ])
+    )
+
     {:noreply, state}
   end
-  def handle_info(msg, state) do
-    IO.puts("""
-    Unhandled message:
-      #{inspect(msg)}
-    with state:
-      #{inspect(state)}
-    """)
+
+  def handle_info(_msg, state) do
     {:noreply, state}
   end
 
   @impl GenServer
-   def handle_continue(
+  def handle_continue(
         :listening,
         %{listener_span: listener_span, listener_socket: listener_socket} = state
       ) do
@@ -197,13 +238,24 @@ defmodule Abyss.Listener do
       listener_socket: state.listener_socket,
       local_info: state.local_info
     })
+
     case Abyss.Transport.UDP.recv(listener_socket, 0, :infinity) do
-      {:ok, {ip, port, data}} ->
+      {:ok, recv_data} ->
+        {ip, port, anc_data, _data} =
+          case recv_data do
+            {ip, port, anc_data, _data} ->
+              {ip, port, anc_data}
+
+            {ip, port, _data} ->
+              {ip, port, nil}
+          end
+
         Abyss.Telemetry.untimed_span_event(state.listener_span, :receiving, %{}, %{
           listener_id: state.listener_id,
           listener_socket: state.listener_socket,
           local_info: state.local_info
         })
+
         start_time = Abyss.Telemetry.monotonic_time()
 
         connection_span =
@@ -211,30 +263,17 @@ defmodule Abyss.Listener do
             listener_span,
             :connection,
             %{monotonic_time: start_time},
-            %{remote_address: ip, remote_port: port}
+            %{remote_address: ip, remote_port: port, anc_data: anc_data}
           )
 
-        Abyss.Connection.start(state.server_pid, self(), listener_socket, {ip, port, data}, state.server_config, connection_span)
-
-        {:noreply, state, {:continue, :listening}}
-
-      {:ok, {ip, port, _anc_data, data}} ->
-        Abyss.Telemetry.untimed_span_event(state.listener_span, :receiving, %{}, %{
-          listener_id: state.listener_id,
-          listener_socket: state.listener_socket,
-          local_info: state.local_info
-        })
-        start_time = Abyss.Telemetry.monotonic_time()
-
-        connection_span =
-          Abyss.Telemetry.start_child_span(
-            listener_span,
-            :connection,
-            %{monotonic_time: start_time},
-            %{remote_address: ip, remote_port: port}
-          )
-
-        Abyss.Connection.start(state.server_pid, self(), listener_socket, {ip, port, data}, state.server_config, connection_span)
+        Abyss.Connection.start(
+          state.server_pid,
+          self(),
+          listener_socket,
+          recv_data,
+          state.server_config,
+          connection_span
+        )
 
         {:noreply, state, {:continue, :listening}}
 
