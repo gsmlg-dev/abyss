@@ -3,8 +3,9 @@ defmodule Echo do
 
   def handle_data(
         data,
-        %Abyss.HandlerState{listener: listener_socket, remote: {ip, port}} = state
+        %{socket: listener_socket} = state
       ) do
+    {ip, port, data} = data
     IO.puts("📩 Received UDP message from #{:inet.ntoa(ip)}:#{port} -> #{inspect(data)}")
 
     msg = "✅ Processed: #{data}"

@@ -1,4 +1,4 @@
-defmodule Abyss.AcceptorPoolSupervisor do
+defmodule Abyss.ListenerPool do
   @moduledoc false
 
   use Supervisor
@@ -8,12 +8,12 @@ defmodule Abyss.AcceptorPoolSupervisor do
     Supervisor.start_link(__MODULE__, arg)
   end
 
-  @spec acceptor_supervisor_pids(Supervisor.supervisor()) :: [pid()]
-  def acceptor_supervisor_pids(supervisor) do
+  @spec listener_pids(Supervisor.supervisor()) :: [pid()]
+  def listener_pids(supervisor) do
     supervisor
     |> Supervisor.which_children()
     |> Enum.reduce([], fn
-      {_, acceptor_pid, _, _}, acc when is_pid(acceptor_pid) -> [acceptor_pid | acc]
+      {_, listener_pid, _, _}, acc when is_pid(listener_pid) -> [listener_pid | acc]
       _, acc -> acc
     end)
   end
@@ -21,8 +21,8 @@ defmodule Abyss.AcceptorPoolSupervisor do
   @spec suspend(Supervisor.supervisor()) :: :ok | :error
   def suspend(pid) do
     pid
-    |> acceptor_supervisor_pids()
-    |> Enum.map(&Abyss.AcceptorSupervisor.suspend/1)
+    |> listener_pids()
+    |> Enum.map(&Supervisor.terminate_child(pid, &1))
     |> Enum.all?(&(&1 == :ok))
     |> if(do: :ok, else: :error)
   end
@@ -30,10 +30,16 @@ defmodule Abyss.AcceptorPoolSupervisor do
   @spec resume(Supervisor.supervisor()) :: :ok | :error
   def resume(pid) do
     pid
-    |> acceptor_supervisor_pids()
-    |> Enum.map(&Abyss.AcceptorSupervisor.resume/1)
-    |> Enum.all?(&(&1 == :ok))
+    |> listener_pids()
+    |> Enum.map(&Supervisor.restart_child(pid, &1))
+    |> Enum.all?(&(elem(&1, 0) == :ok))
     |> if(do: :ok, else: :error)
+  end
+
+  def start_listening(pid) do
+    pid
+    |> listener_pids()
+    |> Enum.each(&send(&1, :start_listening))
   end
 
   @impl Supervisor
@@ -41,11 +47,13 @@ defmodule Abyss.AcceptorPoolSupervisor do
           {:ok,
            {Supervisor.sup_flags(),
             [Supervisor.child_spec() | (old_erlang_child_spec :: :supervisor.child_spec())]}}
-  def init({server_pid, %Abyss.ServerConfig{num_acceptors: num_acceptors} = config}) do
-    base_spec = {Abyss.AcceptorSupervisor, {server_pid, config}}
-
-    1..num_acceptors
-    |> Enum.map(&Supervisor.child_spec(base_spec, id: "acceptor-#{&1}"))
+  def init({server_pid, %Abyss.ServerConfig{num_listeners: num_listeners} = config}) do
+    1..num_listeners
+    |> Enum.map(
+      &Supervisor.child_spec({Abyss.Listener, {"listener-#{&1}", server_pid, config}},
+        id: "listener-#{&1}"
+      )
+    )
     |> Supervisor.init(strategy: :one_for_one)
   end
 end

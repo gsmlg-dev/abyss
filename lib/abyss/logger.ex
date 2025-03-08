@@ -34,6 +34,10 @@ defmodule Abyss.Logger do
 
     events = [
       [:abyss, :listener, :start],
+      [:abyss, :listener, :ready],
+      [:abyss, :listener, :waiting],
+      [:abyss, :listener, :receiving],
+      [:abyss, :listener, :recv_error],
       [:abyss, :listener, :stop]
     ]
 

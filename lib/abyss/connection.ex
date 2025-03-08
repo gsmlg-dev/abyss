@@ -3,6 +3,7 @@ defmodule Abyss.Connection do
 
   @spec start(
           Supervisor.supervisor(),
+          pid(),
           Abyss.Transport.socket(),
           Abyss.Transport.recv_data(),
           Abyss.ServerConfig.t(),
@@ -14,32 +15,36 @@ defmodule Abyss.Connection do
           | {:error, :too_many_connections | {:already_started, pid} | term}
   def start(
         sup_pid,
+        listener_pid,
         listener_socket,
         recv_data,
         %Abyss.ServerConfig{} = server_config,
-        acceptor_span
+        connection_span
       ) do
     # This is a multi-step process since we need to do a bit of work from within
     # the process which owns the socket (us, at this point).
-
-    # First, capture the start time for telemetry purposes
-    start_time = Abyss.Telemetry.monotonic_time()
+    # {ip, port, _data} = recv_data
 
     # Start by defining the worker process which will eventually handle this socket
     child_spec =
       {server_config.handler_module,
-       {server_config.handler_options, server_config.genserver_options}}
-      |> Supervisor.child_spec(shutdown: server_config.shutdown_timeout)
+       {connection_span, server_config, listener_pid, listener_socket}}
+      |> Supervisor.child_spec(
+        # id: {:connection, ip, port},
+        shutdown: server_config.shutdown_timeout
+      )
+
+    connection_sup_pid = Abyss.Server.connection_sup_pid(sup_pid)
 
     # Then try to create it
     do_start(
-      sup_pid,
+      connection_sup_pid,
       child_spec,
+      listener_pid,
       listener_socket,
       recv_data,
       server_config,
-      acceptor_span,
-      start_time,
+      connection_span,
       server_config.max_connections_retry_count
     )
   end
@@ -47,21 +52,20 @@ defmodule Abyss.Connection do
   defp do_start(
          sup_pid,
          child_spec,
+         listener_pid,
          listener_socket,
          recv_data,
          server_config,
-         acceptor_span,
-         start_time,
+         connection_span,
          retries
        ) do
     case DynamicSupervisor.start_child(sup_pid, child_spec) do
       {:ok, pid} ->
-        # Now that we have transferred ownership over to the new process, send a message to the
-        # new process with all the info it needs to start working with the socket (note that the
-        # new process will still need to handshake with the remote end)
+        Abyss.Transport.UDP.controlling_process(listener_socket, pid)
+
         send(
           pid,
-          {:abyss_received, listener_socket, recv_data, server_config, acceptor_span, start_time}
+          {:new_connection, listener_socket, recv_data}
         )
 
         :ok
@@ -75,11 +79,11 @@ defmodule Abyss.Connection do
         do_start(
           sup_pid,
           child_spec,
+          listener_pid,
           listener_socket,
           recv_data,
           server_config,
-          acceptor_span,
-          start_time,
+          connection_span,
           retries - 1
         )
 
