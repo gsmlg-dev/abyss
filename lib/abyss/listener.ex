@@ -241,7 +241,7 @@ defmodule Abyss.Listener do
 
     case Abyss.Transport.UDP.recv(listener_socket, 0, :infinity) do
       {:ok, recv_data} ->
-        {ip, port, anc_data, _data} =
+        {ip, port, anc_data} =
           case recv_data do
             {ip, port, anc_data, _data} ->
               {ip, port, anc_data}
