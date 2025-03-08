@@ -9,7 +9,7 @@ defmodule Abyss.ShutdownListener do
 
   @type state :: %{
           optional(:server_pid) => pid(),
-          optional(:listener_pid) => pid() | nil
+          optional(:listener_pool_pid) => pid() | nil
         }
 
   @doc false
