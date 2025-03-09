@@ -4,20 +4,6 @@ defmodule Abyss.Handler do
 
   # Example
 
-  A simple example of a Hello World server is as follows:
-
-  ```elixir
-  defmodule HelloWorld do
-    use Abyss.Handler
-
-    @impl Abyss.Handler
-    def handle_connection(socket, state) do
-      Abyss.Transport.UDP.send(socket, "Hello, World")
-      {:close, state}
-    end
-  end
-  ```
-
   Another example of a server that echoes back all data sent to it is as follows:
 
   ```elixir
@@ -25,8 +11,8 @@ defmodule Abyss.Handler do
     use Abyss.Handler
 
     @impl Abyss.Handler
-    def handle_data(data, socket, state) do
-      Abyss.Transport.UDP.send(socket, data)
+    def handle_data(data, state) do
+      Abyss.Transport.UDP.send(state.socket, data)
       {:continue, state}
     end
   end
@@ -43,14 +29,14 @@ defmodule Abyss.Handler do
     use Abyss.Handler
 
     @impl Abyss.Handler
-    def handle_data(msg, _socket, state) do
-      IO.puts(msg)
+    def handle_data(msg, state) do
+      IO.inspect(msg)
       {:continue, state}
     end
 
-    def handle_info({:send, msg}, {socket, state}) do
-      Abyss.Transport.UDP.send(socket, msg)
-      {:noreply, {socket, state}, socket.read_timeout}
+    def handle_info({:udp, socket, ip, port, data}, state) do
+      Abyss.Transport.UDP.send(socket, ip, port, msg)
+      {:noreply, state, state.read_timeout}
     end
   end
   ```
@@ -75,15 +61,9 @@ defmodule Abyss.Handler do
     use Abyss.Handler
 
     @impl Abyss.Handler
-    def handle_connection(socket, state) do
-      {:ok, {ip, port}} = Abyss.Transport.UDP.peername(socket)
-      {:ok, _pid} = Registry.register(MessengerRegistry, {state[:my_key], address}, nil)
-      {:continue, state}
-    end
-
-    @impl Abyss.Handler
-    def handle_data(data, socket, state) do
-      Abyss.Transport.UDP.send(socket, data)
+    def handle_data(recv_data, state) do
+      {ip, port, data} = recv_data
+      Abyss.Transport.UDP.send(state.socket, ip, port, data)
       {:continue, state}
     end
   end
@@ -159,7 +139,7 @@ defmodule Abyss.Handler do
   * Returning `{:error, reason, state}` will cause Abyss to close the socket & call the `c:handle_error/3` callback to
   allow final cleanup to be done.
   """
-  @callback handle_data(data :: binary(), state :: term()) ::
+  @callback handle_data(data :: Abyss.Transport.recv_data(), state :: term()) ::
               handler_result()
 
   @doc """
@@ -390,14 +370,10 @@ defmodule Abyss.Handler do
   end
 
   @doc false
-  def handle_continuation(continuation, state, data \\ nil) do
+  def handle_continuation(continuation, state) do
     case continuation do
       {:continue, _state} ->
-        if is_nil(data) do
-          {:noreply, state, state[:read_timeout]}
-        else
-          {:noreply, state, {:continue, {:handle_data, data}}}
-        end
+        {:noreply, state, state[:read_timeout]}
 
       {:close, _state} ->
         {:stop, {:shutdown, :local_closed}, state}

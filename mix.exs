@@ -33,7 +33,6 @@ defmodule Abyss.MixProject do
 
   defp deps() do
     [
-      {:poolboy, "~> 1.5"},
       {:telemetry, "~> 1.0"},
       # {:telemetry_metrics, "~> 1.0"},
       {:ex_doc, "~> 0.25", runtime: false},
