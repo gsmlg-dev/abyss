@@ -22,9 +22,9 @@ end
 
 ```shell
 # run service
-mix run --no-halt -e 'Code.require_file("example/echo.ex"); Abyss.Logger.attach_logger(:trace); Abyss.start_link(handler_module: Echo, port: 1234); Process.sleep(3600_000); '
+mix run --no-halt -e 'Code.require_file("example/echo.ex"); Abyss.Logger.attach_logger(:trace); Abyss.start_link(handler_module: Echo, port: 1234); Process.sleep(3600_000 * 24); '
 
-mix run --no-halt -e 'Abyss.Logger.attach_logger(:trace); Abyss.start_link(handler_module: Abyss.Echo, port: 1234); Process.sleep(300_000); '
+mix run --no-halt -e 'Abyss.Logger.attach_logger(:trace); Abyss.start_link(handler_module: Abyss.Echo, port: 1234); Process.sleep(3600_000 * 24); '
 
 # test
 while true
@@ -32,3 +32,10 @@ do
   echo "Hello, UDP $(date +%T)" | nc -4 -u -w1 127.0.0.1 1234
 done
 ```
+
+Listen `broadcast`
+
+```shell
+mix run --no-halt -e 'Code.require_file("example/dump.ex"); Abyss.Logger.attach_logger(:trace); Abyss.start_link(handler_module: Dump, port: 67, transport_options: [broadcast: true, multicast_if: {255, 255, 255, 255}]); Process.sleep(3600_000 * 24) '
+```
+
