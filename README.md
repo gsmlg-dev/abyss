@@ -35,7 +35,16 @@ done
 
 Listen `broadcast`
 
+DHCP
+
 ```shell
 mix run --no-halt -e 'Code.require_file("example/dump.ex"); Abyss.Logger.attach_logger(:trace); Abyss.start_link(handler_module: Dump, port: 67, transport_options: [broadcast: true, multicast_if: {255, 255, 255, 255}]); Process.sleep(3600_000 * 24) '
 ```
 
+mDNS
+
+```shell
+mix run --no-halt -e 'Code.require_file("example/dump_mdns.ex"); Abyss.Logger.attach_logger(:trace); Abyss.start_link(handler_module: DumpMDNS, port: 5353, transport_options: [broadcast: true, multicast_if: {224, 0, 0, 251}]); Process.sleep(3600_000 * 24) '
+# or
+mix run --no-halt -e 'Code.require_file("example/dump_mdns.ex"); Abyss.start_link(handler_module: DumpMDNS, port: 5353, transport_options: [broadcast: true, multicast_if: {224, 0, 0, 251}]); Process.sleep(3600_000 * 24) '
+```
