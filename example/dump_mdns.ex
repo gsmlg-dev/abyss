@@ -4,12 +4,24 @@ defmodule DumpMDNS do
   def handle_data(recv_data, state) do
     {ip, port, data} = recv_data
     IO.puts("📩 Received UDP message from #{:inet.ntoa(ip)}:#{port} ->")
-    case :inet_dns.decode(data) do
-      {:ok, message} ->
-        IO.inspect(message, limit: :infinity)
-      {:error, error} ->
-        IO.inspect({:error, error}, limit: :infinity)
-    end
+
+    message = DNS.Message.from_binary(data)
+
+    # IO.inspect({:inet_dns.decode(data), "#{message}"})
+    IO.puts(message)
+
     {:close, state}
+  rescue
+    e ->
+      {ip, port, data} = recv_data
+      IO.inspect(e, limit: :infinity)
+      IO.inspect({ip, port, data}, limit: :infinity)
+      {:close, state}
+  catch
+    e ->
+      {ip, port, data} = recv_data
+      IO.inspect(e, limit: :infinity)
+      IO.inspect({ip, port, data}, limit: :infinity)
+      {:close, state}
   end
 end

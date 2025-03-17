@@ -350,8 +350,8 @@ defmodule Abyss.Handler do
 
   def handler_impl do
     quote do
-      @impl true
-      def handle_data(_data, state), do: {:close, state}
+      # @impl true
+      # def handle_data(_data, state), do: {:close, state}
 
       @impl true
       def handle_close(_state), do: :ok

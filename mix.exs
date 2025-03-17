@@ -17,7 +17,7 @@ defmodule Abyss.MixProject do
       dialyzer: dialyzer(),
       aliases: aliases(),
       package: package(),
-      deps: deps(),
+      deps: deps(File.exists?(Path.expand("../ex_dns", __DIR__))),
       docs: docs()
     ]
   end
@@ -31,11 +31,25 @@ defmodule Abyss.MixProject do
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
 
-  defp deps() do
+  defp deps(true) do
     [
       {:telemetry, "~> 1.0"},
       # {:telemetry_metrics, "~> 1.0"},
       {:ex_doc, "~> 0.25", runtime: false},
+      {:ex_dns, path: "../ex_dns", only: [:dev, :test]},
+      {:dhcp_ex, path: "../ex_dhcp", only: [:dev, :test]},
+      {:machete, ">= 0.0.0", only: [:dev, :test]},
+      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
+    ]
+  end
+  defp deps(false) do
+    [
+      {:telemetry, "~> 1.0"},
+      # {:telemetry_metrics, "~> 1.0"},
+      {:ex_doc, "~> 0.25", runtime: false},
+      {:ex_dns, "~> 0.1", only: [:dev, :test]},
+      {:dhcp_ex, "~> 0.1", only: [:dev, :test]},
       {:machete, ">= 0.0.0", only: [:dev, :test]},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
