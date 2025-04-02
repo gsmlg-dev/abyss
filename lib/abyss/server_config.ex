@@ -43,7 +43,7 @@ defmodule Abyss.ServerConfig do
     if !:proplists.is_defined(:handler_module, opts),
       do: raise("No handler_module defined in server configuration")
 
-    broadcast = opts[:transport_options] |> Keyword.get(:broadcast, nil)
+    broadcast = get_in(opts, [:transport_options, :broadcast])
 
     opts =
       if broadcast == true do
