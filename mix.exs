@@ -38,23 +38,23 @@ defmodule Abyss.MixProject do
   defp deps(true) do
     [
       {:telemetry, "~> 1.0"},
-      # {:telemetry_metrics, "~> 1.0"},
-      {:ex_doc, "~> 0.25", runtime: false},
-      {:ex_dns, path: "../ex_dns", only: [:dev, :test]},
-      {:dhcp_ex, path: "../ex_dhcp", only: [:dev, :test]},
-      {:machete, ">= 0.0.0", only: [:dev, :test]},
+      {:telemetry_metrics, "~> 1.0"},
+      {:ex_dns, path: "../ex_dns", only: [:dev, :test], runtime: false, optional: true},
+      {:dhcp_ex, path: "../ex_dhcp", only: [:dev, :test], runtime: false, optional: true},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:machete, ">= 0.0.0", only: [:dev, :test]},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
 
   defp deps(false) do
     [
       {:telemetry, "~> 1.0"},
-      # {:telemetry_metrics, "~> 1.0"},
-      {:ex_doc, "~> 0.25", runtime: false},
-      {:ex_dns, "~> 0.1", only: [:dev, :test]},
-      {:dhcp_ex, "~> 0.1", only: [:dev, :test]},
+      {:telemetry_metrics, "~> 1.0"},
+      {:ex_doc, "~> 0.25", only: [:docs], runtime: false},
+      {:ex_dns, "~> 0.3", only: [:dev, :test]},
+      {:dhcp_ex, "~> 0.3", only: [:dev, :test]},
       {:machete, ">= 0.0.0", only: [:dev, :test]},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false}

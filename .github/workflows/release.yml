@@ -89,7 +89,7 @@ jobs:
 
       - name: Publish to hex.pm
         env:
-          MIX_ENV: prod
+          MIX_ENV: dev
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
         run: |
