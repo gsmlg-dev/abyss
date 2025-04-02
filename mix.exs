@@ -17,7 +17,11 @@ defmodule Abyss.MixProject do
       dialyzer: dialyzer(),
       aliases: aliases(),
       package: package(),
-      deps: deps(File.exists?(Path.expand("../ex_dns", __DIR__))),
+      deps:
+        deps(
+          File.exists?(Path.expand("../ex_dns", __DIR__)) and
+            File.exists?(Path.expand("../ex_dhcp", __DIR__)) and is_nil(System.get_env("CI"))
+        ),
       docs: docs()
     ]
   end
