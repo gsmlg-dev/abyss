@@ -47,13 +47,24 @@ defmodule Abyss.ListenerPool do
           {:ok,
            {Supervisor.sup_flags(),
             [Supervisor.child_spec() | (old_erlang_child_spec :: :supervisor.child_spec())]}}
-  def init({server_pid, %Abyss.ServerConfig{num_listeners: num_listeners} = config}) do
+  def init(
+        {server_pid, %Abyss.ServerConfig{num_listeners: num_listeners, broadcast: false} = config}
+      ) do
     1..num_listeners
     |> Enum.map(
       &Supervisor.child_spec({Abyss.Listener, {"listener-#{&1}", server_pid, config}},
         id: "listener-#{&1}"
       )
     )
+    |> Supervisor.init(strategy: :one_for_one)
+  end
+
+  def init({server_pid, %Abyss.ServerConfig{num_listeners: _, broadcast: true} = config}) do
+    [
+      Supervisor.child_spec({Abyss.Listener, {"listener-broadcast", server_pid, config}},
+        id: "listener-broadcast"
+      )
+    ]
     |> Supervisor.init(strategy: :one_for_one)
   end
 end

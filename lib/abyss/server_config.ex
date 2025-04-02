@@ -13,6 +13,7 @@ defmodule Abyss.ServerConfig do
           handler_options: term(),
           genserver_options: GenServer.options(),
           supervisor_options: [Supervisor.option()],
+          broadcast: boolean(),
           num_listeners: pos_integer(),
           num_connections: non_neg_integer() | :infinity,
           max_connections_retry_count: non_neg_integer(),
@@ -28,6 +29,7 @@ defmodule Abyss.ServerConfig do
             handler_options: [],
             genserver_options: [],
             supervisor_options: [],
+            broadcast: false,
             num_listeners: 100,
             num_connections: 16_384,
             max_connections_retry_count: 5,
@@ -40,6 +42,15 @@ defmodule Abyss.ServerConfig do
   def new(opts \\ []) do
     if !:proplists.is_defined(:handler_module, opts),
       do: raise("No handler_module defined in server configuration")
+
+    broadcast = opts[:transport_options] |> Keyword.get(:broadcast, nil)
+
+    opts =
+      if broadcast == true do
+        opts |> Keyword.put(:broadcast, true)
+      else
+        opts
+      end
 
     struct!(__MODULE__, opts)
   end

@@ -232,6 +232,7 @@ defmodule Abyss.Handler do
            connection_span: connection_span,
            server_config: server_config,
            listener: listener_pid,
+           broadcast: server_config.broadcast,
            socket: listener_socket
          }}
       end
@@ -239,10 +240,19 @@ defmodule Abyss.Handler do
       @impl GenServer
       def handle_info(
             {:new_connection, listener_socket, recv_data},
-            state
+            %{broadcast: false} = state
           ) do
         Abyss.Telemetry.span_event(state.connection_span, :ready)
         {:noreply, state, {:continue, {:handle_data, recv_data}}}
+      catch
+        {:stop, _, _} = stop -> stop
+      end
+
+      def handle_info(
+            {:new_connection, listener_socket, recv_data},
+            %{broadcast: true} = state
+          ) do
+        {:noreply, state, {:continue, {:handle_broadcast_data, recv_data}}}
       catch
         {:stop, _, _} = stop -> stop
       end
@@ -263,7 +273,19 @@ defmodule Abyss.Handler do
         |> Abyss.Handler.handle_continuation(state)
       end
 
+      def handle_continue({:handle_broadcast_data, recv_data}, state) do
+        _reason = __MODULE__.handle_data(recv_data, state)
+        Process.send_after(self(), :broadcast, 10)
+        {:stop, {:shutdown, :broadcast}, state}
+      end
+
       @impl true
+      def terminate({:shutdown, :broadcast}, %{connection_span: connection_span} = state) do
+        Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: :broadcast})
+
+        :ok
+      end
+
       # Called by GenServer if we hit our read_timeout. Socket is still open
       def terminate(
             {:shutdown, :timeout},
@@ -315,18 +337,6 @@ defmodule Abyss.Handler do
               state
           ) do
         out = __MODULE__.handle_close(state)
-        Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
-        Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: reason})
-        out
-      end
-
-      # Called if the socket encountered an error. Socket is closed
-      def terminate(
-            reason,
-            %{connection_span: connection_span, listener: listener_pid, socket: listener_socket} =
-              state
-          ) do
-        out = __MODULE__.handle_error(reason, state)
         Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
         Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: reason})
         out

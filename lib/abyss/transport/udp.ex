@@ -1,8 +1,8 @@
 defmodule Abyss.Transport.UDP do
   @moduledoc """
   Defines a `Abyss.Transport` implementation based on clear UDP sockets
-  as provided by Erlang's `:gen_udp` module. For the most part, users of Thousand
-  Island will only ever need to deal with this module via `transport_options`
+  as provided by Erlang's `:gen_udp` module. For the most part, users of Abyss
+  will only ever need to deal with this module via `transport_options`
   passed to `Abyss` at startup time. A complete list of such options
   is defined via the `t::gen_udp.open_option/0` type. This list can be somewhat
   difficult to decipher; by far the most common value to pass to this transport
@@ -32,7 +32,7 @@ defmodule Abyss.Transport.UDP do
   """
   @behaviour Abyss.Transport
 
-  @hardcoded_options [mode: :binary, active: false, reuseaddr: true, reuseport: true]
+  @hardcoded_options [mode: :binary, reuseaddr: true, reuseport: true]
 
   @impl Abyss.Transport
   @spec listen(:inet.port_number(), [:inet.inet_backend() | :gen_udp.open_option()]) ::

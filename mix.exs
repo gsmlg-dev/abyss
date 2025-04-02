@@ -43,6 +43,7 @@ defmodule Abyss.MixProject do
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
     ]
   end
+
   defp deps(false) do
     [
       {:telemetry, "~> 1.0"},

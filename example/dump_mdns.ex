@@ -5,7 +5,7 @@ defmodule DumpMDNS do
     {ip, port, data} = recv_data
     IO.puts("📩 Received UDP message from #{:inet.ntoa(ip)}:#{port} ->")
 
-    message = DNS.Message.from_binary(data)
+    message = DNS.Message.from_iodata(data)
 
     # IO.inspect({:inet_dns.decode(data), "#{message}"})
     IO.puts(message)

@@ -33,10 +33,23 @@ defmodule Abyss.Listener do
   @spec init({listener_id :: neg_integer(), server_pid :: pid(), Abyss.ServerConfig.t()}) ::
           {:ok, state} | {:stop, term}
   def init({listener_id, server_pid, server_config}) do
+    broadcast = server_config.broadcast
+
+    transport_options =
+      if broadcast do
+        server_config.transport_options
+        |> Keyword.put(:active, true)
+        |> Keyword.put(:broadcast, true)
+      else
+        server_config.transport_options
+        |> Keyword.put(:active, false)
+        |> Keyword.put(:broadcast, false)
+      end
+
     with {:ok, listener_socket} <-
            Abyss.Transport.UDP.listen(
              server_config.port,
-             server_config.transport_options
+             transport_options
            ),
          {:ok, {ip, port}} <-
            :inet.sockname(listener_socket) do
@@ -52,15 +65,17 @@ defmodule Abyss.Listener do
         handler: server_config.handler_module,
         local_address: ip,
         local_port: port,
-        transport_options: server_config.transport_options
+        broadcast: broadcast,
+        transport_options: transport_options
       }
 
       listener_span = Abyss.Telemetry.start_span(:listener, %{}, span_metadata)
 
       {:ok,
        %{
+         broadcast: broadcast,
          is_acitve: acitve,
-         is_listening: false,
+         is_listening: broadcast,
          server_config: server_config,
          server_pid: server_pid,
          listener_id: listener_id,
@@ -107,7 +122,7 @@ defmodule Abyss.Listener do
         %{remote_address: ip, remote_port: port}
       )
 
-    Abyss.Connection.start(
+    Abyss.Connection.start_active(
       state.server_pid,
       self(),
       socket,
