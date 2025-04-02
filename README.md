@@ -13,7 +13,7 @@ The package can be installed by adding `abyss` to your list of dependencies in `
 ```elixir
 def deps do
   [
-    {:abyss, "~> 0.1.0"}
+    {:abyss, "~> 0.3.0"}
   ]
 end
 ```
@@ -38,9 +38,9 @@ Listen `broadcast`
 DHCP
 
 ```shell
-mix run --no-halt -e 'Code.require_file("example/dump_dhcp.ex"); Abyss.Logger.attach_logger(:trace); Abyss.start_link(handler_module: DumpDHCP, port: 67, num_listeners: 1, transport_options: [broadcast: true, multicast_if: {255, 255, 255, 255}]); Process.sleep(3600_000 * 24) '
+mix run --no-halt -e 'Code.require_file("example/dump_dhcp.ex"); Abyss.Logger.attach_logger(:trace); Abyss.start_link(handler_module: DumpDHCP, port: 67, broadcast: true, transport_options: [broadcast: true, multicast_if: {255, 255, 255, 255}]); Process.sleep(3600_000 * 24) '
 # or
-mix run --no-halt -e 'Code.require_file("example/dump_dhcp.ex"); Abyss.start_link(handler_module: DumpDHCP, port: 67, num_listeners: 1, transport_options: [broadcast: true, multicast_if: {255, 255, 255, 255}]); Process.sleep(3600_000 * 24) '
+mix run --no-halt -e 'Code.require_file("example/dump_dhcp.ex"); Abyss.start_link(handler_module: DumpDHCP, port: 67, broadcast: true, transport_options: [broadcast: true, multicast_if: {255, 255, 255, 255}]); Process.sleep(3600_000 * 24) '
 ```
 
 mDNS
