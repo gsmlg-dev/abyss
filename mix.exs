@@ -44,7 +44,7 @@ defmodule Abyss.MixProject do
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:machete, ">= 0.0.0", only: [:dev, :test]},
-      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
+      {:ex_doc, ">= 0.0.0", runtime: false}
     ]
   end
 
@@ -52,10 +52,10 @@ defmodule Abyss.MixProject do
     [
       {:telemetry, "~> 1.0"},
       {:telemetry_metrics, "~> 1.0"},
-      {:ex_doc, "~> 0.25", only: [:docs], runtime: false},
-      {:ex_dns, "~> 0.3", only: [:dev, :test]},
-      {:dhcp_ex, "~> 0.3", only: [:dev, :test]},
+      {:ex_dns, "~> 0.3", only: [:dev, :test], runtime: false, optional: true},
+      {:dhcp_ex, "~> 0.3", only: [:dev, :test], runtime: false, optional: true},
       {:machete, ">= 0.0.0", only: [:dev, :test]},
+      {:ex_doc, ">= 0.0.0", runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
     ]
