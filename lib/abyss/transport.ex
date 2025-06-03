@@ -82,10 +82,6 @@ defmodule Abyss.Transport do
   @typedoc "The return value from a peername/1 call"
   @type on_peername() :: {:ok, socket_info()} | {:error, :inet.posix()}
 
-  @typedoc "The return value from a negotiated_protocol/1 call"
-  @type on_negotiated_protocol() ::
-          {:ok, binary()} | {:error, :protocol_not_negotiated | :closed}
-
   @doc """
   Create and return a listener socket bound to the given port and configured per
   the provided options.
@@ -142,11 +138,4 @@ defmodule Abyss.Transport do
   Returns stats about the connection on the socket.
   """
   @callback getstat(socket()) :: socket_stats()
-
-  @doc """
-  Returns the protocol negotiated as part of handshaking. Most typically this is via TLS'
-  ALPN or NPN extensions. If the underlying transport does not support protocol negotiation
-  (or if one was not negotiated), `{:error, :protocol_not_negotiated}` is returned
-  """
-  @callback negotiated_protocol(socket()) :: on_negotiated_protocol()
 end

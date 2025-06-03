@@ -119,7 +119,19 @@ defmodule Abyss.Transport.UDP do
   @spec getstat(Abyss.Transport.socket()) :: Abyss.Transport.socket_stats()
   defdelegate getstat(socket), to: :inet
 
-  @impl Abyss.Transport
-  @spec negotiated_protocol(Abyss.Transport.socket()) :: Abyss.Transport.on_negotiated_protocol()
-  def negotiated_protocol(_socket), do: {:error, :protocol_not_negotiated}
+  @spec send_recv(
+          {Abyss.Transport.address(), :inet.port_number()},
+          iodata(),
+          timeout()
+        ) :: Abyss.Transport.on_recv()
+  def send_recv({ip, port}, data, timeout \\ 5000) do
+    case open(0, mode: :binary, active: false) do
+      {:ok, socket} ->
+        :ok = send(socket, ip, port, data)
+        recv(socket, 0, timeout)
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
 end
