@@ -53,7 +53,7 @@ defmodule Abyss.Listener do
            ),
          {:ok, {ip, port}} <-
            :inet.sockname(listener_socket) do
-      acitve =
+      active =
         case Abyss.Transport.UDP.getopts(listener_socket, [:active]) do
           {:ok, [active: true]} -> true
           _ -> false
@@ -71,18 +71,24 @@ defmodule Abyss.Listener do
 
       listener_span = Abyss.Telemetry.start_span(:listener, %{}, span_metadata)
 
-      {:ok,
-       %{
-         broadcast: broadcast,
-         is_acitve: acitve,
-         is_listening: broadcast,
-         server_config: server_config,
-         server_pid: server_pid,
-         listener_id: listener_id,
-         listener_socket: listener_socket,
-         listener_span: listener_span,
-         local_info: {ip, port}
-       }}
+      state = %{
+        broadcast: broadcast,
+        is_active: active,
+        is_listening: not broadcast,
+        server_config: server_config,
+        server_pid: server_pid,
+        listener_id: listener_id,
+        listener_socket: listener_socket,
+        listener_span: listener_span,
+        local_info: {ip, port}
+      }
+      
+      # Start listening immediately for non-broadcast mode
+      if not broadcast do
+        Process.send_after(self(), :start_listening, 0)
+      end
+      
+      {:ok, state}
     else
       {:error, reason} ->
         {:stop, reason}
@@ -307,7 +313,9 @@ defmodule Abyss.Listener do
           {:reply,
            Abyss.Transport.socket_info()
            | {Abyss.Transport.listener_socket(), Abyss.Telemetry.t()}, state}
-  def handle_call(:listener_info, _from, state), do: {:reply, state.local_info, state}
+  def handle_call(:listener_info, _from, state) do
+    {:reply, state.local_info, state}
+  end
 
   def handle_call(:socket_info, _from, state),
     do: {:reply, {state.listener_socket, state.listener_span}, state}

@@ -7,7 +7,7 @@ defmodule HandleDNS do
     IO.puts("📩 Received UDP message from #{:inet.ntoa(ip)}:#{port} ->")
     dns_message = DNS.Message.from_iodata(data)
     # IO.inspect(data, limit: :infinity)
-    IO.puts(to_string(dns_message))
+    # IO.puts(to_string(dns_message))
 
     resp = forward(dns_message)
 
@@ -55,11 +55,14 @@ defmodule HandleDNS do
     {:ok, socket} =
       :gen_udp.open(0, mode: :binary, active: false, reuseaddr: true, reuseport: true)
 
-    :ok = :gen_udp.send(socket, {1, 1, 1, 1}, 53, DNS.to_iodata(msg))
+    :ok = :gen_udp.send(socket, {8, 8, 8, 8}, 53, DNS.to_iodata(msg))
 
     case :gen_udp.recv(socket, 0, to_timeout(second: 3)) do
       {:ok, {_ip, _port, data}} ->
         resp = DNS.Message.from_iodata(data)
+        # IO.inspect(data, limit: :infinity)
+        # IO.puts("from forwarder:")
+        # IO.inspect(resp, limit: :infinity)
         IO.puts("from forwarder:\n#{resp}")
         :gen_udp.close(socket)
         resp

@@ -10,30 +10,64 @@ defmodule Abyss.ListenerPool do
 
   @spec listener_pids(Supervisor.supervisor()) :: [pid()]
   def listener_pids(supervisor) do
-    supervisor
-    |> Supervisor.which_children()
-    |> Enum.reduce([], fn
-      {_, listener_pid, _, _}, acc when is_pid(listener_pid) -> [listener_pid | acc]
-      _, acc -> acc
-    end)
+    try do
+      case Process.alive?(supervisor) do
+        false ->
+          []
+
+        true ->
+          supervisor
+          |> Supervisor.which_children()
+          |> Enum.reduce([], fn
+            {_, listener_pid, _, _}, acc when is_pid(listener_pid) -> [listener_pid | acc]
+            _, acc -> acc
+          end)
+      end
+    rescue
+      ArgumentError -> []
+      _ -> []
+    end
   end
 
   @spec suspend(Supervisor.supervisor()) :: :ok | :error
   def suspend(pid) do
-    pid
-    |> listener_pids()
-    |> Enum.map(&Supervisor.terminate_child(pid, &1))
-    |> Enum.all?(&(&1 == :ok))
-    |> if(do: :ok, else: :error)
+    try do
+      case Process.alive?(pid) do
+        false ->
+          :error
+
+        true ->
+          pid
+          |> listener_pids()
+          |> Enum.each(&Process.exit(&1, :normal))
+
+          :ok
+      end
+    rescue
+      ArgumentError -> :error
+      _ -> :error
+    end
   end
 
   @spec resume(Supervisor.supervisor()) :: :ok | :error
   def resume(pid) do
-    pid
-    |> listener_pids()
-    |> Enum.map(&Supervisor.restart_child(pid, &1))
-    |> Enum.all?(&(elem(&1, 0) == :ok))
-    |> if(do: :ok, else: :error)
+    try do
+      case Process.alive?(pid) do
+        false ->
+          :error
+
+        true ->
+          # Send resume message to all listeners
+          pid
+          |> listener_pids()
+          |> Enum.each(&send(&1, :start_listening))
+
+          :ok
+      end
+    rescue
+      ArgumentError -> :error
+      _ -> :error
+    end
   end
 
   def start_listening(pid) do

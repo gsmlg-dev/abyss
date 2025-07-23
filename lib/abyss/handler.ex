@@ -233,7 +233,8 @@ defmodule Abyss.Handler do
            server_config: server_config,
            listener: listener_pid,
            broadcast: server_config.broadcast,
-           socket: listener_socket
+           socket: listener_socket,
+           read_timeout: server_config.read_timeout
          }}
       end
 

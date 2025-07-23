@@ -40,8 +40,19 @@ defmodule Abyss.ServerConfig do
 
   @spec new(Abyss.options()) :: t()
   def new(opts \\ []) do
-    if !:proplists.is_defined(:handler_module, opts),
-      do: raise("No handler_module defined in server configuration")
+    unless Keyword.keyword?(opts) do
+      raise ArgumentError, "configuration must be a keyword list"
+    end
+
+    unless Keyword.has_key?(opts, :handler_module) do
+      raise ArgumentError, "No handler_module defined in server configuration"
+    end
+
+    handler_module = Keyword.get(opts, :handler_module)
+
+    unless is_atom(handler_module) do
+      raise ArgumentError, "handler_module must be a module"
+    end
 
     broadcast = get_in(opts, [:transport_options, :broadcast])
 

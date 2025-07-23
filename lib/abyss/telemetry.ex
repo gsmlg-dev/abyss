@@ -368,7 +368,7 @@ defmodule Abyss.Telemetry do
     metadata =
       metadata
       |> Map.put(:telemetry_span_context, span.telemetry_span_context)
-      |> Map.put(:handler, span.start_metadata.handler)
+      |> Map.put_new(:handler, span.start_metadata[:handler] || :unknown)
 
     event([span.span_name, name], measurements, metadata)
   end

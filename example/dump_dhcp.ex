@@ -5,7 +5,7 @@ defmodule DumpDHCP do
     {ip, port, data} = recv_data
     IO.puts("📩 Received UDP message from #{:inet.ntoa(ip)}:#{port} ->")
 
-    message = DHCP.Message.from_iodata(data)
+    message = DHCPv4.Message.from_iodata(data)
     IO.puts(to_string(message))
 
     {:close, state}

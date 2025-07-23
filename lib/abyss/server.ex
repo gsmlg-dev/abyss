@@ -8,40 +8,80 @@ defmodule Abyss.Server do
     Supervisor.start_link(__MODULE__, config, config.supervisor_options)
   end
 
+  def start_link(invalid_config) do
+    raise ArgumentError, "invalid configuration: #{inspect(invalid_config)}"
+  end
+
   def resume(supervisor) do
-    listener_pool_pid(supervisor)
-    |> Abyss.ListenerPool.resume()
+    try do
+      case listener_pool_pid(supervisor) do
+        nil -> nil
+        pid -> Abyss.ListenerPool.resume(pid)
+      end
+    rescue
+      ArgumentError -> nil
+      _ -> nil
+    end
   end
 
   def suspend(supervisor) do
-    listener_pool_pid(supervisor)
-    |> Abyss.ListenerPool.suspend()
+    try do
+      case listener_pool_pid(supervisor) do
+        nil -> nil
+        pid -> Abyss.ListenerPool.suspend(pid)
+      end
+    rescue
+      ArgumentError -> nil
+      _ -> nil
+    end
   end
 
   @spec listener_pool_pid(Supervisor.supervisor()) :: pid() | nil
   def listener_pool_pid(supervisor) do
-    supervisor
-    |> Supervisor.which_children()
-    |> Enum.find_value(fn
-      {:listener_pool, listener_pool_pid, _, _} when is_pid(listener_pool_pid) ->
-        listener_pool_pid
+    try do
+      case Process.alive?(supervisor) do
+        false ->
+          nil
 
-      _ ->
-        false
-    end)
+        true ->
+          supervisor
+          |> Supervisor.which_children()
+          |> Enum.find_value(fn
+            {:listener_pool, listener_pool_pid, _, _} when is_pid(listener_pool_pid) ->
+              listener_pool_pid
+
+            _ ->
+              nil
+          end)
+      end
+    rescue
+      ArgumentError -> nil
+      _ -> nil
+    end
   end
 
   @spec connection_sup_pid(Supervisor.supervisor()) :: pid() | nil
   def connection_sup_pid(supervisor) do
-    supervisor
-    |> Supervisor.which_children()
-    |> Enum.find_value(fn
-      {:connection_sup, connection_sup_pid, _, _} when is_pid(connection_sup_pid) ->
-        connection_sup_pid
+    try do
+      case Process.alive?(supervisor) do
+        false ->
+          nil
 
-      _ ->
-        false
-    end)
+        true ->
+          supervisor
+          |> Supervisor.which_children()
+          |> Enum.find_value(fn
+            {:connection_sup, connection_sup_pid, _, _} when is_pid(connection_sup_pid) ->
+              connection_sup_pid
+
+            _ ->
+              nil
+          end)
+      end
+    rescue
+      ArgumentError -> nil
+      _ -> nil
+    end
   end
 
   @impl Supervisor

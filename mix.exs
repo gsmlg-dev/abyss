@@ -101,6 +101,15 @@ defmodule Abyss.MixProject do
 
   defp aliases do
     [
+      test: ["test --cover"],
+      "test.all": ["test --include integration --include slow"],
+      "test.unit": ["test --exclude integration --exclude slow"],
+      "test.integration": ["test --include integration"],
+      ci: [
+        "format --check-formatted",
+        "credo --strict",
+        "test --cover --include integration"
+      ],
       publish: [
         "format",
         "hex.publish --yes"

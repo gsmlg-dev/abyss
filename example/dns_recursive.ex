@@ -233,6 +233,10 @@ defmodule NameResolver do
     }
   end
 
+  defp query_first([], message) do
+    nil
+  end
+
   defp query_first(list, message) do
     case Task.async_stream(
            list,
@@ -241,6 +245,8 @@ defmodule NameResolver do
 
              :ok = :gen_udp.send(socket, ip, port, message)
              # IO.inspect({:query_ns, ip, port, DNS.Message.from_iodata(message)})
+             %{qdlist: [question | _]} = DNS.Message.from_iodata(message)
+             IO.puts("Query nameserver #{:inet.ntoa(ip)}:#{port} <= #{question}")
 
              case :gen_udp.recv(socket, 0, to_timeout(second: 3)) do
                {:ok, recv_data} ->
@@ -300,8 +306,11 @@ defmodule NameResolver do
              false
          end)
          |> Enum.take(1) do
-      [ok: {:ok, result}] -> result
-      _ -> nil
+      [ok: {:ok, result}] ->
+        result
+
+      _ ->
+        nil
     end
   end
 end
@@ -337,6 +346,7 @@ defmodule HandleDNS do
           header
           | id: dns_message.header.id,
             qr: 1,
+            rd: 1,
             qdcount: length(qdlist),
             ancount: length(anlist)
         },
