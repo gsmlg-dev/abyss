@@ -22,7 +22,10 @@ defmodule Abyss.MixProject do
           File.exists?(Path.expand("../ex_dns", __DIR__)) and
             File.exists?(Path.expand("../ex_dhcp", __DIR__)) and is_nil(System.get_env("CI"))
         ),
-      docs: docs()
+      docs: docs(),
+      test_coverage: [
+        summary: [threshold: 40]
+      ]
     ]
   end
 
