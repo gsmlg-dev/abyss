@@ -24,6 +24,9 @@ defmodule Abyss.MixProject do
         ),
       docs: docs(),
       test_coverage: [
+        ignore_modules: [
+          ~r[Abyss.Test.*]
+        ],
         summary: [threshold: 40]
       ]
     ]

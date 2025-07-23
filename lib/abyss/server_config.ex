@@ -25,7 +25,7 @@ defmodule Abyss.ServerConfig do
 
   defstruct port: 4000,
             transport_options: [],
-            handler_module: Abyss.Echo,
+            handler_module: nil,
             handler_options: [],
             genserver_options: [],
             supervisor_options: [],
