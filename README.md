@@ -13,7 +13,7 @@ The package can be installed by adding `abyss` to your list of dependencies in `
 ```elixir
 def deps do
   [
-    {:abyss, "~> 0.3.0"}
+    {:abyss, "~> 0.4.0"}
   ]
 end
 ```

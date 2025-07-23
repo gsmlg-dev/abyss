@@ -82,12 +82,12 @@ defmodule Abyss.Listener do
         listener_span: listener_span,
         local_info: {ip, port}
       }
-      
+
       # Start listening immediately for non-broadcast mode
       if not broadcast do
         Process.send_after(self(), :start_listening, 0)
       end
-      
+
       {:ok, state}
     else
       {:error, reason} ->
