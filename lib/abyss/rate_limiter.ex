@@ -75,7 +75,9 @@ defmodule Abyss.RateLimiter do
       window_ms: window_ms
     }
 
-    Logger.debug("Rate limiter started: enabled=#{enabled}, max_packets=#{max_packets}, window_ms=#{window_ms}")
+    Logger.debug(
+      "Rate limiter started: enabled=#{enabled}, max_packets=#{max_packets}, window_ms=#{window_ms}"
+    )
 
     {:ok, state}
   end
@@ -102,6 +104,7 @@ defmodule Abyss.RateLimiter do
       active_buckets: map_size(state.buckets),
       total_buckets: Enum.count(state.buckets)
     }
+
     {:reply, stats, state}
   end
 
@@ -118,6 +121,7 @@ defmodule Abyss.RateLimiter do
       |> Map.new()
 
     cleaned_count = map_size(state.buckets) - map_size(cleaned_buckets)
+
     if cleaned_count > 0 do
       Logger.debug("Cleaned up #{cleaned_count} expired rate limit buckets")
     end
@@ -168,24 +172,24 @@ defmodule Abyss.RateLimiter do
 
     if time_passed >= window_ms do
       # Full refill
-      %{bucket |
-        tokens: max_packets - 1,  # Assume this packet will consume one
-        last_refill: now
-      }
-    else if time_passed > 0 do
-      # Partial refill based on time passed
-      refill_rate = div(max_packets * 1000, window_ms)
-      tokens_to_add = div(time_passed * refill_rate, 1000)
-      new_tokens = min(bucket.tokens + tokens_to_add, max_packets)
-
-      %{bucket |
-        tokens: new_tokens,
-        last_refill: now
+      %{
+        bucket
+        | # Assume this packet will consume one
+          tokens: max_packets - 1,
+          last_refill: now
       }
     else
-      # No time passed, use existing bucket
-      bucket
+      if time_passed > 0 do
+        # Partial refill based on time passed
+        refill_rate = div(max_packets * 1000, window_ms)
+        tokens_to_add = div(time_passed * refill_rate, 1000)
+        new_tokens = min(bucket.tokens + tokens_to_add, max_packets)
+
+        %{bucket | tokens: new_tokens, last_refill: now}
+      else
+        # No time passed, use existing bucket
+        bucket
+      end
     end
-  end
   end
 end

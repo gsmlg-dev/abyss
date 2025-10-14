@@ -5,13 +5,15 @@ defmodule Abyss.ListenerRateLimitingTest do
 
   describe "rate limiting in listener" do
     test "rejects packets when rate limit is exceeded" do
-      config = ServerConfig.new([
-        handler_module: TestHandler,
-        port: 0,  # Use random available port
-        rate_limit_enabled: true,
-        rate_limit_max_packets: 1,
-        rate_limit_window_ms: 1000
-      ])
+      config =
+        ServerConfig.new(
+          handler_module: TestHandler,
+          # Use random available port
+          port: 0,
+          rate_limit_enabled: true,
+          rate_limit_max_packets: 1,
+          rate_limit_window_ms: 1000
+        )
 
       {:ok, listener_pid} = Listener.start_link({"test", self(), config})
 
@@ -21,24 +23,26 @@ defmodule Abyss.ListenerRateLimitingTest do
     end
 
     test "accepts packets within rate limit" do
-      config = ServerConfig.new([
-        handler_module: TestHandler,
-        port: 0,
-        rate_limit_enabled: true,
-        rate_limit_max_packets: 100,
-        rate_limit_window_ms: 1000
-      ])
+      config =
+        ServerConfig.new(
+          handler_module: TestHandler,
+          port: 0,
+          rate_limit_enabled: true,
+          rate_limit_max_packets: 100,
+          rate_limit_window_ms: 1000
+        )
 
       {:ok, listener_pid} = Listener.start_link({"test", self(), config})
       Process.exit(listener_pid, :normal)
     end
 
     test "allows all packets when rate limiting is disabled" do
-      config = ServerConfig.new([
-        handler_module: TestHandler,
-        port: 0,
-        rate_limit_enabled: false
-      ])
+      config =
+        ServerConfig.new(
+          handler_module: TestHandler,
+          port: 0,
+          rate_limit_enabled: false
+        )
 
       {:ok, listener_pid} = Listener.start_link({"test", self(), config})
       Process.exit(listener_pid, :normal)
@@ -47,22 +51,24 @@ defmodule Abyss.ListenerRateLimitingTest do
 
   describe "packet size validation in listener" do
     test "rejects packets exceeding max size" do
-      config = ServerConfig.new([
-        handler_module: TestHandler,
-        port: 0,
-        max_packet_size: 100
-      ])
+      config =
+        ServerConfig.new(
+          handler_module: TestHandler,
+          port: 0,
+          max_packet_size: 100
+        )
 
       {:ok, listener_pid} = Listener.start_link({"test", self(), config})
       Process.exit(listener_pid, :normal)
     end
 
     test "accepts packets within size limit" do
-      config = ServerConfig.new([
-        handler_module: TestHandler,
-        port: 0,
-        max_packet_size: 8192
-      ])
+      config =
+        ServerConfig.new(
+          handler_module: TestHandler,
+          port: 0,
+          max_packet_size: 8192
+        )
 
       {:ok, listener_pid} = Listener.start_link({"test", self(), config})
       Process.exit(listener_pid, :normal)

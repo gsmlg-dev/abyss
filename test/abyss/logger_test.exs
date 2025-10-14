@@ -8,7 +8,9 @@ defmodule Abyss.LoggerTest do
       Logger.attach_logger(:error)
 
       # Verify the logger is attached by emitting a test event
-      :telemetry.execute([:abyss, :acceptor, :spawn_error], %{error: :test_error}, %{socket: :test})
+      :telemetry.execute([:abyss, :acceptor, :spawn_error], %{error: :test_error}, %{
+        socket: :test
+      })
 
       Logger.detach_logger(:error)
     end

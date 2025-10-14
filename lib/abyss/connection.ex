@@ -74,7 +74,14 @@ defmodule Abyss.Connection do
         # We're in a tricky spot here; we have a client connection in hand, but no room to put it
         # into the connection supervisor. Schedule a non-blocking retry after the configured wait time
         retry_args = [
-          sup_pid, child_spec, listener_pid, listener_socket, recv_data, server_config, connection_span, retries - 1
+          sup_pid,
+          child_spec,
+          listener_pid,
+          listener_socket,
+          recv_data,
+          server_config,
+          connection_span,
+          retries - 1
         ]
 
         # Use Process.send_after to schedule the retry without blocking the current process
@@ -167,7 +174,14 @@ defmodule Abyss.Connection do
         # We're in a tricky spot here; we have a client connection in hand, but no room to put it
         # into the connection supervisor. Schedule a non-blocking retry after the configured wait time
         retry_args = [
-          sup_pid, child_spec, listener_pid, listener_socket, recv_data, server_config, connection_span, retries - 1
+          sup_pid,
+          child_spec,
+          listener_pid,
+          listener_socket,
+          recv_data,
+          server_config,
+          connection_span,
+          retries - 1
         ]
 
         # Use Process.send_after to schedule the retry without blocking the current process
@@ -193,15 +207,51 @@ defmodule Abyss.Connection do
   Handle a retry message for regular connection start.
   This should be called from the listener process when receiving a {:retry_connection, args} message.
   """
-  def retry_start([sup_pid, child_spec, listener_pid, listener_socket, recv_data, server_config, connection_span, retries]) do
-    do_start(sup_pid, child_spec, listener_pid, listener_socket, recv_data, server_config, connection_span, retries)
+  def retry_start([
+        sup_pid,
+        child_spec,
+        listener_pid,
+        listener_socket,
+        recv_data,
+        server_config,
+        connection_span,
+        retries
+      ]) do
+    do_start(
+      sup_pid,
+      child_spec,
+      listener_pid,
+      listener_socket,
+      recv_data,
+      server_config,
+      connection_span,
+      retries
+    )
   end
 
   @doc """
   Handle a retry message for active connection start.
   This should be called from the listener process when receiving a {:retry_active_connection, args} message.
   """
-  def retry_start_active([sup_pid, child_spec, listener_pid, listener_socket, recv_data, server_config, connection_span, retries]) do
-    do_start_active(sup_pid, child_spec, listener_pid, listener_socket, recv_data, server_config, connection_span, retries)
+  def retry_start_active([
+        sup_pid,
+        child_spec,
+        listener_pid,
+        listener_socket,
+        recv_data,
+        server_config,
+        connection_span,
+        retries
+      ]) do
+    do_start_active(
+      sup_pid,
+      child_spec,
+      listener_pid,
+      listener_socket,
+      recv_data,
+      server_config,
+      connection_span,
+      retries
+    )
   end
 end

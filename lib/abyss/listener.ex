@@ -124,6 +124,7 @@ defmodule Abyss.Listener do
         remote_address: ip,
         remote_port: port
       })
+
       {:noreply, state}
     else
       # Check packet size
@@ -134,6 +135,7 @@ defmodule Abyss.Listener do
           packet_size: byte_size(data),
           max_size: state.server_config.max_packet_size
         })
+
         {:noreply, state}
       else
         start_time = Abyss.Telemetry.monotonic_time()
@@ -184,6 +186,7 @@ defmodule Abyss.Listener do
             remote_address: ip,
             remote_port: port
           })
+
           Process.send_after(self(), :do_recv, 0)
           {:noreply, state}
         else
@@ -195,6 +198,7 @@ defmodule Abyss.Listener do
               packet_size: byte_size(data),
               max_size: state.server_config.max_packet_size
             })
+
             Process.send_after(self(), :do_recv, 0)
             {:noreply, state}
           else
@@ -236,6 +240,7 @@ defmodule Abyss.Listener do
             remote_address: ip,
             remote_port: port
           })
+
           Process.send_after(self(), :do_recv, 0)
           {:noreply, state}
         else
@@ -247,6 +252,7 @@ defmodule Abyss.Listener do
               packet_size: byte_size(data),
               max_size: state.server_config.max_packet_size
             })
+
             Process.send_after(self(), :do_recv, 0)
             {:noreply, state}
           else
@@ -285,7 +291,6 @@ defmodule Abyss.Listener do
     end
   end
 
-  
   def handle_info({:retry_connection, retry_args}, state) do
     Abyss.Connection.retry_start(retry_args)
     {:noreply, state}

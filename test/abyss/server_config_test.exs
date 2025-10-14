@@ -130,13 +130,14 @@ defmodule Abyss.ServerConfigTest do
 
   describe "rate limiting configuration" do
     test "includes rate limiting fields" do
-      config = Abyss.ServerConfig.new(
-        handler_module: Abyss.TestHandler,
-        port: 1234,
-        rate_limit_enabled: true,
-        rate_limit_max_packets: 500,
-        rate_limit_window_ms: 2000
-      )
+      config =
+        Abyss.ServerConfig.new(
+          handler_module: Abyss.TestHandler,
+          port: 1234,
+          rate_limit_enabled: true,
+          rate_limit_max_packets: 500,
+          rate_limit_window_ms: 2000
+        )
 
       assert config.rate_limit_enabled == true
       assert config.rate_limit_max_packets == 500
@@ -154,11 +155,12 @@ defmodule Abyss.ServerConfigTest do
 
   describe "packet size configuration" do
     test "includes max packet size field" do
-      config = Abyss.ServerConfig.new(
-        handler_module: Abyss.TestHandler,
-        port: 1234,
-        max_packet_size: 4096
-      )
+      config =
+        Abyss.ServerConfig.new(
+          handler_module: Abyss.TestHandler,
+          port: 1234,
+          max_packet_size: 4096
+        )
 
       assert config.max_packet_size == 4096
     end

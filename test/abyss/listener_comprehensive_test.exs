@@ -5,10 +5,11 @@ defmodule Abyss.ListenerComprehensiveTest do
 
   describe "listener info functions" do
     test "listener_info/1 returns socket information" do
-      config = ServerConfig.new([
-        handler_module: TestHandler,
-        port: 0
-      ])
+      config =
+        ServerConfig.new(
+          handler_module: TestHandler,
+          port: 0
+        )
 
       {:ok, listener_pid} = Listener.start_link({"test", self(), config})
 
@@ -16,17 +17,20 @@ defmodule Abyss.ListenerComprehensiveTest do
       info = Listener.listener_info(listener_pid)
       assert is_tuple(info)
       assert tuple_size(info) == 2
-      assert is_tuple(elem(info, 0))  # IP address
-      assert is_integer(elem(info, 1)) # Port number
+      # IP address
+      assert is_tuple(elem(info, 0))
+      # Port number
+      assert is_integer(elem(info, 1))
 
       Process.exit(listener_pid, :normal)
     end
 
     test "socket_info/1 returns socket and span" do
-      config = ServerConfig.new([
-        handler_module: TestHandler,
-        port: 0
-      ])
+      config =
+        ServerConfig.new(
+          handler_module: TestHandler,
+          port: 0
+        )
 
       {:ok, listener_pid} = Listener.start_link({"test", self(), config})
 
@@ -38,10 +42,11 @@ defmodule Abyss.ListenerComprehensiveTest do
     end
 
     test "stop/1 terminates listener gracefully" do
-      config = ServerConfig.new([
-        handler_module: TestHandler,
-        port: 0
-      ])
+      config =
+        ServerConfig.new(
+          handler_module: TestHandler,
+          port: 0
+        )
 
       {:ok, listener_pid} = Listener.start_link({"test", self(), config})
       assert Process.alive?(listener_pid)
@@ -56,12 +61,13 @@ defmodule Abyss.ListenerComprehensiveTest do
 
   describe "listener configuration" do
     test "handles broadcast mode configuration" do
-      config = ServerConfig.new([
-        handler_module: TestHandler,
-        port: 0,
-        broadcast: true,
-        transport_options: [broadcast: true]
-      ])
+      config =
+        ServerConfig.new(
+          handler_module: TestHandler,
+          port: 0,
+          broadcast: true,
+          transport_options: [broadcast: true]
+        )
 
       {:ok, listener_pid} = Listener.start_link({"test", self(), config})
 
@@ -72,11 +78,12 @@ defmodule Abyss.ListenerComprehensiveTest do
     end
 
     test "handles non-broadcast mode configuration" do
-      config = ServerConfig.new([
-        handler_module: TestHandler,
-        port: 0,
-        broadcast: false
-      ])
+      config =
+        ServerConfig.new(
+          handler_module: TestHandler,
+          port: 0,
+          broadcast: false
+        )
 
       {:ok, listener_pid} = Listener.start_link({"test", self(), config})
 
@@ -97,15 +104,16 @@ defmodule Abyss.ListenerComprehensiveTest do
 
   describe "listener with custom transport options" do
     test "handles custom transport options" do
-      config = ServerConfig.new([
-        handler_module: TestHandler,
-        port: 0,
-        transport_options: [
-          recbuf: 8192,
-          sndbuf: 8192,
-          reuseaddr: true
-        ]
-      ])
+      config =
+        ServerConfig.new(
+          handler_module: TestHandler,
+          port: 0,
+          transport_options: [
+            recbuf: 8192,
+            sndbuf: 8192,
+            reuseaddr: true
+          ]
+        )
 
       {:ok, listener_pid} = Listener.start_link({"test", self(), config})
 
@@ -118,11 +126,12 @@ defmodule Abyss.ListenerComprehensiveTest do
 
   describe "listener lifecycle" do
     test "starts listening immediately in non-broadcast mode" do
-      config = ServerConfig.new([
-        handler_module: TestHandler,
-        port: 0,
-        broadcast: false
-      ])
+      config =
+        ServerConfig.new(
+          handler_module: TestHandler,
+          port: 0,
+          broadcast: false
+        )
 
       {:ok, listener_pid} = Listener.start_link({"test", self(), config})
 
@@ -136,11 +145,12 @@ defmodule Abyss.ListenerComprehensiveTest do
     end
 
     test "doesn't start listening immediately in broadcast mode" do
-      config = ServerConfig.new([
-        handler_module: TestHandler,
-        port: 0,
-        broadcast: true
-      ])
+      config =
+        ServerConfig.new(
+          handler_module: TestHandler,
+          port: 0,
+          broadcast: true
+        )
 
       {:ok, listener_pid} = Listener.start_link({"test", self(), config})
 

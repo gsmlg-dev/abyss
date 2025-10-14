@@ -11,7 +11,7 @@ defmodule Abyss.Transport.UDPComprehensiveTest do
     end
 
     test "opens socket with custom options" do
-      {:ok, socket} = UDP.listen(0, [active: false, reuseaddr: true])
+      {:ok, socket} = UDP.listen(0, active: false, reuseaddr: true)
       assert is_port(socket)
       :ok = UDP.close(socket)
     end
@@ -22,7 +22,7 @@ defmodule Abyss.Transport.UDPComprehensiveTest do
     end
 
     test "merges options correctly with hardcoded options" do
-      {:ok, socket} = UDP.listen(0, [active: true])
+      {:ok, socket} = UDP.listen(0, active: true)
 
       # Check that the socket has the expected options
       assert is_port(socket)
@@ -30,7 +30,7 @@ defmodule Abyss.Transport.UDPComprehensiveTest do
     end
 
     test "handles duplicate options" do
-      {:ok, socket} = UDP.listen(0, [reuseaddr: false, reuseaddr: true])
+      {:ok, socket} = UDP.listen(0, reuseaddr: false, reuseaddr: true)
       assert is_port(socket)
       :ok = UDP.close(socket)
     end
@@ -44,13 +44,13 @@ defmodule Abyss.Transport.UDPComprehensiveTest do
     end
 
     test "opens socket with IP binding" do
-      {:ok, socket} = UDP.open(0, [ip: {127, 0, 0, 1}])
+      {:ok, socket} = UDP.open(0, ip: {127, 0, 0, 1})
       assert is_port(socket)
       :ok = UDP.close(socket)
     end
 
     test "handles IPv6 binding" do
-      {:ok, socket} = UDP.open(0, [ip: {0, 0, 0, 0, 0, 0, 0, 1}])
+      {:ok, socket} = UDP.open(0, ip: {0, 0, 0, 0, 0, 0, 0, 1})
       assert is_port(socket)
       :ok = UDP.close(socket)
     end
@@ -68,7 +68,7 @@ defmodule Abyss.Transport.UDPComprehensiveTest do
 
   describe "recv/3 and recv/2" do
     test "recv with timeout" do
-      {:ok, socket} = UDP.listen(0, [active: false])
+      {:ok, socket} = UDP.listen(0, active: false)
 
       # Should timeout since no data is sent
       result = UDP.recv(socket, 0, 100)
@@ -78,7 +78,7 @@ defmodule Abyss.Transport.UDPComprehensiveTest do
     end
 
     test "recv without timeout" do
-      {:ok, socket} = UDP.listen(0, [active: false])
+      {:ok, socket} = UDP.listen(0, active: false)
 
       # This will block, so we need to be careful
       # We'll test the function exists rather than block
@@ -131,7 +131,7 @@ defmodule Abyss.Transport.UDPComprehensiveTest do
     test "sets socket options" do
       {:ok, socket} = UDP.listen(0, [])
 
-      :ok = UDP.setopts(socket, [active: false])
+      :ok = UDP.setopts(socket, active: false)
 
       :ok = UDP.close(socket)
     end
@@ -200,7 +200,7 @@ defmodule Abyss.Transport.UDPComprehensiveTest do
 
     test "option deduplication works" do
       # Provide duplicate options to test deduplication logic
-      {:ok, socket} = UDP.listen(0, [reuseaddr: true, reuseaddr: true])
+      {:ok, socket} = UDP.listen(0, reuseaddr: true, reuseaddr: true)
       assert is_port(socket)
       :ok = UDP.close(socket)
     end
@@ -237,7 +237,7 @@ defmodule Abyss.Transport.UDPComprehensiveTest do
 
   describe "IPv6 support" do
     test "listens on IPv6 address" do
-      {:ok, socket} = UDP.listen(0, [ip: {0, 0, 0, 0, 0, 0, 0, 1}])
+      {:ok, socket} = UDP.listen(0, ip: {0, 0, 0, 0, 0, 0, 0, 1})
       assert is_port(socket)
       :ok = UDP.close(socket)
     end
