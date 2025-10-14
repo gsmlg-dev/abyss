@@ -5,7 +5,7 @@ let
   pkgs-unstable = import inputs.nixpkgs-unstable { system = pkgs.stdenv.system; };
 in
 {
-  env.GREET = "GSMLG Umbrella";
+  env.GREET = "Abyss";
 
   packages = [
     pkgs-stable.git
