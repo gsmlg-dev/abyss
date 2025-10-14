@@ -4,17 +4,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Abyss is a pure Elixir UDP server library that provides a modern, high-performance foundation for building UDP-based services like DNS servers, DHCP servers, or custom UDP applications. It implements a supervisor-based architecture with connection pooling and pluggable transport modules.
+Abyss is a pure Elixir UDP server library that provides a modern, high-performance foundation for building UDP-based services like DNS servers, DHCP servers, or custom UDP applications. It implements a supervisor-based architecture with connection pooling, pluggable transport modules, and built-in security features including rate limiting and packet size validation.
 
 ## Key Architecture
 
 - **Core Module**: `Abyss` - Main API entry point
 - **Server**: `Abyss.Server` - Supervisor that manages listener pools and connection supervisors
-- **Server Config**: `Abyss.ServerConfig` - Configuration management and validation
+- **Server Config**: `Abyss.ServerConfig` - Configuration management and validation with security options
 - **Transport**: `Abyss.Transport` - Behaviour for UDP transport layer (currently uses `Abyss.Transport.UDP`)
 - **Listener Pool**: `Abyss.ListenerPool` - Manages UDP listener processes with supervisor strategies
-- **Connection Handling**: `Abyss.Connection` - Handles individual UDP connections/clients via DynamicSupervisor
+- **Connection Handling**: `Abyss.Connection` - Handles individual UDP connections/clients via DynamicSupervisor with non-blocking retry logic
 - **Handler**: `Abyss.Handler` - Behaviour for implementing custom request/response logic
+- **Rate Limiter**: `Abyss.RateLimiter` - Token bucket rate limiting for DoS protection (GenServer-based)
 - **Telemetry**: `Abyss.Telemetry` - Metrics and monitoring via :telemetry
 - **Logger**: `Abyss.Logger` - Structured logging with different levels
 
@@ -120,6 +121,26 @@ Key options when starting Abyss:
 - `transport_options`: Additional UDP socket options
 - `read_timeout`: Connection read timeout (default: 60_000ms)
 - `shutdown_timeout`: Graceful shutdown timeout (default: 15_000ms)
+- `rate_limit_enabled`: Enable rate limiting for DoS protection (default: false)
+- `rate_limit_max_packets`: Max packets per rate limit window (default: 1000)
+- `rate_limit_window_ms`: Rate limit window in milliseconds (default: 1000)
+- `max_packet_size`: Maximum allowed packet size in bytes (default: 8192)
+
+## Security Features
+
+### Rate Limiting
+Abyss includes a token bucket rate limiter (`Abyss.RateLimiter`) for DoS protection:
+- Per-IP rate limiting using token bucket algorithm
+- Configurable packet limits and time windows
+- Automatic cleanup of expired rate limit buckets
+- Telemetry events for rate limit violations
+
+### Packet Size Validation
+Incoming packets are validated against `max_packet_size` to prevent memory exhaustion attacks.
+
+### Security Telemetry Events
+- `[:abyss, :listener, :rate_limit_exceeded]` - When rate limit is exceeded
+- `[:abyss, :listener, :packet_too_large]` - When packet exceeds size limit
 
 ## Project Structure
 
@@ -130,9 +151,10 @@ lib/
 │   ├── server.ex         # Main supervisor managing all components
 │   ├── server_config.ex  # Configuration validation and defaults
 │   ├── listener_pool.ex  # Pool of listener processes (supervisor)
-│   ├── listener.ex       # Individual listener process
-│   ├── connection.ex     # Connection lifecycle management
+│   ├── listener.ex       # Individual listener process with security checks
+│   ├── connection.ex     # Connection lifecycle management with non-blocking retry
 │   ├── handler.ex        # Handler behaviour and GenServer implementation
+│   ├── rate_limiter.ex   # Token bucket rate limiting for DoS protection
 │   ├── transport.ex      # Transport behaviour definition
 │   ├── transport/
 │   │   └── udp.ex        # UDP transport implementation
@@ -148,6 +170,11 @@ example/                  # Usage examples and demos
 └── dump.ex              # Generic packet dumping
 test/
 ├── abyss/               # Unit tests for core modules
+│   ├── rate_limiter_test.exs              # Rate limiter functionality tests
+│   ├── logger_test.exs                    # Logger functionality tests
+│   ├── transport_udp_comprehensive_test.exs # UDP transport tests
+│   ├── listener_comprehensive_test.exs    # Listener functionality tests
+│   └── listener_rate_limiting_test.exs    # Rate limiting integration tests
 ├── integration/         # Integration tests
 └── support/             # Test utilities and helpers
 doc/                     # Generated documentation
@@ -198,8 +225,78 @@ mix test --only unit
 
 ### Test Coverage
 - Target coverage threshold: 40% (configured in mix.exs)
+- Current coverage: ~60% (improved from 39.83%)
 - Coverage reports generated automatically with `mix test`
 - Test modules excluded from coverage: `Abyss.Test.*`
+
+## Architecture Deep Dive
+
+### Supervisor Tree
+```
+Abyss (main supervisor)
+├── Abyss.RateLimiter (if enabled) - Token bucket rate limiting
+├── Abyss.ListenerPool (supervisor)
+│   ├── Abyss.Listener (listener process 1)
+│   ├── Abyss.Listener (listener process 2)
+│   └── ... (up to num_listeners processes)
+├── DynamicSupervisor (connection supervisor)
+│   ├── Handler process 1 (per UDP packet)
+│   ├── Handler process 2 (per UDP packet)
+│   └── ... (up to num_connections processes)
+├── Task (activator - starts listeners)
+└── Abyss.ShutdownListener (coordinates graceful shutdown)
+```
+
+### Request Flow with Security
+1. **Listener Pool**: Manages multiple listener processes for load distribution
+2. **Listener**: Waits for UDP packets, applies rate limiting and packet size validation
+3. **Connection**: Creates handler processes for valid packets with non-blocking retry logic
+4. **Handler**: Processes packet data using user-defined logic
+5. **Transport**: Handles low-level UDP socket operations
+6. **Rate Limiter**: Enforces per-IP rate limits using token bucket algorithm
+
+### Broadcast Mode
+When `broadcast: true` is set:
+- Only one listener process is created (regardless of `num_listeners`)
+- Packets are processed in broadcast mode (useful for DHCP/mDNS)
+- Handler processes terminate after processing each packet
+
+### Non-Blocking Connection Retry
+Connection retry logic uses `Process.send_after/3` instead of blocking `Process.sleep/1`:
+- Prevents listener process blocking during connection retries
+- Configurable retry count and wait times via `max_connections_retry_count` and `max_connections_retry_wait`
+- Graceful degradation when connection supervisor is at capacity
+
+### Telemetry Events
+Abyss emits comprehensive telemetry events for monitoring:
+- `[:abyss, :listener, :start/stop/ready/waiting/receiving]`
+- `[:abyss, :connection, :start/stop/ready/send/recv]`
+- `[:abyss, :acceptor, :start/stop/spawn_error]`
+- `[:abyss, :listener, :rate_limit_exceeded]` - Security event
+- `[:abyss, :listener, :packet_too_large]` - Security event
+
+Use `Abyss.Logger.attach_logger(:level)` to enable logging at different levels.
+
+## Key Implementation Details
+
+### Rate Limiting Algorithm
+The rate limiter uses a token bucket algorithm:
+- Each IP address has a bucket with configurable token capacity
+- Tokens are refilled at a constant rate based on time elapsed
+- Packets consume tokens; requests are rejected when bucket is empty
+- Buckets are automatically cleaned up after periods of inactivity
+
+### Connection Management
+- Non-blocking retry logic prevents listener starvation
+- DynamicSupervisor manages handler process lifecycle
+- Configurable connection limits prevent resource exhaustion
+- Graceful shutdown ensures proper resource cleanup
+
+### Error Handling Patterns
+- Security violations emit telemetry events but don't crash processes
+- Connection failures trigger non-blocking retries
+- Handler process isolation prevents cascading failures
+- Comprehensive logging for debugging and monitoring
 
 ## Common Development Tasks
 
@@ -276,44 +373,6 @@ mix ci
 mix publish
 ```
 
-## Architecture Deep Dive
-
-### Supervisor Tree
-```
-Abyss (main supervisor)
-├── Abyss.ListenerPool (supervisor)
-│   ├── Abyss.Listener (listener process 1)
-│   ├── Abyss.Listener (listener process 2)
-│   └── ... (up to num_listeners processes)
-├── DynamicSupervisor (connection supervisor)
-│   ├── Handler process 1 (per UDP packet)
-│   ├── Handler process 2 (per UDP packet)
-│   └── ... (up to num_connections processes)
-├── Task (activator - starts listeners)
-└── Abyss.ShutdownListener (coordinates graceful shutdown)
-```
-
-### Request Flow
-1. **Listener Pool**: Manages multiple listener processes for load distribution
-2. **Listener**: Waits for UDP packets on the bound port
-3. **Connection**: Creates handler processes for incoming packets
-4. **Handler**: Processes packet data using user-defined logic
-5. **Transport**: Handles low-level UDP socket operations
-
-### Broadcast Mode
-When `broadcast: true` is set:
-- Only one listener process is created (regardless of `num_listeners`)
-- Packets are processed in broadcast mode (useful for DHCP/mDNS)
-- Handler processes terminate after processing each packet
-
-### Telemetry Events
-Abyss emits comprehensive telemetry events for monitoring:
-- `[:abyss, :listener, :start/stop/ready/waiting]`
-- `[:abyss, :connection, :start/stop/ready/send/recv]`
-- `[:abyss, :acceptor, :start/stop/spawn_error]`
-
-Use `Abyss.Logger.attach_logger(:level)` to enable logging at different levels.
-
 ## Debugging and Development Tips
 
 ### Common Issues
@@ -321,6 +380,8 @@ Use `Abyss.Logger.attach_logger(:level)` to enable logging at different levels.
 2. **Permission denied**: Avoid privileged ports (< 1024) or run with sudo
 3. **Handler crashes**: Check that handler modules implement required callbacks
 4. **Connection limits**: Adjust `num_connections` if hitting max connections
+5. **Rate limiting**: Monitor telemetry events for rate limit violations
+6. **Packet size**: Check `max_packet_size` configuration if packets are rejected
 
 ### Debugging Commands
 ```bash
@@ -332,11 +393,16 @@ mix run --no-halt -e 'Abyss.Logger.attach_logger(:debug); # your server code'
 
 # Check connection supervisor status
 # In IEx: Abyss.Server.connection_sup_pid(pid)
+
+# Monitor rate limiter statistics
+# In IEx: Abyss.RateLimiter.get_stats()
 ```
 
 ### Performance Tuning
 - **num_listeners**: Increase for high-throughput scenarios (default: 100)
 - **num_connections**: Set appropriate limits for your use case
+- **rate_limit_max_packets**: Adjust based on expected traffic patterns
+- **max_packet_size**: Set based on protocol requirements
 - **read_timeout**: Adjust based on expected protocol timing
 - **transport_options**: Tune UDP buffer sizes as needed
 
@@ -379,4 +445,18 @@ def handle_timeout(state) do
   Logger.warn("Connection timed out")
   # Timeout cleanup logic
 end
+```
+
+### Security Monitoring
+```elixir
+# Monitor security events via telemetry
+:telemetry.attach_many(
+  "security-monitor",
+  [
+    [:abyss, :listener, :rate_limit_exceeded],
+    [:abyss, :listener, :packet_too_large]
+  ],
+  &handle_security_event/4,
+  %{}
+)
 ```
