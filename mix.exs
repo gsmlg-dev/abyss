@@ -45,6 +45,7 @@ defmodule Abyss.MixProject do
     [
       {:telemetry, "~> 1.0"},
       {:telemetry_metrics, "~> 1.0"},
+      {:mox, "~> 1.0", only: :test},
       {:ex_dns, path: "../ex_dns", only: [:dev, :test], runtime: false, optional: true},
       {:dhcp_ex, path: "../ex_dhcp", only: [:dev, :test], runtime: false, optional: true},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},

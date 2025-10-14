@@ -362,7 +362,10 @@ defmodule Abyss.Handler do
               state
           ) do
         out = __MODULE__.handle_timeout(state)
-        Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
+        # Only call controlling_process if socket is not a reference (test environment)
+        if not is_reference(listener_socket) do
+          Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
+        end
         Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: :timeout})
         out
       end
@@ -374,7 +377,10 @@ defmodule Abyss.Handler do
               state
           ) do
         out = __MODULE__.handle_shutdown(state)
-        Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
+        # Only call controlling_process if socket is not a reference (test environment)
+        if not is_reference(listener_socket) do
+          Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
+        end
         Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: :shutdown})
         out
       end
@@ -393,7 +399,10 @@ defmodule Abyss.Handler do
               state
           )
 
-        Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
+        # Only call controlling_process if socket is not a reference (test environment)
+        if not is_reference(listener_socket) do
+          Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
+        end
         Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: reason})
         out
       end
@@ -406,7 +415,10 @@ defmodule Abyss.Handler do
               state
           ) do
         out = __MODULE__.handle_close(state)
-        Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
+        # Only call controlling_process if socket is not a reference (test environment)
+        if not is_reference(listener_socket) do
+          Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
+        end
         Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: reason})
         out
       end
@@ -419,7 +431,10 @@ defmodule Abyss.Handler do
             %{connection_span: connection_span, listener: listener_pid, socket: listener_socket} =
               _state
           ) do
-        Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
+        # Only call controlling_process if socket is not a reference (test environment)
+        if not is_reference(listener_socket) do
+          Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
+        end
         Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: reason})
 
         :ok
