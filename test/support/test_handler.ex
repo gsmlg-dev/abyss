@@ -9,6 +9,12 @@ defmodule Abyss.TestHandler do
     send(self(), {:packet_received, data, {ip, port}})
     {:continue, state}
   end
+
+  @impl true
+  def handle_info({:packet_received, _data, {_ip, _port}}, state) do
+    # Handle the packet received message sent by handle_data
+    {:noreply, state}
+  end
 end
 
 defmodule Abyss.TestEchoHandler do
