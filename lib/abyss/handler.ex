@@ -227,6 +227,10 @@ defmodule Abyss.Handler do
       def init({connection_span, server_config, listener_pid, listener_socket}) do
         Process.flag(:trap_exit, true)
 
+        # Start memory monitoring for long-running handlers
+        # Check every 10 seconds
+        Process.send_after(self(), :memory_check, 10_000)
+
         {:ok,
          %{
            connection_span: connection_span,
@@ -234,7 +238,12 @@ defmodule Abyss.Handler do
            listener: listener_pid,
            broadcast: server_config.broadcast,
            socket: listener_socket,
-           read_timeout: server_config.read_timeout
+           read_timeout: server_config.read_timeout,
+           # Track last 10 processing times for adaptive timeout
+           processing_times: [],
+           adaptive_timeout: server_config.read_timeout,
+           # 10 seconds
+           memory_check_interval: 10_000
          }}
       end
 
@@ -262,6 +271,52 @@ defmodule Abyss.Handler do
         {:stop, {:shutdown, :timeout}, state}
       end
 
+      def handle_info(:memory_check, %{memory_check_interval: interval} = state) do
+        case :erlang.process_info(self(), :memory) do
+          {:memory, memory_words} ->
+            memory_mb = memory_words * :erlang.system_info(:wordsize) / (1024 * 1024)
+
+            # 100MB threshold
+            if memory_mb > 100 do
+              # Log memory warning via telemetry
+              :telemetry.execute(
+                [:abyss, :handler, :memory_warning],
+                %{memory_mb: memory_mb},
+                %{handler_pid: self(), threshold: 100}
+              )
+
+              # Trigger garbage collection
+              :erlang.garbage_collect(self())
+
+              # Check if memory is still high after GC
+              case :erlang.process_info(self(), :memory) do
+                {:memory, new_memory_words} ->
+                  new_memory_mb =
+                    new_memory_words * :erlang.system_info(:wordsize) / (1024 * 1024)
+
+                  # 150MB hard limit
+                  if new_memory_mb > 150 do
+                    {:stop, {:shutdown, :memory_limit_exceeded}, state}
+                  else
+                    Process.send_after(self(), :memory_check, interval)
+                    {:noreply, state}
+                  end
+
+                _ ->
+                  Process.send_after(self(), :memory_check, interval)
+                  {:noreply, state}
+              end
+            else
+              Process.send_after(self(), :memory_check, interval)
+              {:noreply, state}
+            end
+
+          _ ->
+            Process.send_after(self(), :memory_check, interval)
+            {:noreply, state}
+        end
+      end
+
       @before_compile {Abyss.Handler, :add_handle_info_fallback}
 
       # Use a continue pattern here so that we have committed the socket
@@ -269,9 +324,22 @@ defmodule Abyss.Handler do
       # This ensures that the `c:terminate/2` calls below are able to properly
       # close down the process
       @impl true
-      def handle_continue({:handle_data, recv_data}, state) do
-        __MODULE__.handle_data(recv_data, state)
-        |> Abyss.Handler.handle_continuation(state)
+      def handle_continue({:handle_data, recv_data}, %{processing_times: times} = state) do
+        start_time = System.monotonic_time()
+
+        result = __MODULE__.handle_data(recv_data, state)
+        processing_time = System.monotonic_time() - start_time
+
+        # Keep last 10 processing times for adaptive timeout calculation
+        new_times = [processing_time | Enum.take(times, 9)]
+        new_state = %{state | processing_times: new_times}
+
+        # Calculate adaptive timeout based on processing history
+        adaptive_timeout = Abyss.Handler.calculate_adaptive_timeout(state.read_timeout, new_times)
+        final_state = %{new_state | adaptive_timeout: adaptive_timeout}
+
+        result
+        |> Abyss.Handler.handle_continuation(final_state)
       end
 
       def handle_continue({:handle_broadcast_data, recv_data}, state) do
@@ -384,7 +452,9 @@ defmodule Abyss.Handler do
   def handle_continuation(continuation, state) do
     case continuation do
       {:continue, _state} ->
-        {:noreply, state, state[:read_timeout]}
+        # Use adaptive timeout instead of fixed read_timeout
+        timeout = Map.get(state, :adaptive_timeout, state[:read_timeout])
+        {:noreply, state, timeout}
 
       {:close, _state} ->
         {:stop, {:shutdown, :local_closed}, state}
@@ -398,6 +468,36 @@ defmodule Abyss.Handler do
         else
           {:stop, reason, state}
         end
+    end
+  end
+
+  @doc false
+  # Add adaptive timeout calculation helper function
+  def calculate_adaptive_timeout(base_timeout, processing_times) do
+    case processing_times do
+      [] ->
+        base_timeout
+
+      times ->
+        # Calculate average processing time in native time units
+        avg_time_native = Enum.sum(times) / length(times)
+
+        # Convert to milliseconds for calculation
+        avg_time_ms = System.convert_time_unit(round(avg_time_native), :native, :millisecond)
+
+        # Set timeout to 3x average processing time, with reasonable bounds
+        timeout_ms = round(avg_time_ms * 3)
+
+        # Convert back to native time units for GenServer timeout
+        timeout_native = System.convert_time_unit(timeout_ms, :millisecond, :native)
+
+        # Ensure timeout is between 50% and 200% of base timeout
+        min_timeout = div(base_timeout, 2)
+        max_timeout = base_timeout * 2
+
+        timeout_native
+        |> max(min_timeout)
+        |> min(max_timeout)
     end
   end
 end

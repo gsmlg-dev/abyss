@@ -314,20 +314,50 @@ defmodule Abyss.Telemetry do
 
   @app_name :abyss
 
+  # Default sampling rates for different span types
+  # 10% sampling for connections
+  @default_connection_sample_rate 0.1
+  # 100% sampling for listeners (they're few)
+  @default_listener_sample_rate 1.0
+
   @doc false
   @spec start_span(span_name(), measurements(), metadata()) :: t()
   def start_span(span_name, measurements, metadata) do
-    measurements = Map.put_new_lazy(measurements, :monotonic_time, &monotonic_time/0)
-    telemetry_span_context = make_ref()
-    metadata = Map.put(metadata, :telemetry_span_context, telemetry_span_context)
-    _ = event([span_name, :start], measurements, metadata)
+    start_span_with_sampling(span_name, measurements, metadata)
+  end
 
-    %__MODULE__{
-      span_name: span_name,
-      telemetry_span_context: telemetry_span_context,
-      start_time: measurements[:monotonic_time],
-      start_metadata: metadata
-    }
+  @doc false
+  @spec start_span_with_sampling(span_name(), measurements(), metadata(), keyword()) :: t()
+  def start_span_with_sampling(span_name, measurements, metadata, opts \\ []) do
+    sample_rate = get_sample_rate(span_name, opts)
+
+    if should_sample?(sample_rate) do
+      measurements = Map.put_new_lazy(measurements, :monotonic_time, &monotonic_time/0)
+      telemetry_span_context = make_ref()
+      metadata = Map.put(metadata, :telemetry_span_context, telemetry_span_context)
+      metadata = Map.put(metadata, :sampled, true)
+      _ = event([span_name, :start], measurements, metadata)
+
+      %__MODULE__{
+        span_name: span_name,
+        telemetry_span_context: telemetry_span_context,
+        start_time: measurements[:monotonic_time],
+        start_metadata: metadata
+      }
+    else
+      # Create unsampled span
+      measurements = Map.put_new_lazy(measurements, :monotonic_time, &monotonic_time/0)
+      telemetry_span_context = make_ref()
+      metadata = Map.put(metadata, :telemetry_span_context, telemetry_span_context)
+      metadata = Map.put(metadata, :sampled, false)
+
+      %__MODULE__{
+        span_name: span_name,
+        telemetry_span_context: telemetry_span_context,
+        start_time: measurements[:monotonic_time],
+        start_metadata: metadata
+      }
+    end
   end
 
   @doc false
@@ -342,35 +372,87 @@ defmodule Abyss.Telemetry do
   end
 
   @doc false
+  @spec start_child_span_with_sampling(t(), span_name(), measurements(), metadata(), keyword()) ::
+          t()
+  def start_child_span_with_sampling(
+        parent_span,
+        span_name,
+        measurements \\ %{},
+        metadata \\ %{},
+        opts \\ []
+      ) do
+    metadata =
+      metadata
+      |> Map.put(:parent_telemetry_span_context, parent_span.telemetry_span_context)
+      |> Map.put(:handler, parent_span.start_metadata.handler)
+
+    start_span_with_sampling(span_name, measurements, metadata, opts)
+  end
+
+  # Private helper functions
+
+  defp get_sample_rate(:connection, opts) do
+    Keyword.get(opts, :sample_rate, @default_connection_sample_rate)
+  end
+
+  defp get_sample_rate(:listener, _opts) do
+    @default_listener_sample_rate
+  end
+
+  defp get_sample_rate(_span_name, opts) do
+    # Default to no sampling for unknown spans
+    Keyword.get(opts, :sample_rate, 1.0)
+  end
+
+  defp should_sample?(sample_rate) when sample_rate >= 1.0, do: true
+  defp should_sample?(sample_rate) when sample_rate <= 0.0, do: false
+  defp should_sample?(sample_rate), do: :rand.uniform() <= sample_rate
+
+  @doc false
   @spec stop_span(t(), measurements(), metadata()) :: :ok
   def stop_span(span, measurements \\ %{}, metadata \\ %{}) do
-    measurements = Map.put_new_lazy(measurements, :monotonic_time, &monotonic_time/0)
+    # Only emit events if this span was sampled
+    if span.start_metadata[:sampled] != false do
+      measurements = Map.put_new_lazy(measurements, :monotonic_time, &monotonic_time/0)
 
-    measurements =
-      Map.put(measurements, :duration, measurements[:monotonic_time] - span.start_time)
+      measurements =
+        Map.put(measurements, :duration, measurements[:monotonic_time] - span.start_time)
 
-    metadata = Map.merge(span.start_metadata, metadata)
+      metadata = Map.merge(span.start_metadata, metadata)
 
-    untimed_span_event(span, :stop, measurements, metadata)
+      untimed_span_event(span, :stop, measurements, metadata)
+    else
+      :ok
+    end
   end
 
   @doc false
   @spec span_event(t(), event_name(), measurements(), metadata()) :: :ok
   def span_event(span, name, measurements \\ %{}, metadata \\ %{}) do
-    measurements = Map.put_new_lazy(measurements, :monotonic_time, &monotonic_time/0)
-    untimed_span_event(span, name, measurements, metadata)
+    # Only emit events if this span was sampled
+    if span.start_metadata[:sampled] != false do
+      measurements = Map.put_new_lazy(measurements, :monotonic_time, &monotonic_time/0)
+      untimed_span_event(span, name, measurements, metadata)
+    else
+      :ok
+    end
   end
 
   @doc false
   @spec untimed_span_event(t(), event_name() | untimed_event_name(), measurements(), metadata()) ::
           :ok
   def untimed_span_event(span, name, measurements \\ %{}, metadata \\ %{}) do
-    metadata =
-      metadata
-      |> Map.put(:telemetry_span_context, span.telemetry_span_context)
-      |> Map.put_new(:handler, span.start_metadata[:handler] || :unknown)
+    # Only emit events if this span was sampled
+    if span.start_metadata[:sampled] != false do
+      metadata =
+        metadata
+        |> Map.put(:telemetry_span_context, span.telemetry_span_context)
+        |> Map.put_new(:handler, span.start_metadata[:handler] || :unknown)
 
-    event([span.span_name, name], measurements, metadata)
+      event([span.span_name, name], measurements, metadata)
+    else
+      :ok
+    end
   end
 
   @spec monotonic_time() :: integer

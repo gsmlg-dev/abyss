@@ -59,37 +59,68 @@ defmodule Abyss.Connection do
          connection_span,
          retries
        ) do
+    do_start_with_backoff(
+      sup_pid,
+      child_spec,
+      listener_pid,
+      listener_socket,
+      recv_data,
+      server_config,
+      connection_span,
+      retries
+    )
+  end
+
+  defp do_start_with_backoff(
+         sup_pid,
+         child_spec,
+         listener_pid,
+         listener_socket,
+         recv_data,
+         server_config,
+         connection_span,
+         retries
+       ) do
     case DynamicSupervisor.start_child(sup_pid, child_spec) do
       {:ok, pid} ->
         Abyss.Transport.UDP.controlling_process(listener_socket, pid)
-
-        send(
-          pid,
-          {:new_connection, listener_socket, recv_data}
-        )
-
+        send(pid, {:new_connection, listener_socket, recv_data})
         :ok
 
       {:error, :max_children} when retries > 0 ->
-        # We're in a tricky spot here; we have a client connection in hand, but no room to put it
-        # into the connection supervisor. We try to wait a maximum number of times to see if any
-        # room opens up before we give up
-        Process.sleep(server_config.max_connections_retry_wait)
+        # Exponential backoff with jitter
+        base_delay = server_config.max_connections_retry_wait
+        backoff_multiplier = :math.pow(1.5, server_config.max_connections_retry_count - retries)
+        delay = round(base_delay * backoff_multiplier)
+        # 25% jitter
+        jitter = :rand.uniform(div(delay, 4))
 
-        do_start(
-          sup_pid,
-          child_spec,
-          listener_pid,
-          listener_socket,
-          recv_data,
-          server_config,
-          connection_span,
-          retries - 1
-        )
+        # Use Task for non-blocking retry to avoid blocking the listener
+        Task.start(fn ->
+          Process.sleep(delay + jitter)
+
+          do_start_with_backoff(
+            sup_pid,
+            child_spec,
+            listener_pid,
+            listener_socket,
+            recv_data,
+            server_config,
+            connection_span,
+            retries - 1
+          )
+        end)
+
+        {:retry, :connection_limit}
 
       {:error, :max_children} ->
-        # We gave up trying to find room for this connection in our supervisor.
-        # Close the raw socket here and let the acceptor process handle propagating the error
+        # Log connection limit exceeded via telemetry
+        :telemetry.execute(
+          [:abyss, :connection, :limit_exceeded],
+          %{retries_attempted: server_config.max_connections_retry_count - retries},
+          %{listener_pid: listener_pid, socket: listener_socket}
+        )
+
         {:error, :too_many_connections}
 
       other ->
@@ -155,35 +186,67 @@ defmodule Abyss.Connection do
          connection_span,
          retries
        ) do
+    do_start_active_with_backoff(
+      sup_pid,
+      child_spec,
+      listener_pid,
+      listener_socket,
+      recv_data,
+      server_config,
+      connection_span,
+      retries
+    )
+  end
+
+  defp do_start_active_with_backoff(
+         sup_pid,
+         child_spec,
+         listener_pid,
+         listener_socket,
+         recv_data,
+         server_config,
+         connection_span,
+         retries
+       ) do
     case DynamicSupervisor.start_child(sup_pid, child_spec) do
       {:ok, pid} ->
-        send(
-          pid,
-          {:new_connection, listener_socket, recv_data}
-        )
-
+        send(pid, {:new_connection, listener_socket, recv_data})
         :ok
 
       {:error, :max_children} when retries > 0 ->
-        # We're in a tricky spot here; we have a client connection in hand, but no room to put it
-        # into the connection supervisor. We try to wait a maximum number of times to see if any
-        # room opens up before we give up
-        Process.sleep(server_config.max_connections_retry_wait)
+        # Exponential backoff with jitter
+        base_delay = server_config.max_connections_retry_wait
+        backoff_multiplier = :math.pow(1.5, server_config.max_connections_retry_count - retries)
+        delay = round(base_delay * backoff_multiplier)
+        # 25% jitter
+        jitter = :rand.uniform(div(delay, 4))
 
-        do_start_active(
-          sup_pid,
-          child_spec,
-          listener_pid,
-          listener_socket,
-          recv_data,
-          server_config,
-          connection_span,
-          retries - 1
-        )
+        # Use Task for non-blocking retry to avoid blocking the listener
+        Task.start(fn ->
+          Process.sleep(delay + jitter)
+
+          do_start_active_with_backoff(
+            sup_pid,
+            child_spec,
+            listener_pid,
+            listener_socket,
+            recv_data,
+            server_config,
+            connection_span,
+            retries - 1
+          )
+        end)
+
+        {:retry, :connection_limit}
 
       {:error, :max_children} ->
-        # We gave up trying to find room for this connection in our supervisor.
-        # Close the raw socket here and let the acceptor process handle propagating the error
+        # Log connection limit exceeded via telemetry
+        :telemetry.execute(
+          [:abyss, :connection, :limit_exceeded],
+          %{retries_attempted: server_config.max_connections_retry_count - retries},
+          %{listener_pid: listener_pid, socket: listener_socket}
+        )
+
         {:error, :too_many_connections}
 
       other ->

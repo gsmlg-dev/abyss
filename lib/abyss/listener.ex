@@ -40,10 +40,14 @@ defmodule Abyss.Listener do
         server_config.transport_options
         |> Keyword.put(:active, true)
         |> Keyword.put(:broadcast, true)
+        |> Keyword.put(:recbuf, server_config.udp_buffer_size)
+        |> Keyword.put(:sndbuf, server_config.udp_buffer_size)
       else
         server_config.transport_options
         |> Keyword.put(:active, false)
         |> Keyword.put(:broadcast, false)
+        |> Keyword.put(:recbuf, server_config.udp_buffer_size)
+        |> Keyword.put(:sndbuf, server_config.udp_buffer_size)
       end
 
     with {:ok, listener_socket} <-
@@ -121,11 +125,13 @@ defmodule Abyss.Listener do
     start_time = Abyss.Telemetry.monotonic_time()
 
     connection_span =
-      Abyss.Telemetry.start_child_span(
+      Abyss.Telemetry.start_child_span_with_sampling(
         listener_span,
         :connection,
         %{monotonic_time: start_time},
-        %{remote_address: ip, remote_port: port}
+        %{remote_address: ip, remote_port: port},
+        # 5% sampling for connections to reduce overhead
+        sample_rate: 0.05
       )
 
     Abyss.Connection.start_active(
