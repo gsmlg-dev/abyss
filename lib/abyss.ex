@@ -16,7 +16,11 @@ defmodule Abyss do
           max_connections_retry_wait: timeout(),
           read_timeout: timeout(),
           shutdown_timeout: timeout(),
-          silent_terminate_on_error: boolean()
+          silent_terminate_on_error: boolean(),
+          rate_limit_enabled: boolean(),
+          rate_limit_max_packets: pos_integer(),
+          rate_limit_window_ms: pos_integer(),
+          max_packet_size: pos_integer()
         ]
 
   @typedoc "A module implementing `Abyss.Transport` behaviour"

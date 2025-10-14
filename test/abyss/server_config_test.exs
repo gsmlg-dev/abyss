@@ -119,8 +119,74 @@ defmodule Abyss.ServerConfigTest do
                max_connections_retry_wait: 1000,
                read_timeout: 60_000,
                shutdown_timeout: 15_000,
-               silent_terminate_on_error: false
+               silent_terminate_on_error: false,
+               rate_limit_enabled: false,
+               rate_limit_max_packets: 1000,
+               rate_limit_window_ms: 1000,
+               max_packet_size: 8192
              } = config
+    end
+  end
+
+  describe "rate limiting configuration" do
+    test "includes rate limiting fields" do
+      config = Abyss.ServerConfig.new(
+        handler_module: Abyss.TestHandler,
+        port: 1234,
+        rate_limit_enabled: true,
+        rate_limit_max_packets: 500,
+        rate_limit_window_ms: 2000
+      )
+
+      assert config.rate_limit_enabled == true
+      assert config.rate_limit_max_packets == 500
+      assert config.rate_limit_window_ms == 2000
+    end
+
+    test "has default rate limiting values" do
+      config = Abyss.ServerConfig.new(handler_module: Abyss.TestHandler, port: 1234)
+
+      assert config.rate_limit_enabled == false
+      assert config.rate_limit_max_packets == 1000
+      assert config.rate_limit_window_ms == 1000
+    end
+  end
+
+  describe "packet size configuration" do
+    test "includes max packet size field" do
+      config = Abyss.ServerConfig.new(
+        handler_module: Abyss.TestHandler,
+        port: 1234,
+        max_packet_size: 4096
+      )
+
+      assert config.max_packet_size == 4096
+    end
+
+    test "has default max packet size" do
+      config = Abyss.ServerConfig.new(handler_module: Abyss.TestHandler, port: 1234)
+
+      assert config.max_packet_size == 8192
+    end
+  end
+
+  describe "validation" do
+    test "raises error when handler_module is missing" do
+      assert_raise ArgumentError, "No handler_module defined in server configuration", fn ->
+        Abyss.ServerConfig.new(port: 1234)
+      end
+    end
+
+    test "raises error when options is not a keyword list" do
+      assert_raise ArgumentError, "configuration must be a keyword list", fn ->
+        Abyss.ServerConfig.new([{"handler_module", Abyss.TestHandler}])
+      end
+    end
+
+    test "raises error when handler_module is not an atom" do
+      assert_raise ArgumentError, "handler_module must be a module", fn ->
+        Abyss.ServerConfig.new(handler_module: "TestModule")
+      end
     end
   end
 end

@@ -20,7 +20,11 @@ defmodule Abyss.ServerConfig do
           max_connections_retry_wait: timeout(),
           read_timeout: timeout(),
           shutdown_timeout: timeout(),
-          silent_terminate_on_error: boolean()
+          silent_terminate_on_error: boolean(),
+          rate_limit_enabled: boolean(),
+          rate_limit_max_packets: pos_integer(),
+          rate_limit_window_ms: pos_integer(),
+          max_packet_size: pos_integer()
         }
 
   defstruct port: 4000,
@@ -36,7 +40,11 @@ defmodule Abyss.ServerConfig do
             max_connections_retry_wait: 1000,
             read_timeout: 60_000,
             shutdown_timeout: 15_000,
-            silent_terminate_on_error: false
+            silent_terminate_on_error: false,
+            rate_limit_enabled: false,
+            rate_limit_max_packets: 1000,
+            rate_limit_window_ms: 1000,
+            max_packet_size: 8192
 
   @spec new(Abyss.options()) :: t()
   def new(opts \\ []) do

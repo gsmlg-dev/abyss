@@ -92,7 +92,18 @@ defmodule Abyss.Server do
   def init(config) do
     server_pid = self()
 
-    children = [
+    # Add rate limiter if enabled
+    rate_limiter_child = if config.rate_limit_enabled do
+      [{Abyss.RateLimiter, [
+        enabled: config.rate_limit_enabled,
+        max_packets: config.rate_limit_max_packets,
+        window_ms: config.rate_limit_window_ms
+      ]} |> Supervisor.child_spec(id: :rate_limiter)]
+    else
+      []
+    end
+
+    children = rate_limiter_child ++ [
       {Abyss.ListenerPool, {server_pid, config}}
       |> Supervisor.child_spec(id: :listener_pool),
       {DynamicSupervisor, strategy: :one_for_one, max_children: config.num_connections}
