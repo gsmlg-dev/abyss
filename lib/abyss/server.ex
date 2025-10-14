@@ -1,5 +1,29 @@
 defmodule Abyss.Server do
-  @moduledoc false
+  @moduledoc """
+  Internal server supervisor that manages the Abyss supervision tree.
+
+  This module is responsible for managing all components of an Abyss server instance,
+  including the listener pool, connection supervisor, rate limiter (if enabled),
+  and shutdown coordination.
+
+  ## Architecture
+
+  The server manages the following children:
+
+  - **Rate Limiter**: Optional token bucket rate limiting for DoS protection
+  - **Listener Pool**: Supervisor managing UDP listener processes
+  - **Connection Supervisor**: Dynamic supervisor managing handler processes
+  - **Activator Task**: Starts listener processes after initialization
+  - **Shutdown Listener**: Coordinates graceful shutdown process
+
+  ## Configuration
+
+  The server is configured via `Abyss.ServerConfig` which contains all server
+  options including port, handler module, timeouts, and security settings.
+
+  This module is primarily used internally by `Abyss.start_link/1` and should
+  not be used directly by end users.
+  """
 
   use Supervisor
 
@@ -12,6 +36,17 @@ defmodule Abyss.Server do
     raise ArgumentError, "invalid configuration: #{inspect(invalid_config)}"
   end
 
+  @doc """
+  Resume a suspended server by resuming the listener pool.
+
+  This reopens the listening port and resumes accepting new connections.
+  If the server is not currently suspended or the listener pool cannot be found,
+  this function returns nil.
+
+  ## Parameters
+  - `supervisor` - The server supervisor PID
+  """
+  @spec resume(Supervisor.supervisor()) :: :ok | :error | nil
   def resume(supervisor) do
     try do
       case listener_pool_pid(supervisor) do
@@ -24,6 +59,17 @@ defmodule Abyss.Server do
     end
   end
 
+  @doc """
+  Suspend a running server by suspending the listener pool.
+
+  This closes the listening port and stops accepting new connections.
+  Existing connections will continue to be processed. If the listener pool
+  cannot be found, this function returns nil.
+
+  ## Parameters
+  - `supervisor` - The server supervisor PID
+  """
+  @spec suspend(Supervisor.supervisor()) :: :ok | :error | nil
   def suspend(supervisor) do
     try do
       case listener_pool_pid(supervisor) do
@@ -36,6 +82,15 @@ defmodule Abyss.Server do
     end
   end
 
+  @doc """
+  Get the PID of the listener pool for a server.
+
+  ## Parameters
+  - `supervisor` - The server supervisor PID
+
+  ## Returns
+  - The listener pool PID if found and alive, `nil` otherwise
+  """
   @spec listener_pool_pid(Supervisor.supervisor()) :: pid() | nil
   def listener_pool_pid(supervisor) do
     try do
@@ -60,6 +115,15 @@ defmodule Abyss.Server do
     end
   end
 
+  @doc """
+  Get the PID of the connection supervisor for a server.
+
+  ## Parameters
+  - `supervisor` - The server supervisor PID
+
+  ## Returns
+  - The connection supervisor PID if found and alive, `nil` otherwise
+  """
   @spec connection_sup_pid(Supervisor.supervisor()) :: pid() | nil
   def connection_sup_pid(supervisor) do
     try do

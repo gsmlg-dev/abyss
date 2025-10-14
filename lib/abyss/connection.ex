@@ -1,6 +1,53 @@
 defmodule Abyss.Connection do
-  @moduledoc false
+  @moduledoc """
+  Connection management for creating and retrying handler processes.
 
+  This module is responsible for:
+  - Creating handler processes for incoming UDP packets
+  - Managing connection limits and retry logic
+  - Transferring socket ownership to handler processes
+  - Handling non-blocking retries when connection supervisor is at capacity
+
+  ## Connection Lifecycle
+
+  1. Receive UDP packet and metadata from listener
+  2. Create child specification for handler process
+  3. Attempt to start handler via DynamicSupervisor
+  4. Transfer socket ownership to handler
+  5. Send connection data to handler process
+  6. Handle retry logic if connection limit is reached
+
+  ## Retry Strategy
+
+  Uses non-blocking retry with `Process.send_after/3` to prevent
+  listener process blocking during connection retries:
+  - Configurable retry count (`max_connections_retry_count`)
+  - Configurable retry wait time (`max_connections_retry_wait`)
+  - Graceful degradation when connection supervisor is at capacity
+
+  This module is primarily used internally by `Abyss.Listener`.
+  """
+
+  @doc """
+  Start a handler process for an incoming UDP packet (passive mode).
+
+  This function creates a handler process to process the received packet
+  and transfers socket ownership to the handler. Implements non-blocking
+  retry logic when the connection supervisor is at capacity.
+
+  ## Parameters
+  - `sup_pid` - Server supervisor PID
+  - `listener_pid` - Listener process PID
+  - `listener_socket` - UDP socket from listener
+  - `recv_data` - Received packet data `{ip, port, data}`
+  - `server_config` - Server configuration
+  - `connection_span` - Telemetry span for tracking
+
+  ## Returns
+  - `:ok` - Handler started successfully
+  - `{:error, :too_many_connections}` - Connection limit reached, retries exhausted
+  - Other error tuples from DynamicSupervisor
+  """
   @spec start(
           Supervisor.supervisor(),
           pid(),
@@ -103,6 +150,25 @@ defmodule Abyss.Connection do
     end
   end
 
+  @doc """
+  Start a handler process for an incoming UDP packet (active mode).
+
+  Similar to `start/6` but optimized for active socket mode where
+  the listener socket is already set to active: true.
+
+  ## Parameters
+  - `sup_pid` - Server supervisor PID
+  - `listener_pid` - Listener process PID
+  - `listener_socket` - UDP socket from listener
+  - `recv_data` - Received packet data `{ip, port, data}`
+  - `server_config` - Server configuration
+  - `connection_span` - Telemetry span for tracking
+
+  ## Returns
+  - `:ok` - Handler started successfully
+  - `{:error, :too_many_connections}` - Connection limit reached, retries exhausted
+  - Other error tuples from DynamicSupervisor
+  """
   @spec start_active(
           Supervisor.supervisor(),
           pid(),
@@ -205,8 +271,25 @@ defmodule Abyss.Connection do
 
   @doc """
   Handle a retry message for regular connection start.
-  This should be called from the listener process when receiving a {:retry_connection, args} message.
+
+  This function is called by the listener process when it receives a
+  `{:retry_connection, args}` message from the scheduled retry.
+
+  ## Parameters
+  - `args` - List of arguments needed for retry:
+    - `sup_pid` - Server supervisor PID
+    - `child_spec` - Handler process child specification
+    - `listener_pid` - Listener process PID
+    - `listener_socket` - UDP socket
+    - `recv_data` - Original packet data
+    - `server_config` - Server configuration
+    - `connection_span` - Telemetry span
+    - `retries` - Remaining retry attempts
+
+  ## Returns
+  - Same as `start/6` - connection start result
   """
+  @spec retry_start(list()) :: :ok | {:error, :too_many_connections | term}
   def retry_start([
         sup_pid,
         child_spec,
@@ -231,8 +314,25 @@ defmodule Abyss.Connection do
 
   @doc """
   Handle a retry message for active connection start.
-  This should be called from the listener process when receiving a {:retry_active_connection, args} message.
+
+  This function is called by the listener process when it receives a
+  `{:retry_active_connection, args}` message from the scheduled retry.
+
+  ## Parameters
+  - `args` - List of arguments needed for retry:
+    - `sup_pid` - Server supervisor PID
+    - `child_spec` - Handler process child specification
+    - `listener_pid` - Listener process PID
+    - `listener_socket` - UDP socket
+    - `recv_data` - Original packet data
+    - `server_config` - Server configuration
+    - `connection_span` - Telemetry span
+    - `retries` - Remaining retry attempts
+
+  ## Returns
+  - Same as `start_active/6` - connection start result
   """
+  @spec retry_start_active(list()) :: :ok | {:error, :too_many_connections | term}
   def retry_start_active([
         sup_pid,
         child_spec,

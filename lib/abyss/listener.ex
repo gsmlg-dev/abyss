@@ -1,8 +1,40 @@
 defmodule Abyss.Listener do
-  @moduledoc false
+  @moduledoc """
+  UDP listener process that accepts incoming packets and creates handler processes.
+
+  Each listener process is responsible for:
+  - Binding to a UDP port and receiving packets
+  - Applying rate limiting and packet size validation
+  - Creating handler processes for valid packets
+  - Managing connection lifecycle and telemetry events
+
+  ## Modes of Operation
+
+  - **Regular Mode**: Passively receives packets and creates handler processes
+  - **Broadcast Mode**: Actively receives packets with `active: true`
+
+  ## Security Features
+
+  - **Rate Limiting**: Token bucket algorithm per IP address
+  - **Packet Size Validation**: Rejects oversized packets
+  - **Telemetry Events**: Comprehensive monitoring and logging
+
+  ## Process Flow
+
+  1. Initialize UDP socket with transport options
+  2. Start receiving packets (passive or active mode)
+  3. Apply security checks (rate limiting, packet size)
+  4. Create handler process via `Abyss.Connection`
+  5. Emit telemetry events for monitoring
+
+  This module is primarily used internally by `Abyss.ListenerPool`.
+  """
 
   use GenServer, restart: :transient
 
+  @typedoc """
+  Internal state of a listener process.
+  """
   @type state :: %{
           is_active: boolean(),
           is_listening: boolean(),
@@ -14,17 +46,52 @@ defmodule Abyss.Listener do
           local_info: Abyss.Transport.socket_info()
         }
 
+  @doc """
+  Start a listener process.
+
+  ## Parameters
+  - `id` - Unique identifier for this listener
+  - `server_pid` - PID of the server supervisor
+  - `config` - Server configuration
+
+  ## Returns
+  - Standard GenServer start result
+  """
   @spec start_link({id :: binary(), server_pid :: pid(), Abyss.ServerConfig.t()}) ::
           GenServer.on_start()
   def start_link({id, server_pid, config}),
     do: GenServer.start_link(__MODULE__, {id, server_pid, config})
 
+  @doc """
+  Stop a listener process gracefully.
+
+  ## Parameters
+  - `server` - The listener process PID or name
+  """
   @spec stop(GenServer.server()) :: :ok
   def stop(server), do: GenServer.stop(server)
 
+  @doc """
+  Get information about the listener's local socket endpoint.
+
+  ## Parameters
+  - `server` - The listener process PID or name
+
+  ## Returns
+  - `{ip_address, port}` tuple with local endpoint information
+  """
   @spec listener_info(GenServer.server()) :: Abyss.Transport.socket_info()
   def listener_info(server), do: GenServer.call(server, :listener_info)
 
+  @doc """
+  Get the listener's socket and telemetry span.
+
+  ## Parameters
+  - `server` - The listener process PID or name
+
+  ## Returns
+  - `{socket, telemetry_span}` tuple
+  """
   @spec socket_info(GenServer.server()) ::
           {Abyss.Transport.listener_socket(), Abyss.Telemetry.t()}
   def socket_info(server), do: GenServer.call(server, :socket_info)

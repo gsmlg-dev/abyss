@@ -9,6 +9,9 @@ defmodule Abyss.RateLimiter do
   use GenServer
   require Logger
 
+  @typedoc """
+  Token bucket state for rate limiting a single IP address.
+  """
   @type bucket :: %{
           tokens: non_neg_integer(),
           last_refill: integer(),
@@ -16,6 +19,9 @@ defmodule Abyss.RateLimiter do
           refill_rate: pos_integer()
         }
 
+  @typedoc """
+  Internal state of the rate limiter GenServer.
+  """
   @type state :: %{
           buckets: %{:inet.ip_address() => bucket()},
           max_packets: pos_integer(),
