@@ -1,6 +1,70 @@
 defmodule Abyss do
   @moduledoc """
-  Abyss is a modern, pure Elixir UDP socket server
+  Abyss is a modern, pure Elixir UDP socket server library.
+
+  It provides a high-performance foundation for building UDP-based services
+  like DNS servers, DHCP servers, or custom UDP applications. Abyss implements
+  a supervisor-based architecture with connection pooling and pluggable transport
+  modules.
+
+  ## Features
+
+  - **High Performance**: Supervisor-based architecture with configurable connection pooling
+  - **Flexible Handler System**: Pluggable handler modules for custom protocol implementations
+  - **Built-in Telemetry**: Comprehensive metrics and monitoring via `:telemetry`
+  - **Security Features**: Built-in rate limiting and packet size validation
+  - **Broadcast Support**: Native support for broadcast and multicast applications
+  - **Graceful Shutdown**: Coordinated shutdown with configurable timeouts
+  - **Extensible Transport**: Pluggable transport layer (currently UDP)
+
+  ## Quick Start
+
+      defmodule MyHandler do
+        use Abyss.Handler
+
+        @impl true
+        def handle_data({ip, port, data}, state) do
+          # Echo the data back to the client
+          Abyss.Transport.UDP.send(state.socket, ip, port, data)
+          {:continue, state}
+        end
+      end
+
+      # Start the server
+      {:ok, _pid} = Abyss.start_link([
+        handler_module: MyHandler,
+        port: 1234,
+        num_listeners: 10
+      ])
+  """
+
+  @typedoc """
+  Configuration options for starting an Abyss server.
+
+  ## Required Options
+
+  - `handler_module` - Module implementing `Abyss.Handler` behaviour
+
+  ## Optional Options
+
+  - `handler_options` - Options passed to handler module (default: `[]`)
+  - `genserver_options` - GenServer options for handler processes (default: `[]`)
+  - `supervisor_options` - Supervisor options (default: `[]`)
+  - `port` - UDP port to listen on (default: `4000`)
+  - `transport_module` - Transport module (default: `Abyss.Transport.UDP`)
+  - `transport_options` - Options passed to transport module (default: `[]`)
+  - `num_acceptors` - Number of acceptor processes (deprecated, use `num_listeners`)
+  - `num_listeners` - Number of listener processes (default: `100`)
+  - `num_connections` - Max concurrent connections (default: `16_384`)
+  - `max_connections_retry_count` - Connection retry attempts (default: `5`)
+  - `max_connections_retry_wait` - Retry wait time in ms (default: `1000`)
+  - `read_timeout` - Connection read timeout in ms (default: `60_000`)
+  - `shutdown_timeout` - Graceful shutdown timeout in ms (default: `15_000`)
+  - `silent_terminate_on_error` - Silent termination on errors (default: `false`)
+  - `rate_limit_enabled` - Enable rate limiting (default: `false`)
+  - `rate_limit_max_packets` - Max packets per rate limit window (default: `1000`)
+  - `rate_limit_window_ms` - Rate limit window in ms (default: `1000`)
+  - `max_packet_size` - Maximum packet size in bytes (default: `8192`)
   """
   @type options :: [
           handler_module: module(),
@@ -16,7 +80,11 @@ defmodule Abyss do
           max_connections_retry_wait: timeout(),
           read_timeout: timeout(),
           shutdown_timeout: timeout(),
-          silent_terminate_on_error: boolean()
+          silent_terminate_on_error: boolean(),
+          rate_limit_enabled: boolean(),
+          rate_limit_max_packets: pos_integer(),
+          rate_limit_window_ms: pos_integer(),
+          max_packet_size: pos_integer()
         ]
 
   @typedoc "A module implementing `Abyss.Transport` behaviour"
