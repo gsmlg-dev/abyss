@@ -20,6 +20,11 @@ defmodule Abyss.ServerConfig do
           max_connections_retry_wait: timeout(),
           read_timeout: timeout(),
           shutdown_timeout: timeout(),
+          udp_buffer_size: pos_integer(),
+          dynamic_listeners: boolean(),
+          min_listeners: pos_integer(),
+          max_listeners: pos_integer(),
+          listener_scale_threshold: float(),
           silent_terminate_on_error: boolean(),
           rate_limit_enabled: boolean(),
           rate_limit_max_packets: pos_integer(),
@@ -40,6 +45,11 @@ defmodule Abyss.ServerConfig do
             max_connections_retry_wait: 1000,
             read_timeout: 60_000,
             shutdown_timeout: 15_000,
+            udp_buffer_size: 64 * 1024,
+            dynamic_listeners: false,
+            min_listeners: 10,
+            max_listeners: 1000,
+            listener_scale_threshold: 0.8,
             silent_terminate_on_error: false,
             rate_limit_enabled: false,
             rate_limit_max_packets: 1000,
@@ -72,5 +82,24 @@ defmodule Abyss.ServerConfig do
       end
 
     struct!(__MODULE__, opts)
+  end
+
+  @doc """
+  Calculate optimal number of listeners based on current load and processing characteristics
+  """
+  @spec calculate_optimal_listeners(pos_integer(), float()) :: pos_integer()
+  def calculate_optimal_listeners(current_connections, avg_processing_time_ms) do
+    # Calculate based on current load and processing characteristics
+    # Assume each listener can handle ~1000 concurrent connections efficiently
+    base_listeners = div(current_connections, 1000)
+
+    # Adjust for processing time (slower processing = more listeners needed)
+    # Normalize to 100ms baseline
+    processing_factor = max(avg_processing_time_ms / 100, 1)
+
+    optimal = round(base_listeners * processing_factor)
+
+    # Ensure at least 1 listener
+    max(optimal, 1)
   end
 end
