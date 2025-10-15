@@ -33,7 +33,8 @@ defmodule Abyss.ListenerPoolScalerTest do
 
       # Test with 100 connections and 50ms average processing time (faster)
       result = Abyss.ServerConfig.calculate_optimal_listeners(100, 50.0)
-      assert result == 1  # minimum 1 listener
+      # minimum 1 listener
+      assert result == 1
     end
 
     test "always returns at least 1 listener" do
@@ -46,7 +47,8 @@ defmodule Abyss.ListenerPoolScalerTest do
 
     test "handles high processing times" do
       result = Abyss.ServerConfig.calculate_optimal_listeners(1000, 500.0)
-      assert result == 5  # 1000/1000 * (500/100) = 5
+      # 1000/1000 * (500/100) = 5
+      assert result == 5
     end
   end
 
@@ -82,7 +84,8 @@ defmodule Abyss.ListenerPoolScalerTest do
   describe "scaling logic" do
     test "should scale up when optimal > current * 1.2" do
       current_count = 10
-      optimal = 15  # 15 > 10 * 1.2 = 12
+      # 15 > 10 * 1.2 = 12
+      optimal = 15
       config = %ServerConfig{max_listeners: 50}
 
       result = should_scale?(current_count, optimal, config)
@@ -91,7 +94,8 @@ defmodule Abyss.ListenerPoolScalerTest do
 
     test "should scale down when optimal < current * 0.8" do
       current_count = 20
-      optimal = 12  # 12 < 20 * 0.8 = 16
+      # 12 < 20 * 0.8 = 16
+      optimal = 12
       config = %ServerConfig{min_listeners: 5}
 
       result = should_scale?(current_count, optimal, config)
@@ -100,7 +104,8 @@ defmodule Abyss.ListenerPoolScalerTest do
 
     test "should not scale when within threshold" do
       current_count = 10
-      optimal = 11  # 11 is within 20% of 10
+      # 11 is within 20% of 10
+      optimal = 11
       config = %ServerConfig{}
 
       result = should_scale?(current_count, optimal, config)
@@ -109,7 +114,8 @@ defmodule Abyss.ListenerPoolScalerTest do
 
     test "respects max_listeners when scaling up" do
       current_count = 8
-      optimal = 60  # Would scale up but exceeds max
+      # Would scale up but exceeds max
+      optimal = 60
       config = %ServerConfig{max_listeners: 50}
 
       result = should_scale?(current_count, optimal, config)
@@ -118,7 +124,8 @@ defmodule Abyss.ListenerPoolScalerTest do
 
     test "respects min_listeners when scaling down" do
       current_count = 10
-      optimal = 3  # Would scale down but below min
+      # Would scale down but below min
+      optimal = 3
       config = %ServerConfig{min_listeners: 5}
 
       result = should_scale?(current_count, optimal, config)
@@ -190,7 +197,8 @@ defmodule Abyss.ListenerPoolScalerTest do
       test_pid = self()
 
       # Attach a telemetry handler to capture the event
-      :telemetry.attach_many("test-scale-up",
+      :telemetry.attach_many(
+        "test-scale-up",
         [[:abyss, :listener_pool, :scale_up]],
         fn event_name, measurements, metadata, _config ->
           send(test_pid, {:scale_up, event_name, measurements, metadata})
@@ -218,7 +226,8 @@ defmodule Abyss.ListenerPoolScalerTest do
       test_pid = self()
 
       # Attach a telemetry handler to capture the event
-      :telemetry.attach_many("test-scale-down",
+      :telemetry.attach_many(
+        "test-scale-down",
         [[:abyss, :listener_pool, :scale_down]],
         fn event_name, measurements, metadata, _config ->
           send(test_pid, {:scale_down, event_name, measurements, metadata})
@@ -246,7 +255,8 @@ defmodule Abyss.ListenerPoolScalerTest do
       test_pid = self()
 
       # Attach a telemetry handler to capture the event
-      :telemetry.attach_many("test-scale-error",
+      :telemetry.attach_many(
+        "test-scale-error",
         [[:abyss, :listener_pool, :scale_error]],
         fn event_name, measurements, metadata, _config ->
           send(test_pid, {:scale_error, event_name, measurements, metadata})
@@ -261,7 +271,9 @@ defmodule Abyss.ListenerPoolScalerTest do
         %{action: :scale_up, requested: 5}
       )
 
-      assert_receive {:scale_error, [:abyss, :listener_pool, :scale_error], measurements, metadata}
+      assert_receive {:scale_error, [:abyss, :listener_pool, :scale_error], measurements,
+                      metadata}
+
       assert measurements.reason == :max_children
       assert metadata.action == :scale_up
       assert metadata.requested == 5
@@ -278,7 +290,8 @@ defmodule Abyss.ListenerPoolScalerTest do
       assert is_binary(id1)
       assert is_binary(id2)
       assert id1 != id2
-      assert String.length(id1) == 16  # 8 bytes = 16 hex chars
+      # 8 bytes = 16 hex chars
+      assert String.length(id1) == 16
       assert String.match?(id1, ~r/^[a-f0-9]+$/)
     end
 
@@ -306,12 +319,13 @@ defmodule Abyss.ListenerPoolScalerTest do
 
   defp start_listeners(supervisor, _config, count) do
     # Simplified version for testing
-    results = for _i <- 1..count do
-      case DynamicSupervisor.start_child(supervisor, {TestModule, []}) do
-        {:ok, _pid} -> :ok
-        {:error, _reason} -> :error
+    results =
+      for _i <- 1..count do
+        case DynamicSupervisor.start_child(supervisor, {TestModule, []}) do
+          {:ok, _pid} -> :ok
+          {:error, _reason} -> :error
+        end
       end
-    end
 
     success_count = Enum.count(results, &(&1 == :ok))
     {:ok, success_count}
@@ -321,9 +335,10 @@ defmodule Abyss.ListenerPoolScalerTest do
     children = DynamicSupervisor.which_children(supervisor)
     to_stop = Enum.take(children, count)
 
-    results = for {_id, pid, _type, _modules} <- to_stop do
-      DynamicSupervisor.terminate_child(supervisor, pid)
-    end
+    results =
+      for {_id, pid, _type, _modules} <- to_stop do
+        DynamicSupervisor.terminate_child(supervisor, pid)
+      end
 
     success_count = Enum.count(results, &(&1 == :ok))
     {:ok, success_count}

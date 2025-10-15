@@ -4,7 +4,6 @@ defmodule Abyss.HandlerTest do
   alias Abyss.Handler
   alias Abyss.ServerConfig
 
-  
   defmodule TestAdaptiveHandler do
     use Abyss.Handler
 
@@ -45,7 +44,8 @@ defmodule Abyss.HandlerTest do
     @impl true
     def handle_data({_ip, _port, _data}, state) do
       # Simulate memory usage
-      large_data = :binary.copy(<<0>>, 1024 * 1024)  # 1MB
+      # 1MB
+      large_data = :binary.copy(<<0>>, 1024 * 1024)
       new_state = Map.put(state, :large_data, large_data)
       {:continue, new_state}
     end
@@ -71,13 +71,15 @@ defmodule Abyss.HandlerTest do
 
   describe "adaptive timeout functionality" do
     test "calculates adaptive timeout based on processing times" do
-      base_timeout = System.convert_time_unit(5000, :millisecond, :native)  # 5 seconds in native units
+      # 5 seconds in native units
+      base_timeout = System.convert_time_unit(5000, :millisecond, :native)
 
       # Test with no processing times
       assert Handler.calculate_adaptive_timeout(base_timeout, []) == base_timeout
 
       # Test with single processing time
-      processing_time = System.convert_time_unit(100, :millisecond, :native)  # 100ms
+      # 100ms
+      processing_time = System.convert_time_unit(100, :millisecond, :native)
       result = Handler.calculate_adaptive_timeout(base_timeout, [processing_time])
 
       # Should be 3x average processing time (300ms), but bounded by 50%-200% of base
@@ -162,11 +164,12 @@ defmodule Abyss.HandlerTest do
 
   describe "handler state with adaptive timeouts" do
     test "tracks processing times in handler state" do
-      config = ServerConfig.new(
-        handler_module: TestAdaptiveHandler,
-        port: 0,
-        read_timeout: 5000
-      )
+      config =
+        ServerConfig.new(
+          handler_module: TestAdaptiveHandler,
+          port: 0,
+          read_timeout: 5000
+        )
 
       # Mock the connection span
       span = Abyss.Telemetry.start_span(:test, %{}, %{})
@@ -188,11 +191,12 @@ defmodule Abyss.HandlerTest do
     end
 
     test "adaptive timeout is used in continuation" do
-      config = ServerConfig.new(
-        handler_module: TestAdaptiveHandler,
-        port: 0,
-        read_timeout: 5000
-      )
+      config =
+        ServerConfig.new(
+          handler_module: TestAdaptiveHandler,
+          port: 0,
+          read_timeout: 5000
+        )
 
       span = Abyss.Telemetry.start_span(:test, %{}, %{})
 
@@ -213,11 +217,12 @@ defmodule Abyss.HandlerTest do
 
   describe "memory management functionality" do
     test "monitors memory usage periodically" do
-      config = ServerConfig.new(
-        handler_module: TestAdaptiveHandler,
-        port: 0,
-        read_timeout: 5000
-      )
+      config =
+        ServerConfig.new(
+          handler_module: TestAdaptiveHandler,
+          port: 0,
+          read_timeout: 5000
+        )
 
       span = Abyss.Telemetry.start_span(:test, %{}, %{})
 
@@ -238,11 +243,12 @@ defmodule Abyss.HandlerTest do
     end
 
     test "handler starts without memory warnings" do
-      config = ServerConfig.new(
-        handler_module: TestAdaptiveHandler,
-        port: 0,
-        read_timeout: 5000
-      )
+      config =
+        ServerConfig.new(
+          handler_module: TestAdaptiveHandler,
+          port: 0,
+          read_timeout: 5000
+        )
 
       span = Abyss.Telemetry.start_span(:test, %{}, %{})
 
@@ -259,11 +265,12 @@ defmodule Abyss.HandlerTest do
     end
 
     test "handles high memory usage gracefully" do
-      config = ServerConfig.new(
-        handler_module: MemoryTestHandler,
-        port: 0,
-        read_timeout: 1000
-      )
+      config =
+        ServerConfig.new(
+          handler_module: MemoryTestHandler,
+          port: 0,
+          read_timeout: 1000
+        )
 
       span = Abyss.Telemetry.start_span(:test, %{}, %{})
 
@@ -289,6 +296,7 @@ defmodule Abyss.HandlerTest do
   describe "handler continuation behavior" do
     test "uses adaptive timeout instead of fixed read timeout" do
       base_timeout = 5000
+
       processing_times = [
         System.convert_time_unit(100, :millisecond, :native),
         System.convert_time_unit(200, :millisecond, :native)
@@ -328,17 +336,28 @@ defmodule Abyss.HandlerTest do
       assert {:noreply, ^state, 5000} = Handler.handle_continuation({:continue, state}, state)
 
       # Test close result
-      assert {:stop, {:shutdown, :local_closed}, ^state} = Handler.handle_continuation({:close, state}, state)
+      assert {:stop, {:shutdown, :local_closed}, ^state} =
+               Handler.handle_continuation({:close, state}, state)
 
       # Test timeout error
-      assert {:stop, {:shutdown, :timeout}, ^state} = Handler.handle_continuation({:error, :timeout, state}, state)
+      assert {:stop, {:shutdown, :timeout}, ^state} =
+               Handler.handle_continuation({:error, :timeout, state}, state)
 
       # Test other error without silent termination
-      state_without_silent = %{state | server_config: %{server_config | silent_terminate_on_error: false}}
-      assert {:stop, :custom_error, ^state} = Handler.handle_continuation({:error, :custom_error, state}, state_without_silent)
+      state_without_silent = %{
+        state
+        | server_config: %{server_config | silent_terminate_on_error: false}
+      }
+
+      assert {:stop, :custom_error, ^state} =
+               Handler.handle_continuation({:error, :custom_error, state}, state_without_silent)
 
       # Test error with silent termination
-      state_with_silent = %{state | server_config: %{server_config | silent_terminate_on_error: true}}
+      state_with_silent = %{
+        state
+        | server_config: %{server_config | silent_terminate_on_error: true}
+      }
+
       result = Handler.handle_continuation({:error, :custom_error, state}, state_with_silent)
       assert {:stop, {:shutdown, {:silent_termination, :custom_error}}, returned_state} = result
       assert returned_state.server_config.silent_terminate_on_error == true
@@ -347,11 +366,12 @@ defmodule Abyss.HandlerTest do
 
   describe "handler lifecycle" do
     test "initializes with memory monitoring" do
-      config = ServerConfig.new(
-        handler_module: TestAdaptiveHandler,
-        port: 0,
-        read_timeout: 5000
-      )
+      config =
+        ServerConfig.new(
+          handler_module: TestAdaptiveHandler,
+          port: 0,
+          read_timeout: 5000
+        )
 
       span = Abyss.Telemetry.start_span(:test, %{}, %{})
 
@@ -371,11 +391,12 @@ defmodule Abyss.HandlerTest do
     end
 
     test "handles close gracefully" do
-      config = ServerConfig.new(
-        handler_module: TestAdaptiveHandler,
-        port: 0,
-        read_timeout: 5000
-      )
+      config =
+        ServerConfig.new(
+          handler_module: TestAdaptiveHandler,
+          port: 0,
+          read_timeout: 5000
+        )
 
       span = Abyss.Telemetry.start_span(:test, %{}, %{})
 
@@ -405,11 +426,12 @@ defmodule Abyss.HandlerTest do
 
   describe "memory monitoring edge cases" do
     test "handles memory check errors gracefully" do
-      config = ServerConfig.new(
-        handler_module: TestAdaptiveHandler,
-        port: 0,
-        read_timeout: 5000
-      )
+      config =
+        ServerConfig.new(
+          handler_module: TestAdaptiveHandler,
+          port: 0,
+          read_timeout: 5000
+        )
 
       span = Abyss.Telemetry.start_span(:test, %{}, %{})
 
@@ -428,11 +450,12 @@ defmodule Abyss.HandlerTest do
     end
 
     test "continues monitoring after garbage collection" do
-      config = ServerConfig.new(
-        handler_module: TestAdaptiveHandler,
-        port: 0,
-        read_timeout: 5000
-      )
+      config =
+        ServerConfig.new(
+          handler_module: TestAdaptiveHandler,
+          port: 0,
+          read_timeout: 5000
+        )
 
       span = Abyss.Telemetry.start_span(:test, %{}, %{})
 

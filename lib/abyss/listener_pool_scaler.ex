@@ -163,50 +163,30 @@ defmodule Abyss.ListenerPoolScaler do
     # Scale up by max 5 at a time
     scale_by = min(optimal - current_count, 5)
 
-    case start_listeners(state.listener_pool_supervisor, state.server_config, scale_by) do
-      {:ok, _count} ->
-        :telemetry.execute(
-          [:abyss, :listener_pool, :scale_up],
-          %{listeners_added: scale_by, new_total: current_count + scale_by},
-          %{optimal: optimal, previous_count: current_count}
-        )
+    {:ok, _count} = start_listeners(state.listener_pool_supervisor, state.server_config, scale_by)
 
-        %{state | last_scale_time: System.monotonic_time(:millisecond)}
+    :telemetry.execute(
+      [:abyss, :listener_pool, :scale_up],
+      %{listeners_added: scale_by, new_total: current_count + scale_by},
+      %{optimal: optimal, previous_count: current_count}
+    )
 
-      {:error, reason} ->
-        :telemetry.execute(
-          [:abyss, :listener_pool, :scale_error],
-          %{reason: reason},
-          %{action: :scale_up, requested: scale_by}
-        )
-
-        state
-    end
+    %{state | last_scale_time: System.monotonic_time(:millisecond)}
   end
 
   defp maybe_scale(:scale_down, current_count, optimal, state) do
     # Scale down by max 3 at a time
     scale_by = min(current_count - optimal, 3)
 
-    case stop_listeners(state.listener_pool_supervisor, scale_by) do
-      {:ok, _count} ->
-        :telemetry.execute(
-          [:abyss, :listener_pool, :scale_down],
-          %{listeners_removed: scale_by, new_total: current_count - scale_by},
-          %{optimal: optimal, previous_count: current_count}
-        )
+    {:ok, _count} = stop_listeners(state.listener_pool_supervisor, scale_by)
 
-        %{state | last_scale_time: System.monotonic_time(:millisecond)}
+    :telemetry.execute(
+      [:abyss, :listener_pool, :scale_down],
+      %{listeners_removed: scale_by, new_total: current_count - scale_by},
+      %{optimal: optimal, previous_count: current_count}
+    )
 
-      {:error, reason} ->
-        :telemetry.execute(
-          [:abyss, :listener_pool, :scale_error],
-          %{reason: reason},
-          %{action: :scale_down, requested: scale_by}
-        )
-
-        state
-    end
+    %{state | last_scale_time: System.monotonic_time(:millisecond)}
   end
 
   defp maybe_scale(:no_scale, _current_count, _optimal, state), do: state

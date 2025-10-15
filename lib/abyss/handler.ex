@@ -366,6 +366,7 @@ defmodule Abyss.Handler do
         if not is_reference(listener_socket) do
           Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
         end
+
         Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: :timeout})
         out
       end
@@ -381,6 +382,7 @@ defmodule Abyss.Handler do
         if not is_reference(listener_socket) do
           Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
         end
+
         Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: :shutdown})
         out
       end
@@ -403,6 +405,7 @@ defmodule Abyss.Handler do
         if not is_reference(listener_socket) do
           Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
         end
+
         Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: reason})
         out
       end
@@ -419,6 +422,7 @@ defmodule Abyss.Handler do
         if not is_reference(listener_socket) do
           Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
         end
+
         Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: reason})
         out
       end
@@ -435,6 +439,7 @@ defmodule Abyss.Handler do
         if not is_reference(listener_socket) do
           Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
         end
+
         Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: reason})
 
         :ok

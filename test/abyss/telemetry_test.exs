@@ -22,9 +22,10 @@ defmodule Abyss.TelemetryTest do
 
     test "samples connection spans based on rate" do
       # Test multiple connection spans to verify sampling behavior
-      spans = for _i <- 1..100 do
-        Telemetry.start_span(:connection, %{}, %{})
-      end
+      spans =
+        for _i <- 1..100 do
+          Telemetry.start_span(:connection, %{}, %{})
+        end
 
       # Should have some sampled and some unsampled spans
       sampled_count = Enum.count(spans, &(&1.start_metadata[:sampled] == true))
@@ -66,7 +67,10 @@ defmodule Abyss.TelemetryTest do
       child_span = Telemetry.start_child_span(parent_span, :child, %{test: "data"})
 
       assert child_span.span_name == :child
-      assert child_span.start_metadata.parent_telemetry_span_context == parent_span.telemetry_span_context
+
+      assert child_span.start_metadata.parent_telemetry_span_context ==
+               parent_span.telemetry_span_context
+
       assert child_span.start_metadata.handler == TestHandler
       # Note: Custom metadata in child spans may be handled differently by the implementation
       # The important thing is that the parent context is preserved
@@ -78,16 +82,19 @@ defmodule Abyss.TelemetryTest do
       parent_span = Telemetry.start_span(:parent, %{}, %{handler: TestHandler})
 
       # Test with forced sampling
-      child_span = Telemetry.start_child_span_with_sampling(
-        parent_span,
-        :connection,
-        %{},
-        %{},
-        sample_rate: 1.0
-      )
+      child_span =
+        Telemetry.start_child_span_with_sampling(
+          parent_span,
+          :connection,
+          %{},
+          %{},
+          sample_rate: 1.0
+        )
 
       assert child_span.start_metadata[:sampled] == true
-      assert child_span.start_metadata.parent_telemetry_span_context == parent_span.telemetry_span_context
+
+      assert child_span.start_metadata.parent_telemetry_span_context ==
+               parent_span.telemetry_span_context
     end
   end
 
@@ -101,7 +108,9 @@ defmodule Abyss.TelemetryTest do
 
       # Set up telemetry capture - note the abyss prefix
       test_pid = self()
-      :telemetry.attach_many("test-handler",
+
+      :telemetry.attach_many(
+        "test-handler",
         [[:abyss, :test, :stop]],
         fn event_name, measurements, metadata, _config ->
           send(test_pid, {:telemetry_event, event_name, measurements, metadata})
@@ -134,7 +143,9 @@ defmodule Abyss.TelemetryTest do
 
       # Set up telemetry capture
       test_pid = self()
-      :telemetry.attach_many("test-handler",
+
+      :telemetry.attach_many(
+        "test-handler",
         [[:abyss, :test, :custom_event]],
         fn event_name, measurements, metadata, _config ->
           send(test_pid, {:telemetry_event, event_name, measurements, metadata})
@@ -166,7 +177,9 @@ defmodule Abyss.TelemetryTest do
 
       # Set up telemetry capture
       test_pid = self()
-      :telemetry.attach_many("test-handler",
+
+      :telemetry.attach_many(
+        "test-handler",
         [[:abyss, :test, :untimed_event]],
         fn event_name, measurements, metadata, _config ->
           send(test_pid, {:telemetry_event, event_name, measurements, metadata})
@@ -176,7 +189,10 @@ defmodule Abyss.TelemetryTest do
 
       # Send events from both spans
       Telemetry.untimed_span_event(sampled_span, :untimed_event, %{data: "test"}, %{meta: "value"})
-      Telemetry.untimed_span_event(unsampled_span, :untimed_event, %{data: "test"}, %{meta: "value"})
+
+      Telemetry.untimed_span_event(unsampled_span, :untimed_event, %{data: "test"}, %{
+        meta: "value"
+      })
 
       # Should only receive event from sampled span
       assert_receive {:telemetry_event, [:abyss, :test, :untimed_event], measurements, metadata}
@@ -196,17 +212,19 @@ defmodule Abyss.TelemetryTest do
       :rand.seed(:exsplus, {1234, 5678, 9012})
 
       # Test that sampling is consistent
-      results1 = for _i <- 1..1000 do
-        span = Telemetry.start_span(:connection, %{}, %{})
-        span.start_metadata[:sampled]
-      end
+      results1 =
+        for _i <- 1..1000 do
+          span = Telemetry.start_span(:connection, %{}, %{})
+          span.start_metadata[:sampled]
+        end
 
       :rand.seed(:exsplus, {1234, 5678, 9012})
 
-      results2 = for _i <- 1..1000 do
-        span = Telemetry.start_span(:connection, %{}, %{})
-        span.start_metadata[:sampled]
-      end
+      results2 =
+        for _i <- 1..1000 do
+          span = Telemetry.start_span(:connection, %{}, %{})
+          span.start_metadata[:sampled]
+        end
 
       assert results1 == results2
     end
@@ -214,9 +232,10 @@ defmodule Abyss.TelemetryTest do
     test "unknown span types use no sampling by default" do
       :rand.seed(:exsplus, {1234, 5678, 9012})
 
-      spans = for _i <- 1..100 do
-        Telemetry.start_span(:unknown_span_type, %{}, %{})
-      end
+      spans =
+        for _i <- 1..100 do
+          Telemetry.start_span(:unknown_span_type, %{}, %{})
+        end
 
       # All unknown spans should be sampled by default
       assert Enum.all?(spans, &(&1.start_metadata[:sampled] == true))

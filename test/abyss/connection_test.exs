@@ -154,9 +154,9 @@ defmodule Abyss.ConnectionTest do
 
     test "uses exponential backoff calculation", %{config: config} do
       config = %{
-        config |
-        max_connections_retry_wait: 1000,
-        max_connections_retry_count: 5
+        config
+        | max_connections_retry_wait: 1000,
+          max_connections_retry_count: 5
       }
 
       # Test exponential backoff calculation - simplified test
@@ -248,9 +248,9 @@ defmodule Abyss.ConnectionTest do
     test "jitter is within expected bounds", %{config: config} do
       # Test that jitter calculation configuration produces reasonable values
       config = %{
-        config |
-        max_connections_retry_wait: 1000,
-        max_connections_retry_count: 3
+        config
+        | max_connections_retry_wait: 1000,
+          max_connections_retry_count: 3
       }
 
       # Verify jitter calculation configuration is reasonable
