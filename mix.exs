@@ -59,6 +59,7 @@ defmodule Abyss.MixProject do
     [
       {:telemetry, "~> 1.0"},
       {:telemetry_metrics, "~> 1.0"},
+      {:mox, "~> 1.0", only: :test},
       {:ex_dns, "~> 0.3", only: [:dev, :test], runtime: false, optional: true},
       {:dhcp_ex, "~> 0.3", only: [:dev, :test], runtime: false, optional: true},
       {:machete, ">= 0.0.0", only: [:dev, :test]},
