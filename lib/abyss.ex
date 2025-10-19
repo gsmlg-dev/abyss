@@ -11,7 +11,7 @@ defmodule Abyss do
 
   - **High Performance**: Supervisor-based architecture with configurable connection pooling
   - **Flexible Handler System**: Pluggable handler modules for custom protocol implementations
-  - **Built-in Telemetry**: Comprehensive metrics and monitoring via `:telemetry`
+  - **Real-time Metrics**: Built-in telemetry with connection counts, throughput rates, and response times
   - **Security Features**: Built-in rate limiting and packet size validation
   - **Broadcast Support**: Native support for broadcast and multicast applications
   - **Graceful Shutdown**: Coordinated shutdown with configurable timeouts
@@ -36,6 +36,46 @@ defmodule Abyss do
         port: 1234,
         num_listeners: 10
       ])
+
+      # Monitor server metrics
+      metrics = Abyss.Telemetry.get_metrics()
+      IO.inspect(metrics, label: "Server Metrics")
+
+  ## Telemetry and Monitoring
+
+  Abyss provides built-in telemetry metrics for real-time monitoring:
+
+      # Get current metrics
+      metrics = Abyss.Telemetry.get_metrics()
+      # => %{
+      #   connections_active: 5,
+      #   connections_total: 150,
+      #   accepts_total: 150,
+      #   responses_total: 145,
+      #   accepts_per_second: 12,
+      #   responses_per_second: 11
+      # }
+
+      # Listen for response time events
+      :telemetry.attach_many(
+        "response-monitor",
+        [[:abyss, :metrics, :response_time]],
+        fn [:abyss, :metrics, :response_time], measurements, _metadata, _config ->
+          IO.puts("Response time: \#{measurements.response_time}ms")
+        end,
+        %{}
+      )
+
+  ### Available Metrics
+
+  - **`connections_active`**: Number of currently active connections
+  - **`connections_total`**: Total connections since server start
+  - **`accepts_total`**: Total accepted connections
+  - **`responses_total`**: Total responses sent
+  - **`accepts_per_second`**: Current accepts per second rate
+  - **`responses_per_second`**: Current responses per second rate
+
+  For detailed monitoring options and telemetry events, see the `Abyss.Telemetry` module documentation.
   """
 
   @typedoc """

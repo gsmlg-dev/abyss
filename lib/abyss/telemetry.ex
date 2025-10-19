@@ -1,5 +1,50 @@
 defmodule Abyss.Telemetry do
   @moduledoc """
+  The following telemetry spans and metrics are emitted by abyss
+
+  ## Telemetry Metrics
+
+  In addition to span events, Abyss provides real-time metrics tracking through
+  the `Abyss.Telemetry` module:
+
+  ### Connection Metrics
+  - `connections_active`: Number of currently active connections
+  - `connections_total`: Total number of connections since server start
+  - `accepts_total`: Total number of accepted connections
+  - `responses_total`: Total number of responses sent
+  - `accepts_per_second`: Current accepts per second rate
+  - `responses_per_second`: Current responses per second rate
+
+  ### Response Time Metrics
+  - `[:abyss, :metrics, :response_time]`: Event emitted for each response with timing
+
+  ### Using Metrics
+  ```elixir
+  # Get current metrics
+  metrics = Abyss.Telemetry.get_metrics()
+  # => %{
+  #   connections_active: 15,
+  #   connections_total: 1250,
+  #   accepts_total: 1250,
+  #   responses_total: 1198,
+  #   accepts_per_second: 25,
+  #   responses_per_second: 23
+  # }
+
+  # Reset all metrics
+  Abyss.Telemetry.reset_metrics()
+
+  # Listen for response time events
+  :telemetry.attach_many(
+    "response-time-listener",
+    [[:abyss, :metrics, :response_time]],
+    &handle_response_time/4,
+    %{}
+  )
+  ```
+
+  ## Telemetry Spans
+
   The following telemetry spans are emitted by abyss
 
   ## `[:abyss, :listener, *]`
@@ -319,6 +364,327 @@ defmodule Abyss.Telemetry do
   @default_connection_sample_rate 0.1
   # 100% sampling for listeners (they're few)
   @default_listener_sample_rate 1.0
+
+  # Metrics tracking
+  @metrics_table :abyss_telemetry_metrics
+
+  @doc """
+  Initialize telemetry metrics tracking
+  """
+  @spec init_metrics() :: :ok
+  def init_metrics do
+    # Use process dictionary to store table reference for tests
+    case Process.get(@metrics_table) do
+      nil ->
+        table_id = :ets.new(@metrics_table, [
+          :set,
+          :public,
+          {:read_concurrency, true},
+          {:write_concurrency, true}
+        ])
+
+        Process.put(@metrics_table, table_id)
+
+        # Initialize metrics counters
+        :ets.insert(table_id, {:connections_active, 0})
+        :ets.insert(table_id, {:connections_total, 0})
+        :ets.insert(table_id, {:accepts_total, 0})
+        :ets.insert(table_id, {:responses_total, 0})
+        :ets.insert(table_id, {:accept_rate_window_start, System.monotonic_time(:millisecond)})
+        :ets.insert(table_id, {:accepts_in_window, 0})
+        :ets.insert(table_id, {:response_rate_window_start, System.monotonic_time(:millisecond)})
+        :ets.insert(table_id, {:responses_in_window, 0})
+
+      _table_id ->
+        :ok
+    end
+
+    :ok
+  end
+
+  # Helper function to get ETS table
+  defp get_metrics_table do
+    # First check if we have a table in process dictionary (test environment)
+    case Process.get(@metrics_table) do
+      nil ->
+        # Try named table for production/concurrent access
+        case :ets.whereis(@metrics_table) do
+          :undefined ->
+            # Create named table if it doesn't exist
+            table_id = :ets.new(@metrics_table, [
+              :set,
+              :public,
+              :named_table,
+              {:read_concurrency, true},
+              {:write_concurrency, true}
+            ])
+
+            # Initialize counters
+            :ets.insert(table_id, {:connections_active, 0})
+            :ets.insert(table_id, {:connections_total, 0})
+            :ets.insert(table_id, {:accepts_total, 0})
+            :ets.insert(table_id, {:responses_total, 0})
+            :ets.insert(table_id, {:accept_rate_window_start, System.monotonic_time(:millisecond)})
+            :ets.insert(table_id, {:accepts_in_window, 0})
+            :ets.insert(table_id, {:response_rate_window_start, System.monotonic_time(:millisecond)})
+            :ets.insert(table_id, {:responses_in_window, 0})
+
+            table_id
+
+          table_id ->
+            table_id
+        end
+
+      table_id ->
+        table_id
+    end
+  end
+
+  @doc """
+  Track a new connection being accepted
+  """
+  @spec track_connection_accepted() :: :ok
+  def track_connection_accepted do
+    init_metrics()
+    table = get_metrics_table()
+
+    # Increment total accepts
+    case :ets.lookup(table, :accepts_total) do
+      [{:accepts_total, count}] ->
+        :ets.insert(table, {:accepts_total, count + 1})
+      [] ->
+        :ets.insert(table, {:accepts_total, 1})
+    end
+
+    # Update accepts in current window
+    update_accept_rate_window()
+
+    # Increment active connections
+    case :ets.lookup(table, :connections_active) do
+      [{:connections_active, count}] ->
+        :ets.insert(table, {:connections_active, count + 1})
+      [] ->
+        :ets.insert(table, {:connections_active, 1})
+    end
+
+    # Increment total connections
+    case :ets.lookup(table, :connections_total) do
+      [{:connections_total, count}] ->
+        :ets.insert(table, {:connections_total, count + 1})
+      [] ->
+        :ets.insert(table, {:connections_total, 1})
+    end
+
+    :ok
+  end
+
+  @doc """
+  Track a connection being closed
+  """
+  @spec track_connection_closed() :: :ok
+  def track_connection_closed do
+    init_metrics()
+    table = get_metrics_table()
+
+    # Decrement active connections
+    case :ets.lookup(table, :connections_active) do
+      [{:connections_active, count}] when count > 0 ->
+        :ets.insert(table, {:connections_active, count - 1})
+      _ ->
+        :ok
+    end
+
+    :ok
+  end
+
+  @doc """
+  Track a response being sent
+  """
+  @spec track_response_sent(response_time :: integer()) :: :ok
+  def track_response_sent(response_time) when is_integer(response_time) do
+    init_metrics()
+    table = get_metrics_table()
+
+    # Increment total responses
+    case :ets.lookup(table, :responses_total) do
+      [{:responses_total, count}] ->
+        :ets.insert(table, {:responses_total, count + 1})
+      [] ->
+        :ets.insert(table, {:responses_total, 1})
+    end
+
+    # Update responses in current window
+    update_response_rate_window()
+
+    # Emit response time event
+    :telemetry.execute(
+      [:abyss, :metrics, :response_time],
+      %{response_time: response_time},
+      %{}
+    )
+
+    :ok
+  end
+
+  @doc """
+  Get current telemetry metrics
+  """
+  @spec get_metrics() :: map()
+  def get_metrics do
+    init_metrics()
+    table = get_metrics_table()
+
+    connections_active = case :ets.lookup(table, :connections_active) do
+      [{:connections_active, count}] -> count
+      [] -> 0
+    end
+
+    connections_total = case :ets.lookup(table, :connections_total) do
+      [{:connections_total, count}] -> count
+      [] -> 0
+    end
+
+    accepts_total = case :ets.lookup(table, :accepts_total) do
+      [{:accepts_total, count}] -> count
+      [] -> 0
+    end
+
+    responses_total = case :ets.lookup(table, :responses_total) do
+      [{:responses_total, count}] -> count
+      [] -> 0
+    end
+
+    accepts_per_sec = get_accept_rate()
+    responses_per_sec = get_response_rate()
+
+    %{
+      connections_active: connections_active,
+      connections_total: connections_total,
+      accepts_total: accepts_total,
+      responses_total: responses_total,
+      accepts_per_second: accepts_per_sec,
+      responses_per_second: responses_per_sec
+    }
+  end
+
+  @doc """
+  Reset telemetry metrics
+  """
+  @spec reset_metrics() :: :ok
+  def reset_metrics do
+    case Process.get(@metrics_table) do
+      nil ->
+        if :ets.whereis(@metrics_table) != :undefined do
+          :ets.delete_all_objects(@metrics_table)
+        end
+
+      table_id ->
+        :ets.delete_all_objects(table_id)
+    end
+
+    init_metrics()
+    :ok
+  end
+
+  # Private functions
+
+  defp update_accept_rate_window do
+    table = get_metrics_table()
+    current_time = System.monotonic_time(:millisecond)
+
+    case :ets.lookup(table, :accept_rate_window_start) do
+      [{:accept_rate_window_start, window_start}] ->
+        # Check if window has expired (1 second window)
+        if current_time - window_start >= 1000 do
+          # Reset window
+          :ets.insert(table, {:accept_rate_window_start, current_time})
+          :ets.insert(table, {:accepts_in_window, 1})
+        else
+          # Increment count in current window
+          case :ets.lookup(table, :accepts_in_window) do
+            [{:accepts_in_window, count}] ->
+              :ets.insert(table, {:accepts_in_window, count + 1})
+            [] ->
+              :ets.insert(table, {:accepts_in_window, 1})
+          end
+        end
+      [] ->
+        :ets.insert(table, {:accept_rate_window_start, current_time})
+        :ets.insert(table, {:accepts_in_window, 1})
+    end
+  end
+
+  defp update_response_rate_window do
+    table = get_metrics_table()
+    current_time = System.monotonic_time(:millisecond)
+
+    case :ets.lookup(table, :response_rate_window_start) do
+      [{:response_rate_window_start, window_start}] ->
+        # Check if window has expired (1 second window)
+        if current_time - window_start >= 1000 do
+          # Reset window
+          :ets.insert(table, {:response_rate_window_start, current_time})
+          :ets.insert(table, {:responses_in_window, 1})
+        else
+          # Increment count in current window
+          case :ets.lookup(table, :responses_in_window) do
+            [{:responses_in_window, count}] ->
+              :ets.insert(table, {:responses_in_window, count + 1})
+            [] ->
+              :ets.insert(table, {:responses_in_window, 1})
+          end
+        end
+      [] ->
+        :ets.insert(table, {:response_rate_window_start, current_time})
+        :ets.insert(table, {:responses_in_window, 1})
+    end
+  end
+
+  defp get_accept_rate do
+    table = get_metrics_table()
+    current_time = System.monotonic_time(:millisecond)
+
+    case :ets.lookup(table, :accept_rate_window_start) do
+      [{:accept_rate_window_start, window_start}] ->
+        time_diff = current_time - window_start
+        if time_diff > 0 do
+          case :ets.lookup(table, :accepts_in_window) do
+            [{:accepts_in_window, count}] ->
+              # Calculate rate per second
+              round(count * 1000 / time_diff)
+            [] ->
+              0
+          end
+        else
+          0
+        end
+      [] ->
+        0
+    end
+  end
+
+  defp get_response_rate do
+    table = get_metrics_table()
+    current_time = System.monotonic_time(:millisecond)
+
+    case :ets.lookup(table, :response_rate_window_start) do
+      [{:response_rate_window_start, window_start}] ->
+        time_diff = current_time - window_start
+        if time_diff > 0 do
+          case :ets.lookup(table, :responses_in_window) do
+            [{:responses_in_window, count}] ->
+              # Calculate rate per second
+              round(count * 1000 / time_diff)
+            [] ->
+              0
+          end
+        else
+          0
+        end
+      [] ->
+        0
+    end
+  end
 
   @doc false
   @spec start_span(span_name(), measurements(), metadata()) :: t()

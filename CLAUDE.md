@@ -126,6 +126,81 @@ Key options when starting Abyss:
 - `rate_limit_window_ms`: Rate limit window in milliseconds (default: 1000)
 - `max_packet_size`: Maximum allowed packet size in bytes (default: 8192)
 
+## Telemetry and Monitoring
+
+### Built-in Metrics
+Abyss provides comprehensive real-time metrics through the `Abyss.Telemetry` module:
+
+#### Connection Metrics
+- **`connections_active`**: Currently active connections
+- **`connections_total`**: Total connections since server start
+- **`accepts_total`**: Total accepted connections
+- **`responses_total`**: Total responses sent
+
+#### Rate Metrics
+- **`accepts_per_second`**: Current accepts per second (1-second rolling window)
+- **`responses_per_second`**: Current responses per second (1-second rolling window)
+
+#### Response Time Tracking
+- **`[:abyss, :metrics, :response_time]`**: Telemetry event for each response with timing in milliseconds
+
+### Using Telemetry Metrics
+
+```elixir
+# Get current metrics snapshot
+metrics = Abyss.Telemetry.get_metrics()
+# => %{
+#   connections_active: 15,
+#   connections_total: 1250,
+#   accepts_total: 1250,
+#   responses_total: 1198,
+#   accepts_per_second: 25,
+#   responses_per_second: 23
+# }
+
+# Reset all metrics
+Abyss.Telemetry.reset_metrics()
+
+# Listen for response time events
+:telemetry.attach_many(
+  "response-time-monitor",
+  [[:abyss, :metrics, :response_time]],
+  fn [:abyss, :metrics, :response_time], measurements, _metadata, _config ->
+    # Handle response time data
+    IO.inspect(measurements.response_time)
+  end,
+  %{}
+)
+```
+
+### Telemetry Events
+Abyss emits comprehensive telemetry events for monitoring:
+
+#### Connection Lifecycle
+- `[:abyss, :listener, :start/stop]` - Listener process lifecycle
+- `[:abyss, :connection, :start/stop]` - Connection handling lifecycle
+- `[:abyss, :connection, :ready]` - Connection ready for processing
+- `[:abyss, :connection, :send/recv]` - Data transmission events
+
+#### Security Events
+- `[:abyss, :listener, :rate_limit_exceeded]` - Rate limit violations
+- `[:abyss, :listener, :packet_too_large]` - Oversized packets rejected
+
+#### Performance Events
+- `[:abyss, :acceptor, :spawn_error]` - Connection spawn failures
+- `[:abyss, :metrics, :response_time]` - Response timing measurements
+
+### Monitoring with Logger
+Attach structured logging for real-time monitoring:
+
+```elixir
+# Enable debug logging for detailed telemetry
+Abyss.Logger.attach_logger(:debug)
+
+# Enable trace logging for comprehensive monitoring
+Abyss.Logger.attach_logger(:trace)
+```
+
 ## Security Features
 
 ### Rate Limiting
@@ -137,10 +212,6 @@ Abyss includes a token bucket rate limiter (`Abyss.RateLimiter`) for DoS protect
 
 ### Packet Size Validation
 Incoming packets are validated against `max_packet_size` to prevent memory exhaustion attacks.
-
-### Security Telemetry Events
-- `[:abyss, :listener, :rate_limit_exceeded]` - When rate limit is exceeded
-- `[:abyss, :listener, :packet_too_large]` - When packet exceeds size limit
 
 ## Project Structure
 

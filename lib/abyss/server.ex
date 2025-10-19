@@ -156,6 +156,9 @@ defmodule Abyss.Server do
   def init(config) do
     server_pid = self()
 
+    # Initialize telemetry metrics
+    Abyss.Telemetry.init_metrics()
+
     # Add rate limiter if enabled
     rate_limiter_child =
       if config.rate_limit_enabled do

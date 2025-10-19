@@ -350,6 +350,15 @@ defmodule Abyss.Handler do
 
       @impl true
       def terminate({:shutdown, :broadcast}, %{connection_span: connection_span} = state) do
+        # Track connection closure
+        Abyss.Telemetry.track_connection_closed()
+
+        # Calculate response time if we have accept start time
+        response_time = calculate_response_time(state)
+        if response_time do
+          Abyss.Telemetry.track_response_sent(response_time)
+        end
+
         Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: :broadcast})
 
         :ok
@@ -367,6 +376,15 @@ defmodule Abyss.Handler do
           Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
         end
 
+        # Track connection closure
+        Abyss.Telemetry.track_connection_closed()
+
+        # Calculate response time if we have accept start time
+        response_time = calculate_response_time(state)
+        if response_time do
+          Abyss.Telemetry.track_response_sent(response_time)
+        end
+
         Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: :timeout})
         out
       end
@@ -381,6 +399,15 @@ defmodule Abyss.Handler do
         # Only call controlling_process if socket is not a reference (test environment)
         if not is_reference(listener_socket) do
           Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
+        end
+
+        # Track connection closure
+        Abyss.Telemetry.track_connection_closed()
+
+        # Calculate response time if we have accept start time
+        response_time = calculate_response_time(state)
+        if response_time do
+          Abyss.Telemetry.track_response_sent(response_time)
         end
 
         Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: :shutdown})
@@ -406,6 +433,15 @@ defmodule Abyss.Handler do
           Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
         end
 
+        # Track connection closure
+        Abyss.Telemetry.track_connection_closed()
+
+        # Calculate response time if we have accept start time
+        response_time = calculate_response_time(state)
+        if response_time do
+          Abyss.Telemetry.track_response_sent(response_time)
+        end
+
         Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: reason})
         out
       end
@@ -423,6 +459,15 @@ defmodule Abyss.Handler do
           Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
         end
 
+        # Track connection closure
+        Abyss.Telemetry.track_connection_closed()
+
+        # Calculate response time if we have accept start time
+        response_time = calculate_response_time(state)
+        if response_time do
+          Abyss.Telemetry.track_response_sent(response_time)
+        end
+
         Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: reason})
         out
       end
@@ -433,17 +478,36 @@ defmodule Abyss.Handler do
       def terminate(
             reason,
             %{connection_span: connection_span, listener: listener_pid, socket: listener_socket} =
-              _state
+              state
           ) do
         # Only call controlling_process if socket is not a reference (test environment)
         if not is_reference(listener_socket) do
           Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
         end
 
+        # Track connection closure
+        Abyss.Telemetry.track_connection_closed()
+
+        # Calculate response time if we have accept start time
+        response_time = calculate_response_time(state)
+        if response_time do
+          Abyss.Telemetry.track_response_sent(response_time)
+        end
+
         Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: reason})
 
         :ok
       end
+
+      # Private helper functions
+
+      defp calculate_response_time(%{connection_span: %{start_metadata: %{accept_start_time: start_time}}})
+           when is_integer(start_time) do
+        end_time = System.monotonic_time()
+        System.convert_time_unit(end_time - start_time, :native, :millisecond)
+      end
+
+      defp calculate_response_time(_state), do: nil
     end
   end
 

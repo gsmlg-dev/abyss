@@ -10,7 +10,7 @@ Abyss is a modern, pure Elixir UDP server library that provides a high-performan
 
 - **High Performance**: Supervisor-based architecture with configurable connection pooling
 - **Flexible Handler System**: Pluggable handler modules for custom protocol implementations
-- **Built-in Telemetry**: Comprehensive metrics and monitoring via `:telemetry`
+- **Real-time Metrics**: Built-in telemetry with connection counts, throughput rates, and response times
 - **Security Features**: Built-in rate limiting and packet size validation
 - **Broadcast Support**: Native support for broadcast and multicast applications
 - **Graceful Shutdown**: Coordinated shutdown with configurable timeouts
@@ -50,6 +50,36 @@ end
   port: 1234,
   num_listeners: 10
 ])
+```
+
+### Monitoring and Telemetry
+
+Abyss provides built-in real-time metrics for monitoring server performance:
+
+```elixir
+# Get current metrics
+metrics = Abyss.Telemetry.get_metrics()
+# => %{
+#   connections_active: 15,
+#   connections_total: 1250,
+#   accepts_total: 1250,
+#   responses_total: 1198,
+#   accepts_per_second: 25,
+#   responses_per_second: 23
+# }
+
+# Set up response time monitoring
+:telemetry.attach_many(
+  "response-monitor",
+  [[:abyss, :metrics, :response_time]],
+  fn [:abyss, :metrics, :response_time], measurements, _metadata, _config ->
+    IO.puts("Response time: \#{measurements.response_time}ms")
+  end,
+  %{}
+)
+
+# Reset metrics
+Abyss.Telemetry.reset_metrics()
 ```
 
 ### Testing with netcat
