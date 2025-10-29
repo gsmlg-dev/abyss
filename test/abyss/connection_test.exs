@@ -35,7 +35,7 @@ defmodule Abyss.ConnectionTest do
                  server_pid,
                  listener_pid,
                  socket,
-                 {{127, 0, 0, 1}, 12345, "test data"},
+                 {{127, 0, 0, 1}, 12_345, "test data"},
                  config,
                  span
                )
@@ -66,7 +66,7 @@ defmodule Abyss.ConnectionTest do
                  server_pid,
                  listener_pid,
                  socket,
-                 {{127, 0, 0, 1}, 12345, "test data"},
+                 {{127, 0, 0, 1}, 12_345, "test data"},
                  config,
                  span
                )
@@ -99,7 +99,7 @@ defmodule Abyss.ConnectionTest do
                  server_pid,
                  listener_pid,
                  socket,
-                 {{127, 0, 0, 1}, 12345, "test data"},
+                 {{127, 0, 0, 1}, 12_345, "test data"},
                  config,
                  span
                )
@@ -135,7 +135,7 @@ defmodule Abyss.ConnectionTest do
                  server_pid,
                  listener_pid,
                  socket,
-                 {{127, 0, 0, 1}, 12345, "test data"},
+                 {{127, 0, 0, 1}, 12_345, "test data"},
                  config,
                  span
                )
