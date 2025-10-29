@@ -90,11 +90,11 @@ defmodule Abyss.RateLimiter do
 
   @impl GenServer
   def handle_call({:allow_packet?, ip}, _from, state) do
-    if not state.enabled do
-      {:reply, true, state}
-    else
+    if state.enabled do
       {allowed, new_state} = check_rate_limit(ip, state)
       {:reply, allowed, new_state}
+    else
+      {:reply, true, state}
     end
   end
 

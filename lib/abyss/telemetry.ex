@@ -663,25 +663,24 @@ defmodule Abyss.Telemetry do
 
     case :ets.lookup(table, :accept_rate_window_start) do
       [{:accept_rate_window_start, window_start}] ->
-        time_diff = current_time - window_start
-
-        if time_diff > 0 do
-          case :ets.lookup(table, :accepts_in_window) do
-            [{:accepts_in_window, count}] ->
-              # Calculate rate per second
-              round(count * 1000 / time_diff)
-
-            [] ->
-              0
-          end
-        else
-          0
-        end
+        calculate_rate(table, :accepts_in_window, current_time - window_start)
 
       [] ->
         0
     end
   end
+
+  defp calculate_rate(table, counter_key, time_diff) when time_diff > 0 do
+    case :ets.lookup(table, counter_key) do
+      [{^counter_key, count}] ->
+        round(count * 1000 / time_diff)
+
+      [] ->
+        0
+    end
+  end
+
+  defp calculate_rate(_table, _counter_key, _time_diff), do: 0
 
   defp get_response_rate do
     table = get_metrics_table()
@@ -689,20 +688,7 @@ defmodule Abyss.Telemetry do
 
     case :ets.lookup(table, :response_rate_window_start) do
       [{:response_rate_window_start, window_start}] ->
-        time_diff = current_time - window_start
-
-        if time_diff > 0 do
-          case :ets.lookup(table, :responses_in_window) do
-            [{:responses_in_window, count}] ->
-              # Calculate rate per second
-              round(count * 1000 / time_diff)
-
-            [] ->
-              0
-          end
-        else
-          0
-        end
+        calculate_rate(table, :responses_in_window, current_time - window_start)
 
       [] ->
         0
