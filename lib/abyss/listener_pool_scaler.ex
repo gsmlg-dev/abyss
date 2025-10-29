@@ -137,13 +137,8 @@ defmodule Abyss.ListenerPoolScaler do
   end
 
   defp get_current_listener_count(listener_pool_supervisor) do
-    case DynamicSupervisor.which_children(listener_pool_supervisor) do
-      children when is_list(children) ->
-        length(children)
-
-      _ ->
-        0
-    end
+    children = DynamicSupervisor.which_children(listener_pool_supervisor)
+    length(children)
   end
 
   defp should_scale?(current_count, optimal, config) do

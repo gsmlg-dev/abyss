@@ -525,7 +525,14 @@ defmodule Abyss.Telemetry do
   @doc """
   Get current telemetry metrics
   """
-  @spec get_metrics() :: map()
+  @spec get_metrics() :: %{
+          connections_active: non_neg_integer(),
+          connections_total: non_neg_integer(),
+          accepts_total: non_neg_integer(),
+          responses_total: non_neg_integer(),
+          accepts_per_second: non_neg_integer(),
+          responses_per_second: non_neg_integer()
+        }
   def get_metrics do
     init_metrics()
     table = get_metrics_table()
@@ -593,7 +600,7 @@ defmodule Abyss.Telemetry do
     # Use try/rescue for atomic increment
     try do
       # Atomically increment counter
-      :ets.update_counter(table, :accepts_in_window, {2, 1})
+      _ = :ets.update_counter(table, :accepts_in_window, {2, 1})
 
       # Check if window needs reset (non-atomic read is acceptable here)
       case :ets.lookup(table, :accept_rate_window_start) do
@@ -624,7 +631,7 @@ defmodule Abyss.Telemetry do
     # Use try/rescue for atomic increment
     try do
       # Atomically increment counter
-      :ets.update_counter(table, :responses_in_window, {2, 1})
+      _ = :ets.update_counter(table, :responses_in_window, {2, 1})
 
       # Check if window needs reset (non-atomic read is acceptable here)
       case :ets.lookup(table, :response_rate_window_start) do
