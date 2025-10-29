@@ -53,7 +53,7 @@ defmodule Abyss.TestTransport do
 
   @impl true
   def recv(_socket, _bytes, _timeout) do
-    {:ok, {"127.0.0.1", 12345, "test data"}}
+    {:ok, {"127.0.0.1", 12_345, "test data"}}
   end
 
   @impl true
@@ -84,7 +84,7 @@ defmodule Abyss.TestTransport do
 
   @impl true
   def peername(_socket) do
-    {:ok, {{127, 0, 0, 1}, 12345}}
+    {:ok, {{127, 0, 0, 1}, 12_345}}
   end
 
   @impl true

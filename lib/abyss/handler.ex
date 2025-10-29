@@ -220,9 +220,12 @@ defmodule Abyss.Handler do
     end
   end
 
-  # credo:disable-for-next-line Credo.Check.Refactor.CyclomaticComplexity
+  # credo:disable-for-lines:2 Credo.Check.Refactor.CyclomaticComplexity
+  # credo:disable-for-lines:2 Credo.Check.Refactor.LongQuoteBlocks
   def genserver_impl do
     quote do
+      alias Abyss.Transport.UDP
+
       @impl GenServer
       def init({connection_span, server_config, listener_pid, listener_socket}) do
         Process.flag(:trap_exit, true)
@@ -242,8 +245,7 @@ defmodule Abyss.Handler do
            # Track last 10 processing times for adaptive timeout
            processing_times: [],
            adaptive_timeout: server_config.read_timeout,
-           # 10 seconds
-           memory_check_interval: 10_000
+           memory_check_interval: server_config.handler_memory_check_interval
          }}
       end
 
@@ -275,37 +277,40 @@ defmodule Abyss.Handler do
         case :erlang.process_info(self(), :memory) do
           {:memory, memory_words} ->
             memory_mb = memory_words * :erlang.system_info(:wordsize) / (1024 * 1024)
+            warning_threshold = state.server_config.handler_memory_warning_threshold
 
-            # 100MB threshold
-            if memory_mb > 100 do
+            if memory_mb > warning_threshold do
               # Log memory warning via telemetry
               :telemetry.execute(
                 [:abyss, :handler, :memory_warning],
                 %{memory_mb: memory_mb},
-                %{handler_pid: self(), threshold: 100}
+                %{handler_pid: self(), threshold: warning_threshold}
               )
 
               # Trigger garbage collection
               :erlang.garbage_collect(self())
 
               # Check if memory is still high after GC
-              case :erlang.process_info(self(), :memory) do
-                {:memory, new_memory_words} ->
-                  new_memory_mb =
-                    new_memory_words * :erlang.system_info(:wordsize) / (1024 * 1024)
+              check_memory_after_gc(state, interval)
+            else
+              Process.send_after(self(), :memory_check, interval)
+              {:noreply, state}
+            end
 
-                  # 150MB hard limit
-                  if new_memory_mb > 150 do
-                    {:stop, {:shutdown, :memory_limit_exceeded}, state}
-                  else
-                    Process.send_after(self(), :memory_check, interval)
-                    {:noreply, state}
-                  end
+          _ ->
+            Process.send_after(self(), :memory_check, interval)
+            {:noreply, state}
+        end
+      end
 
-                _ ->
-                  Process.send_after(self(), :memory_check, interval)
-                  {:noreply, state}
-              end
+      defp check_memory_after_gc(state, interval) do
+        case :erlang.process_info(self(), :memory) do
+          {:memory, new_memory_words} ->
+            new_memory_mb = new_memory_words * :erlang.system_info(:wordsize) / (1024 * 1024)
+            hard_limit = state.server_config.handler_memory_hard_limit
+
+            if new_memory_mb > hard_limit do
+              {:stop, {:shutdown, :memory_limit_exceeded}, state}
             else
               Process.send_after(self(), :memory_check, interval)
               {:noreply, state}
@@ -355,6 +360,7 @@ defmodule Abyss.Handler do
 
         # Calculate response time if we have accept start time
         response_time = calculate_response_time(state)
+
         if response_time do
           Abyss.Telemetry.track_response_sent(response_time)
         end
@@ -373,7 +379,7 @@ defmodule Abyss.Handler do
         out = __MODULE__.handle_timeout(state)
         # Only call controlling_process if socket is not a reference (test environment)
         if not is_reference(listener_socket) do
-          Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
+          UDP.controlling_process(listener_socket, listener_pid)
         end
 
         # Track connection closure
@@ -381,6 +387,7 @@ defmodule Abyss.Handler do
 
         # Calculate response time if we have accept start time
         response_time = calculate_response_time(state)
+
         if response_time do
           Abyss.Telemetry.track_response_sent(response_time)
         end
@@ -398,7 +405,7 @@ defmodule Abyss.Handler do
         out = __MODULE__.handle_shutdown(state)
         # Only call controlling_process if socket is not a reference (test environment)
         if not is_reference(listener_socket) do
-          Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
+          UDP.controlling_process(listener_socket, listener_pid)
         end
 
         # Track connection closure
@@ -406,6 +413,7 @@ defmodule Abyss.Handler do
 
         # Calculate response time if we have accept start time
         response_time = calculate_response_time(state)
+
         if response_time do
           Abyss.Telemetry.track_response_sent(response_time)
         end
@@ -430,7 +438,7 @@ defmodule Abyss.Handler do
 
         # Only call controlling_process if socket is not a reference (test environment)
         if not is_reference(listener_socket) do
-          Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
+          UDP.controlling_process(listener_socket, listener_pid)
         end
 
         # Track connection closure
@@ -438,6 +446,7 @@ defmodule Abyss.Handler do
 
         # Calculate response time if we have accept start time
         response_time = calculate_response_time(state)
+
         if response_time do
           Abyss.Telemetry.track_response_sent(response_time)
         end
@@ -456,7 +465,7 @@ defmodule Abyss.Handler do
         out = __MODULE__.handle_close(state)
         # Only call controlling_process if socket is not a reference (test environment)
         if not is_reference(listener_socket) do
-          Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
+          UDP.controlling_process(listener_socket, listener_pid)
         end
 
         # Track connection closure
@@ -464,6 +473,7 @@ defmodule Abyss.Handler do
 
         # Calculate response time if we have accept start time
         response_time = calculate_response_time(state)
+
         if response_time do
           Abyss.Telemetry.track_response_sent(response_time)
         end
@@ -482,7 +492,7 @@ defmodule Abyss.Handler do
           ) do
         # Only call controlling_process if socket is not a reference (test environment)
         if not is_reference(listener_socket) do
-          Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
+          UDP.controlling_process(listener_socket, listener_pid)
         end
 
         # Track connection closure
@@ -490,6 +500,7 @@ defmodule Abyss.Handler do
 
         # Calculate response time if we have accept start time
         response_time = calculate_response_time(state)
+
         if response_time do
           Abyss.Telemetry.track_response_sent(response_time)
         end
@@ -501,7 +512,9 @@ defmodule Abyss.Handler do
 
       # Private helper functions
 
-      defp calculate_response_time(%{connection_span: %{start_metadata: %{accept_start_time: start_time}}})
+      defp calculate_response_time(%{
+             connection_span: %{start_metadata: %{accept_start_time: start_time}}
+           })
            when is_integer(start_time) do
         end_time = System.monotonic_time()
         System.convert_time_unit(end_time - start_time, :native, :millisecond)
@@ -557,6 +570,7 @@ defmodule Abyss.Handler do
 
   @doc false
   # Add adaptive timeout calculation helper function
+  # Returns timeout in milliseconds
   def calculate_adaptive_timeout(base_timeout, processing_times) do
     case processing_times do
       [] ->
@@ -569,19 +583,17 @@ defmodule Abyss.Handler do
         # Convert to milliseconds for calculation
         avg_time_ms = System.convert_time_unit(round(avg_time_native), :native, :millisecond)
 
-        # Set timeout to 3x average processing time, with reasonable bounds
+        # Set timeout to 3x average processing time
         timeout_ms = round(avg_time_ms * 3)
 
-        # Convert back to native time units for GenServer timeout
-        timeout_native = System.convert_time_unit(timeout_ms, :millisecond, :native)
+        # Ensure timeout is between 50% and 200% of base timeout (all in milliseconds)
+        min_timeout_ms = div(base_timeout, 2)
+        max_timeout_ms = base_timeout * 2
 
-        # Ensure timeout is between 50% and 200% of base timeout
-        min_timeout = div(base_timeout, 2)
-        max_timeout = base_timeout * 2
-
-        timeout_native
-        |> max(min_timeout)
-        |> min(max_timeout)
+        # Apply bounds and return timeout in milliseconds
+        timeout_ms
+        |> max(min_timeout_ms)
+        |> min(max_timeout_ms)
     end
   end
 end

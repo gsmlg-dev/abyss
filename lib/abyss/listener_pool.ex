@@ -46,22 +46,24 @@ defmodule Abyss.ListenerPool do
   """
   @spec listener_pids(Supervisor.supervisor()) :: [pid()]
   def listener_pids(supervisor) do
-    try do
-      case Process.alive?(supervisor) do
-        false ->
-          []
+    do_listener_pids(supervisor)
+  rescue
+    ArgumentError -> []
+    _ -> []
+  end
 
-        true ->
-          supervisor
-          |> Supervisor.which_children()
-          |> Enum.reduce([], fn
-            {_, listener_pid, _, _}, acc when is_pid(listener_pid) -> [listener_pid | acc]
-            _, acc -> acc
-          end)
-      end
-    rescue
-      ArgumentError -> []
-      _ -> []
+  defp do_listener_pids(supervisor) do
+    case Process.alive?(supervisor) do
+      false ->
+        []
+
+      true ->
+        supervisor
+        |> Supervisor.which_children()
+        |> Enum.reduce([], fn
+          {_, listener_pid, _, _}, acc when is_pid(listener_pid) -> [listener_pid | acc]
+          _, acc -> acc
+        end)
     end
   end
 
@@ -79,21 +81,23 @@ defmodule Abyss.ListenerPool do
   """
   @spec suspend(Supervisor.supervisor()) :: :ok | :error
   def suspend(pid) do
-    try do
-      case Process.alive?(pid) do
-        false ->
-          :error
+    do_suspend(pid)
+  rescue
+    ArgumentError -> :error
+    _ -> :error
+  end
 
-        true ->
-          pid
-          |> listener_pids()
-          |> Enum.each(&Process.exit(&1, :normal))
+  defp do_suspend(pid) do
+    case Process.alive?(pid) do
+      false ->
+        :error
 
-          :ok
-      end
-    rescue
-      ArgumentError -> :error
-      _ -> :error
+      true ->
+        pid
+        |> listener_pids()
+        |> Enum.each(&Process.exit(&1, :normal))
+
+        :ok
     end
   end
 
@@ -108,22 +112,24 @@ defmodule Abyss.ListenerPool do
   """
   @spec resume(Supervisor.supervisor()) :: :ok | :error
   def resume(pid) do
-    try do
-      case Process.alive?(pid) do
-        false ->
-          :error
+    do_resume(pid)
+  rescue
+    ArgumentError -> :error
+    _ -> :error
+  end
 
-        true ->
-          # Send resume message to all listeners
-          pid
-          |> listener_pids()
-          |> Enum.each(&send(&1, :start_listening))
+  defp do_resume(pid) do
+    case Process.alive?(pid) do
+      false ->
+        :error
 
-          :ok
-      end
-    rescue
-      ArgumentError -> :error
-      _ -> :error
+      true ->
+        # Send resume message to all listeners
+        pid
+        |> listener_pids()
+        |> Enum.each(&send(&1, :start_listening))
+
+        :ok
     end
   end
 

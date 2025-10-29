@@ -28,6 +28,8 @@ defmodule Abyss.Connection do
   This module is primarily used internally by `Abyss.Listener`.
   """
 
+  alias Abyss.Transport.UDP
+
   @doc """
   Start a handler process for an incoming UDP packet (passive mode).
 
@@ -130,7 +132,7 @@ defmodule Abyss.Connection do
        ) do
     case DynamicSupervisor.start_child(sup_pid, child_spec) do
       {:ok, pid} ->
-        Abyss.Transport.UDP.controlling_process(listener_socket, pid)
+        _ = UDP.controlling_process(listener_socket, pid)
         send(pid, {:new_connection, listener_socket, recv_data})
         :ok
 
@@ -143,20 +145,21 @@ defmodule Abyss.Connection do
         jitter = :rand.uniform(div(delay, 4))
 
         # Use Task for non-blocking retry to avoid blocking the listener
-        Task.start(fn ->
-          Process.sleep(delay + jitter)
+        _ =
+          Task.start(fn ->
+            Process.sleep(delay + jitter)
 
-          do_start_with_backoff(
-            sup_pid,
-            child_spec,
-            listener_pid,
-            listener_socket,
-            recv_data,
-            server_config,
-            connection_span,
-            retries - 1
-          )
-        end)
+            do_start_with_backoff(
+              sup_pid,
+              child_spec,
+              listener_pid,
+              listener_socket,
+              recv_data,
+              server_config,
+              connection_span,
+              retries - 1
+            )
+          end)
 
         {:retry, :connection_limit}
 
@@ -290,20 +293,21 @@ defmodule Abyss.Connection do
         jitter = :rand.uniform(div(delay, 4))
 
         # Use Task for non-blocking retry to avoid blocking the listener
-        Task.start(fn ->
-          Process.sleep(delay + jitter)
+        _ =
+          Task.start(fn ->
+            Process.sleep(delay + jitter)
 
-          do_start_active_with_backoff(
-            sup_pid,
-            child_spec,
-            listener_pid,
-            listener_socket,
-            recv_data,
-            server_config,
-            connection_span,
-            retries - 1
-          )
-        end)
+            do_start_active_with_backoff(
+              sup_pid,
+              child_spec,
+              listener_pid,
+              listener_socket,
+              recv_data,
+              server_config,
+              connection_span,
+              retries - 1
+            )
+          end)
 
         {:retry, :connection_limit}
 
@@ -344,7 +348,7 @@ defmodule Abyss.Connection do
   ## Returns
   - Same as `start/6` - connection start result
   """
-  @spec retry_start(list()) :: :ok | {:error, :too_many_connections | term}
+  @spec retry_start([term, ...]) :: :ignore | :ok | {:ok, pid, term} | {:error, term}
   def retry_start([
         sup_pid,
         child_spec,
@@ -387,7 +391,7 @@ defmodule Abyss.Connection do
   ## Returns
   - Same as `start_active/6` - connection start result
   """
-  @spec retry_start_active(list()) :: :ok | {:error, :too_many_connections | term}
+  @spec retry_start_active([term, ...]) :: :ignore | :ok | {:ok, pid, term} | {:error, term}
   def retry_start_active([
         sup_pid,
         child_spec,

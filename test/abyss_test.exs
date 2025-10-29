@@ -63,7 +63,7 @@ defmodule AbyssTest do
     test "respects timeout parameter" do
       assert {:ok, pid} = Abyss.start_link(handler_module: Abyss.TestHandler, port: 0)
       # Use a longer timeout and handle potential timeout gracefully
-      case Abyss.stop(pid, 10000) do
+      case Abyss.stop(pid, 10_000) do
         :ok ->
           refute Process.alive?(pid)
 

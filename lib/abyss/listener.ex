@@ -43,7 +43,8 @@ defmodule Abyss.Listener do
           listener_id: binary(),
           listener_socket: Abyss.Transport.socket(),
           listener_span: Abyss.Telemetry.t(),
-          local_info: Abyss.Transport.socket_info()
+          local_info: Abyss.Transport.socket_info(),
+          transport: module()
         }
 
   @doc """
@@ -98,7 +99,7 @@ defmodule Abyss.Listener do
 
   @impl GenServer
   @spec init({listener_id :: neg_integer(), server_pid :: pid(), Abyss.ServerConfig.t()}) ::
-          {:ok, state} | {:stop, term}
+          {:ok, map()} | {:stop, term()}
   def init({listener_id, server_pid, server_config}) do
     broadcast = server_config.broadcast
 
@@ -117,15 +118,17 @@ defmodule Abyss.Listener do
         |> Keyword.put(:sndbuf, server_config.udp_buffer_size)
       end
 
+    transport = server_config.transport_module
+
     with {:ok, listener_socket} <-
-           Abyss.Transport.UDP.listen(
+           transport.listen(
              server_config.port,
              transport_options
            ),
          {:ok, {ip, port}} <-
            :inet.sockname(listener_socket) do
       active =
-        case Abyss.Transport.UDP.getopts(listener_socket, [:active]) do
+        case transport.getopts(listener_socket, [:active]) do
           {:ok, [active: true]} -> true
           _ -> false
         end
@@ -151,13 +154,15 @@ defmodule Abyss.Listener do
         listener_id: listener_id,
         listener_socket: listener_socket,
         listener_span: listener_span,
-        local_info: {ip, port}
+        local_info: {ip, port},
+        transport: transport
       }
 
       # Start listening immediately for non-broadcast mode
-      if not broadcast do
-        Process.send_after(self(), :start_listening, 0)
-      end
+      _ =
+        if not broadcast do
+          Process.send_after(self(), :start_listening, 0)
+        end
 
       {:ok, state}
     else
@@ -167,11 +172,14 @@ defmodule Abyss.Listener do
   end
 
   @impl GenServer
-  def handle_info(:start_listening, %{listener_socket: listener_socket} = state) do
+  def handle_info(
+        :start_listening,
+        %{listener_socket: listener_socket, transport: transport} = state
+      ) do
     if state.is_listening do
       {:noreply, state}
     else
-      case Abyss.Transport.UDP.getopts(listener_socket, [:active]) do
+      case transport.getopts(listener_socket, [:active]) do
         {:ok, [{:active, false}]} ->
           Abyss.Telemetry.span_event(state.listener_span, :ready, %{}, %{
             listener_id: state.listener_id,
@@ -220,18 +228,18 @@ defmodule Abyss.Listener do
             :connection,
             %{monotonic_time: start_time},
             %{remote_address: ip, remote_port: port, accept_start_time: start_time},
-            # 5% sampling for connections to reduce overhead
-            sample_rate: 0.05
+            sample_rate: state.server_config.connection_telemetry_sample_rate
           )
 
-        Abyss.Connection.start_active(
-          state.server_pid,
-          self(),
-          socket,
-          {ip, port, data},
-          state.server_config,
-          connection_span
-        )
+        _ =
+          Abyss.Connection.start_active(
+            state.server_pid,
+            self(),
+            socket,
+            {ip, port, data},
+            state.server_config,
+            connection_span
+          )
 
         {:noreply, state}
       end
@@ -240,7 +248,8 @@ defmodule Abyss.Listener do
 
   def handle_info(
         :do_recv,
-        %{listener_span: listener_span, listener_socket: listener_socket} = state
+        %{listener_span: listener_span, listener_socket: listener_socket, transport: transport} =
+          state
       ) do
     Abyss.Telemetry.untimed_span_event(state.listener_span, :waiting, %{}, %{
       listener_id: state.listener_id,
@@ -248,120 +257,12 @@ defmodule Abyss.Listener do
       local_info: state.local_info
     })
 
-    case Abyss.Transport.UDP.recv(listener_socket, 0, :infinity) do
+    case transport.recv(listener_socket, 0, :infinity) do
       {:ok, {ip, port, data}} ->
-        Abyss.Telemetry.untimed_span_event(state.listener_span, :receiving, %{}, %{
-          listener_id: state.listener_id,
-          listener_socket: state.listener_socket,
-          local_info: state.local_info
-        })
-
-        # Check rate limiting
-        if state.server_config.rate_limit_enabled and not Abyss.RateLimiter.allow_packet?(ip) do
-          Abyss.Telemetry.span_event(listener_span, :rate_limit_exceeded, %{
-            remote_address: ip,
-            remote_port: port
-          })
-
-          Process.send_after(self(), :do_recv, 0)
-          {:noreply, state}
-        else
-          # Check packet size
-          if byte_size(data) > state.server_config.max_packet_size do
-            Abyss.Telemetry.span_event(listener_span, :packet_too_large, %{
-              remote_address: ip,
-              remote_port: port,
-              packet_size: byte_size(data),
-              max_size: state.server_config.max_packet_size
-            })
-
-            Process.send_after(self(), :do_recv, 0)
-            {:noreply, state}
-          else
-            start_time = Abyss.Telemetry.monotonic_time()
-
-            # Track connection acceptance
-            Abyss.Telemetry.track_connection_accepted()
-
-            connection_span =
-              Abyss.Telemetry.start_child_span(
-                listener_span,
-                :connection,
-                %{monotonic_time: start_time},
-                %{remote_address: ip, remote_port: port, accept_start_time: start_time}
-              )
-
-            Abyss.Connection.start(
-              state.server_pid,
-              self(),
-              listener_socket,
-              {ip, port, data},
-              state.server_config,
-              connection_span
-            )
-
-            Process.send_after(self(), :do_recv, 0)
-
-            {:noreply, state}
-          end
-        end
+        handle_received_packet(ip, port, data, listener_socket, state)
 
       {:ok, {ip, port, _anc_data, data}} ->
-        Abyss.Telemetry.untimed_span_event(state.listener_span, :receiving, %{}, %{
-          listener_id: state.listener_id,
-          listener_socket: state.listener_socket,
-          local_info: state.local_info
-        })
-
-        # Check rate limiting
-        if state.server_config.rate_limit_enabled and not Abyss.RateLimiter.allow_packet?(ip) do
-          Abyss.Telemetry.span_event(listener_span, :rate_limit_exceeded, %{
-            remote_address: ip,
-            remote_port: port
-          })
-
-          Process.send_after(self(), :do_recv, 0)
-          {:noreply, state}
-        else
-          # Check packet size
-          if byte_size(data) > state.server_config.max_packet_size do
-            Abyss.Telemetry.span_event(listener_span, :packet_too_large, %{
-              remote_address: ip,
-              remote_port: port,
-              packet_size: byte_size(data),
-              max_size: state.server_config.max_packet_size
-            })
-
-            Process.send_after(self(), :do_recv, 0)
-            {:noreply, state}
-          else
-            start_time = Abyss.Telemetry.monotonic_time()
-
-            # Track connection acceptance
-            Abyss.Telemetry.track_connection_accepted()
-
-            connection_span =
-              Abyss.Telemetry.start_child_span(
-                listener_span,
-                :connection,
-                %{monotonic_time: start_time},
-                %{remote_address: ip, remote_port: port, accept_start_time: start_time}
-              )
-
-            Abyss.Connection.start(
-              state.server_pid,
-              self(),
-              listener_socket,
-              {ip, port, data},
-              state.server_config,
-              connection_span
-            )
-
-            Process.send_after(self(), :do_recv, 0)
-
-            {:noreply, state}
-          end
-        end
+        handle_received_packet(ip, port, data, listener_socket, state)
 
       {:error, reason} ->
         Abyss.Telemetry.span_event(listener_span, :recv_error, %{
@@ -374,12 +275,12 @@ defmodule Abyss.Listener do
   end
 
   def handle_info({:retry_connection, retry_args}, state) do
-    Abyss.Connection.retry_start(retry_args)
+    _ = Abyss.Connection.retry_start(retry_args)
     {:noreply, state}
   end
 
   def handle_info({:retry_active_connection, retry_args}, state) do
-    Abyss.Connection.retry_start_active(retry_args)
+    _ = Abyss.Connection.retry_start_active(retry_args)
     {:noreply, state}
   end
 
@@ -390,7 +291,8 @@ defmodule Abyss.Listener do
   @impl GenServer
   def handle_continue(
         :listening,
-        %{listener_span: listener_span, listener_socket: listener_socket} = state
+        %{listener_span: listener_span, listener_socket: listener_socket, transport: transport} =
+          state
       ) do
     Abyss.Telemetry.untimed_span_event(state.listener_span, :waiting, %{}, %{
       listener_id: state.listener_id,
@@ -398,7 +300,7 @@ defmodule Abyss.Listener do
       local_info: state.local_info
     })
 
-    case Abyss.Transport.UDP.recv(listener_socket, 0, :infinity) do
+    case transport.recv(listener_socket, 0, :infinity) do
       {:ok, recv_data} ->
         {ip, port, anc_data} =
           case recv_data do
@@ -425,14 +327,15 @@ defmodule Abyss.Listener do
             %{remote_address: ip, remote_port: port, anc_data: anc_data}
           )
 
-        Abyss.Connection.start(
-          state.server_pid,
-          self(),
-          listener_socket,
-          recv_data,
-          state.server_config,
-          connection_span
-        )
+        _ =
+          Abyss.Connection.start(
+            state.server_pid,
+            self(),
+            listener_socket,
+            recv_data,
+            state.server_config,
+            connection_span
+          )
 
         {:noreply, state, {:continue, :listening}}
 
@@ -458,11 +361,74 @@ defmodule Abyss.Listener do
   def handle_call(:socket_info, _from, state),
     do: {:reply, {state.listener_socket, state.listener_span}, state}
 
+  # Private helper functions
+
+  defp handle_received_packet(ip, port, data, listener_socket, state) do
+    %{listener_span: listener_span} = state
+
+    Abyss.Telemetry.untimed_span_event(state.listener_span, :receiving, %{}, %{
+      listener_id: state.listener_id,
+      listener_socket: state.listener_socket,
+      local_info: state.local_info
+    })
+
+    cond do
+      state.server_config.rate_limit_enabled and not Abyss.RateLimiter.allow_packet?(ip) ->
+        Abyss.Telemetry.span_event(listener_span, :rate_limit_exceeded, %{
+          remote_address: ip,
+          remote_port: port
+        })
+
+        _ = Process.send_after(self(), :do_recv, 0)
+        {:noreply, state}
+
+      byte_size(data) > state.server_config.max_packet_size ->
+        Abyss.Telemetry.span_event(listener_span, :packet_too_large, %{
+          remote_address: ip,
+          remote_port: port,
+          packet_size: byte_size(data),
+          max_size: state.server_config.max_packet_size
+        })
+
+        _ = Process.send_after(self(), :do_recv, 0)
+        {:noreply, state}
+
+      true ->
+        start_time = Abyss.Telemetry.monotonic_time()
+
+        # Track connection acceptance
+        Abyss.Telemetry.track_connection_accepted()
+
+        connection_span =
+          Abyss.Telemetry.start_child_span_with_sampling(
+            listener_span,
+            :connection,
+            %{monotonic_time: start_time},
+            %{remote_address: ip, remote_port: port, accept_start_time: start_time},
+            sample_rate: state.server_config.connection_telemetry_sample_rate
+          )
+
+        _ =
+          Abyss.Connection.start(
+            state.server_pid,
+            self(),
+            listener_socket,
+            {ip, port, data},
+            state.server_config,
+            connection_span
+          )
+
+        _ = Process.send_after(self(), :do_recv, 0)
+
+        {:noreply, state}
+    end
+  end
+
   @impl GenServer
   @spec terminate(reason, state) :: :ok
         when reason: :normal | :shutdown | {:shutdown, term} | term
   def terminate(_reason, state) do
-    Abyss.Transport.UDP.close(state.listener_socket)
+    state.transport.close(state.listener_socket)
     Abyss.Telemetry.stop_span(state.listener_span)
   end
 end
