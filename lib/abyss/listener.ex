@@ -99,7 +99,7 @@ defmodule Abyss.Listener do
 
   @impl GenServer
   @spec init({listener_id :: neg_integer(), server_pid :: pid(), Abyss.ServerConfig.t()}) ::
-          {:ok, state} | {:stop, term}
+          {:ok, map()} | {:stop, term()}
   def init({listener_id, server_pid, server_config}) do
     broadcast = server_config.broadcast
 

@@ -348,8 +348,7 @@ defmodule Abyss.Connection do
   ## Returns
   - Same as `start/6` - connection start result
   """
-  @spec retry_start(list()) ::
-          :ignore | :ok | {:ok, pid, info :: term} | {:error, :too_many_connections | term}
+  @spec retry_start([term, ...]) :: :ignore | :ok | {:ok, pid, term} | {:error, term}
   def retry_start([
         sup_pid,
         child_spec,
@@ -392,8 +391,7 @@ defmodule Abyss.Connection do
   ## Returns
   - Same as `start_active/6` - connection start result
   """
-  @spec retry_start_active(list()) ::
-          :ignore | :ok | {:ok, pid, info :: term} | {:error, :too_many_connections | term}
+  @spec retry_start_active([term, ...]) :: :ignore | :ok | {:ok, pid, term} | {:error, term}
   def retry_start_active([
         sup_pid,
         child_spec,
