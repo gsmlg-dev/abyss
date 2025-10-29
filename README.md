@@ -117,6 +117,10 @@ Starts an Abyss server with the given options.
 - `rate_limit_window_ms` - Rate limit window in ms (default: 1000)
 - `max_packet_size` - Maximum packet size in bytes (default: 8192)
 - `broadcast` - Enable broadcast mode (default: false)
+- `connection_telemetry_sample_rate` - Sampling rate for connection telemetry (default: 0.05)
+- `handler_memory_check_interval` - Memory check interval in ms (default: 10_000)
+- `handler_memory_warning_threshold` - Memory warning threshold in MB (default: 100)
+- `handler_memory_hard_limit` - Memory hard limit in MB (default: 150)
 
 #### `stop/2`
 
@@ -432,6 +436,16 @@ Abyss (main supervisor)
 4. **Handler**: Processes packet data using user-defined logic
 5. **Transport**: Handles low-level UDP socket operations
 
+### Transport Layer
+
+Abyss uses a modular transport architecture with specialized modules:
+
+- **`Abyss.Transport.UDP.Core`** - Core UDP socket operations (open, close, send, recv)
+- **`Abyss.Transport.UDP.Unicast`** - Unicast-specific functionality with proper resource cleanup
+- **`Abyss.Transport.UDP.Broadcast`** - Broadcast and multicast support
+
+This modular design ensures proper resource management and makes it easier to extend or customize transport behavior.
+
 ### Supervision Strategy
 
 - **Rest for One**: If a listener crashes, other listeners continue
@@ -474,4 +488,3 @@ mix docs
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-# Updated at Wed Oct 15 13:02:51 CST 2025
