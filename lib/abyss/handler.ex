@@ -223,6 +223,8 @@ defmodule Abyss.Handler do
   # credo:disable-for-next-line Credo.Check.Refactor.CyclomaticComplexity
   def genserver_impl do
     quote do
+      alias Abyss.Transport.UDP
+
       @impl GenServer
       def init({connection_span, server_config, listener_pid, listener_socket}) do
         Process.flag(:trap_exit, true)
@@ -373,7 +375,7 @@ defmodule Abyss.Handler do
         out = __MODULE__.handle_timeout(state)
         # Only call controlling_process if socket is not a reference (test environment)
         if not is_reference(listener_socket) do
-          Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
+          UDP.controlling_process(listener_socket, listener_pid)
         end
 
         # Track connection closure
@@ -399,7 +401,7 @@ defmodule Abyss.Handler do
         out = __MODULE__.handle_shutdown(state)
         # Only call controlling_process if socket is not a reference (test environment)
         if not is_reference(listener_socket) do
-          Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
+          UDP.controlling_process(listener_socket, listener_pid)
         end
 
         # Track connection closure
@@ -432,7 +434,7 @@ defmodule Abyss.Handler do
 
         # Only call controlling_process if socket is not a reference (test environment)
         if not is_reference(listener_socket) do
-          Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
+          UDP.controlling_process(listener_socket, listener_pid)
         end
 
         # Track connection closure
@@ -459,7 +461,7 @@ defmodule Abyss.Handler do
         out = __MODULE__.handle_close(state)
         # Only call controlling_process if socket is not a reference (test environment)
         if not is_reference(listener_socket) do
-          Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
+          UDP.controlling_process(listener_socket, listener_pid)
         end
 
         # Track connection closure
@@ -486,7 +488,7 @@ defmodule Abyss.Handler do
           ) do
         # Only call controlling_process if socket is not a reference (test environment)
         if not is_reference(listener_socket) do
-          Abyss.Transport.UDP.controlling_process(listener_socket, listener_pid)
+          UDP.controlling_process(listener_socket, listener_pid)
         end
 
         # Track connection closure

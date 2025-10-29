@@ -28,6 +28,8 @@ defmodule Abyss.Connection do
   This module is primarily used internally by `Abyss.Listener`.
   """
 
+  alias Abyss.Transport.UDP
+
   @doc """
   Start a handler process for an incoming UDP packet (passive mode).
 
@@ -130,7 +132,7 @@ defmodule Abyss.Connection do
        ) do
     case DynamicSupervisor.start_child(sup_pid, child_spec) do
       {:ok, pid} ->
-        Abyss.Transport.UDP.controlling_process(listener_socket, pid)
+        UDP.controlling_process(listener_socket, pid)
         send(pid, {:new_connection, listener_socket, recv_data})
         :ok
 
