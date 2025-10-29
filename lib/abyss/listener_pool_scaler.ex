@@ -43,7 +43,7 @@ defmodule Abyss.ListenerPoolScaler do
   @doc """
   Check if scaling is needed and perform it if necessary
   """
-  @spec check_and_scale(pid()) :: :ok
+  @spec check_and_scale(GenServer.server()) :: :ok
   def check_and_scale(scaler \\ __MODULE__) do
     GenServer.call(scaler, :check_and_scale)
   end
@@ -119,14 +119,8 @@ defmodule Abyss.ListenerPoolScaler do
 
   defp gather_metrics(state) do
     # Get current connection count
-    current_connections =
-      case DynamicSupervisor.which_children(state.connection_supervisor) do
-        children when is_list(children) ->
-          length(children)
-
-        _ ->
-          0
-      end
+    children = DynamicSupervisor.which_children(state.connection_supervisor)
+    current_connections = length(children)
 
     # Calculate average processing time from telemetry events
     # This is a simplified approach - in practice you'd want to aggregate

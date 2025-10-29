@@ -346,6 +346,8 @@ defmodule Abyss.Telemetry do
           | :send_error
           | :sendfile_error
           | :socket_shutdown
+          | :rate_limit_exceeded
+          | :packet_too_large
 
   @typedoc false
   @type untimed_event_name ::

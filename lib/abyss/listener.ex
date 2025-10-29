@@ -159,9 +159,10 @@ defmodule Abyss.Listener do
       }
 
       # Start listening immediately for non-broadcast mode
-      if not broadcast do
-        Process.send_after(self(), :start_listening, 0)
-      end
+      _ =
+        if not broadcast do
+          Process.send_after(self(), :start_listening, 0)
+        end
 
       {:ok, state}
     else
@@ -230,14 +231,15 @@ defmodule Abyss.Listener do
             sample_rate: state.server_config.connection_telemetry_sample_rate
           )
 
-        Abyss.Connection.start_active(
-          state.server_pid,
-          self(),
-          socket,
-          {ip, port, data},
-          state.server_config,
-          connection_span
-        )
+        _ =
+          Abyss.Connection.start_active(
+            state.server_pid,
+            self(),
+            socket,
+            {ip, port, data},
+            state.server_config,
+            connection_span
+          )
 
         {:noreply, state}
       end
@@ -299,16 +301,17 @@ defmodule Abyss.Listener do
                 sample_rate: state.server_config.connection_telemetry_sample_rate
               )
 
-            Abyss.Connection.start(
-              state.server_pid,
-              self(),
-              listener_socket,
-              {ip, port, data},
-              state.server_config,
-              connection_span
-            )
+            _ =
+              Abyss.Connection.start(
+                state.server_pid,
+                self(),
+                listener_socket,
+                {ip, port, data},
+                state.server_config,
+                connection_span
+              )
 
-            Process.send_after(self(), :do_recv, 0)
+            _ = Process.send_after(self(), :do_recv, 0)
 
             {:noreply, state}
           end
@@ -328,7 +331,7 @@ defmodule Abyss.Listener do
             remote_port: port
           })
 
-          Process.send_after(self(), :do_recv, 0)
+          _ = Process.send_after(self(), :do_recv, 0)
           {:noreply, state}
         else
           # Check packet size
@@ -340,7 +343,7 @@ defmodule Abyss.Listener do
               max_size: state.server_config.max_packet_size
             })
 
-            Process.send_after(self(), :do_recv, 0)
+            _ = Process.send_after(self(), :do_recv, 0)
             {:noreply, state}
           else
             start_time = Abyss.Telemetry.monotonic_time()
@@ -357,16 +360,17 @@ defmodule Abyss.Listener do
                 sample_rate: state.server_config.connection_telemetry_sample_rate
               )
 
-            Abyss.Connection.start(
-              state.server_pid,
-              self(),
-              listener_socket,
-              {ip, port, data},
-              state.server_config,
-              connection_span
-            )
+            _ =
+              Abyss.Connection.start(
+                state.server_pid,
+                self(),
+                listener_socket,
+                {ip, port, data},
+                state.server_config,
+                connection_span
+              )
 
-            Process.send_after(self(), :do_recv, 0)
+            _ = Process.send_after(self(), :do_recv, 0)
 
             {:noreply, state}
           end
@@ -383,12 +387,12 @@ defmodule Abyss.Listener do
   end
 
   def handle_info({:retry_connection, retry_args}, state) do
-    Abyss.Connection.retry_start(retry_args)
+    _ = Abyss.Connection.retry_start(retry_args)
     {:noreply, state}
   end
 
   def handle_info({:retry_active_connection, retry_args}, state) do
-    Abyss.Connection.retry_start_active(retry_args)
+    _ = Abyss.Connection.retry_start_active(retry_args)
     {:noreply, state}
   end
 
@@ -435,14 +439,15 @@ defmodule Abyss.Listener do
             %{remote_address: ip, remote_port: port, anc_data: anc_data}
           )
 
-        Abyss.Connection.start(
-          state.server_pid,
-          self(),
-          listener_socket,
-          recv_data,
-          state.server_config,
-          connection_span
-        )
+        _ =
+          Abyss.Connection.start(
+            state.server_pid,
+            self(),
+            listener_socket,
+            recv_data,
+            state.server_config,
+            connection_span
+          )
 
         {:noreply, state, {:continue, :listening}}
 
