@@ -220,7 +220,8 @@ defmodule Abyss.Handler do
     end
   end
 
-  # credo:disable-for-next-line Credo.Check.Refactor.CyclomaticComplexity
+  # credo:disable-for-lines:2 Credo.Check.Refactor.CyclomaticComplexity
+  # credo:disable-for-lines:2 Credo.Check.Refactor.LongQuoteBlocks
   def genserver_impl do
     quote do
       alias Abyss.Transport.UDP
@@ -277,7 +278,6 @@ defmodule Abyss.Handler do
           {:memory, memory_words} ->
             memory_mb = memory_words * :erlang.system_info(:wordsize) / (1024 * 1024)
             warning_threshold = state.server_config.handler_memory_warning_threshold
-            hard_limit = state.server_config.handler_memory_hard_limit
 
             if memory_mb > warning_threshold do
               # Log memory warning via telemetry
@@ -291,22 +291,26 @@ defmodule Abyss.Handler do
               :erlang.garbage_collect(self())
 
               # Check if memory is still high after GC
-              case :erlang.process_info(self(), :memory) do
-                {:memory, new_memory_words} ->
-                  new_memory_mb =
-                    new_memory_words * :erlang.system_info(:wordsize) / (1024 * 1024)
+              check_memory_after_gc(state, interval)
+            else
+              Process.send_after(self(), :memory_check, interval)
+              {:noreply, state}
+            end
 
-                  if new_memory_mb > hard_limit do
-                    {:stop, {:shutdown, :memory_limit_exceeded}, state}
-                  else
-                    Process.send_after(self(), :memory_check, interval)
-                    {:noreply, state}
-                  end
+          _ ->
+            Process.send_after(self(), :memory_check, interval)
+            {:noreply, state}
+        end
+      end
 
-                _ ->
-                  Process.send_after(self(), :memory_check, interval)
-                  {:noreply, state}
-              end
+      defp check_memory_after_gc(state, interval) do
+        case :erlang.process_info(self(), :memory) do
+          {:memory, new_memory_words} ->
+            new_memory_mb = new_memory_words * :erlang.system_info(:wordsize) / (1024 * 1024)
+            hard_limit = state.server_config.handler_memory_hard_limit
+
+            if new_memory_mb > hard_limit do
+              {:stop, {:shutdown, :memory_limit_exceeded}, state}
             else
               Process.send_after(self(), :memory_check, interval)
               {:noreply, state}

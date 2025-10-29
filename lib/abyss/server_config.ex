@@ -101,7 +101,13 @@ defmodule Abyss.ServerConfig do
 
   # Private validation function
   defp validate_config!(config) do
-    # Validate listener scaling configuration
+    validate_listener_scaling!(config)
+    validate_telemetry_sampling!(config)
+    validate_memory_thresholds!(config)
+    :ok
+  end
+
+  defp validate_listener_scaling!(config) do
     unless config.min_listeners > 0 and config.min_listeners <= config.max_listeners do
       raise ArgumentError,
             "min_listeners must be positive and <= max_listeners (got min: #{config.min_listeners}, max: #{config.max_listeners})"
@@ -111,15 +117,17 @@ defmodule Abyss.ServerConfig do
       raise ArgumentError,
             "listener_scale_threshold must be between 0.0 and 1.0 (got #{config.listener_scale_threshold})"
     end
+  end
 
-    # Validate telemetry sampling rate
+  defp validate_telemetry_sampling!(config) do
     unless config.connection_telemetry_sample_rate >= 0.0 and
              config.connection_telemetry_sample_rate <= 1.0 do
       raise ArgumentError,
             "connection_telemetry_sample_rate must be between 0.0 and 1.0 (got #{config.connection_telemetry_sample_rate})"
     end
+  end
 
-    # Validate memory thresholds
+  defp validate_memory_thresholds!(config) do
     unless config.handler_memory_check_interval > 0 do
       raise ArgumentError,
             "handler_memory_check_interval must be positive (got #{config.handler_memory_check_interval})"
@@ -130,8 +138,6 @@ defmodule Abyss.ServerConfig do
       raise ArgumentError,
             "handler_memory_warning_threshold must be positive and < handler_memory_hard_limit (got warning: #{config.handler_memory_warning_threshold}, hard limit: #{config.handler_memory_hard_limit})"
     end
-
-    :ok
   end
 
   @doc """
