@@ -12,7 +12,7 @@ defmodule Abyss do
   - **High Performance**: Supervisor-based architecture with configurable connection pooling
   - **Flexible Handler System**: Pluggable handler modules for custom protocol implementations
   - **Real-time Metrics**: Built-in telemetry with connection counts, throughput rates, and response times
-  - **Security Features**: Built-in rate limiting and packet size validation
+  - **Security Features**: Built-in packet size validation
   - **Broadcast Support**: Native support for broadcast and multicast applications
   - **Graceful Shutdown**: Coordinated shutdown with configurable timeouts
   - **Extensible Transport**: Pluggable transport layer (currently UDP)
@@ -96,14 +96,17 @@ defmodule Abyss do
   - `num_acceptors` - Number of acceptor processes (deprecated, use `num_listeners`)
   - `num_listeners` - Number of listener processes (default: `100`)
   - `num_connections` - Max concurrent connections (default: `16_384`)
+  - `dynamic_listeners` - Enable automatic listener pool scaling via
+    `Abyss.ListenerPoolScaler` (unicast mode only, default: `false`)
+  - `min_listeners` - Lower bound for dynamic scaling (default: `10`)
+  - `max_listeners` - Upper bound for dynamic scaling (default: `1000`)
+  - `listener_scale_threshold` - Hysteresis factor for dynamic scaling
+    (default: `0.8`; scale down below `0.8x`, scale up above `1.2x`)
   - `max_connections_retry_count` - Connection retry attempts (default: `5`)
   - `max_connections_retry_wait` - Retry wait time in ms (default: `1000`)
   - `read_timeout` - Connection read timeout in ms (default: `60_000`)
   - `shutdown_timeout` - Graceful shutdown timeout in ms (default: `15_000`)
   - `silent_terminate_on_error` - Silent termination on errors (default: `false`)
-  - `rate_limit_enabled` - Enable rate limiting (default: `false`)
-  - `rate_limit_max_packets` - Max packets per rate limit window (default: `1000`)
-  - `rate_limit_window_ms` - Rate limit window in ms (default: `1000`)
   - `max_packet_size` - Maximum packet size in bytes (default: `8192`)
   """
   @type options :: [
@@ -116,14 +119,15 @@ defmodule Abyss do
           transport_options: transport_options(),
           num_acceptors: pos_integer(),
           num_connections: non_neg_integer() | :infinity,
+          dynamic_listeners: boolean(),
+          min_listeners: pos_integer(),
+          max_listeners: pos_integer(),
+          listener_scale_threshold: float(),
           max_connections_retry_count: non_neg_integer(),
           max_connections_retry_wait: timeout(),
           read_timeout: timeout(),
           shutdown_timeout: timeout(),
           silent_terminate_on_error: boolean(),
-          rate_limit_enabled: boolean(),
-          rate_limit_max_packets: pos_integer(),
-          rate_limit_window_ms: pos_integer(),
           max_packet_size: pos_integer()
         ]
 

@@ -3,8 +3,6 @@ defmodule Abyss.TestHelper do
   Test utilities for Abyss
   """
 
-  alias Abyss.Transport.UDP
-
   @doc """
   Starts a test server with the given configuration.
   Returns {:ok, {server_pid, port}}
@@ -18,12 +16,13 @@ defmodule Abyss.TestHelper do
         listener_pool_pid = Abyss.Server.listener_pool_pid(server_pid)
         listener_pids = Abyss.ListenerPool.listener_pids(listener_pool_pid)
 
-        if length(listener_pids) > 0 do
-          listener_pid = hd(listener_pids)
-          {:ok, {_ip, port}} = Abyss.Listener.listener_info(listener_pid)
-          {:ok, {server_pid, port}}
-        else
-          {:error, :no_listeners}
+        case listener_pids do
+          [listener_pid | _] ->
+            {:ok, {_ip, port}} = Abyss.Listener.listener_info_cached(listener_pid)
+            {:ok, {server_pid, port}}
+
+          [] ->
+            {:error, :no_listeners}
         end
 
       error ->
@@ -35,16 +34,16 @@ defmodule Abyss.TestHelper do
   Creates a UDP client socket for testing
   """
   def create_test_client do
-    UDP.listen(0, [])
+    Abyss.Transport.UDP.listen(0, [])
   end
 
   @doc """
   Sends data to server and receives response
   """
   def send_and_receive(client_socket, server_ip, server_port, data, timeout \\ 1000) do
-    with :ok <- UDP.send(client_socket, server_ip, server_port, data),
+    with :ok <- Abyss.Transport.UDP.send(client_socket, server_ip, server_port, data),
          {:ok, {_client_ip, _client_port, response}} <-
-           UDP.recv(client_socket, 0, timeout) do
+           Abyss.Transport.UDP.recv(client_socket, 0, timeout) do
       {:ok, response}
     end
   end

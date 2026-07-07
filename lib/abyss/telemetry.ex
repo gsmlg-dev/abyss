@@ -1,13 +1,12 @@
 defmodule Abyss.Telemetry do
   @moduledoc """
-  The following telemetry spans and metrics are emitted by abyss
+  Telemetry spans and metrics emitted by Abyss.
 
   ## Telemetry Metrics
 
-  In addition to span events, Abyss provides real-time metrics tracking through
-  the `Abyss.Telemetry` module:
+  Abyss tracks real-time counters per server instance, keyed by the server's
+  handler module (the same identity used by `Abyss.ListenerPoolScaler`):
 
-  ### Connection Metrics
   - `connections_active`: Number of currently active connections
   - `connections_total`: Total number of connections since server start
   - `accepts_total`: Total number of accepted connections
@@ -15,310 +14,72 @@ defmodule Abyss.Telemetry do
   - `accepts_per_second`: Current accepts per second rate
   - `responses_per_second`: Current responses per second rate
 
-  ### Response Time Metrics
-  - `[:abyss, :metrics, :response_time]`: Event emitted for each response with timing
-
   ### Using Metrics
+
   ```elixir
-  # Get current metrics
-  metrics = Abyss.Telemetry.get_metrics()
-  # => %{
-  #   connections_active: 15,
-  #   connections_total: 1250,
-  #   accepts_total: 1250,
-  #   responses_total: 1198,
-  #   accepts_per_second: 25,
-  #   responses_per_second: 23
-  # }
+  # Aggregate metrics across all Abyss server instances in this node
+  Abyss.Telemetry.get_metrics()
+  # => %{connections_active: 15, connections_total: 1250, ...}
+
+  # Metrics for a single server instance, identified by handler module
+  Abyss.Telemetry.get_metrics(MyApp.DnsHandler)
 
   # Reset all metrics
   Abyss.Telemetry.reset_metrics()
-
-  # Listen for response time events
-  :telemetry.attach_many(
-    "response-time-listener",
-    [[:abyss, :metrics, :response_time]],
-    &handle_response_time/4,
-    %{}
-  )
   ```
 
   ## Telemetry Spans
 
-  The following telemetry spans are emitted by abyss
-
-  ## `[:abyss, :listener, *]`
-
-  Represents a Abyss server listening to a port
-
-  This span is started by the following event:
-
-  * `[:abyss, :listener, :start]`
-
-      Represents the start of the span
-
-      This event contains the following measurements:
-
-      * `monotonic_time`: The time of this event, in `:native` units
-
-      This event contains the following metadata:
-
-      * `telemetry_span_context`: A unique identifier for this span
-      * `local_address`: The IP address that the listener is bound to
-      * `local_port`: The port that the listener is bound to
-      * `transport_module`: The transport module in use
-      * `transport_options`: Options passed to the transport module at startup
-
-
-  This span is ended by the following event:
-
-  * `[:abyss, :listener, :stop]`
-
-      Represents the end of the span
-
-      This event contains the following measurements:
-
-      * `monotonic_time`: The time of this event, in `:native` units
-      * `duration`: The span duration, in `:native` units
-
-      This event contains the following metadata:
-
-      * `telemetry_span_context`: A unique identifier for this span
-      * `local_address`: The IP address that the listener is bound to
-      * `local_port`: The port that the listener is bound to
-      * `transport_module`: The transport module in use
-      * `transport_options`: Options passed to the transport module at startup
-
-  ## `[:abyss, :acceptor, *]`
-
-  Represents a Abyss acceptor process listening for connections
-
-  This span is started by the following event:
-
-  * `[:abyss, :acceptor, :start]`
-
-      Represents the start of the span
-
-      This event contains the following measurements:
-
-      * `monotonic_time`: The time of this event, in `:native` units
-
-      This event contains the following metadata:
-
-      * `telemetry_span_context`: A unique identifier for this span
-      * `parent_telemetry_span_context`: The span context of the `:listener` which created this acceptor
-
-  This span is ended by the following event:
-
-  * `[:abyss, :acceptor, :stop]`
-
-      Represents the end of the span
-
-      This event contains the following measurements:
-
-      * `monotonic_time`: The time of this event, in `:native` units
-      * `duration`: The span duration, in `:native` units
-      * `connections`: The number of client requests that the acceptor handled
-
-      This event contains the following metadata:
-
-      * `telemetry_span_context`: A unique identifier for this span
-      * `parent_telemetry_span_context`: The span context of the `:listener` which created this acceptor
-      * `error`: The error that caused the span to end, if it ended in error
-
-  The following events may be emitted within this span:
-
-  * `[:abyss, :acceptor, :spawn_error]`
-
-      Abyss was unable to spawn a process to handle a connection. This occurs when too
-      many connections are in progress; you may want to look at increasing the `num_connections`
-      configuration parameter
-
-      This event contains the following measurements:
-
-      * `monotonic_time`: The time of this event, in `:native` units
-
-      This event contains the following metadata:
-
-      * `telemetry_span_context`: A unique identifier for this span
-
-  * `[:abyss, :acceptor, :econnaborted]`
-
-      Abyss was unable to spawn a process to handle a connection since the remote end
-      closed before we could accept it. This usually occurs when it takes too long for your server
-      to start processing a connection; you may want to look at tuning OS-level TCP parameters or
-      adding more server capacity.
-
-      This event contains the following measurements:
-
-      * `monotonic_time`: The time of this event, in `:native` units
-
-      This event contains the following metadata:
-
-      * `telemetry_span_context`: A unique identifier for this span
-
-  ## `[:abyss, :connection, *]`
-
-  Represents Abyss handling a specific client request
-
-  This span is started by the following event:
-
-  * `[:abyss, :connection, :start]`
-
-      Represents the start of the span
-
-      This event contains the following measurements:
-
-      * `monotonic_time`: The time of this event, in `:native` units
-
-      This event contains the following metadata:
-
-      * `telemetry_span_context`: A unique identifier for this span
-      * `parent_telemetry_span_context`: The span context of the `:acceptor` span which accepted
-      this connection
-      * `remote_address`: The IP address of the connected client
-      * `remote_port`: The port of the connected client
-
-  This span is ended by the following event:
-
-  * `[:abyss, :connection, :stop]`
-
-      Represents the end of the span
-
-      This event contains the following measurements:
-
-      * `monotonic_time`: The time of this event, in `:native` units
-      * `duration`: The span duration, in `:native` units
-      * `send_oct`: The number of octets sent on the connection
-      * `send_cnt`: The number of packets sent on the connection
-      * `recv_oct`: The number of octets received on the connection
-      * `recv_cnt`: The number of packets received on the connection
-
-      This event contains the following metadata:
-
-      * `telemetry_span_context`: A unique identifier for this span
-      * `parent_telemetry_span_context`: The span context of the `:acceptor` span which accepted
-        this connection
-      * `remote_address`: The IP address of the connected client
-      * `remote_port`: The port of the connected client
-      * `error`: The error that caused the span to end, if it ended in error
-
-  The following events may be emitted within this span:
-
-  * `[:abyss, :connection, :ready]`
-
-      Abyss has completed setting up the client connection
-
-      This event contains the following measurements:
-
-      * `monotonic_time`: The time of this event, in `:native` units
-
-      This event contains the following metadata:
-
-      * `telemetry_span_context`: A unique identifier for this span
-
-  * `[:abyss, :connection, :async_recv]`
-
-      Abyss has asynchronously received data from the client
-
-      This event contains the following measurements:
-
-      * `data`: The data received from the client
-
-      This event contains the following metadata:
-
-      * `telemetry_span_context`: A unique identifier for this span
-
-  * `[:abyss, :connection, :recv]`
-
-      Abyss has synchronously received data from the client
-
-      This event contains the following measurements:
-
-      * `data`: The data received from the client
-
-      This event contains the following metadata:
-
-      * `telemetry_span_context`: A unique identifier for this span
-
-  * `[:abyss, :connection, :recv_error]`
-
-      Abyss encountered an error reading data from the client
-
-      This event contains the following measurements:
-
-      * `error`: A description of the error
-
-      This event contains the following metadata:
-
-      * `telemetry_span_context`: A unique identifier for this span
-
-  * `[:abyss, :connection, :send]`
-
-      Abyss has sent data to the client
-
-      This event contains the following measurements:
-
-      * `data`: The data sent to the client
-
-      This event contains the following metadata:
-
-      * `telemetry_span_context`: A unique identifier for this span
-
-  * `[:abyss, :connection, :send_error]`
-
-      Abyss encountered an error sending data to the client
-
-      This event contains the following measurements:
-
-      * `data`: The data that was being sent to the client
-      * `error`: A description of the error
-
-      This event contains the following metadata:
-
-      * `telemetry_span_context`: A unique identifier for this span
-
-  * `[:abyss, :connection, :sendfile]`
-
-      Abyss has sent a file to the client
-
-      This event contains the following measurements:
-
-      * `filename`: The filename containing data sent to the client
-      * `offset`: The offset (in bytes) within the file sending started from
-      * `bytes_written`: The number of bytes written
-
-      This event contains the following metadata:
-
-      * `telemetry_span_context`: A unique identifier for this span
-
-  * `[:abyss, :connection, :sendfile_error]`
-
-      Abyss encountered an error sending a file to the client
-
-      This event contains the following measurements:
-
-      * `filename`: The filename containing data that was being sent to the client
-      * `offset`: The offset (in bytes) within the file where sending started from
-      * `length`: The number of bytes that were attempted to send
-      * `error`: A description of the error
-
-      This event contains the following metadata:
-
-      * `telemetry_span_context`: A unique identifier for this span
-
-  * `[:abyss, :connection, :socket_shutdown]`
-
-      Abyss has shutdown the client connection
-
-      This event contains the following measurements:
-
-      * `monotonic_time`: The time of this event, in `:native` units
-      * `way`: The direction in which the socket was shut down
-
-      This event contains the following metadata:
-
-      * `telemetry_span_context`: A unique identifier for this span
+  ### `[:abyss, :listener, *]`
+
+  Represents an Abyss listener bound to a port. Started by
+  `[:abyss, :listener, :start]` and ended by `[:abyss, :listener, :stop]`
+  (measurements: `monotonic_time`, and `duration` on stop; metadata:
+  `telemetry_span_context`, `listener_id`, `handler`, `local_address`,
+  `local_port`, `broadcast`, `transport_options`).
+
+  Events emitted within this span:
+
+  - `[:abyss, :listener, :ready]` - the listener began accepting packets
+  - `[:abyss, :listener, :waiting]` - the listener is blocked waiting to
+    receive (passive mode only)
+  - `[:abyss, :listener, :receiving]` - a packet was received (passive mode
+    only)
+  - `[:abyss, :listener, :packet_too_large]` - a packet exceeding
+    `max_packet_size` was rejected (measurements: `remote_address`,
+    `remote_port`, `packet_size`, `max_size`)
+  - `[:abyss, :listener, :recv_error]` - receiving failed (measurements:
+    `reason`)
+
+  ### `[:abyss, :connection, *]`
+
+  Represents the handling of a single packet/connection. Started by
+  `[:abyss, :connection, :start]` and ended by
+  `[:abyss, :connection, :stop]` (metadata includes
+  `parent_telemetry_span_context` referencing the listener span,
+  `remote_address`, `remote_port`, and `accept_start_time`).
+
+  Events emitted within this span:
+
+  - `[:abyss, :connection, :ready]` - the handler process received the packet
+
+  Connection spans are sampled according to the
+  `connection_telemetry_sample_rate` server option (default `0.05`);
+  unsampled spans emit no events. Metrics tracking is not affected by
+  sampling.
+
+  ## Other Events
+
+  - `[:abyss, :metrics, :response_time]` - emitted for every tracked
+    response (measurements: `response_time` in ms; metadata: `handler`)
+  - `[:abyss, :connection, :limit_exceeded]` - connection retries exhausted
+    while the connection supervisor was at capacity
+  - `[:abyss, :handler, :memory_warning]` - a handler process exceeded the
+    `handler_memory_warning_threshold`
+  - `[:abyss, :listener_pool, :scale_up]` / `[:abyss, :listener_pool,
+    :scale_down]` - emitted by `Abyss.ListenerPoolScaler`
+  - `[:abyss, :client, :send | :send_recv | :subscribe, :start | :stop |
+    :exception]` - emitted by `Abyss.Client` operations
   """
 
   @enforce_keys [:span_name, :telemetry_span_context, :start_time, :start_metadata]
@@ -331,43 +92,31 @@ defmodule Abyss.Telemetry do
           start_metadata: metadata()
         }
 
-  @type span_name :: :listener | :sender | :connection
+  @type span_name :: :listener | :connection
   @type metadata :: :telemetry.event_metadata()
+
+  @typedoc "Metrics scope - a server's handler module, or :unscoped"
+  @type scope :: module() | :unscoped
 
   @typedoc false
   @type measurements :: :telemetry.event_measurements()
 
   @typedoc false
-  @type event_name ::
-          :ready
-          | :spawn_error
-          | :econnaborted
-          | :recv_error
-          | :send_error
-          | :sendfile_error
-          | :socket_shutdown
-          | :rate_limit_exceeded
-          | :packet_too_large
+  @type event_name :: :ready | :packet_too_large | :recv_error
 
   @typedoc false
-  @type untimed_event_name ::
-          :async_recv
-          | :stop
-          | :recv
-          | :send
-          | :sendfile
-          | :waiting
-          | :receiving
+  @type untimed_event_name :: :stop | :waiting | :receiving
 
   @app_name :abyss
 
-  # Default sampling rates for different span types
-  # 10% sampling for connections
-  @default_connection_sample_rate 0.1
+  # Default sampling rates for different span types.
+  # Matches the ServerConfig connection_telemetry_sample_rate default.
+  @default_connection_sample_rate 0.05
   # 100% sampling for listeners (they're few)
   @default_listener_sample_rate 1.0
 
-  # Metrics tracking
+  # Metrics tracking. Counters are stored as {{scope, counter_name}, value}
+  # rows where scope is the server's handler module (or :unscoped).
   @metrics_table :abyss_telemetry_metrics
 
   @doc """
@@ -377,42 +126,15 @@ defmodule Abyss.Telemetry do
   def init_metrics do
     case :ets.whereis(@metrics_table) do
       :undefined ->
-        # Use try/catch to handle race condition when multiple processes
-        # attempt to create the table simultaneously
-        try do
-          table_id =
-            :ets.new(@metrics_table, [
-              :set,
-              :public,
-              :named_table,
-              {:read_concurrency, true},
-              {:write_concurrency, true}
-            ])
-
-          # Initialize metrics counters
-          :ets.insert(table_id, {:connections_active, 0})
-          :ets.insert(table_id, {:connections_total, 0})
-          :ets.insert(table_id, {:accepts_total, 0})
-          :ets.insert(table_id, {:responses_total, 0})
-
-          :ets.insert(
-            table_id,
-            {:accept_rate_window_start, System.monotonic_time(:millisecond)}
-          )
-
-          :ets.insert(table_id, {:accepts_in_window, 0})
-
-          :ets.insert(
-            table_id,
-            {:response_rate_window_start, System.monotonic_time(:millisecond)}
-          )
-
-          :ets.insert(table_id, {:responses_in_window, 0})
-        catch
-          :error, :badarg ->
-            # Table was created by another process, that's fine
-            :ok
-        end
+        # Creation is routed through Abyss.TableOwner so the table is owned
+        # by a long-lived process regardless of which process first needs it.
+        Abyss.TableOwner.ensure_table(@metrics_table, [
+          :set,
+          :public,
+          :named_table,
+          {:read_concurrency, true},
+          {:write_concurrency, true}
+        ])
 
       _ ->
         :ok
@@ -434,145 +156,107 @@ defmodule Abyss.Telemetry do
   end
 
   @doc """
-  Track a new connection being accepted
+  Track a new connection being accepted.
+
+  `scope` identifies the server instance (its handler module).
   """
-  @spec track_connection_accepted() :: :ok
-  def track_connection_accepted do
-    init_metrics()
+  @spec track_connection_accepted(scope()) :: :ok
+  def track_connection_accepted(scope \\ :unscoped) do
     table = get_metrics_table()
 
-    # Increment total accepts
-    case :ets.lookup(table, :accepts_total) do
-      [{:accepts_total, count}] ->
-        :ets.insert(table, {:accepts_total, count + 1})
-
-      [] ->
-        :ets.insert(table, {:accepts_total, 1})
-    end
-
-    # Update accepts in current window
-    update_accept_rate_window()
-
-    # Increment active connections
-    case :ets.lookup(table, :connections_active) do
-      [{:connections_active, count}] ->
-        :ets.insert(table, {:connections_active, count + 1})
-
-      [] ->
-        :ets.insert(table, {:connections_active, 1})
-    end
-
-    # Increment total connections
-    case :ets.lookup(table, :connections_total) do
-      [{:connections_total, count}] ->
-        :ets.insert(table, {:connections_total, count + 1})
-
-      [] ->
-        :ets.insert(table, {:connections_total, 1})
-    end
+    bump(table, scope, :accepts_total)
+    bump(table, scope, :connections_active)
+    bump(table, scope, :connections_total)
+    update_rate_window(table, scope, :accept_rate_window_start, :accepts_in_window)
 
     :ok
   end
 
   @doc """
-  Track a connection being closed
+  Track a connection being closed.
+
+  `scope` identifies the server instance (its handler module).
   """
-  @spec track_connection_closed() :: :ok
-  def track_connection_closed do
-    init_metrics()
+  @spec track_connection_closed(scope()) :: :ok
+  def track_connection_closed(scope \\ :unscoped) do
     table = get_metrics_table()
 
-    # Decrement active connections
-    case :ets.lookup(table, :connections_active) do
-      [{:connections_active, count}] when count > 0 ->
-        :ets.insert(table, {:connections_active, count - 1})
-
-      _ ->
-        :ok
-    end
-
-    :ok
-  end
-
-  @doc """
-  Track a response being sent
-  """
-  @spec track_response_sent(response_time :: integer()) :: :ok
-  def track_response_sent(response_time) when is_integer(response_time) do
-    init_metrics()
-    table = get_metrics_table()
-
-    # Increment total responses
-    case :ets.lookup(table, :responses_total) do
-      [{:responses_total, count}] ->
-        :ets.insert(table, {:responses_total, count + 1})
-
-      [] ->
-        :ets.insert(table, {:responses_total, 1})
-    end
-
-    # Update responses in current window
-    update_response_rate_window()
-
-    # Emit response time event
-    :telemetry.execute(
-      [:abyss, :metrics, :response_time],
-      %{response_time: response_time},
-      %{}
+    # Atomically decrement, but never below zero
+    :ets.update_counter(
+      table,
+      {scope, :connections_active},
+      {2, -1, 0, 0},
+      {{scope, :connections_active}, 0}
     )
 
     :ok
   end
 
   @doc """
-  Get current telemetry metrics
+  Track a response being sent.
+
+  `metadata` is included in the emitted `[:abyss, :metrics, :response_time]`
+  event; Abyss handlers pass `%{handler: handler_module}`, which is also used
+  as the metrics scope.
   """
-  @spec get_metrics() :: %{
-          connections_active: non_neg_integer(),
-          connections_total: non_neg_integer(),
-          accepts_total: non_neg_integer(),
-          responses_total: non_neg_integer(),
-          accepts_per_second: non_neg_integer(),
-          responses_per_second: non_neg_integer()
-        }
-  def get_metrics do
-    init_metrics()
+  @spec track_response_sent(response_time :: integer(), metadata()) :: :ok
+  def track_response_sent(response_time, metadata \\ %{}) when is_integer(response_time) do
     table = get_metrics_table()
+    scope = Map.get(metadata, :handler, :unscoped)
 
-    connections_active =
-      case :ets.lookup(table, :connections_active) do
-        [{:connections_active, count}] -> count
-        [] -> 0
-      end
+    bump(table, scope, :responses_total)
+    update_rate_window(table, scope, :response_rate_window_start, :responses_in_window)
 
-    connections_total =
-      case :ets.lookup(table, :connections_total) do
-        [{:connections_total, count}] -> count
-        [] -> 0
-      end
+    # Emit response time event
+    :telemetry.execute(
+      [:abyss, :metrics, :response_time],
+      %{response_time: response_time},
+      metadata
+    )
 
-    accepts_total =
-      case :ets.lookup(table, :accepts_total) do
-        [{:accepts_total, count}] -> count
-        [] -> 0
-      end
+    :ok
+  end
 
-    responses_total =
-      case :ets.lookup(table, :responses_total) do
-        [{:responses_total, count}] -> count
-        [] -> 0
-      end
-
-    accepts_per_sec = get_accept_rate()
-    responses_per_sec = get_response_rate()
+  @doc """
+  Get telemetry metrics aggregated across all server instances.
+  """
+  @spec get_metrics() :: map()
+  def get_metrics do
+    table = get_metrics_table()
+    scopes = list_scopes(table)
 
     %{
-      connections_active: connections_active,
-      connections_total: connections_total,
-      accepts_total: accepts_total,
-      responses_total: responses_total,
-      accepts_per_second: accepts_per_sec,
-      responses_per_second: responses_per_sec
+      connections_active: sum_counter(table, :connections_active),
+      connections_total: sum_counter(table, :connections_total),
+      accepts_total: sum_counter(table, :accepts_total),
+      responses_total: sum_counter(table, :responses_total),
+      accepts_per_second:
+        scopes
+        |> Enum.map(&get_rate(table, &1, :accept_rate_window_start, :accepts_in_window))
+        |> Enum.sum(),
+      responses_per_second:
+        scopes
+        |> Enum.map(&get_rate(table, &1, :response_rate_window_start, :responses_in_window))
+        |> Enum.sum()
+    }
+  end
+
+  @doc """
+  Get telemetry metrics for a single server instance, identified by its
+  handler module.
+  """
+  @spec get_metrics(scope()) :: map()
+  def get_metrics(scope) do
+    table = get_metrics_table()
+
+    %{
+      connections_active: counter(table, scope, :connections_active),
+      connections_total: counter(table, scope, :connections_total),
+      accepts_total: counter(table, scope, :accepts_total),
+      responses_total: counter(table, scope, :responses_total),
+      accepts_per_second: get_rate(table, scope, :accept_rate_window_start, :accepts_in_window),
+      responses_per_second:
+        get_rate(table, scope, :response_rate_window_start, :responses_in_window)
     }
   end
 
@@ -587,108 +271,66 @@ defmodule Abyss.Telemetry do
 
       _table_id ->
         :ets.delete_all_objects(@metrics_table)
-        init_metrics()
     end
 
     :ok
   end
 
-  # Private functions
+  # Private metrics functions
 
-  defp update_accept_rate_window do
-    table = get_metrics_table()
-    current_time = System.monotonic_time(:millisecond)
+  defp bump(table, scope, counter) do
+    :ets.update_counter(table, {scope, counter}, 1, {{scope, counter}, 0})
+  end
 
-    # Use try/rescue for atomic increment
-    try do
-      # Atomically increment counter
-      _ = :ets.update_counter(table, :accepts_in_window, {2, 1})
-
-      # Check if window needs reset (non-atomic read is acceptable here)
-      case :ets.lookup(table, :accept_rate_window_start) do
-        [{:accept_rate_window_start, window_start}] ->
-          if current_time - window_start >= 1000 do
-            # Reset window - these operations are eventually consistent
-            :ets.insert(table, {:accept_rate_window_start, current_time})
-            :ets.insert(table, {:accepts_in_window, 1})
-          end
-
-        [] ->
-          # Initialize window
-          :ets.insert(table, {:accept_rate_window_start, current_time})
-          :ets.insert(table, {:accepts_in_window, 1})
-      end
-    rescue
-      ArgumentError ->
-        # Counter doesn't exist, initialize it
-        :ets.insert(table, {:accept_rate_window_start, current_time})
-        :ets.insert(table, {:accepts_in_window, 1})
+  defp counter(table, scope, counter) do
+    case :ets.lookup(table, {scope, counter}) do
+      [{_key, value}] -> value
+      [] -> 0
     end
   end
 
-  defp update_response_rate_window do
-    table = get_metrics_table()
-    current_time = System.monotonic_time(:millisecond)
-
-    # Use try/rescue for atomic increment
-    try do
-      # Atomically increment counter
-      _ = :ets.update_counter(table, :responses_in_window, {2, 1})
-
-      # Check if window needs reset (non-atomic read is acceptable here)
-      case :ets.lookup(table, :response_rate_window_start) do
-        [{:response_rate_window_start, window_start}] ->
-          if current_time - window_start >= 1000 do
-            # Reset window - these operations are eventually consistent
-            :ets.insert(table, {:response_rate_window_start, current_time})
-            :ets.insert(table, {:responses_in_window, 1})
-          end
-
-        [] ->
-          # Initialize window
-          :ets.insert(table, {:response_rate_window_start, current_time})
-          :ets.insert(table, {:responses_in_window, 1})
-      end
-    rescue
-      ArgumentError ->
-        # Counter doesn't exist, initialize it
-        :ets.insert(table, {:response_rate_window_start, current_time})
-        :ets.insert(table, {:responses_in_window, 1})
-    end
+  defp sum_counter(table, counter) do
+    table
+    |> :ets.select([{{{:_, counter}, :"$1"}, [], [:"$1"]}])
+    |> Enum.sum()
   end
 
-  defp get_accept_rate do
-    table = get_metrics_table()
-    current_time = System.monotonic_time(:millisecond)
+  defp list_scopes(table) do
+    table
+    |> :ets.select([{{{:"$1", :_}, :_}, [], [:"$1"]}])
+    |> Enum.uniq()
+  end
 
-    case :ets.lookup(table, :accept_rate_window_start) do
-      [{:accept_rate_window_start, window_start}] ->
-        calculate_rate(table, :accepts_in_window, current_time - window_start)
+  defp update_rate_window(table, scope, window_key, counter_key) do
+    current_time = System.monotonic_time(:millisecond)
+    bump(table, scope, counter_key)
+
+    case :ets.lookup(table, {scope, window_key}) do
+      [{_key, window_start}] ->
+        if current_time - window_start >= 1000 do
+          :ets.insert(table, {{scope, window_key}, current_time})
+          :ets.insert(table, {{scope, counter_key}, 1})
+        end
 
       [] ->
-        0
+        :ets.insert(table, {{scope, window_key}, current_time})
     end
+
+    :ok
   end
 
-  defp calculate_rate(table, counter_key, time_diff) when time_diff > 0 do
-    case :ets.lookup(table, counter_key) do
-      [{^counter_key, count}] ->
-        round(count * 1000 / time_diff)
-
-      [] ->
-        0
-    end
-  end
-
-  defp calculate_rate(_table, _counter_key, _time_diff), do: 0
-
-  defp get_response_rate do
-    table = get_metrics_table()
+  defp get_rate(table, scope, window_key, counter_key) do
     current_time = System.monotonic_time(:millisecond)
 
-    case :ets.lookup(table, :response_rate_window_start) do
-      [{:response_rate_window_start, window_start}] ->
-        calculate_rate(table, :responses_in_window, current_time - window_start)
+    case :ets.lookup(table, {scope, window_key}) do
+      [{_key, window_start}] ->
+        time_diff = current_time - window_start
+
+        if time_diff > 0 do
+          round(counter(table, scope, counter_key) * 1000 / time_diff)
+        else
+          0
+        end
 
       [] ->
         0
@@ -739,9 +381,10 @@ defmodule Abyss.Telemetry do
   @spec start_child_span(t(), span_name(), measurements(), metadata()) :: t()
   def start_child_span(parent_span, span_name, measurements \\ %{}, metadata \\ %{}) do
     metadata =
-      metadata
-      |> Map.put(:parent_telemetry_span_context, parent_span.telemetry_span_context)
-      |> Map.put(:handler, parent_span.start_metadata.handler)
+      Map.merge(metadata, %{
+        parent_telemetry_span_context: parent_span.telemetry_span_context,
+        handler: parent_span.start_metadata.handler
+      })
 
     start_span(span_name, measurements, metadata)
   end
@@ -757,9 +400,10 @@ defmodule Abyss.Telemetry do
         opts \\ []
       ) do
     metadata =
-      metadata
-      |> Map.put(:parent_telemetry_span_context, parent_span.telemetry_span_context)
-      |> Map.put(:handler, parent_span.start_metadata.handler)
+      Map.merge(metadata, %{
+        parent_telemetry_span_context: parent_span.telemetry_span_context,
+        handler: parent_span.start_metadata.handler
+      })
 
     start_span_with_sampling(span_name, measurements, metadata, opts)
   end

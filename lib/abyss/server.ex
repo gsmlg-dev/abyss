@@ -3,14 +3,12 @@ defmodule Abyss.Server do
   Internal server supervisor that manages the Abyss supervision tree.
 
   This module is responsible for managing all components of an Abyss server instance,
-  including the listener pool, connection supervisor, rate limiter (if enabled),
-  and shutdown coordination.
+  including the listener pool, connection supervisor, and shutdown coordination.
 
   ## Architecture
 
   The server manages the following children:
 
-  - **Rate Limiter**: Optional token bucket rate limiting for DoS protection
   - **Listener Pool**: Supervisor managing UDP listener processes
   - **Connection Supervisor**: Dynamic supervisor managing handler processes
   - **Activator Task**: Starts listener processes after initialization
@@ -19,7 +17,7 @@ defmodule Abyss.Server do
   ## Configuration
 
   The server is configured via `Abyss.ServerConfig` which contains all server
-  options including port, handler module, timeouts, and security settings.
+  options including port, handler module, and timeouts.
 
   This module is primarily used internally by `Abyss.start_link/1` and should
   not be used directly by end users.
@@ -48,16 +46,15 @@ defmodule Abyss.Server do
   """
   @spec resume(Supervisor.supervisor()) :: :ok | :error | nil
   def resume(supervisor) do
-    do_resume(supervisor)
-  rescue
-    ArgumentError -> nil
-    _ -> nil
-  end
-
-  defp do_resume(supervisor) do
-    case listener_pool_pid(supervisor) do
-      nil -> nil
-      pid -> Abyss.ListenerPool.resume(pid)
+    try do
+      case listener_pool_pid(supervisor) do
+        nil -> nil
+        pid -> Abyss.ListenerPool.resume(pid)
+      end
+    rescue
+      _e in [ArgumentError, UndefinedFunctionError] -> nil
+    catch
+      :exit, _ -> nil
     end
   end
 
@@ -73,16 +70,15 @@ defmodule Abyss.Server do
   """
   @spec suspend(Supervisor.supervisor()) :: :ok | :error | nil
   def suspend(supervisor) do
-    do_suspend(supervisor)
-  rescue
-    ArgumentError -> nil
-    _ -> nil
-  end
-
-  defp do_suspend(supervisor) do
-    case listener_pool_pid(supervisor) do
-      nil -> nil
-      pid -> Abyss.ListenerPool.suspend(pid)
+    try do
+      case listener_pool_pid(supervisor) do
+        nil -> nil
+        pid -> Abyss.ListenerPool.suspend(pid)
+      end
+    rescue
+      _e in [ArgumentError, UndefinedFunctionError] -> nil
+    catch
+      :exit, _ -> nil
     end
   end
 
@@ -96,30 +92,7 @@ defmodule Abyss.Server do
   - The listener pool PID if found and alive, `nil` otherwise
   """
   @spec listener_pool_pid(Supervisor.supervisor()) :: pid() | nil
-  def listener_pool_pid(supervisor) do
-    do_listener_pool_pid(supervisor)
-  rescue
-    ArgumentError -> nil
-    _ -> nil
-  end
-
-  defp do_listener_pool_pid(supervisor) do
-    case Process.alive?(supervisor) do
-      false ->
-        nil
-
-      true ->
-        supervisor
-        |> Supervisor.which_children()
-        |> Enum.find_value(fn
-          {:listener_pool, listener_pool_pid, _, _} when is_pid(listener_pool_pid) ->
-            listener_pool_pid
-
-          _ ->
-            nil
-        end)
-    end
-  end
+  def listener_pool_pid(supervisor), do: find_child_pid(supervisor, :listener_pool)
 
   @doc """
   Get the PID of the connection supervisor for a server.
@@ -131,28 +104,40 @@ defmodule Abyss.Server do
   - The connection supervisor PID if found and alive, `nil` otherwise
   """
   @spec connection_sup_pid(Supervisor.supervisor()) :: pid() | nil
-  def connection_sup_pid(supervisor) do
-    do_connection_sup_pid(supervisor)
-  rescue
-    ArgumentError -> nil
-    _ -> nil
-  end
+  def connection_sup_pid(supervisor), do: find_child_pid(supervisor, :connection_sup)
 
-  defp do_connection_sup_pid(supervisor) do
-    case Process.alive?(supervisor) do
-      false ->
-        nil
+  @doc """
+  Get the PID of the listener pool scaler for a server.
 
-      true ->
+  The scaler is only started when the server is configured with
+  `dynamic_listeners: true` in unicast mode.
+
+  ## Parameters
+  - `supervisor` - The server supervisor PID
+
+  ## Returns
+  - The scaler PID if found and alive, `nil` otherwise
+  """
+  @spec listener_pool_scaler_pid(Supervisor.supervisor()) :: pid() | nil
+  def listener_pool_scaler_pid(supervisor),
+    do: find_child_pid(supervisor, :listener_pool_scaler)
+
+  defp find_child_pid(supervisor, child_id) do
+    try do
+      if Process.alive?(supervisor) do
         supervisor
         |> Supervisor.which_children()
         |> Enum.find_value(fn
-          {:connection_sup, connection_sup_pid, _, _} when is_pid(connection_sup_pid) ->
-            connection_sup_pid
-
-          _ ->
-            nil
+          {^child_id, pid, _, _} when is_pid(pid) -> pid
+          _ -> nil
         end)
+      else
+        nil
+      end
+    rescue
+      _e in [ArgumentError, UndefinedFunctionError] -> nil
+    catch
+      :exit, _ -> nil
     end
   end
 
@@ -167,42 +152,42 @@ defmodule Abyss.Server do
     # Initialize telemetry metrics
     Abyss.Telemetry.init_metrics()
 
-    # Add rate limiter if enabled
-    rate_limiter_child =
-      if config.rate_limit_enabled do
-        [
-          {Abyss.RateLimiter,
-           [
-             enabled: config.rate_limit_enabled,
-             max_packets: config.rate_limit_max_packets,
-             window_ms: config.rate_limit_window_ms
-           ]}
-          |> Supervisor.child_spec(id: :rate_limiter)
-        ]
-      else
-        []
-      end
-
     children =
-      rate_limiter_child ++
+      [
+        {Abyss.ListenerPool, {server_pid, config}}
+        |> Supervisor.child_spec(id: :listener_pool),
+        {DynamicSupervisor, strategy: :one_for_one, max_children: config.num_connections}
+        |> Supervisor.child_spec(id: :connection_sup),
+        Supervisor.child_spec(
+          {Task,
+           fn ->
+             server_pid
+             |> Abyss.Server.listener_pool_pid()
+             |> Abyss.ListenerPool.start_listening()
+           end},
+          id: :activator
+        )
+      ] ++
+        scaler_child_specs(config, server_pid) ++
         [
-          {Abyss.ListenerPool, {server_pid, config}}
-          |> Supervisor.child_spec(id: :listener_pool),
-          {DynamicSupervisor, strategy: :one_for_one, max_children: config.num_connections}
-          |> Supervisor.child_spec(id: :connection_sup),
-          Supervisor.child_spec(
-            {Task,
-             fn ->
-               server_pid
-               |> Abyss.Server.listener_pool_pid()
-               |> Abyss.ListenerPool.start_listening()
-             end},
-            id: :activator
-          ),
           {Abyss.ShutdownListener, server_pid}
           |> Supervisor.child_spec(id: :shutdown_listener)
         ]
 
     Supervisor.init(children, strategy: :rest_for_one)
   end
+
+  # The scaler only makes sense for unicast listener pools; broadcast mode
+  # always uses a single listener.
+  defp scaler_child_specs(
+         %Abyss.ServerConfig{dynamic_listeners: true, broadcast: false} = config,
+         server_pid
+       ) do
+    [
+      {Abyss.ListenerPoolScaler, [server_supervisor: server_pid, server_config: config]}
+      |> Supervisor.child_spec(id: :listener_pool_scaler)
+    ]
+  end
+
+  defp scaler_child_specs(_config, _server_pid), do: []
 end

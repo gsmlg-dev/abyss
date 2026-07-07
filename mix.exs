@@ -34,6 +34,7 @@ defmodule Abyss.MixProject do
 
   def application do
     [
+      mod: {Abyss.Application, []},
       extra_applications: [:logger]
     ]
   end
@@ -45,6 +46,7 @@ defmodule Abyss.MixProject do
     [
       {:telemetry, "~> 1.0"},
       {:telemetry_metrics, "~> 1.0"},
+      {:rustler, "~> 0.34.0", runtime: false},
       {:mox, "~> 1.0", only: :test},
       {:ex_dns, path: "../ex_dns", only: [:dev, :test], runtime: false, optional: true},
       {:dhcp_ex, path: "../ex_dhcp", only: [:dev, :test], runtime: false, optional: true},
@@ -59,6 +61,7 @@ defmodule Abyss.MixProject do
     [
       {:telemetry, "~> 1.0"},
       {:telemetry_metrics, "~> 1.0"},
+      {:rustler, "~> 0.34.0", runtime: false},
       {:mox, "~> 1.0", only: :test},
       {:ex_dns, "~> 0.3", only: [:dev, :test], runtime: false, optional: true},
       {:dhcp_ex, "~> 0.3", only: [:dev, :test], runtime: false, optional: true},
@@ -90,7 +93,7 @@ defmodule Abyss.MixProject do
     [
       maintainers: ["Jonathan Gao"],
       licenses: ["MIT"],
-      files: ~w(lib LICENSE mix.exs README.md),
+      files: ~w(lib native LICENSE mix.exs README.md),
       links: %{
         Github: @source_url,
         Changelog: "https://hexdocs.pm/abyss/changelog.html"

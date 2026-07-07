@@ -5,6 +5,8 @@ defmodule Abyss.ServerConfig do
   This is used internally by `Abyss.Handler`
   """
 
+  require Logger
+
   @typedoc "A set of configuration parameters for a Abyss server instance"
   @type t :: %__MODULE__{
           port: :inet.port_number(),
@@ -27,15 +29,16 @@ defmodule Abyss.ServerConfig do
           max_listeners: pos_integer(),
           listener_scale_threshold: float(),
           silent_terminate_on_error: boolean(),
-          rate_limit_enabled: boolean(),
-          rate_limit_max_packets: pos_integer(),
-          rate_limit_window_ms: pos_integer(),
           max_packet_size: pos_integer(),
           connection_telemetry_sample_rate: float(),
           handler_memory_check_interval: pos_integer(),
           handler_memory_warning_threshold: pos_integer(),
           handler_memory_hard_limit: pos_integer()
         }
+
+  @connections_per_listener 100
+  @processing_time_baseline_ms 100
+  @min_processing_factor 0.5
 
   defstruct port: 4000,
             transport_module: Abyss.Transport.UDP,
@@ -57,9 +60,6 @@ defmodule Abyss.ServerConfig do
             max_listeners: 1000,
             listener_scale_threshold: 0.8,
             silent_terminate_on_error: false,
-            rate_limit_enabled: false,
-            rate_limit_max_packets: 1000,
-            rate_limit_window_ms: 1000,
             max_packet_size: 8192,
             connection_telemetry_sample_rate: 0.05,
             handler_memory_check_interval: 10_000,
@@ -82,11 +82,46 @@ defmodule Abyss.ServerConfig do
       raise ArgumentError, "handler_module must be a module"
     end
 
-    broadcast = get_in(opts, [:transport_options, :broadcast])
+    # num_acceptors is deprecated but documented; map it to num_listeners
+    # rather than crashing in struct!/2 (it is not a struct field).
+    {num_acceptors, opts} = Keyword.pop(opts, :num_acceptors)
 
     opts =
-      if broadcast == true do
-        opts |> Keyword.put(:broadcast, true)
+      if num_acceptors do
+        Logger.warning("Option :num_acceptors is deprecated. Use :num_listeners instead.")
+        Keyword.put_new(opts, :num_listeners, num_acceptors)
+      else
+        opts
+      end
+
+    # Determine broadcast mode from transport module
+    transport_module = Keyword.get(opts, :transport_module, Abyss.Transport.UDP)
+    is_broadcast = transport_module == Abyss.Transport.UDP.Broadcast
+
+    # Warn if broadcast is set in transport_options (invalid option)
+    if get_in(opts, [:transport_options, :broadcast]) != nil do
+      Logger.warning(
+        "Invalid option: transport_options[:broadcast] is ignored. " <>
+          "Use transport_module: Abyss.Transport.UDP.Broadcast instead."
+      )
+    end
+
+    # Remove broadcast from transport_options if present
+    opts =
+      if get_in(opts, [:transport_options, :broadcast]) != nil do
+        transport_opts =
+          opts
+          |> Keyword.get(:transport_options, [])
+          |> Keyword.delete(:broadcast)
+
+        Keyword.put(opts, :transport_options, transport_opts)
+      else
+        opts
+      end
+
+    opts =
+      if is_broadcast do
+        Keyword.put(opts, :broadcast, true)
       else
         opts
       end
@@ -101,13 +136,7 @@ defmodule Abyss.ServerConfig do
 
   # Private validation function
   defp validate_config!(config) do
-    validate_listener_scaling!(config)
-    validate_telemetry_sampling!(config)
-    validate_memory_thresholds!(config)
-    :ok
-  end
-
-  defp validate_listener_scaling!(config) do
+    # Validate listener scaling configuration
     unless config.min_listeners > 0 and config.min_listeners <= config.max_listeners do
       raise ArgumentError,
             "min_listeners must be positive and <= max_listeners (got min: #{config.min_listeners}, max: #{config.max_listeners})"
@@ -117,17 +146,15 @@ defmodule Abyss.ServerConfig do
       raise ArgumentError,
             "listener_scale_threshold must be between 0.0 and 1.0 (got #{config.listener_scale_threshold})"
     end
-  end
 
-  defp validate_telemetry_sampling!(config) do
+    # Validate telemetry sampling rate
     unless config.connection_telemetry_sample_rate >= 0.0 and
              config.connection_telemetry_sample_rate <= 1.0 do
       raise ArgumentError,
             "connection_telemetry_sample_rate must be between 0.0 and 1.0 (got #{config.connection_telemetry_sample_rate})"
     end
-  end
 
-  defp validate_memory_thresholds!(config) do
+    # Validate memory thresholds
     unless config.handler_memory_check_interval > 0 do
       raise ArgumentError,
             "handler_memory_check_interval must be positive (got #{config.handler_memory_check_interval})"
@@ -138,6 +165,8 @@ defmodule Abyss.ServerConfig do
       raise ArgumentError,
             "handler_memory_warning_threshold must be positive and < handler_memory_hard_limit (got warning: #{config.handler_memory_warning_threshold}, hard limit: #{config.handler_memory_hard_limit})"
     end
+
+    :ok
   end
 
   @doc """
@@ -161,13 +190,13 @@ defmodule Abyss.ServerConfig do
   """
   @spec calculate_optimal_listeners(pos_integer(), float()) :: pos_integer()
   def calculate_optimal_listeners(current_connections, avg_processing_time_ms) do
-    # Start with at least 1 listener per 100 connections
-    # This provides better granularity for low to medium loads
-    base_listeners = max(div(current_connections, 100), 1)
+    # Start with at least 1 listener per @connections_per_listener connections
+    base_listeners = max(div(current_connections, @connections_per_listener), 1)
 
     # Adjust for processing time (slower processing = more listeners needed)
-    # Normalize to 100ms baseline, with minimum factor of 0.5
-    processing_factor = max(avg_processing_time_ms / 100, 0.5)
+    # Normalize to @processing_time_baseline_ms baseline
+    processing_factor =
+      max(avg_processing_time_ms / @processing_time_baseline_ms, @min_processing_factor)
 
     optimal = round(base_listeners * processing_factor)
 

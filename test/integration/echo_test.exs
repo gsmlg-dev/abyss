@@ -1,7 +1,7 @@
 defmodule Abyss.Integration.EchoTest do
   use ExUnit.Case, async: false
 
-  alias Abyss.Transport.UDP
+  @moduletag :integration
 
   describe "echo server integration" do
     test "echo handler responds correctly" do
@@ -22,16 +22,16 @@ defmodule Abyss.Integration.EchoTest do
       {ip, port} = Abyss.Listener.listener_info(listener_pid)
 
       # Create a client socket
-      {:ok, client_socket} = UDP.listen(0, [])
+      {:ok, client_socket} = Abyss.Transport.UDP.listen(0, [])
 
       try do
         test_message = "Hello, Echo!"
 
         # Send data to echo server with error handling
-        case UDP.send(client_socket, ip, port, test_message) do
+        case Abyss.Transport.UDP.send(client_socket, ip, port, test_message) do
           :ok ->
             # Receive echoed data with error handling
-            case UDP.recv(client_socket, 1024, 1000) do
+            case Abyss.Transport.UDP.recv(client_socket, 1024, 1000) do
               {:ok, {_client_ip, _client_port, received}} ->
                 assert received == test_message
 
@@ -63,7 +63,7 @@ defmodule Abyss.Integration.EchoTest do
             flunk("Unexpected send result: #{inspect(error)}")
         end
       after
-        :ok = UDP.close(client_socket)
+        :ok = Abyss.Transport.UDP.close(client_socket)
         :ok = Abyss.stop(server_pid)
       end
     end
@@ -87,15 +87,15 @@ defmodule Abyss.Integration.EchoTest do
       listener_pid = hd(listener_pids)
       {ip, port} = Abyss.Listener.listener_info(listener_pid)
 
-      {:ok, client_socket} = UDP.listen(0, [])
+      {:ok, client_socket} = Abyss.Transport.UDP.listen(0, [])
 
       try do
         messages = ["test1", "test2", "test3"]
 
         for msg <- messages do
-          case UDP.send(client_socket, ip, port, msg) do
+          case Abyss.Transport.UDP.send(client_socket, ip, port, msg) do
             :ok ->
-              case UDP.recv(client_socket, 1024, 1000) do
+              case Abyss.Transport.UDP.recv(client_socket, 1024, 1000) do
                 {:ok, {_client_ip, _client_port, received}} ->
                   assert received == msg
 
@@ -128,7 +128,7 @@ defmodule Abyss.Integration.EchoTest do
           end
         end
       after
-        :ok = UDP.close(client_socket)
+        :ok = Abyss.Transport.UDP.close(client_socket)
         :ok = Abyss.stop(server_pid)
       end
     end

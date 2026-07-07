@@ -48,6 +48,23 @@ defmodule Abyss.ServerConfigTest do
       assert config.broadcast == true
     end
 
+    test "accepts deprecated num_acceptors and maps it to num_listeners" do
+      config = Abyss.ServerConfig.new(handler_module: Abyss.TestHandler, num_acceptors: 7)
+
+      assert config.num_listeners == 7
+    end
+
+    test "explicit num_listeners wins over deprecated num_acceptors" do
+      config =
+        Abyss.ServerConfig.new(
+          handler_module: Abyss.TestHandler,
+          num_acceptors: 7,
+          num_listeners: 3
+        )
+
+      assert config.num_listeners == 3
+    end
+
     test "accepts any handler module (no validation)" do
       config = Abyss.ServerConfig.new(handler_module: :not_a_module, port: 1234)
       assert config.handler_module == :not_a_module
@@ -57,8 +74,8 @@ defmodule Abyss.ServerConfigTest do
       config = Abyss.ServerConfig.new(handler_module: Abyss.TestHandler, port: -1)
       assert config.port == -1
 
-      config = Abyss.ServerConfig.new(handler_module: Abyss.TestHandler, port: 99_999)
-      assert config.port == 99_999
+      config = Abyss.ServerConfig.new(handler_module: Abyss.TestHandler, port: 99999)
+      assert config.port == 99999
     end
 
     test "accepts any num_listeners value" do
@@ -147,7 +164,7 @@ defmodule Abyss.ServerConfigTest do
       # base=50, factor=1, result=50
       assert Abyss.ServerConfig.calculate_optimal_listeners(5000, 100.0) == 50
       # base=100, factor=1, result=100
-      assert Abyss.ServerConfig.calculate_optimal_listeners(10_000, 100.0) == 100
+      assert Abyss.ServerConfig.calculate_optimal_listeners(10000, 100.0) == 100
     end
 
     test "adjusts for processing time" do
@@ -180,8 +197,8 @@ defmodule Abyss.ServerConfigTest do
       assert Abyss.ServerConfig.calculate_optimal_listeners(1000, 0.1) == 5
 
       # Very high processing time
-      # base=1, factor=max(10_000/100, 0.5)=100, 1*100=100
-      assert Abyss.ServerConfig.calculate_optimal_listeners(100, 10_000.0) == 100
+      # base=1, factor=max(10000/100, 0.5)=100, 1*100=100
+      assert Abyss.ServerConfig.calculate_optimal_listeners(100, 10000.0) == 100
 
       # Large connection count
       result = Abyss.ServerConfig.calculate_optimal_listeners(100_000, 100.0)
@@ -189,7 +206,7 @@ defmodule Abyss.ServerConfigTest do
       assert result == 1000
 
       # Combined high connections and slow processing
-      result = Abyss.ServerConfig.calculate_optimal_listeners(10_000, 500.0)
+      result = Abyss.ServerConfig.calculate_optimal_listeners(10000, 500.0)
       # base=100, factor=5, 100*5=500
       assert result == 500
     end
@@ -336,36 +353,8 @@ defmodule Abyss.ServerConfigTest do
                read_timeout: 60_000,
                shutdown_timeout: 15_000,
                silent_terminate_on_error: false,
-               rate_limit_enabled: false,
-               rate_limit_max_packets: 1000,
-               rate_limit_window_ms: 1000,
                max_packet_size: 8192
              } = config
-    end
-  end
-
-  describe "rate limiting configuration" do
-    test "includes rate limiting fields" do
-      config =
-        Abyss.ServerConfig.new(
-          handler_module: Abyss.TestHandler,
-          port: 1234,
-          rate_limit_enabled: true,
-          rate_limit_max_packets: 500,
-          rate_limit_window_ms: 2000
-        )
-
-      assert config.rate_limit_enabled == true
-      assert config.rate_limit_max_packets == 500
-      assert config.rate_limit_window_ms == 2000
-    end
-
-    test "has default rate limiting values" do
-      config = Abyss.ServerConfig.new(handler_module: Abyss.TestHandler, port: 1234)
-
-      assert config.rate_limit_enabled == false
-      assert config.rate_limit_max_packets == 1000
-      assert config.rate_limit_window_ms == 1000
     end
   end
 

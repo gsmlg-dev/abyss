@@ -1,110 +1,67 @@
 defmodule Abyss.Handler do
   @moduledoc """
-  `Abyss.Handler` defines the behaviour required of the application layer of a Abyss server.
+  `Abyss.Handler` defines the behaviour required of the application layer of an Abyss server.
 
   # Example
 
-  Another example of a server that echoes back all data sent to it is as follows:
+  A server that echoes back all data sent to it:
 
   ```elixir
   defmodule Echo do
     use Abyss.Handler
 
     @impl Abyss.Handler
-    def handle_data(data, state) do
-      Abyss.Transport.UDP.send(state.socket, data)
-      {:continue, state}
-    end
-  end
-  ```
-
-  Note that in this example there is no `c:handle_connection/2` callback defined. The default implementation of this
-  callback will simply return `{:continue, state}`, which is appropriate for cases where the client is the first
-  party to communicate.
-
-  Another example of a server which can send and receive messages asynchronously is as follows:
-
-  ```elixir
-  defmodule Messenger do
-    use Abyss.Handler
-
-    @impl Abyss.Handler
-    def handle_data(msg, state) do
-      IO.inspect(msg)
-      {:continue, state}
-    end
-
-    def handle_info({:udp, socket, ip, port, data}, state) do
-      Abyss.Transport.UDP.send(socket, ip, port, msg)
-      {:noreply, state, state.read_timeout}
-    end
-  end
-  ```
-
-  Note that in this example we make use of the fact that the handler process is really just a GenServer to send it messages
-  which are able to make use of the underlying socket. This allows for bidirectional sending and receiving of messages in
-  an asynchronous manner.
-
-  You can pass options to the default handler underlying `GenServer` by passing a `genserver_options` key to `Abyss.start_link/1`
-  containing `t:GenServer.options/0` to be passed to the last argument of `GenServer.start_link/3`.
-
-  Please note that you should not pass the `name` `t:GenServer.option/0`. If you need to register handler processes for
-  later lookup and use, you should perform process registration in `handle_connection/2`, ensuring the handler process is
-  registered only after the underlying connection is established and you have access to the connection socket and metadata
-  via `Abyss.Transport.UDP.peername/1`.
-
-  For example, using a custom process registry via `Registry`:
-
-  ```elixir
-
-  defmodule Messenger do
-    use Abyss.Handler
-
-    @impl Abyss.Handler
-    def handle_data(recv_data, state) do
-      {ip, port, data} = recv_data
+    def handle_data({ip, port, data}, state) do
       Abyss.Transport.UDP.send(state.socket, ip, port, data)
       {:continue, state}
     end
   end
   ```
 
-  This example assumes you have started a `Registry` and registered it under the name `MessengerRegistry`.
+  Each incoming UDP packet spawns a handler process; the packet is delivered
+  to `c:handle_data/2` as `{ip, port, data}`. Responses are sent through the
+  shared listener socket available as `state.socket` (ownership of that
+  socket stays with the listener).
 
-  # When Handler Isn't Enough
+  # Handler Lifecycle
 
-  The `use Abyss.Handler` implementation should be flexible enough to power just about any handler, however if
-  this should not be the case for you, there is an escape hatch available. If you require more flexibility than the
-  `Abyss.Handler` behaviour provides, you are free to specify any module which implements `start_link/1` as the
-  `handler_module` parameter. The process of getting from this new process to a ready-to-use socket is somewhat
-  delicate, however. The steps required are as follows:
+  1. The listener receives a packet and starts your handler under the
+     server's connection supervisor
+  2. The handler process receives the packet and invokes `c:handle_data/2`
+  3. The return value determines what happens next (see `c:handle_data/2`):
+     continue waiting for messages/timeouts, close, or error out
+  4. On termination one of `c:handle_close/1`, `c:handle_error/2`,
+     `c:handle_shutdown/1`, or `c:handle_timeout/1` is invoked
 
-  1. Abyss calls `start_link/1` on the configured `handler_module`, passing in a tuple
-  consisting of the configured handler and genserver opts. This function is expected to return a
-  conventional `GenServer.on_start()` style tuple. Note that this newly created process is not
-  passed the connection socket immediately.
-  2. The raw `t:Abyss.Transport.socket()` socket will be passed to the new process via a
-  message of the form `{:abyss_received, listener_socket, server_config, acceptor_span,
-  start_time}`.
-  3. Your implenentation must turn this into a `to::inet.socket()` socket by using the
-  `Abyss.Transport.UDP.new/3` call.
-  4. Your implementation must then call `Abyss.Transport.UDP.handshake/1` with the socket as the
-  sole argument in order to finalize the setup of the socket.
-  5. The socket is now ready to use.
+  In broadcast mode (`Abyss.Transport.UDP.Broadcast`) the handler always
+  terminates after processing its single packet, regardless of the
+  `c:handle_data/2` return value.
 
-  In addition to this process, there are several other considerations to be aware of:
+  # State
 
-  * The underlying socket is closed automatically when the handler process ends.
+  The handler state is a map seeded by Abyss with (at least) `:socket`, the
+  shared listener socket; `:server_config`, the `Abyss.ServerConfig` (whose
+  `handler_options` field carries the options you passed to
+  `Abyss.start_link/1`); and `:read_timeout`. Any additional keys you add in
+  `c:handle_data/2` are preserved across callbacks.
 
-  * Handler processes should have a restart strategy of `:temporary` to ensure that Abyss does not attempt to
-  restart crashed handlers.
+  # Asynchronous Messages
 
-  * Handler processes should trap exit if possible so that existing connections can be given a chance to cleanly shut
-  down when shutting down a Abyss server instance.
+  The handler process is a regular `GenServer`, so you can send it messages
+  and define `handle_info/2` clauses alongside the Abyss callbacks. You can
+  pass options to the underlying `GenServer` via the `genserver_options` key
+  of `Abyss.start_link/1`. Do not pass the `name` option; if you need to
+  register handler processes, do so from within `c:handle_data/2`.
 
-  * Some of the `:connection` family of telemetry span events are emitted by the
-  `Abyss.Handler` implementation. If you use your own implementation in its place it is
-  likely that such spans will not behave as expected.
+  # Custom handler modules
+
+  Any module implementing `start_link/1` and accepting a
+  `{:new_connection, socket, recv_data}` message may be used as a
+  `handler_module` instead of `use Abyss.Handler`. Note that the
+  `:connection` telemetry span events and metrics tracking are emitted by
+  the generated implementation, so a custom module must emit its own.
+  Handler processes should use a `:temporary` restart strategy so crashed
+  handlers are not restarted.
   """
 
   @typedoc "The possible ways to indicate a timeout when returning values to Abyss"
@@ -220,19 +177,15 @@ defmodule Abyss.Handler do
     end
   end
 
-  # credo:disable-for-lines:2 Credo.Check.Refactor.CyclomaticComplexity
-  # credo:disable-for-lines:2 Credo.Check.Refactor.LongQuoteBlocks
+  # credo:disable-for-next-line Credo.Check.Refactor.CyclomaticComplexity
   def genserver_impl do
     quote do
-      alias Abyss.Transport.UDP
-
       @impl GenServer
       def init({connection_span, server_config, listener_pid, listener_socket}) do
         Process.flag(:trap_exit, true)
 
         # Start memory monitoring for long-running handlers
-        # Check every 10 seconds
-        Process.send_after(self(), :memory_check, 10_000)
+        Process.send_after(self(), :memory_check, server_config.handler_memory_check_interval)
 
         {:ok,
          %{
@@ -278,6 +231,7 @@ defmodule Abyss.Handler do
           {:memory, memory_words} ->
             memory_mb = memory_words * :erlang.system_info(:wordsize) / (1024 * 1024)
             warning_threshold = state.server_config.handler_memory_warning_threshold
+            hard_limit = state.server_config.handler_memory_hard_limit
 
             if memory_mb > warning_threshold do
               # Log memory warning via telemetry
@@ -291,26 +245,22 @@ defmodule Abyss.Handler do
               :erlang.garbage_collect(self())
 
               # Check if memory is still high after GC
-              check_memory_after_gc(state, interval)
-            else
-              Process.send_after(self(), :memory_check, interval)
-              {:noreply, state}
-            end
+              case :erlang.process_info(self(), :memory) do
+                {:memory, new_memory_words} ->
+                  new_memory_mb =
+                    new_memory_words * :erlang.system_info(:wordsize) / (1024 * 1024)
 
-          _ ->
-            Process.send_after(self(), :memory_check, interval)
-            {:noreply, state}
-        end
-      end
+                  if new_memory_mb > hard_limit do
+                    {:stop, {:shutdown, :memory_limit_exceeded}, state}
+                  else
+                    Process.send_after(self(), :memory_check, interval)
+                    {:noreply, state}
+                  end
 
-      defp check_memory_after_gc(state, interval) do
-        case :erlang.process_info(self(), :memory) do
-          {:memory, new_memory_words} ->
-            new_memory_mb = new_memory_words * :erlang.system_info(:wordsize) / (1024 * 1024)
-            hard_limit = state.server_config.handler_memory_hard_limit
-
-            if new_memory_mb > hard_limit do
-              {:stop, {:shutdown, :memory_limit_exceeded}, state}
+                _ ->
+                  Process.send_after(self(), :memory_check, interval)
+                  {:noreply, state}
+              end
             else
               Process.send_after(self(), :memory_check, interval)
               {:noreply, state}
@@ -337,32 +287,33 @@ defmodule Abyss.Handler do
 
         # Keep last 10 processing times for adaptive timeout calculation
         new_times = [processing_time | Enum.take(times, 9)]
-        new_state = %{state | processing_times: new_times}
 
-        # Calculate adaptive timeout based on processing history
+        # Calculate adaptive timeout based on processing history. The
+        # bookkeeping is merged into the state returned by the callback so
+        # that handler state changes are preserved.
         adaptive_timeout = Abyss.Handler.calculate_adaptive_timeout(state.read_timeout, new_times)
-        final_state = %{new_state | adaptive_timeout: adaptive_timeout}
 
-        result
-        |> Abyss.Handler.handle_continuation(final_state)
+        Abyss.Handler.handle_continuation(result, %{
+          processing_times: new_times,
+          adaptive_timeout: adaptive_timeout
+        })
       end
 
       def handle_continue({:handle_broadcast_data, recv_data}, state) do
         _reason = __MODULE__.handle_data(recv_data, state)
-        Process.send_after(self(), :broadcast, 10)
         {:stop, {:shutdown, :broadcast}, state}
       end
 
       @impl true
       def terminate({:shutdown, :broadcast}, %{connection_span: connection_span} = state) do
         # Track connection closure
-        Abyss.Telemetry.track_connection_closed()
+        Abyss.Telemetry.track_connection_closed(__MODULE__)
 
         # Calculate response time if we have accept start time
         response_time = calculate_response_time(state)
 
         if response_time do
-          Abyss.Telemetry.track_response_sent(response_time)
+          Abyss.Telemetry.track_response_sent(response_time, %{handler: __MODULE__})
         end
 
         Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: :broadcast})
@@ -371,143 +322,53 @@ defmodule Abyss.Handler do
       end
 
       # Called by GenServer if we hit our read_timeout. Socket is still open
-      def terminate(
-            {:shutdown, :timeout},
-            %{connection_span: connection_span, listener: listener_pid, socket: listener_socket} =
-              state
-          ) do
+      def terminate({:shutdown, :timeout}, state) do
         out = __MODULE__.handle_timeout(state)
-        # Only call controlling_process if socket is not a reference (test environment)
-        if not is_reference(listener_socket) do
-          UDP.controlling_process(listener_socket, listener_pid)
-        end
-
-        # Track connection closure
-        Abyss.Telemetry.track_connection_closed()
-
-        # Calculate response time if we have accept start time
-        response_time = calculate_response_time(state)
-
-        if response_time do
-          Abyss.Telemetry.track_response_sent(response_time)
-        end
-
-        Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: :timeout})
+        terminate_cleanup(state, :timeout)
         out
       end
 
       # Called if we're being shutdown in an orderly manner. Socket is still open
-      def terminate(
-            :shutdown,
-            %{connection_span: connection_span, listener: listener_pid, socket: listener_socket} =
-              state
-          ) do
+      def terminate(:shutdown, state) do
         out = __MODULE__.handle_shutdown(state)
-        # Only call controlling_process if socket is not a reference (test environment)
-        if not is_reference(listener_socket) do
-          UDP.controlling_process(listener_socket, listener_pid)
-        end
-
-        # Track connection closure
-        Abyss.Telemetry.track_connection_closed()
-
-        # Calculate response time if we have accept start time
-        response_time = calculate_response_time(state)
-
-        if response_time do
-          Abyss.Telemetry.track_response_sent(response_time)
-        end
-
-        Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: :shutdown})
+        terminate_cleanup(state, :shutdown)
         out
       end
 
       # Called if the socket encountered an error and we are configured to shutdown silently.
       # Socket is closed
-      def terminate(
-            {:shutdown, {:silent_termination, reason}},
-            %{connection_span: connection_span, listener: listener_pid, socket: listener_socket} =
-              state
-          ) do
-        out =
-          __MODULE__.handle_error(
-            reason,
-            %{connection_span: connection_span, listener: listener_pid, socket: listener_socket} =
-              state
-          )
-
-        # Only call controlling_process if socket is not a reference (test environment)
-        if not is_reference(listener_socket) do
-          UDP.controlling_process(listener_socket, listener_pid)
-        end
-
-        # Track connection closure
-        Abyss.Telemetry.track_connection_closed()
-
-        # Calculate response time if we have accept start time
-        response_time = calculate_response_time(state)
-
-        if response_time do
-          Abyss.Telemetry.track_response_sent(response_time)
-        end
-
-        Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: reason})
+      def terminate({:shutdown, {:silent_termination, reason}}, state) do
+        out = __MODULE__.handle_error(reason, state)
+        terminate_cleanup(state, reason)
         out
       end
 
       # Called if the remote end shut down the connection, or if the local end closed the
       # connection by returning a `{:close,...}` tuple (in which case the socket will be open)
-      def terminate(
-            {:shutdown, reason},
-            %{connection_span: connection_span, listener: listener_pid, socket: listener_socket} =
-              state
-          ) do
+      def terminate({:shutdown, reason}, state) do
         out = __MODULE__.handle_close(state)
-        # Only call controlling_process if socket is not a reference (test environment)
-        if not is_reference(listener_socket) do
-          UDP.controlling_process(listener_socket, listener_pid)
-        end
-
-        # Track connection closure
-        Abyss.Telemetry.track_connection_closed()
-
-        # Calculate response time if we have accept start time
-        response_time = calculate_response_time(state)
-
-        if response_time do
-          Abyss.Telemetry.track_response_sent(response_time)
-        end
-
-        Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: reason})
+        terminate_cleanup(state, reason)
         out
       end
 
       # This clause could happen if we do not have a socket defined in state (either because the
       # process crashed before setting it up, or because the user sent an invalid state)
       @impl GenServer
-      def terminate(
-            reason,
-            %{connection_span: connection_span, listener: listener_pid, socket: listener_socket} =
-              state
-          ) do
-        # Only call controlling_process if socket is not a reference (test environment)
-        if not is_reference(listener_socket) do
-          UDP.controlling_process(listener_socket, listener_pid)
-        end
+      def terminate(reason, state) do
+        terminate_cleanup(state, reason)
+        :ok
+      end
 
-        # Track connection closure
-        Abyss.Telemetry.track_connection_closed()
+      defp terminate_cleanup(%{connection_span: span} = state, reason) do
+        Abyss.Telemetry.track_connection_closed(__MODULE__)
 
-        # Calculate response time if we have accept start time
         response_time = calculate_response_time(state)
 
         if response_time do
-          Abyss.Telemetry.track_response_sent(response_time)
+          Abyss.Telemetry.track_response_sent(response_time, %{handler: __MODULE__})
         end
 
-        Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: reason})
-
-        :ok
+        Abyss.Telemetry.stop_span(span, %{}, %{reason: reason})
       end
 
       # Private helper functions
@@ -546,27 +407,69 @@ defmodule Abyss.Handler do
   end
 
   @doc false
-  def handle_continuation(continuation, state) do
+  # Translates a `handler_result()` into a GenServer return value. The state
+  # carried in the continuation tuple (as returned by the handler callback) is
+  # preserved; `bookkeeping` holds internal updates (processing times, adaptive
+  # timeout) that are merged on top of it.
+  def handle_continuation(continuation, bookkeeping \\ %{}) do
     case continuation do
-      {:continue, _state} ->
+      {:continue, state} ->
         # Use adaptive timeout instead of fixed read_timeout
-        timeout = Map.get(state, :adaptive_timeout, state[:read_timeout])
+        state = merge_bookkeeping(state, bookkeeping)
+        {:noreply, state, continue_timeout(state, bookkeeping)}
+
+      {:continue, state, {:persistent, timeout}} ->
+        state =
+          state
+          |> merge_bookkeeping(bookkeeping)
+          |> persist_timeout(timeout)
+
         {:noreply, state, timeout}
 
-      {:close, _state} ->
+      {:continue, state, timeout} ->
+        # One-shot timeout for the next message only
+        {:noreply, merge_bookkeeping(state, bookkeeping), timeout}
+
+      {:close, state} ->
         {:stop, {:shutdown, :local_closed}, state}
 
-      {:error, :timeout, _state} ->
+      {:error, :timeout, state} ->
         {:stop, {:shutdown, :timeout}, state}
 
-      {:error, reason, _state} ->
-        if state.server_config.silent_terminate_on_error do
+      {:error, reason, state} ->
+        if silent_terminate_on_error?(state, bookkeeping) do
           {:stop, {:shutdown, {:silent_termination, reason}}, state}
         else
           {:stop, reason, state}
         end
     end
   end
+
+  defp merge_bookkeeping(state, bookkeeping) when is_map(state),
+    do: Map.merge(state, bookkeeping)
+
+  defp merge_bookkeeping(state, _bookkeeping), do: state
+
+  defp persist_timeout(state, timeout) when is_map(state) do
+    state
+    |> Map.put(:read_timeout, timeout)
+    |> Map.put(:adaptive_timeout, timeout)
+  end
+
+  defp persist_timeout(state, _timeout), do: state
+
+  defp continue_timeout(state, bookkeeping) do
+    source = if is_map(state), do: state, else: bookkeeping
+    Map.get(source, :adaptive_timeout) || Map.get(source, :read_timeout)
+  end
+
+  defp silent_terminate_on_error?(%{server_config: config}, _bookkeeping),
+    do: config.silent_terminate_on_error
+
+  defp silent_terminate_on_error?(_state, %{server_config: config}),
+    do: config.silent_terminate_on_error
+
+  defp silent_terminate_on_error?(_state, _bookkeeping), do: false
 
   @doc false
   # Add adaptive timeout calculation helper function
