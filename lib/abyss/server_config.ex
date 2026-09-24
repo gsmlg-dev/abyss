@@ -193,7 +193,9 @@ defmodule Abyss.ServerConfig do
         _ -> nil
       end
 
-    unless not is_nil(dispatcher_module) and function_exported?(dispatcher_module, :init, 2) and
+    loaded? = not is_nil(dispatcher_module) and Code.ensure_loaded?(dispatcher_module)
+
+    unless loaded? and function_exported?(dispatcher_module, :init, 2) and
              function_exported?(dispatcher_module, :handle_datagram, 4) do
       raise ArgumentError,
             "datagram_dispatcher must be a module exporting init/2 and handle_datagram/4"
