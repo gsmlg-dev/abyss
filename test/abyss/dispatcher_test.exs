@@ -2,6 +2,10 @@ defmodule Abyss.DispatcherTestTransport do
   def send(_socket, _ip, _port, _bytes), do: :ok
 end
 
+defmodule Abyss.DispatcherFailingTransport do
+  def send(_socket, _ip, _port, _bytes), do: {:error, :closed}
+end
+
 defmodule Abyss.DispatcherTestCallback do
   @behaviour Abyss.DatagramDispatcher
 
@@ -86,6 +90,24 @@ defmodule Abyss.DispatcherTest do
     state = :sys.get_state(dispatcher)
     assert is_function(state.callback_state.send_fun, 2)
     assert {:ok, _ref} = state.callback_state.send_fun.({{127, 0, 0, 1}, 1000}, <<1>>)
+  end
+
+  test "send receipt waits for writer completion and preserves failure" do
+    {:ok, dispatcher} =
+      Dispatcher.start_link(
+        module: Abyss.DispatcherTestCallback,
+        module_options: [],
+        socket: :socket,
+        transport: Abyss.DispatcherFailingTransport,
+        local_info: {{127, 0, 0, 1}, 4433},
+        max_queue: 2,
+        max_bytes: 32
+      )
+
+    state = :sys.get_state(dispatcher)
+
+    assert {:error, :closed} =
+             Dispatcher.send_receipt(state.send, {{127, 0, 0, 1}, 1000}, <<1>>)
   end
 
   defp assert_eventually(fun, attempts \\ 20)

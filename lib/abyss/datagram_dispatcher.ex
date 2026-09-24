@@ -56,6 +56,16 @@ defmodule Abyss.Dispatcher do
       end
     end
 
+    def await(pid, capability, ref, timeout \\ 100)
+        when is_reference(ref) do
+      try do
+        GenServer.call(pid, {:await, capability, ref}, timeout)
+      catch
+        :exit, {:timeout, _} -> {:error, :writer_timeout}
+        :exit, reason -> {:error, reason}
+      end
+    end
+
     @impl true
     def init(opts) do
       Process.flag(:trap_exit, true)
@@ -71,7 +81,10 @@ defmodule Abyss.Dispatcher do
          queue: :queue.new(),
          queue_bytes: 0,
          sending: false,
-         refs: %{}
+         refs: %{},
+         waiters: %{},
+         results: %{},
+         max_results: 256
        }}
     end
 
@@ -111,10 +124,53 @@ defmodule Abyss.Dispatcher do
     def handle_call({:enqueue, _capability, _remote, _bytes}, _from, state),
       do: {:reply, {:error, :invalid_send}, state}
 
+    def handle_call(
+          {:await, %SendCapability{writer: writer, generation: generation}, ref},
+          from,
+          state
+        )
+        when writer == self() and generation == state.generation do
+      case Map.pop(state.results, ref) do
+        {nil, _results} -> {:noreply, %{state | waiters: Map.put(state.waiters, ref, from)}}
+        {result, results} -> {:reply, result, %{state | results: results}}
+      end
+    end
+
+    def handle_call({:await, %SendCapability{}, _ref}, _from, state),
+      do: {:reply, {:error, :stale_generation}, state}
+
+    def handle_call({:await, _capability, _ref}, _from, state),
+      do: {:reply, {:error, :invalid_send}, state}
+
     @impl true
     def handle_info({:send_result, ref, result}, state) do
-      send(state.owner, {:abyss_dispatcher_send, state.generation, ref, result, monotonic_time()})
-      {:noreply, maybe_send(%{state | sending: false, refs: Map.delete(state.refs, ref)})}
+      completed = normalize_result(result)
+
+      send(
+        state.owner,
+        {:abyss_dispatcher_send, state.generation, ref, completed, monotonic_time()}
+      )
+
+      state = %{state | sending: false, refs: Map.delete(state.refs, ref)}
+
+      case Map.pop(state.waiters, ref) do
+        {nil, waiters} ->
+          results =
+            if map_size(state.results) < state.max_results,
+              do: Map.put(state.results, ref, completed),
+              else: state.results
+
+          {:noreply,
+           maybe_send(%{
+             state
+             | waiters: waiters,
+               results: results
+           })}
+
+        {from, waiters} ->
+          GenServer.reply(from, completed)
+          {:noreply, maybe_send(%{state | waiters: waiters})}
+      end
     end
 
     defp maybe_send(%{sending: true} = state), do: state
@@ -147,6 +203,10 @@ defmodule Abyss.Dispatcher do
     end
 
     defp monotonic_time, do: System.monotonic_time(:microsecond)
+    defp normalize_result(:ok), do: {:ok, monotonic_time()}
+    defp normalize_result({:ok, at}) when is_integer(at), do: {:ok, at}
+    defp normalize_result({:error, _} = error), do: error
+    defp normalize_result(other), do: {:error, {:invalid_send_result, other}}
   end
 
   def start_link(opts), do: GenServer.start_link(__MODULE__, opts)
@@ -164,6 +224,14 @@ defmodule Abyss.Dispatcher do
       when is_struct(capability, SendCapability) and is_tuple(remote) and is_binary(bytes) and
              byte_size(bytes) > 0 do
     Writer.enqueue(capability.writer, capability, remote, bytes, timeout)
+  end
+
+  def send_receipt(capability, remote, bytes, timeout \\ 100)
+      when is_struct(capability, SendCapability) and is_tuple(remote) and is_binary(bytes) and
+             byte_size(bytes) > 0 do
+    with {:ok, ref} <- send(capability, remote, bytes, timeout) do
+      Writer.await(capability.writer, capability, ref, timeout)
+    end
   end
 
   def routes(pid), do: GenServer.call(pid, :routes)
@@ -192,7 +260,11 @@ defmodule Abyss.Dispatcher do
                generation: generation,
                send: %SendCapability{writer: writer, generation: generation},
                send_fun: fn remote, bytes ->
-                 send(%SendCapability{writer: writer, generation: generation}, remote, bytes)
+                 send_receipt(
+                   %SendCapability{writer: writer, generation: generation},
+                   remote,
+                   bytes
+                 )
                end
              },
              module_opts
@@ -220,7 +292,7 @@ defmodule Abyss.Dispatcher do
       local: self(),
       generation: state.generation,
       send: state.send,
-      send_fun: fn remote, bytes -> send(state.send, remote, bytes) end,
+      send_fun: fn remote, bytes -> send_receipt(state.send, remote, bytes) end,
       routes: state.routes,
       state: state.callback_state
     }
