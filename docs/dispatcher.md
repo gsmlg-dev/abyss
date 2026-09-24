@@ -9,8 +9,10 @@ The dispatcher is a separate process from the listener's blocking
 `recv(:infinity)` loop. Its writer owns a bounded queue and performs local UDP
 sends independently of listener mailbox progress. A callback returns `{:new,
 keys, pid, state}` or `{:route, keys, pid, state}` to install CID/provisional
-route keys; process death removes every key. Admission returns a bounded error
-under queue pressure. A callback must not close the shared socket.
+route keys; process death removes every key. The callback context also provides
+`send_fun/2`, which accepts `(remote, bytes)` and returns the writer result for
+adapters that should not depend on Abyss structs. Admission returns a bounded
+error under queue pressure. A callback must not close the shared socket.
 
 `datagram_dispatcher` is unavailable in broadcast mode and is optional: Abyss
 does not load or require ex_quic when the option is omitted.

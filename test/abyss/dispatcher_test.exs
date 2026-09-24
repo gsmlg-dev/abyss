@@ -6,7 +6,7 @@ defmodule Abyss.DispatcherTestCallback do
   @behaviour Abyss.DatagramDispatcher
 
   @impl true
-  def init(_context, _opts), do: {:ok, %{started: 0}}
+  def init(context, _opts), do: {:ok, %{started: 0, send_fun: context.send_fun}}
 
   @impl true
   def handle_datagram(_remote, <<key, _rest::binary>>, _at, %{routes: routes, state: state}) do
@@ -69,6 +69,23 @@ defmodule Abyss.DispatcherTest do
 
     assert {:error, :queue_bytes_limit} =
              Dispatcher.send(state.send, {{127, 0, 0, 1}, 1000}, <<2, 3>>)
+  end
+
+  test "callback receives a socket-independent send function" do
+    {:ok, dispatcher} =
+      Dispatcher.start_link(
+        module: Abyss.DispatcherTestCallback,
+        module_options: [],
+        socket: :socket,
+        transport: Abyss.DispatcherTestTransport,
+        local_info: {{127, 0, 0, 1}, 4433},
+        max_queue: 2,
+        max_bytes: 32
+      )
+
+    state = :sys.get_state(dispatcher)
+    assert is_function(state.callback_state.send_fun, 2)
+    assert {:ok, _ref} = state.callback_state.send_fun.({{127, 0, 0, 1}, 1000}, <<1>>)
   end
 
   defp assert_eventually(fun, attempts \\ 20)

@@ -190,7 +190,10 @@ defmodule Abyss.Dispatcher do
              %{
                local_info: Keyword.fetch!(opts, :local_info),
                generation: generation,
-               send: %SendCapability{writer: writer, generation: generation}
+               send: %SendCapability{writer: writer, generation: generation},
+               send_fun: fn remote, bytes ->
+                 send(%SendCapability{writer: writer, generation: generation}, remote, bytes)
+               end
              },
              module_opts
            ) do
@@ -217,6 +220,7 @@ defmodule Abyss.Dispatcher do
       local: self(),
       generation: state.generation,
       send: state.send,
+      send_fun: fn remote, bytes -> send(state.send, remote, bytes) end,
       routes: state.routes,
       state: state.callback_state
     }
