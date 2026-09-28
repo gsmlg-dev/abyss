@@ -41,7 +41,7 @@ From the active standalone checkout root:
 ```sh
 devenv shell -- mix compile --warnings-as-errors
 devenv shell -- mix format --check-formatted
-devenv shell -- mix test.all
+devenv shell -- env MIX_ENV=test mix test.all
 devenv shell -- mix credo --strict
 devenv shell -- mix dialyzer --halt-exit-status
 ```
@@ -51,7 +51,7 @@ From the Yellow Dog checkout root, use the Abyss app as the Mix project so root 
 ```sh
 devenv shell -- bash -lc 'cd apps/abyss && mix compile --warnings-as-errors'
 devenv shell -- bash -lc 'cd apps/abyss && mix format --check-formatted'
-devenv shell -- bash -lc 'cd apps/abyss && mix test.all'
+devenv shell -- bash -lc 'cd apps/abyss && MIX_ENV=test mix test.all'
 devenv shell -- bash -lc 'cd apps/abyss && mix credo --strict'
 devenv shell -- bash -lc 'cd apps/abyss && mix dialyzer --halt-exit-status'
 ```
