@@ -46,7 +46,7 @@ defmodule Abyss.MixProject do
     [
       {:telemetry, "~> 1.0"},
       {:telemetry_metrics, "~> 1.0"},
-      {:rustler, "~> 0.34.0", runtime: false},
+      {:rustler, "~> 0.34", runtime: false},
       {:mox, "~> 1.0", only: :test},
       {:ex_dns, path: "../ex_dns", only: [:dev, :test], runtime: false, optional: true},
       {:dhcp_ex, path: "../ex_dhcp", only: [:dev, :test], runtime: false, optional: true},
@@ -61,7 +61,7 @@ defmodule Abyss.MixProject do
     [
       {:telemetry, "~> 1.0"},
       {:telemetry_metrics, "~> 1.0"},
-      {:rustler, "~> 0.34.0", runtime: false},
+      {:rustler, "~> 0.34", runtime: false},
       {:mox, "~> 1.0", only: :test},
       {:ex_dns, "~> 0.3", only: [:dev, :test], runtime: false, optional: true},
       {:dhcp_ex, "~> 0.3", only: [:dev, :test], runtime: false, optional: true},
