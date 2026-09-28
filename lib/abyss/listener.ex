@@ -320,6 +320,11 @@ defmodule Abyss.Listener do
     {:noreply, state}
   end
 
+  def handle_info({:abyss_dispatcher_writer_error, reason}, state) do
+    Abyss.Telemetry.span_event(state.listener_span, :dispatcher_writer_error, %{reason: reason})
+    {:noreply, state}
+  end
+
   @impl true
   def handle_info(
         :do_recv,
@@ -351,11 +356,6 @@ defmodule Abyss.Listener do
         # :einval/:closed = socket closed by stop/1; treat as normal shutdown.
         {:stop, if(reason in [:einval, :closed], do: :normal, else: reason), state}
     end
-  end
-
-  def handle_info({:abyss_dispatcher_writer_error, reason}, state) do
-    Abyss.Telemetry.span_event(state.listener_span, :dispatcher_writer_error, %{reason: reason})
-    {:noreply, state}
   end
 
   @impl true

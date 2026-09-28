@@ -11,8 +11,9 @@ Abyss is a modern, pure Elixir UDP server library that provides a high-performan
 - **High Performance**: Supervisor-based architecture with configurable connection pooling
 - **Flexible Handler System**: Pluggable handler modules for custom protocol implementations
 - **Real-time Metrics**: Built-in telemetry with connection counts, throughput rates, and response times
-- **Security Features**: Built-in rate limiting and packet size validation
+- **Security Features**: Configurable packet size validation
 - **Broadcast Support**: Native support for broadcast and multicast applications
+- **Persistent Dispatching**: Optional bounded dispatcher for stateful datagram protocols
 - **Graceful Shutdown**: Coordinated shutdown with configurable timeouts
 - **Extensible Transport**: Pluggable transport layer (currently UDP)
 
@@ -112,13 +113,14 @@ Starts an Abyss server with the given options.
 - `transport_options` - Keyword list passed to UDP transport
 - `read_timeout` - Connection read timeout (default: 60_000ms)
 - `shutdown_timeout` - Graceful shutdown timeout (default: 15_000ms)
-- `rate_limit_enabled` - Enable rate limiting (default: false)
-- `rate_limit_max_packets` - Max packets per window (default: 1000)
-- `rate_limit_window_ms` - Rate limit window in ms (default: 1000)
 - `max_packet_size` - Maximum packet size in bytes (default: 8192)
 - `broadcast` - Enable broadcast mode (default: false)
+- `datagram_dispatcher` - Optional module implementing `Abyss.DatagramDispatcher` (unicast only)
+- `dispatcher_options` - Options passed to the dispatcher callback (default: `[]`)
+- `dispatcher_max_queue` - Maximum queued dispatcher sends (default: 128)
+- `dispatcher_max_queue_bytes` - Maximum queued dispatcher bytes (default: 1,048,576)
 - `connection_telemetry_sample_rate` - Sampling rate for connection telemetry (default: 0.05)
-- `handler_memory_check_interval` - Memory check interval in ms (default: 10_000)
+- `handler_memory_check_interval` - Memory check interval in ms (default: 10,000)
 - `handler_memory_warning_threshold` - Memory warning threshold in MB (default: 100)
 - `handler_memory_hard_limit` - Memory hard limit in MB (default: 150)
 
@@ -215,9 +217,6 @@ Abyss.start_link([
 Abyss.start_link([
   handler_module: MyHandler,
   port: 8080,
-  rate_limit_enabled: true,
-  rate_limit_max_packets: 100,  # Lower limit for strict rate limiting
-  rate_limit_window_ms: 1000,
   max_packet_size: 1024         # Limit packet size to prevent DoS
 ])
 ```
@@ -238,6 +237,13 @@ Abyss.start_link([
 ])
 ```
 
+#### Persistent Datagram Dispatcher
+
+Stateful protocols can opt into one persistent dispatcher per listener while
+the default remains one handler process per datagram. See
+[`docs/dispatcher.md`](docs/dispatcher.md) for the callback contract, bounded
+writer behavior, and routing lifecycle.
+
 ### Telemetry Events
 
 Abyss emits comprehensive telemetry events for monitoring:
@@ -257,7 +263,6 @@ Abyss emits comprehensive telemetry events for monitoring:
 - `[:abyss, :connection, :stop]`
 
 #### Security Events
-- `[:abyss, :listener, :rate_limit_exceeded]`
 - `[:abyss, :listener, :packet_too_large]`
 
 #### Enabling Logging
@@ -284,12 +289,7 @@ Abyss.Logger.attach_logger(:trace)   # Verbose tracing
    - Based on available memory and expected load
    - Use `:infinity` for unlimited (with caution)
 
-3. **Rate Limiting**
-   - Enable for public-facing services
-   - Adjust based on expected traffic patterns
-   - Monitor `[:abyss, :listener, :rate_limit_exceeded]` events
-
-4. **Buffer Sizes**
+3. **Buffer Sizes**
    - Configure via `transport_options`
    ```elixir
    transport_options: [
@@ -308,7 +308,7 @@ Monitor key metrics via telemetry:
   [
     [:abyss, :listener, :start],
     [:abyss, :connection, :start],
-    [:abyss, :listener, :rate_limit_exceeded]
+    [:abyss, :listener, :packet_too_large]
   ],
   &handle_metrics/4,
   %{}
@@ -326,11 +326,6 @@ Abyss.start_link([
   handler_module: MyHandler,
   port: 8080,
 
-  # Enable rate limiting for DoS protection
-  rate_limit_enabled: true,
-  rate_limit_max_packets: 1000,
-  rate_limit_window_ms: 1000,
-
   # Limit packet size to prevent memory exhaustion
   max_packet_size: 8192,
 
@@ -347,11 +342,10 @@ Abyss.start_link([
 
 ### Security Considerations
 
-1. **Rate Limiting**: Always enable rate limiting for public services
-2. **Packet Size Limits**: Set appropriate `max_packet_size` limits
-3. **Connection Limits**: Monitor and adjust `num_connections` based on resources
-4. **Network Access**: Use firewall rules to restrict access when possible
-5. **Monitoring**: Set up alerts for rate limiting events
+1. **Packet Size Limits**: Set appropriate `max_packet_size` limits
+2. **Connection Limits**: Monitor and adjust `num_connections` based on resources
+3. **Network Access**: Use firewall rules to restrict access when possible
+4. **Monitoring**: Set up alerts for security events
 
 ### Monitoring Security Events
 
@@ -359,7 +353,6 @@ Abyss.start_link([
 :telemetry.attach_many(
   "security-monitor",
   [
-    [:abyss, :listener, :rate_limit_exceeded],
     [:abyss, :listener, :packet_too_large]
   ],
   &handle_security_event/4,
@@ -368,9 +361,6 @@ Abyss.start_link([
 
 defp handle_security_event(event, measurements, metadata, config) do
   case event do
-    [:abyss, :listener, :rate_limit_exceeded] ->
-      Logger.warn("Rate limit exceeded from #{metadata.remote_address}")
-
     [:abyss, :listener, :packet_too_large] ->
       Logger.warn("Oversized packet from #{metadata.remote_address}: #{metadata.packet_size} bytes")
   end
@@ -415,7 +405,6 @@ Abyss implements a hierarchical supervision tree:
 
 ```
 Abyss (main supervisor)
-├── Abyss.RateLimiter (if enabled)
 ├── Abyss.ListenerPool (supervisor)
 │   ├── Abyss.Listener (listener process 1)
 │   ├── Abyss.Listener (listener process 2)
@@ -436,15 +425,16 @@ Abyss (main supervisor)
 4. **Handler**: Processes packet data using user-defined logic
 5. **Transport**: Handles low-level UDP socket operations
 
+With `datagram_dispatcher` configured, accepted unicast packets go through the
+persistent dispatcher instead of creating a handler process for each packet.
+
 ### Transport Layer
 
-Abyss uses a modular transport architecture with specialized modules:
+Abyss uses specialized UDP transport modules:
 
-- **`Abyss.Transport.UDP.Core`** - Core UDP socket operations (open, close, send, recv)
-- **`Abyss.Transport.UDP.Unicast`** - Unicast-specific functionality with proper resource cleanup
-- **`Abyss.Transport.UDP.Broadcast`** - Broadcast and multicast support
-
-This modular design ensures proper resource management and makes it easier to extend or customize transport behavior.
+- **`Abyss.Transport.UDP.Core`** - Shared socket operations
+- **`Abyss.Transport.UDP.Unicast`** - Unicast socket behavior
+- **`Abyss.Transport.UDP.Broadcast`** - Broadcast and multicast behavior
 
 ### Supervision Strategy
 

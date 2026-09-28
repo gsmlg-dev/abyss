@@ -1,3 +1,13 @@
+defmodule Abyss.ServerConfigTestDispatcher do
+  @behaviour Abyss.DatagramDispatcher
+
+  @impl true
+  def init(_context, _opts), do: {:ok, nil}
+
+  @impl true
+  def handle_datagram(_remote, _bytes, _received_at, %{state: state}), do: {:ok, state}
+end
+
 defmodule Abyss.ServerConfigTest do
   use ExUnit.Case, async: true
   doctest Abyss.ServerConfig
@@ -251,19 +261,19 @@ defmodule Abyss.ServerConfigTest do
         Abyss.ServerConfig.new(
           handler_module: Abyss.TestHandler,
           transport_module: Abyss.Transport.UDP.Broadcast,
-          datagram_dispatcher: Abyss.DispatcherTestCallback
+          datagram_dispatcher: Abyss.ServerConfigTestDispatcher
         )
       end
 
       config =
         Abyss.ServerConfig.new(
           handler_module: Abyss.TestHandler,
-          datagram_dispatcher: Abyss.DispatcherTestCallback,
+          datagram_dispatcher: Abyss.ServerConfigTestDispatcher,
           dispatcher_max_queue: 4,
           dispatcher_max_queue_bytes: 1024
         )
 
-      assert config.datagram_dispatcher == Abyss.DispatcherTestCallback
+      assert config.datagram_dispatcher == Abyss.ServerConfigTestDispatcher
       assert config.dispatcher_max_queue == 4
     end
 
