@@ -1,0 +1,70 @@
+Running ExUnit with seed: 0, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+....
+17:57:41.127 [error] GenServer #PID<0.227.0> terminating
+** (stop) {:binding_failed, false}
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.221.0>, connection: %{id: #PID<0.226.0>, generation: #Reference<0.3336326284.486539265.209208>}, initialized: false}}]]
+..
+17:57:41.231 [error] GenServer #PID<0.247.0> terminating
+** (stop) {:binding_failed, {:error, :init_failed}}
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.241.0>, connection: %{id: #PID<0.246.0>, generation: #Reference<0.3336326284.486539265.209345>}, initialized: false}}]]
+.
+17:57:41.233 [error] GenServer #PID<0.259.0> terminating
+** (RuntimeError) init crashed
+    test/abyss/quic_test.exs:16: Abyss.QUICServiceTest.Handler.init/3
+    (abyss 0.0.0) lib/abyss/quic/service.ex:451: anonymous fn/1 in Abyss.QUIC.Worker.handle_info/2
+    (abyss 0.0.0) lib/abyss/quic/service.ex:545: Abyss.QUIC.Worker.watched/3
+    (stdlib 7.3.0.1) gen_server.erl:2434: :gen_server.try_handle_info/3
+    (stdlib 7.3.0.1) gen_server.erl:2420: :gen_server.handle_msg/3
+    (stdlib 7.3.0.1) proc_lib.erl:333: :proc_lib.init_p_do_apply/3
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.253.0>, connection: %{id: #PID<0.258.0>, generation: #Reference<0.3336326284.486539265.209394>}, initialized: false}}]]
+.
+17:57:41.237 [error] GenServer #PID<0.271.0> terminating
+** (stop) {:binding_failed, {:error, :refused}}
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.265.0>, connection: %{id: #PID<0.270.0>, generation: #Reference<0.3336326284.486539265.209467>}, initialized: false}}]]
+..
+17:57:41.278 [error] GenServer #PID<0.289.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.291.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 55276}, port: 0, shutdown_timeout: 50, socket: #Port<0.12>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.3336326284.486539265.209585> => %{id: #PID<0.294.0>, generation: #Reference<0.3336326284.486539265.209578>}}, writer: #PID<0.291.0>, receiver: #PID<0.293.0>, endpoint: #PID<0.292.0>, alpn: ["test"], generation: #Reference<0.3336326284.486539265.209563>, _backend: Abyss.QUICServiceTest.Backend, callback_timeout: 5000, poll_interval: 10, init_timeout: 5000, event_batch: 32, writer_max_bytes: 1048576, quic_options: [], backend: Abyss.QUICServiceTest.Backend, max_connections: 128, worker_refs: %{#PID<0.295.0> => #Reference<0.3336326284.486539265.209585>}, admission: #PID<0.290.0>, writer_timeout: 1000, writer_max_queue: 128}}]]
+
+17:57:41.291 [error] GenServer #PID<0.297.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.300.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 39061}, port: 0, shutdown_timeout: 50, socket: #Port<0.13>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.3336326284.486539265.209636> => %{id: #PID<0.302.0>, generation: #Reference<0.3336326284.486539265.209629>}}, writer: #PID<0.299.0>, receiver: #PID<0.301.0>, endpoint: #PID<0.300.0>, alpn: ["test"], generation: #Reference<0.3336326284.486539265.209614>, _backend: Abyss.QUICServiceTest.Backend, callback_timeout: 5000, poll_interval: 10, init_timeout: 5000, event_batch: 32, writer_max_bytes: 1048576, quic_options: [], backend: Abyss.QUICServiceTest.Backend, max_connections: 128, worker_refs: %{#PID<0.303.0> => #Reference<0.3336326284.486539265.209636>}, admission: #PID<0.298.0>, writer_timeout: 1000, writer_max_queue: 128}}]]
+
+17:57:41.293 [error] GenServer #PID<0.305.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.309.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 44813}, port: 0, shutdown_timeout: 50, socket: #Port<0.14>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.3336326284.486539265.209678> => %{id: #PID<0.310.0>, generation: #Reference<0.3336326284.486539265.209671>}}, writer: #PID<0.307.0>, receiver: #PID<0.309.0>, endpoint: #PID<0.308.0>, alpn: ["test"], generation: #Reference<0.3336326284.486539265.209656>, _backend: Abyss.QUICServiceTest.Backend, callback_timeout: 5000, poll_interval: 10, init_timeout: 5000, event_batch: 32, writer_max_bytes: 1048576, quic_options: [], backend: Abyss.QUICServiceTest.Backend, max_connections: 128, worker_refs: %{#PID<0.311.0> => #Reference<0.3336326284.486539265.209678>}, admission: #PID<0.306.0>, writer_timeout: 1000, writer_max_queue: 128}}]]
+.
+17:57:41.296 [error] GenServer #PID<0.316.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.314.0>, :killed}
+State: %{owner: #PID<0.314.0>, socket: #Port<0.15>, queue: {[], []}, transport: Abyss.QUIC.SocketTransport, max_bytes: 1048576, max_queue: 128, generation: #Reference<0.3336326284.486539266.209686>, admission: #PID<0.315.0>, owner_monitor: #Reference<0.3336326284.486539266.209696>, queue_bytes: 0, sending: false, owns_admission: false}
+..
+17:57:41.348 [error] GenServer #PID<0.331.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.333.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 51520}, port: 0, shutdown_timeout: 50, socket: #Port<0.17>, callbacks: %{#PID<0.337.0> => {#Reference<0.3336326284.486539266.209774>, #Reference<0.3336326284.486539266.209778>}}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.3336326284.486539266.209769> => %{id: #PID<0.336.0>, generation: #Reference<0.3336326284.486539266.209762>}}, writer: #PID<0.333.0>, receiver: #PID<0.335.0>, endpoint: #PID<0.334.0>, alpn: ["test"], generation: #Reference<0.3336326284.486539266.209743>, _backend: Abyss.QUICServiceTest.Backend, callback_timeout: 5000, poll_interval: 10, init_timeout: 5000, event_batch: 32, writer_max_bytes: 1048576, quic_options: [], backend: Abyss.QUICServiceTest.Backend, max_connections: 128, worker_refs: %{#PID<0.337.0> => #Reference<0.3336326284.486539266.209769>}, admission: #PID<0.332.0>, writer_timeout: 1000, writer_max_queue: 128}}]]
+.....
+
+  1) test shutdown stops new ingress before waiting for consumer drain (Abyss.QUICServiceTest)
+     test/abyss/quic_test.exs:466
+     Assertion failed, no matching message after 100ms
+     The following variables were pinned:
+       receiver = #PID<0.362.0>
+       monitor = #Reference<0.3336326284.486539265.209852>
+     The process mailbox is empty.
+     code: assert_receive {:DOWN, ^monitor, :process, ^receiver, _}
+     stacktrace:
+       test/abyss/quic_test.exs:475: (test)
+
+
+Finished in 0.7 seconds (0.00s async, 0.7s sync)
+19 tests, 1 failure

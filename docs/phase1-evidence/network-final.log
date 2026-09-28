@@ -1,0 +1,96 @@
+Resolving Hex dependencies...
+Resolution completed in 0.083s
+Unchanged:
+  earmark_parser 1.4.46
+  ex_doc 0.40.4
+  jason 1.4.5
+  makeup 1.2.2
+  makeup_elixir 1.0.1
+  makeup_erlang 1.1.0
+  nimble_parsec 1.4.2
+  rustler 0.38.0
+  telemetry 1.4.2
+  telemetry_metrics 1.2.0
+==> abyss
+Compiling 1 file (.ex)
+Generated abyss app
+INVALID_TLS_STARTUP_PASS
+{"status": "PASS", "mode": "collect", "bytes": 1048576, "receive_after_fin": true, "digest": "c5a3e27d1ed0f894843bca3a5473c4bf0f76a19b6830a2e491292591613a12bf"}
+{"observations": {"retry_received": 0, "retry_dropped": 0, "token_changed": false}, "scenario": "normal"}
+{"status": "PASS", "mode": "echo", "bytes": 1048576, "bidi": 5, "uni": 2, "server_single_write": 16384, "receive_after_fin": true}
+{"observations": {"retry_received": 0, "retry_dropped": 0, "token_changed": false}, "scenario": "normal"}
+{"status": "PASS", "mode": "echo", "bytes": 1048576, "bidi": 5, "uni": 2, "server_single_write": 16384, "receive_after_fin": true}
+{"observations": {"retry_received": 0, "retry_dropped": 0, "token_changed": false}, "scenario": "normal"}
+{"status": "PASS", "mode": "echo", "bytes": 1048576, "bidi": 5, "uni": 2, "server_single_write": 16384, "receive_after_fin": true}
+{"observations": {"retry_received": 1, "retry_dropped": 0, "token_changed": false}, "scenario": "normal"}
+
+18:03:32.579 [error] GenServer #PID<0.247.0> terminating
+** (stop) {:read_failed, {:error, :invalid_operation}}
+Last message: :poll
+State: [data: [{~c"State", %{owner: #PID<0.206.0>, connection: %QUIC.Runtime.ConnectionHandle{id: #PID<0.246.0>, generation: #Reference<0.2584681290.755761153.232107>}, initialized: true}}]]
+{"status": "PASS", "mode": "connection_close_isolation", "surviving_bytes": 1048576}
+{"observations": {"retry_received": 0, "retry_dropped": 0, "token_changed": false}, "scenario": "normal"}
+NETWORK_BASELINE_PASS
+{"status": "PASS", "mode": "negative_handshake", "alpn": "other-alpn"}
+[159bf7d151dda592] Error: 298, reason: unable to get local issuer certificate, frame_type: 6
+{"status": "PASS", "mode": "negative_handshake", "alpn": "abyss-echo-v1"}
+{"status": "PASS", "mode": "echo", "bytes": 1048576, "bidi": 5, "uni": 2, "server_single_write": 16384, "receive_after_fin": true}
+{"observations": {"retry_received": 0, "retry_dropped": 0, "token_changed": false}, "scenario": "normal"}
+SUSPENDED_LISTENER_WRITER_PROGRESS_PASS #Reference<0.4004889362.2366898178.89111>
+{"status": "PASS", "mode": "echo", "bytes": 1048576, "bidi": 5, "uni": 2, "server_single_write": 16384, "receive_after_fin": true}
+{"observations": {"retry_received": 1, "retry_dropped": 0, "token_changed": false}, "scenario": "normal"}
+HOST_RETRY_EGRESS_PASS retry=1 sends=4157
+NETWORK_FAULTS_PASS
+{"status": "PASS", "mode": "opaque_controls", "reset": 74565, "stop": 344865, "close": 1118481}
+{"observations": {"retry_received": 0, "retry_dropped": 0, "token_changed": false}, "scenario": "normal"}
+CONTROL_PASS normal
+{"status": "PASS", "mode": "echo", "bytes": 1048576, "bidi": 5, "uni": 2, "server_single_write": 16384, "receive_after_fin": true}
+{"observations": {"retry_received": 2, "retry_dropped": 1, "token_changed": false}, "scenario": "retry_loss"}
+CONTROL_PASS retry_loss
+{"status": "PASS", "mode": "negative_handshake", "alpn": "abyss-test-v1"}
+CONTROL_PASS invalid_token
+{"status": "PASS", "mode": "negative_handshake", "alpn": "abyss-test-v1"}
+CONTROL_PASS expired_token
+
+18:04:13.902 [error] GenServer #PID<0.231.0> terminating
+** (stop) {:binding_failed, {:error, :deliberate_init_failure}}
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.222.0>, connection: %QUIC.Runtime.ConnectionHandle{id: #PID<0.229.0>, generation: #Reference<0.371805958.2635857922.112684>}, initialized: false}}]]
+CONSUMER_ISOLATION_PASS fail
+{"status": "PASS", "mode": "handshake_hold"}
+{"observations": {"retry_received": 0, "retry_dropped": 0, "token_changed": false}, "scenario": "normal"}
+
+18:04:14.614 [error] GenServer #PID<0.241.0> terminating
+** (RuntimeError) deliberate_consumer_crash
+    /home/gao/Workspace/gsmlg-dev/abyss/scripts/phase1/lifecycle.exs:11: AbyssPhase1.FailingHandler.init/3
+    (abyss 0.0.0) lib/abyss/quic/service.ex:453: anonymous fn/1 in Abyss.QUIC.Worker.handle_info/2
+    (abyss 0.0.0) lib/abyss/quic/service.ex:547: Abyss.QUIC.Worker.watched/3
+    (stdlib 7.3.0.1) gen_server.erl:2434: :gen_server.try_handle_info/3
+    (stdlib 7.3.0.1) gen_server.erl:2420: :gen_server.handle_msg/3
+    (stdlib 7.3.0.1) proc_lib.erl:333: :proc_lib.init_p_do_apply/3
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.233.0>, connection: %QUIC.Runtime.ConnectionHandle{id: #PID<0.240.0>, generation: #Reference<0.371805958.2635857922.117014>}, initialized: false}}]]
+CONSUMER_ISOLATION_PASS crash
+{"status": "PASS", "mode": "handshake_hold"}
+{"observations": {"retry_received": 0, "retry_dropped": 0, "token_changed": false}, "scenario": "normal"}
+CONSUMER_ISOLATION_PASS timeout
+{"status": "PASS", "mode": "handshake_hold"}
+{"observations": {"retry_received": 0, "retry_dropped": 0, "token_changed": false}, "scenario": "normal"}
+{"status": "PASS", "mode": "echo", "bytes": 1048576, "bidi": 5, "uni": 2, "server_single_write": 16384, "receive_after_fin": true}
+{"observations": {"retry_received": 0, "retry_dropped": 0, "token_changed": false}, "scenario": "normal"}
+
+18:04:21.216 [error] GenServer #PID<0.260.0> terminating
+** (stop) {:write_failed, {:error, :closed}}
+Last message: :poll
+State: [data: [{~c"State", %{owner: #PID<0.252.0>, connection: %QUIC.Runtime.ConnectionHandle{id: #PID<0.259.0>, generation: #Reference<0.371805958.2635857922.120920>}, initialized: true}}]]
+
+18:04:21.217 [error] GenServer #PID<0.252.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.254.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 60876}, port: 0, shutdown_timeout: 1000, socket: #Port<0.22>, callbacks: %{#PID<0.260.0> => {#Reference<0.371805958.2635857922.121036>, #Reference<0.371805958.2635857922.121040>}}, ip: {127, 0, 0, 1}, handler: AbyssEchoExample.Handler, workers: %{#Reference<0.371805958.2635857922.121026> => %QUIC.Runtime.ConnectionHandle{id: #PID<0.259.0>, generation: #Reference<0.371805958.2635857922.120920>}}, writer: #PID<0.254.0>, receiver: #PID<0.257.0>, alpn: ["abyss-echo-v1"], backend: QUIC, endpoint: #PID<0.255.0>, init_timeout: 5000, max_connections: 128, worker_refs: %{#PID<0.260.0> => #Reference<0.371805958.2635857922.121026>}, admission: #PID<0.253.0>, callback_timeout: 5000, generation: #Reference<0.371805958.2635857922.120874>, quic_options: [], event_batch: 32, writer_timeout: 1000, writer_max_queue: 128, writer_max_bytes: 1048576, poll_interval: 10}}]]
+{"status": "PASS", "mode": "handshake_hold"}
+{"observations": {"retry_received": 0, "retry_dropped": 0, "token_changed": false}, "scenario": "normal"}
+{"status": "PASS", "mode": "echo", "bytes": 1048576, "bidi": 5, "uni": 2, "server_single_write": 16384, "receive_after_fin": true}
+{"observations": {"retry_received": 0, "retry_dropped": 0, "token_changed": false}, "scenario": "normal"}
+WRITER_DEATH_RESTART_PASS
+NETWORK_LIFECYCLE_PASS

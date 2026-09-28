@@ -1,0 +1,51 @@
+Running ExUnit with seed: 0, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+........
+17:59:57.543 [error] GenServer #PID<0.255.0> terminating
+** (stop) {:writer_exit, :killed}
+Last message: {:EXIT, #PID<0.257.0>, :killed}
+State: %{module: Abyss.DispatcherTestCallback, monitors: %{}, send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.257.0>, generation: #Reference<0.2199704860.2634809345.168821>, admission: #PID<0.256.0>}, writer: #PID<0.257.0>, listener: nil, routes: %{}, admission: #PID<0.256.0>, callback_state: %{started: 0, send_fun: #Function<2.6411223/2 in Abyss.Dispatcher.init/1>}, generation: #Reference<0.2199704860.2634809345.168821>}
+...
+17:59:57.584 [error] GenServer #PID<0.270.0> terminating
+** (FunctionClauseError) no function clause matching in Abyss.Dispatcher.Admission.handle_info/2
+    (abyss 0.0.0) lib/abyss/datagram_dispatcher.ex:247: Abyss.Dispatcher.Admission.handle_info({:await_expired, #Reference<0.2199704860.2634809345.168982>, #Reference<0.2199704860.2634809345.168989>}, %{owner: nil, writer: #PID<0.269.0>, max_bytes: 1, max_queue: 1, generation: #Reference<0.2199704860.2634809345.168976>, entries: %{#Reference<0.2199704860.2634809345.168982> => %{caller: #PID<0.269.0>, monitor: #Reference<0.2199704860.2634809345.168984>, status: :reserved, bytes: 1}}, reserved_bytes: 1, waiters: %{#Reference<0.2199704860.2634809345.168982> => %{monitor: #Reference<0.2199704860.2634809345.168989>, timer: #Reference<0.2199704860.2634809345.168988>, from: {#PID<0.271.0>, [:alias | #Reference<0.0.34691.2199704860.2634874881.168987>]}}}, result_ttl: 5000, results: %{}, writer_monitor: #Reference<0.2199704860.2634809345.168981>, max_results: 256, owner_monitor: nil})
+    (stdlib 7.3.0.1) gen_server.erl:2434: :gen_server.try_handle_info/3
+    (stdlib 7.3.0.1) gen_server.erl:2420: :gen_server.handle_msg/3
+    (stdlib 7.3.0.1) proc_lib.erl:333: :proc_lib.init_p_do_apply/3
+Last message: {:await_expired, #Reference<0.2199704860.2634809345.168982>, #Reference<0.2199704860.2634809345.168989>}
+State: %{owner: nil, writer: #PID<0.269.0>, max_bytes: 1, max_queue: 1, generation: #Reference<0.2199704860.2634809345.168976>, entries: %{#Reference<0.2199704860.2634809345.168982> => %{caller: #PID<0.269.0>, monitor: #Reference<0.2199704860.2634809345.168984>, status: :reserved, bytes: 1}}, reserved_bytes: 1, waiters: %{#Reference<0.2199704860.2634809345.168982> => %{monitor: #Reference<0.2199704860.2634809345.168989>, timer: #Reference<0.2199704860.2634809345.168988>, from: {#PID<0.271.0>, [:alias | #Reference<0.0.34691.2199704860.2634874881.168987>]}}}, result_ttl: 5000, results: %{}, writer_monitor: #Reference<0.2199704860.2634809345.168981>, max_results: 256, owner_monitor: nil}
+
+
+  1) test late waiter expiry cannot remove a replacement waiter (Abyss.DispatcherTest)
+     test/abyss/dispatcher_test.exs:338
+     ** (EXIT from #PID<0.269.0>) an exception was raised:
+
+          ** (FunctionClauseError) no function clause matching in Abyss.Dispatcher.Admission.handle_info/2
+
+          The following arguments were given to Abyss.Dispatcher.Admission.handle_info/2:
+
+              # 1
+              {:await_expired, #Reference<0.2199704860.2634809345.168982>, #Reference<0.2199704860.2634809345.168989>}
+
+              # 2
+              %{owner: nil, writer: #PID<0.269.0>, max_bytes: 1, max_queue: 1, generation: #Reference<0.2199704860.2634809345.168976>, entries: %{#Reference<0.2199704860.2634809345.168982> => %{caller: #PID<0.269.0>, monitor: #Reference<0.2199704860.2634809345.168984>, status: :reserved, bytes: 1}}, reserved_bytes: 1, waiters: %{#Reference<0.2199704860.2634809345.168982> => %{monitor: #Reference<0.2199704860.2634809345.168989>, timer: #Reference<0.2199704860.2634809345.168988>, from: {#PID<0.271.0>, [:alias | #Reference<0.0.34691.2199704860.2634874881.168987>]}}}, result_ttl: 5000, results: %{}, writer_monitor: #Reference<0.2199704860.2634809345.168981>, max_results: 256, owner_monitor: nil}
+
+          Attempted function clauses (showing 5 out of 5):
+
+              def handle_info(-{:DOWN, monitor, :process, owner, _reason}-, %{owner: owner, owner_monitor: monitor} = state)
+              def handle_info(-{:DOWN, monitor, :process, writer, _reason}-, %{writer: writer, writer_monitor: monitor} = state)
+              def handle_info(-{:DOWN, monitor, :process, _caller, _reason}-, state)
+              def handle_info(-{:await_expired, ref}-, state)
+              def handle_info(-{:result_expired, ref}-, state)
+
+          stacktrace:
+            (abyss 0.0.0) lib/abyss/datagram_dispatcher.ex:247: Abyss.Dispatcher.Admission.handle_info/2
+            (stdlib 7.3.0.1) gen_server.erl:2434: :gen_server.try_handle_info/3
+            (stdlib 7.3.0.1) gen_server.erl:2420: :gen_server.handle_msg/3
+            (stdlib 7.3.0.1) proc_lib.erl:333: :proc_lib.init_p_do_apply/3
+
+
+......
+Finished in 0.4 seconds (0.4s async, 0.00s sync)
+18 tests, 1 failure

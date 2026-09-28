@@ -1,0 +1,199 @@
+==> abyss
+Compiling 1 file (.ex)
+Generated abyss app
+{"status": "PASS", "mode": "negative_handshake", "alpn": "other-alpn"}
+[dc4e5b30528101eb] Error: 298, reason: unable to get local issuer certificate, frame_type: 6
+{"status": "PASS", "mode": "negative_handshake", "alpn": "abyss-echo-v1"}
+suspended_connection_diagnostic: {:ok,
+ %{
+   local: {{127, 0, 0, 1}, 57057},
+   remote: {{127, 0, 0, 1}, 57946},
+   alpn: "abyss-echo-v1",
+   peer_authenticated: false,
+   tls_complete: true,
+   parameters_valid: true,
+   quic_confirmed: true,
+   highwaters: %{
+     operations: 256,
+     ready_bytes: 229376,
+     pending_datagrams: 13,
+     queued_bytes: 3203,
+     application_crypto_bytes: 0,
+     event_count: 11,
+     in_flight_sends: 1,
+     io_queue_bytes: 1350,
+     io_queue_entries: 1,
+     mailbox_messages: 1,
+     operation_result_bytes: 443866,
+     receive_buffered_bytes: 79168,
+     recovery_packets: 1236,
+     stream_records: 7,
+     tracked_references: 261
+   },
+   resources: %{
+     operations: 256,
+     ready_bytes: 131072,
+     pending_datagrams: 0,
+     queued_bytes: 0,
+     application_crypto_bytes: 0,
+     event_count: 0,
+     in_flight_sends: 0,
+     io_queue_bytes: 0,
+     io_queue_entries: 0,
+     mailbox_messages: 0,
+     operation_result_bytes: 7296,
+     receive_buffered_bytes: 0,
+     recovery_packets: 1236,
+     stream_records: 7,
+     tracked_references: 260
+   }
+ }}
+suspended_worker_diagnostic: [current_function: {:gen_server, :loop, 5}, message_queue_len: 0]
+application_diagnostic: %{
+  local: %QUIC.Runtime.StreamHandle{
+    connection: %QUIC.Runtime.ConnectionHandle{
+      id: #PID<0.247.0>,
+      generation: #Reference<0.2539198375.3438542849.227842>
+    },
+    id: 1
+  },
+  pending: %{
+    %QUIC.Runtime.StreamHandle{
+      connection: %QUIC.Runtime.ConnectionHandle{id: #PID<0.247.0>, ...},
+      id: 0
+    } => {<<1, ...>>, false},
+    %QUIC.Runtime.StreamHandle{
+      connection: %QUIC.Runtime.ConnectionHandle{...},
+      ...
+    } => {<<...>>, ...}
+  },
+  observer: #PID<0.95.0>,
+  streams: %{%QUIC.Runtime.StreamHandle{...} => :bidi, ...}
+}
+pending_sizes: %{0 => {16384, false}, 4 => {16384, false}}
+engine_credit: %{
+  max_data: 839099,
+  data_sent: 544187,
+  data_consumed: 576955,
+  data_received: 708027,
+  peer_max_data: 2097152,
+  pending_credit: %{}
+}
+stream_credit: %{
+  0 => %{
+    recv_next: 83089,
+    send_offset: 1169,
+    send_limit: 16384,
+    recv_limit: 83089,
+    recv_consumed: 17553,
+    recv_final: nil
+  },
+  1 => %{
+    recv_next: 16384,
+    send_offset: 16384,
+    send_limit: 32768,
+    recv_limit: 81920,
+    recv_consumed: 16384,
+    recv_final: 16384
+  },
+  2 => %{
+    recv_next: 10,
+    send_offset: 0,
+    send_limit: 0,
+    recv_limit: 65546,
+    recv_consumed: 10,
+    recv_final: 10
+  },
+  3 => %{
+    recv_next: 0,
+    send_offset: 10,
+    send_limit: 16384,
+    recv_limit: 65536,
+    recv_consumed: 0,
+    recv_final: nil
+  },
+  4 => %{
+    recv_next: 84256,
+    send_offset: 2336,
+    send_limit: 16384,
+    recv_limit: 84256,
+    recv_consumed: 18720,
+    recv_final: nil
+  },
+  8 => %{
+    recv_next: 262144,
+    send_offset: 262144,
+    send_limit: 524288,
+    recv_limit: 327680,
+    recv_consumed: 262144,
+    recv_final: 262144
+  },
+  12 => %{
+    recv_next: 262144,
+    send_offset: 262144,
+    send_limit: 524288,
+    recv_limit: 327680,
+    recv_consumed: 262144,
+    recv_final: 262144
+  }
+}
+
+17:51:09.842 [error] GenServer #PID<0.248.0> terminating
+** (RuntimeError) unresolved stream send: {:error, :not_established}
+    (abyss_quic_echo_example 0.1.0) lib/handler.ex:87: AbyssEchoExample.Handler.flush/2
+    (stdlib 7.3.0.1) maps.erl:894: :maps.fold_1/4
+    (abyss_quic_echo_example 0.1.0) lib/handler.ex:26: AbyssEchoExample.Handler.handle_event/2
+    (abyss 0.0.0) lib/abyss/quic/service.ex:480: anonymous fn/3 in Abyss.QUIC.Worker.handle_info/2
+    (elixir 1.18.5) lib/enum.ex:4968: Enumerable.List.reduce/3
+    (elixir 1.18.5) lib/enum.ex:2600: Enum.reduce_while/3
+    (abyss 0.0.0) lib/abyss/quic/service.ex:478: anonymous fn/1 in Abyss.QUIC.Worker.handle_info/2
+    (abyss 0.0.0) lib/abyss/quic/service.ex:545: Abyss.QUIC.Worker.watched/3
+Last message: :poll
+State: [data: [{~c"State", %{owner: #PID<0.238.0>, connection: %QUIC.Runtime.ConnectionHandle{id: #PID<0.247.0>, generation: #Reference<0.2539198375.3438542849.227842>}, initialized: true}}]]
+{"failure": "deadline", "bytes": {"1": 16384, "0": 1169, "3": 10, "4": 2336, "8": 262144, "12": 262144}, "fins": [1, 3, 8, 12], "termination": null, "termination_reason": null}
+Traceback (most recent call last):
+  File "/home/gao/Workspace/gsmlg-dev/abyss/scripts/phase1/peer.py", line 72, in wait_for
+    await self.changed.wait()
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/locks.py", line 212, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/gao/Workspace/gsmlg-dev/abyss/scripts/phase1/peer.py", line 148, in <module>
+    asyncio.run(run(args))
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/gao/Workspace/gsmlg-dev/abyss/scripts/phase1/peer.py", line 93, in run
+    await p.wait_for(lambda: all(sid in p.finished for sid in values) and 1 in p.finished and 3 in p.finished)
+  File "/home/gao/Workspace/gsmlg-dev/abyss/scripts/phase1/peer.py", line 69, in wait_for
+    async with asyncio.timeout(25):
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/timeouts.py", line 115, in __aexit__
+    raise TimeoutError from exc_val
+TimeoutError
+
+17:51:11.230 [error] Task #PID<0.246.0> started from #PID<0.95.0> terminating
+** (RuntimeError) peer failed 1
+    /home/gao/Workspace/gsmlg-dev/abyss/_build/phase1/credit_diagnostic.exs:127: AbyssPhase1.Faults.peer/6
+    (elixir 1.18.5) lib/task/supervised.ex:101: Task.Supervised.invoke_mfa/2
+    (elixir 1.18.5) lib/task/supervised.ex:36: Task.Supervised.reply/4
+Function: #Function<0.89965923/0 in AbyssPhase1.Faults.run/0>
+    Args: []
+** (exit) exited in: Task.await(%Task{mfa: {:erlang, :apply, 2}, owner: #PID<0.95.0>, pid: #PID<0.246.0>, ref: #Reference<0.0.12163.2539198375.3438608385.227816>}, 60000)
+    ** (EXIT) an exception was raised:
+        ** (RuntimeError) peer failed 1
+            /home/gao/Workspace/gsmlg-dev/abyss/_build/phase1/credit_diagnostic.exs:127: AbyssPhase1.Faults.peer/6
+            (elixir 1.18.5) lib/task/supervised.ex:101: Task.Supervised.invoke_mfa/2
+            (elixir 1.18.5) lib/task/supervised.ex:36: Task.Supervised.reply/4
+    (elixir 1.18.5) lib/task.ex:884: Task.await_receive/3
+    /home/gao/Workspace/gsmlg-dev/abyss/_build/phase1/credit_diagnostic.exs:61: AbyssPhase1.Faults.run/0
+    /home/gao/Workspace/gsmlg-dev/abyss/_build/phase1/credit_diagnostic.exs:131: (file)

@@ -1,0 +1,64 @@
+Building abyss 0.0.0
+  Dependencies:
+    telemetry ~> 1.0 (app: telemetry)
+    telemetry_metrics ~> 1.0 (app: telemetry_metrics)
+    rustler ~> 0.34 (app: rustler)
+    ex_doc >= 0.0.0 (app: ex_doc)
+  App: abyss
+  Name: abyss
+  Files:
+    lib
+    lib/abyss.ex
+    lib/abyss
+    lib/abyss/application.ex
+    lib/abyss/client.ex
+    lib/abyss/connection.ex
+    lib/abyss/datagram_dispatcher.ex
+    lib/abyss/dhcp_socket
+    lib/abyss/dhcp_socket/native.ex
+    lib/abyss/handler.ex
+    lib/abyss/listener_pool.ex
+    lib/abyss/listener_pool_scaler.ex
+    lib/abyss/logger.ex
+    lib/abyss/server.ex
+    lib/abyss/server_config.ex
+    lib/abyss/shutdown_listener.ex
+    lib/abyss/table_owner.ex
+    lib/abyss/telemetry.ex
+    lib/abyss/transport.ex
+    lib/abyss/transport
+    lib/abyss/transport/udp.ex
+    lib/abyss/transport/udp
+    lib/abyss/transport/udp/broadcast.ex
+    lib/abyss/transport/udp/core.ex
+    lib/abyss/transport/udp/unicast.ex
+    lib/abyss/utils.ex
+    lib/abyss/listener.ex
+    lib/abyss/quic
+    lib/abyss/quic/handler.ex
+    lib/abyss/quic/service.ex
+    lib/abyss/quic.ex
+    LICENSE
+    mix.exs
+    README.md
+    docs/dispatcher.md
+    docs/quic-service.md
+    native/dhcp_socket/src
+    native/dhcp_socket/src/arp.rs
+    native/dhcp_socket/src/lib.rs
+    native/dhcp_socket/src/poll.rs
+    native/dhcp_socket/src/socket.rs
+    native/dhcp_socket/Cargo.toml
+    native/dhcp_socket/Cargo.lock
+    native/dhcp_socket/.cargo
+    native/dhcp_socket/.cargo/config.toml
+  Version: 0.0.0
+  Build tools: mix
+  Description: Abyss is a pure Elixir UDP server
+  Licenses: MIT
+  Links: 
+    Github: https://github.com/gsmlg-dev/abyss
+    Changelog: https://hexdocs.pm/abyss/changelog.html
+  Elixir: ~> 1.13
+Package checksum: 9d9776d085008b12481dd6474650812a7b1bd2163a2a3334235fd4450f117065
+Saved to abyss-0.0.0.tar

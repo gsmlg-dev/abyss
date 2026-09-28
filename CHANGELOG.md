@@ -91,6 +91,34 @@ base_listeners = max(div(current_connections, 1000), 1)
 base_listeners = max(div(current_connections, 100), 1)
 ```
 
-## [0.4.0] - Previous Release
+## [0.6.0] - 2026-09-28
+
+### Added
+
+- Public `Abyss.QUIC` listener and `Abyss.QUIC.Handler` application service using
+  the explicitly activated ex_quic engine, with isolated connection consumers,
+  negotiated ALPN metadata, generation handles and bounded byte-stream operations.
+- Independent echo, collection and ordinary UDP consumers, pinned-peer QUIC
+  acceptance scripts, and outside-checkout production release checks.
+- Service, ownership, backpressure and capability documentation in
+  `docs/quic-service.md` and the Phase 1 acceptance report.
+
+### Fixed
+
+- Writer item/byte admission before payload mailbox entry, bounded receipt/waiter
+  retention, explicit unknown outcomes and generation-safe completion handling.
+- Bounded listener draining and cleanup after writer, endpoint or consumer failure.
+
+### Scope
+
+- Ordinary UDP remains independent of ex_quic. DNS/DoQ and HTTP/3/QPACK belong to
+  application servers and are not implemented by Abyss. DATAGRAM, 0-RTT, migration
+  and server mTLS are outside the supported subset.
+
+## [0.5.0] - 2025-10-14
+
+Published to Hex through the repository release workflow.
+
+## [0.4.0]
 
 Initial stable release with core UDP server functionality, telemetry support, and security features.

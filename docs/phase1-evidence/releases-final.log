@@ -1,0 +1,58 @@
+==> abyss
+Compiling 1 file (.ex)
+Generated abyss app
+==> abyss_udp_example
+* assembling abyss_udp_example-0.1.0 on MIX_ENV=prod
+* skipping runtime configuration (config/runtime.exs not found)
+* skipping elixir.bat for windows (bin/elixir.bat not found in the Elixir installation)
+* skipping iex.bat for windows (bin/iex.bat not found in the Elixir installation)
+
+Release created at _build/prod/rel/abyss_udp_example
+
+    # To start your system
+    _build/prod/rel/abyss_udp_example/bin/abyss_udp_example start
+
+Once the release is running:
+
+    # To connect to it remotely
+    _build/prod/rel/abyss_udp_example/bin/abyss_udp_example remote
+
+    # To stop it gracefully (you may also send SIGINT/SIGTERM)
+    _build/prod/rel/abyss_udp_example/bin/abyss_udp_example stop
+
+To list all commands:
+
+    _build/prod/rel/abyss_udp_example/bin/abyss_udp_example
+
+--rpc-eval : RPC failed with reason :noconnection
+UDP_WITHOUT_QUIC_PASS
+==> abyss
+Compiling 1 file (.ex)
+Generated abyss app
+==> abyss_quic_echo_example
+* assembling abyss_quic_echo_example-0.1.0 on MIX_ENV=prod
+* skipping runtime configuration (config/runtime.exs not found)
+* skipping elixir.bat for windows (bin/elixir.bat not found in the Elixir installation)
+* skipping iex.bat for windows (bin/iex.bat not found in the Elixir installation)
+
+Release created at _build/prod/rel/abyss_quic_echo_example
+
+    # To start your system
+    _build/prod/rel/abyss_quic_echo_example/bin/abyss_quic_echo_example start
+
+Once the release is running:
+
+    # To connect to it remotely
+    _build/prod/rel/abyss_quic_echo_example/bin/abyss_quic_echo_example remote
+
+    # To stop it gracefully (you may also send SIGINT/SIGTERM)
+    _build/prod/rel/abyss_quic_echo_example/bin/abyss_quic_echo_example stop
+
+To list all commands:
+
+    _build/prod/rel/abyss_quic_echo_example/bin/abyss_quic_echo_example
+
+--rpc-eval : RPC failed with reason :noconnection
+{"status": "PASS", "mode": "echo", "bytes": 1048576, "bidi": 5, "uni": 2, "server_single_write": 16384, "receive_after_fin": true}
+{"observations": {"retry_received": 0, "retry_dropped": 0, "token_changed": false}, "scenario": "normal"}
+QUIC_RELEASE_PASS
