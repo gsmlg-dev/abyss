@@ -8,9 +8,7 @@ defmodule AbyssCollectExample.MixProject do
       elixir: "~> 1.18",
       deps: [
         {:abyss, path: System.get_env("ABYSS_PATH", "../..")},
-        {:ex_quic,
-         git: "https://github.com/gsmlg-dev/ex_quic.git",
-         ref: "27779b72da0c784787142012fee3e229fe5397df"}
+        {:elixir_quic, "== 0.2.2"}
       ]
     ]
   end

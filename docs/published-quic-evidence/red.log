@@ -1,0 +1,90 @@
+Resolving Hex dependencies...
+Resolution completed in 0.342s
+New:
+  earmark_parser 1.4.46
+  elixir_quic 0.2.2
+  ex_doc 0.40.4
+  ex_ssl 0.7.2
+  jason 1.4.5
+  makeup 1.2.2
+  makeup_elixir 1.0.1
+  makeup_erlang 1.1.0
+  nimble_parsec 1.4.2
+  rustler 0.38.0
+  telemetry 1.4.2
+  telemetry_metrics 1.2.0
+* Getting elixir_quic (Hex package)
+* Getting ex_ssl (Hex package)
+* Getting telemetry (Hex package)
+* Getting telemetry_metrics (Hex package)
+* Getting rustler (Hex package)
+* Getting ex_doc (Hex package)
+* Getting earmark_parser (Hex package)
+* Getting makeup_elixir (Hex package)
+* Getting makeup_erlang (Hex package)
+* Getting makeup (Hex package)
+* Getting nimble_parsec (Hex package)
+* Getting jason (Hex package)
+==> earmark_parser
+Compiling 2 files (.xrl)
+Compiling 1 file (.yrl)
+Compiling 3 files (.erl)
+Compiling 32 files (.ex)
+Generated earmark_parser app
+==> jason
+Compiling 10 files (.ex)
+Generated jason app
+==> ex_ssl
+Compiling 58 files (.ex)
+Generated ex_ssl app
+==> rustler
+Compiling 7 files (.ex)
+Generated rustler app
+==> elixir_quic
+Compiling 23 files (.ex)
+Generated elixir_quic app
+==> nimble_parsec
+Compiling 4 files (.ex)
+Generated nimble_parsec app
+==> makeup
+Compiling 15 files (.ex)
+Generated makeup app
+==> makeup_elixir
+Compiling 6 files (.ex)
+Generated makeup_elixir app
+==> makeup_erlang
+Compiling 4 files (.ex)
+Compiling lib/makeup/lexers/erlang_lexer.ex (it's taking more than 10s)
+Generated makeup_erlang app
+==> ex_doc
+Compiling 30 files (.ex)
+Generated ex_doc app
+==> abyss_quic_echo_example
+===> Analyzing applications...
+===> Compiling telemetry
+==> telemetry_metrics
+Compiling 7 files (.ex)
+Generated telemetry_metrics app
+==> abyss
+Compiling 25 files (.ex)
+Compiling crate dhcp_socket in release mode (native/dhcp_socket)
+Copying /home/gao/Workspace/gsmlg-dev/abyss/native/dhcp_socket/target/release/libdhcp_socket.so to priv/native/dhcp_socket.so
+Generated abyss app
+==> abyss_quic_echo_example
+Compiling 2 files (.ex)
+Generated abyss_quic_echo_example app
+
+11:41:53.289 [notice] Application abyss_quic_echo_example exited: AbyssEchoExample.Application.start(:normal, []) returned an error: shutdown: failed to start child: {Abyss.QUIC, AbyssEchoExample.Listener}
+    ** (EXIT) :quic_backend_unavailable
+
+11:41:53.296 [notice] Application elixir_quic exited: :stopped
+
+11:41:53.297 [notice] Application ex_ssl exited: :stopped
+
+11:41:53.298 [notice] Application abyss exited: :stopped
+
+11:41:53.298 [notice] Application telemetry_metrics exited: :stopped
+
+11:41:53.299 [notice] Application telemetry exited: :stopped
+** (Mix) Could not start application abyss_quic_echo_example: AbyssEchoExample.Application.start(:normal, []) returned an error: shutdown: failed to start child: {Abyss.QUIC, AbyssEchoExample.Listener}
+    ** (EXIT) :quic_backend_unavailable

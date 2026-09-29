@@ -2,7 +2,7 @@
 defmodule AbyssPhase1.Network do
   def run do
     root = System.fetch_env!("ABYSS_PATH")
-    fixture = Path.join(File.cwd!(), "deps/ex_ssl/test/fixtures/server_flight")
+    fixture = Path.join(root, "test/fixtures/quic/server_flight")
     peer = Path.join(root, "scripts/phase1/peer.py")
     {:ok, {_, echo_port}} = Abyss.QUIC.local(AbyssEchoExample.Listener)
     Code.require_file(Path.join(root, "examples/quic_collect/lib/handler.ex"))

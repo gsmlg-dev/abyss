@@ -24,7 +24,7 @@ defmodule AbyssPhase1.Lifecycle do
   def run do
     Process.flag(:trap_exit, true)
     root = System.fetch_env!("ABYSS_PATH")
-    fixture = Path.join(File.cwd!(), "deps/ex_ssl/test/fixtures/server_flight")
+    fixture = Path.join(root, "test/fixtures/quic/server_flight")
 
     [{:Certificate, cert, :not_encrypted}] =
       :public_key.pem_decode(File.read!(Path.join(fixture, "leaf.pem")))

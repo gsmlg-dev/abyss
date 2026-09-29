@@ -21,7 +21,7 @@ defmodule AbyssUDPExample do
   end
 
   def verify do
-    false = Code.ensure_loaded?(QUIC)
+    false = Code.ensure_loaded?(Quic)
 
     {:error, :quic_backend_unavailable} =
       Abyss.QUIC.start_link(

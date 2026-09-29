@@ -2,7 +2,7 @@ defmodule Abyss.QUIC.Handler do
   @moduledoc """
   Application binding for an `Abyss.QUIC` listener.
 
-  Callbacks run in a per-connection worker. They receive opaque `ex_quic`
+  Callbacks run in a per-connection worker. They receive opaque `elixir_quic`
   generation handles and byte-stream events; Abyss does not interpret ALPN or
   application payloads. `init/3` runs after attachment and receives negotiated
   metadata. `handle_event/2` receives public engine events and a `:tick` after

@@ -1,0 +1,212 @@
+Cover compiling modules ...
+Running ExUnit with seed: 913432, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+................................
+11:42:30.142 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.
+11:42:30.277 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.....    warning: this clause for terminate/2 cannot match because a previous clause at line 8 always matches
+    │
+ 28 │     def terminate(_reason, state) do
+    │         ~
+    │
+    └─ test/abyss/handler_test.exs:28:9
+
+.
+11:42:30.379 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+....
+11:42:30.423 [warning] Option :num_acceptors is deprecated. Use :num_listeners instead.
+.....
+11:42:30.450 [warning] Option :num_acceptors is deprecated. Use :num_listeners instead.
+...........................................................................................................    warning: this clause for terminate/2 cannot match because a previous clause at line 56 always matches
+    │
+ 73 │     def terminate(_reason, state) do
+    │         ~
+    │
+    └─ test/abyss/handler_test.exs:73:9
+
+...............................
+11:42:30.781 [error] GenServer #PID<0.925.0> terminating
+** (stop) {:writer_exit, :killed}
+Last message: {:EXIT, #PID<0.927.0>, :killed}
+State: %{module: Abyss.DispatcherTestCallback, monitors: %{}, send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.927.0>, generation: #Reference<0.2882466181.919863302.175837>, admission: #PID<0.926.0>}, writer: #PID<0.927.0>, listener: nil, generation: #Reference<0.2882466181.919863302.175837>, admission: #PID<0.926.0>, callback_state: %{started: 0, send_fun: #Function<2.41279565/2 in Abyss.Dispatcher.init/1>}, routes: %{}}
+...................................................................................................................................................
+11:42:36.222 [debug] Telemetry event
+...
+11:42:36.223 [error] Telemetry event
+
+11:42:36.224 [info] Telemetry event
+
+11:42:36.224 [debug] Telemetry event
+.
+11:42:36.225 [error] Telemetry event
+
+11:42:36.225 [info] Telemetry event
+.
+11:42:36.225 [debug] Telemetry event
+
+11:42:36.225 [debug] Telemetry event
+..
+11:42:36.227 [error] Telemetry event
+
+11:42:36.227 [info] Telemetry event
+.
+11:42:36.227 [debug] Telemetry event
+.
+11:42:36.228 [info] Telemetry event
+.
+11:42:36.228 [info] Telemetry event
+.
+11:42:36.229 [debug] Telemetry event
+.
+11:42:36.229 [debug] Telemetry event
+...
+11:42:36.230 [error] Telemetry event
+...
+11:42:36.232 [error] Telemetry event
+........
+11:42:36.237 [info] The function passed as a handler with ID :test_response_time_handler is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+...............
+11:42:36.244 [warning] Invalid option: transport_options[:broadcast] is ignored. Use transport_module: Abyss.Transport.UDP.Broadcast instead.
+...............
+11:42:36.339 [info] The function passed as a handler with ID :integration_test_handler is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+..................
+11:42:37.481 [info] The function passed as a handler with ID "scaler-test-#PID<0.3175.0>" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.......................................................
+11:42:53.200 [info] The function passed as a handler with ID "test-client-telemetry-#PID<0.5991.0>" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+....
+11:42:53.252 [info] The function passed as a handler with ID "test-client-telemetry-#PID<0.5997.0>" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+........
+11:42:53.282 [info] The function passed as a handler with ID "test-client-telemetry-#PID<0.6008.0>" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+...
+11:42:53.383 [info] The function passed as a handler with ID "test-client-telemetry-#PID<0.6012.0>" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.
+11:42:53.385 [info] The function passed as a handler with ID "test-client-telemetry-#PID<0.6014.0>" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+............................
+11:42:54.339 [error] GenServer #PID<0.6079.0> terminating
+** (stop) {:binding_failed, false}
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.6073.0>, connection: %{id: #PID<0.6078.0>, generation: #Reference<0.2882466181.919863297.174448>}, initialized: false}}]]
+...
+11:42:54.541 [error] GenServer #PID<0.6097.0> terminating
+** (stop) {:binding_failed, {:error, :refused}}
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.6091.0>, connection: %{id: #PID<0.6096.0>, generation: #Reference<0.2882466181.919863300.173523>}, initialized: false}}]]
+..
+11:42:54.543 [error] GenServer #PID<0.6113.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.6115.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 47173}, port: 0, shutdown_timeout: 50, socket: #Port<0.2307>, callbacks: %{#PID<0.6119.0> => {#Reference<0.2882466181.919863297.174585>, #Reference<0.2882466181.919863297.174589>}}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.2882466181.919863297.174580> => %{id: #PID<0.6118.0>, generation: #Reference<0.2882466181.919863297.174573>}}, writer: #PID<0.6115.0>, receiver: #PID<0.6117.0>, alpn: ["test"], max_connections: 128, init_timeout: 5000, callback_timeout: 5000, poll_interval: 10, event_batch: 32, writer_timeout: 1000, writer_max_queue: 128, writer_max_bytes: 1048576, quic_options: [], generation: #Reference<0.2882466181.919863297.174554>, admission: #PID<0.6114.0>, backend: Abyss.QUICServiceTest.Backend, _backend: Abyss.QUICServiceTest.Backend, endpoint: #PID<0.6116.0>, worker_refs: %{#PID<0.6119.0> => #Reference<0.2882466181.919863297.174580>}}}]]
+.
+11:42:54.544 [error] GenServer #PID<0.6129.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.6127.0>, :killed}
+State: %{owner: #PID<0.6127.0>, socket: #Port<0.2309>, queue: {[], []}, max_bytes: 1048576, transport: Abyss.QUIC.SocketTransport, max_queue: 128, generation: #Reference<0.2882466181.919863300.173605>, admission: #PID<0.6128.0>, owner_monitor: #Reference<0.2882466181.919863300.173615>, owns_admission: false, sending: false, queue_bytes: 0}
+.
+11:42:54.545 [error] GenServer #PID<0.6136.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.6138.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 52778}, port: 0, shutdown_timeout: 50, socket: #Port<0.2310>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.2882466181.919863298.182851> => %{id: #PID<0.6141.0>, generation: #Reference<0.2882466181.919863298.182844>}}, writer: #PID<0.6138.0>, receiver: #PID<0.6140.0>, alpn: ["test"], max_connections: 128, init_timeout: 5000, callback_timeout: 5000, poll_interval: 10, event_batch: 32, writer_timeout: 1000, writer_max_queue: 128, writer_max_bytes: 1048576, quic_options: [], generation: #Reference<0.2882466181.919863298.182829>, admission: #PID<0.6137.0>, backend: Abyss.QUICServiceTest.Backend, _backend: Abyss.QUICServiceTest.Backend, endpoint: #PID<0.6139.0>, worker_refs: %{#PID<0.6142.0> => #Reference<0.2882466181.919863298.182851>}}}]]
+
+11:42:54.545 [error] GenServer #PID<0.6144.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.6147.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 41834}, port: 0, shutdown_timeout: 50, socket: #Port<0.2311>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.2882466181.919863298.182890> => %{id: #PID<0.6149.0>, generation: #Reference<0.2882466181.919863298.182883>}}, writer: #PID<0.6146.0>, receiver: #PID<0.6148.0>, alpn: ["test"], max_connections: 128, init_timeout: 5000, callback_timeout: 5000, poll_interval: 10, event_batch: 32, writer_timeout: 1000, writer_max_queue: 128, writer_max_bytes: 1048576, quic_options: [], generation: #Reference<0.2882466181.919863298.182868>, admission: #PID<0.6145.0>, backend: Abyss.QUICServiceTest.Backend, _backend: Abyss.QUICServiceTest.Backend, endpoint: #PID<0.6147.0>, worker_refs: %{#PID<0.6150.0> => #Reference<0.2882466181.919863298.182890>}}}]]
+
+11:42:54.546 [error] GenServer #PID<0.6152.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.6156.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 54803}, port: 0, shutdown_timeout: 50, socket: #Port<0.2312>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.2882466181.919863298.182930> => %{id: #PID<0.6157.0>, generation: #Reference<0.2882466181.919863298.182923>}}, writer: #PID<0.6154.0>, receiver: #PID<0.6156.0>, alpn: ["test"], max_connections: 128, init_timeout: 5000, callback_timeout: 5000, poll_interval: 10, event_batch: 32, writer_timeout: 1000, writer_max_queue: 128, writer_max_bytes: 1048576, quic_options: [], generation: #Reference<0.2882466181.919863298.182908>, admission: #PID<0.6153.0>, backend: Abyss.QUICServiceTest.Backend, _backend: Abyss.QUICServiceTest.Backend, endpoint: #PID<0.6155.0>, worker_refs: %{#PID<0.6158.0> => #Reference<0.2882466181.919863298.182930>}}}]]
+....
+11:42:54.547 [error] GenServer #PID<0.6177.0> terminating
+** (RuntimeError) init crashed
+    test/abyss/quic_test.exs:16: Abyss.QUICServiceTest.Handler.init/3
+    (abyss 0.0.0) lib/abyss/quic/service.ex:453: anonymous fn/1 in Abyss.QUIC.Worker.handle_info/2
+    (abyss 0.0.0) lib/abyss/quic/service.ex:547: Abyss.QUIC.Worker.watched/3
+    (stdlib 7.3.0.1) gen_server.erl:2434: :gen_server.try_handle_info/3
+    (stdlib 7.3.0.1) gen_server.erl:2420: :gen_server.handle_msg/3
+    (stdlib 7.3.0.1) proc_lib.erl:333: :proc_lib.init_p_do_apply/3
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.6171.0>, connection: %{id: #PID<0.6176.0>, generation: #Reference<0.2882466181.919863298.182972>}, initialized: false}}]]
+.
+11:42:54.548 [error] GenServer #PID<0.6189.0> terminating
+** (stop) {:binding_failed, {:error, :init_failed}}
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.6183.0>, connection: %{id: #PID<0.6188.0>, generation: #Reference<0.2882466181.919863297.174719>}, initialized: false}}]]
+.....
+Finished in 24.6 seconds (6.2s async, 18.3s sync)
+3 doctests, 532 tests, 0 failures, 12 excluded
+
+Generating cover results ...
+
+Percentage | Module
+-----------|--------------------------
+     0.00% | Abyss.Connection
+     0.00% | Abyss.QUIC.SocketTransport
+    16.67% | Abyss.DhcpSocket.Native
+    21.74% | Abyss.QUIC
+    58.10% | Abyss.Listener
+    68.42% | Abyss.Client
+    72.73% | Abyss.Dispatcher.Writer
+    76.47% | Abyss.Transport.UDP.Core
+    78.69% | Abyss.Dispatcher.Admission
+    79.17% | Abyss.ListenerPool
+    80.00% | Abyss.Transport.UDP.Unicast
+    82.72% | Abyss.Dispatcher
+    82.99% | Abyss.QUIC.Service
+    84.21% | Abyss.Transport.UDP.Broadcast
+    84.38% | Abyss.Server
+    84.62% | Abyss.TableOwner
+    85.71% | Abyss
+    86.21% | Abyss.Handler
+    87.50% | Abyss.Transport.UDP
+    87.88% | Abyss.ServerConfig
+    88.00% | Abyss.QUIC.Worker
+    90.28% | Abyss.Utils
+    93.20% | Abyss.Telemetry
+    93.33% | Abyss.ListenerPoolScaler
+   100.00% | Abyss.Application
+   100.00% | Abyss.DatagramDispatcher
+   100.00% | Abyss.Dispatcher.SendCapability
+   100.00% | Abyss.Logger
+   100.00% | Abyss.QUIC.Handler
+   100.00% | Abyss.ShutdownListener
+   100.00% | Abyss.Transport
+-----------|--------------------------
+    78.36% | Total
+
+Generated HTML coverage results in "cover" directory

@@ -1,24 +1,25 @@
 # General-purpose QUIC service
 
-Abyss hosts UDP I/O and binds application consumers to `ex_quic` connections.
+Abyss hosts UDP I/O and binds application consumers to `elixir_quic` connections.
 The QUIC engine owns connection IDs, TLS, streams, flow control, recovery and
 packetization. Applications own their protocols. DNS/DoQ and HTTP/3/QPACK are
 permanently outside Abyss; raw stream examples do not implement either.
 
 ## Dependency activation and application integration
 
-Ordinary `Abyss.start_link/1` UDP usage does not load or require ex_quic. A QUIC
+Ordinary `Abyss.start_link/1` UDP usage does not load or require elixir_quic. A QUIC
 application explicitly adds both Abyss and the engine to its dependencies:
 
 ```elixir
-{:abyss, path: System.fetch_env!("ABYSS_PATH")},
-{:ex_quic, git: "https://github.com/gsmlg-dev/ex_quic.git",
- ref: "27779b72da0c784787142012fee3e229fe5397df"}
+{:abyss, "~> 0.6.1"},
+{:elixir_quic, "== 0.2.2"}
 ```
 
-The local path identifies this uncommitted candidate; it is not a published
-release requirement. Use your reviewed Abyss source/package in a deployment.
-The engine pins ex_ssl at `f1327e0bb7fb2093b8dc2b07e72b26233a739963`.
+The published engine uses OTP application `:elixir_quic` and facade `Quic`;
+its repository is still named `gsmlg-dev/ex_quic`. It requires Hex `ex_ssl`
+`0.7.2`, whose TLS facade remains `SSL.QUIC`. Abyss does not provide a legacy
+`QUIC` alias or fall back to an older engine. The examples pin these published
+packages and use `ABYSS_PATH` only to select the Abyss checkout under test.
 Do not set `runtime: false` on these runtime dependencies.
 
 Implement `Abyss.QUIC.Handler` and add the listener to your supervisor:
@@ -34,7 +35,7 @@ Implement `Abyss.QUIC.Handler` and add the listener to your supervisor:
  quic_options: [retry: true, streams: [max_data: 16_384, max_stream_data: 16_384]]}
 ```
 
-Certificate material uses the public ex_ssl/ex_quic TLS contract. `alpn` is a
+Certificate material uses the public ex_ssl/elixir_quic TLS contract. `alpn` is a
 nonempty list of opaque identifiers (each 1–255 bytes). TLS negotiates one; Abyss
 does not inspect application payloads or route protocols on the same socket.
 Readiness/ALPN is not application authorization. This server subset does not
@@ -44,7 +45,7 @@ Bind a concrete address; wildcard destination metadata is unsupported upstream.
 `local/1` returns `{:ok, {address, bound_port}}`; `stop/2` stops a listener.
 Startup errors are explicit; no QUIC option silently activates ordinary UDP.
 Credential structure is checked using the public `SSL.QUIC.new/2` API before
-starting the listener. Actual connection transcripts are created by ex_quic.
+starting the listener. Actual connection transcripts are created by elixir_quic.
 
 Listener options, besides `name`, `handler`, `alpn` and `tls`, are:
 
@@ -170,7 +171,7 @@ initial 16 KiB write. The collection example hashes bounded reads incrementally.
 
 Transport, TLS and local application-worker failures retain their distinct reason
 terms. Application close/reset/stop codes are opaque 62-bit integers passed
-unchanged to ex_quic; bounded binary reasons are not mapped to HTTP or DNS errors.
+unchanged to elixir_quic; bounded binary reasons are not mapped to HTTP or DNS errors.
 The independent writer contract is documented in [dispatcher.md](dispatcher.md).
 
 ## Capability limits and acceptance
@@ -181,6 +182,7 @@ metadata, external client endpoints, HTTP/3/QPACK and WebTransport are unsupport
 Finite stream tombstones can exhaust the lifetime stream-record budget. This is
 not full conformance or a production security audit.
 
-See [phase1-acceptance.md](phase1-acceptance.md) for the actual tested source,
+See [published-quic-acceptance.md](published-quic-acceptance.md) for the published
+engine regression and [phase1-acceptance.md](phase1-acceptance.md) for the original tested source,
 commands, failures and gate status. Unit/fake-backend tests are host regressions;
 only the separate pinned-peer results count as real network acceptance.

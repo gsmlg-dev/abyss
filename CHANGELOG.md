@@ -91,6 +91,17 @@ base_listeners = max(div(current_connections, 1000), 1)
 base_listeners = max(div(current_connections, 100), 1)
 ```
 
+## [0.6.1] - 2026-09-29
+
+### Fixed
+
+- Use the published `elixir_quic` engine's `Quic` namespace for optional engine
+  detection, service hosting and public stream operations (internal request #5).
+- Pin independent QUIC consumers to Hex `elixir_quic` 0.2.2 and `ex_ssl` 0.7.2,
+  with published-package provenance and real network/release regression checks.
+  Ordinary UDP remains independent of the engine; no legacy alias or fallback
+  is introduced.
+
 ## [0.6.0] - 2026-09-28
 
 ### Added

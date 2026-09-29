@@ -261,7 +261,7 @@ defmodule Abyss.QUIC.Service do
   end
 
   defp validate(opts) do
-    backend = Keyword.get(opts, :_backend, QUIC)
+    backend = Keyword.get(opts, :_backend, Quic)
     handler = Keyword.get(opts, :handler)
 
     {module, handler_opts} =
@@ -396,8 +396,8 @@ defmodule Abyss.QUIC.Service do
   end
 
   # Validate credentials through the public record-free TLS API. The preflight
-  # state is discarded; ex_quic still creates and owns every real TLS transcript.
-  defp validate_credentials(%{backend: QUIC} = config) do
+  # state is discarded; elixir_quic still creates and owns every real TLS transcript.
+  defp validate_credentials(%{backend: Quic} = config) do
     opts = Keyword.merge(config.tls, alpn: config.alpn, transport_parameters: <<>>)
 
     case apply(SSL.QUIC, :new, [:server, opts]) do

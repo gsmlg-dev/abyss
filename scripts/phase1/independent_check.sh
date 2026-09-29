@@ -11,8 +11,10 @@ for example in udp_echo quic_echo quic_collect; do
   cp -R "$abyss_root/examples/$example/lib" "$ABYSS_EXAMPLES_DIR/$example/"
   (cd "$ABYSS_EXAMPLES_DIR/$example" && mix deps.get)
 done
+(cd "$ABYSS_EXAMPLES_DIR/quic_echo" && mix run --no-start "$abyss_root/scripts/phase1/published_provenance.exs")
+(cd "$ABYSS_EXAMPLES_DIR/quic_collect" && mix run --no-start "$abyss_root/scripts/phase1/published_provenance.exs")
 "$abyss_root/scripts/phase1/release_check.sh"
 cd "$ABYSS_EXAMPLES_DIR/quic_collect"
-export QUIC_CERT="$PWD/deps/ex_ssl/test/fixtures/server_flight/leaf.pem"
-export QUIC_KEY="$PWD/deps/ex_ssl/test/fixtures/server_flight/leaf-key.pem"
-mix run -e '{:ok, {_, port}} = Abyss.QUIC.local(AbyssCollectExample.Listener); {output, 0} = System.cmd("uv", ["run", "--python", "3.12", "--with", "aioquic==1.2.0", "python", Path.join(System.fetch_env!("ABYSS_PATH"), "scripts/phase1/peer.py"), "--port", to_string(port), "--alpn", "abyss-collect-v1", "--mode", "collect", "--ca", Path.join(File.cwd!(), "deps/ex_ssl/test/fixtures/server_flight/root.pem")], stderr_to_stdout: true); IO.write(output); IO.puts("OUTSIDE_CHECKOUT_COLLECT_PASS")'
+export QUIC_CERT="$abyss_root/test/fixtures/quic/server_flight/leaf.pem"
+export QUIC_KEY="$abyss_root/test/fixtures/quic/server_flight/leaf-key.pem"
+mix run -e '{:ok, {_, port}} = Abyss.QUIC.local(AbyssCollectExample.Listener); {output, 0} = System.cmd("uv", ["run", "--python", "3.12", "--with", "aioquic==1.2.0", "python", Path.join(System.fetch_env!("ABYSS_PATH"), "scripts/phase1/peer.py"), "--port", to_string(port), "--alpn", "abyss-collect-v1", "--mode", "collect", "--ca", Path.join(System.fetch_env!("ABYSS_PATH"), "test/fixtures/quic/server_flight/root.pem")], stderr_to_stdout: true); IO.write(output); IO.puts("OUTSIDE_CHECKOUT_COLLECT_PASS")'

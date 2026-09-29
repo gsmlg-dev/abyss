@@ -1,5 +1,5 @@
 Process.flag(:trap_exit, true)
-true = Code.ensure_loaded?(QUIC)
+true = Code.ensure_loaded?(Quic)
 true = Code.ensure_loaded?(AbyssEchoExample.Handler)
 
 for tls <- [[], [cert: nil, key: nil], [cert: ["bad"], key: {:ECPrivateKey, "bad"}]] do

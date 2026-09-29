@@ -2,9 +2,9 @@ defmodule Abyss.QUIC do
   @moduledoc """
   Supervised QUIC service entry point.
 
-  `ex_quic` remains the protocol engine and owns connection state. This module
+  `elixir_quic` remains the protocol engine and owns connection state. This module
   owns one UDP socket, application binding, and a public service lifecycle.
-  It exposes opaque connection and stream handles returned by `ex_quic`;
+  It exposes opaque connection and stream handles returned by `elixir_quic`;
   their generation checks and all stream semantics are delegated unchanged.
   """
 
@@ -50,7 +50,7 @@ defmodule Abyss.QUIC do
   def local(listener), do: GenServer.call(listener, :local)
 
   # The remaining calls deliberately use the engine's public API. No endpoint
-  # private state or structs are expanded here, keeping `:ex_quic` optional.
+  # private state or structs are expanded here, keeping `:elixir_quic` optional.
   def ready(connection), do: backend_for_handle(connection, :ready, [connection])
   def info(connection), do: backend_for_handle(connection, :info, [connection])
 
@@ -78,7 +78,7 @@ defmodule Abyss.QUIC do
   def operation_status(handle, ref),
     do: backend_for_handle(handle, :operation_status, [handle, ref])
 
-  # ex_quic is the supported engine. Runtime calls keep the dependency optional
+  # elixir_quic is the supported engine. Runtime calls keep the dependency optional
   # for ordinary UDP consumers; no optional-package struct is expanded here.
-  defp backend_for_handle(_handle, function, args), do: apply(QUIC, function, args)
+  defp backend_for_handle(_handle, function, args), do: apply(Quic, function, args)
 end
