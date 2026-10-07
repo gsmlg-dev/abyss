@@ -3,10 +3,10 @@ deps = Mix.Dep.load_and_cache()
 lock = Mix.Dep.Lock.read()
 
 for {app, version, module, outer_checksum} <- [
-      {:elixir_quic, "0.2.2", Quic,
-       "2c73402421edf4156db843bbf11fe26aa5cd78eb1ae7acac863ed41fa47e8c74"},
-      {:ex_ssl, "0.7.2", SSL.QUIC,
-       "f0f9532a6ac8b2dcb701b491394705df8f10c31f63fc7e5aad157eebb909aecb"}
+      {:elixir_quic, "0.17.0", Quic,
+       "09bdf0ddc54da37fc5264151110c547fc5d28188b1d34961d98081d95f6d81ba"},
+      {:ex_ssl, "0.17.0", SSL.QUIC,
+       "253b90f7304f09402869d814cf75bd76eb2fbf34bfaf4284822c407312fae095"}
     ] do
   dep = Enum.find(deps, &(&1.app == app)) || raise("missing #{app} dependency")
   true = dep.scm == Hex.SCM
@@ -25,4 +25,4 @@ end
 
 false = Code.ensure_loaded?(QUIC)
 false = Map.has_key?(lock, :ex_quic)
-IO.puts("PUBLISHED_QUIC_PROVENANCE_PASS elixir_quic=0.2.2 ex_ssl=0.7.2")
+IO.puts("PUBLISHED_QUIC_PROVENANCE_PASS elixir_quic=0.17.0 ex_ssl=0.17.0")

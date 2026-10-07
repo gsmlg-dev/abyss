@@ -12,12 +12,12 @@ application explicitly adds both Abyss and the engine to its dependencies:
 
 ```elixir
 {:abyss, "~> 0.6.1"},
-{:elixir_quic, "== 0.2.2"}
+{:elixir_quic, "== 0.17.0"}
 ```
 
 The published engine uses OTP application `:elixir_quic` and facade `Quic`;
-its repository is still named `gsmlg-dev/ex_quic`. It requires Hex `ex_ssl`
-`0.7.2`, whose TLS facade remains `SSL.QUIC`. Abyss does not provide a legacy
+its source is `gsmlg-dev/http_fetch` under `apps/elixir_quic`. It requires Hex `ex_ssl`
+`0.17.0`, whose TLS facade remains `SSL.QUIC`. Abyss does not provide a legacy
 `QUIC` alias or fall back to an older engine. The examples pin these published
 packages and use `ABYSS_PATH` only to select the Abyss checkout under test.
 Do not set `runtime: false` on these runtime dependencies.
