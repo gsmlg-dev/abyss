@@ -1,0 +1,35 @@
+✨ devenv 2.2.2 is out of date. Please update to 2.4.0: https://devenv.sh/getting-started/#installation
+    _    _                   
+   / \  | |__  _   _ ___ ___ 
+  / _ \ | '_ \| | | / __/ __|
+ / ___ \| |_) | |_| \__ \__ \
+/_/   \_\_.__/ \__, |___/___/
+               |___/         
+Compiling 3 files (.ex)
+Generated abyss app
+Cover compiling modules ...
+Running ExUnit with seed: 686789, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+.
+09:42:10.807 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.
+09:42:10.913 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+......
+09:42:11.021 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+....
+Finished in 0.4 seconds (0.4s async, 0.00s sync)
+12 tests, 0 failures
+
+Exporting cover results ...
+
+Run "mix test.coverage" once all exports complete

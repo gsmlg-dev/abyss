@@ -21,22 +21,19 @@ defmodule Abyss.TelemetryTest do
     end
 
     test "samples connection spans based on rate" do
-      # Test multiple connection spans to verify sampling behavior
+      :rand.seed(:exsss, {101, 202, 303})
+
       spans =
         for _i <- 1..100 do
           Telemetry.start_span(:connection, %{}, %{})
         end
 
-      # Should have some sampled and some unsampled spans
       sampled_count = Enum.count(spans, &(&1.start_metadata[:sampled] == true))
       unsampled_count = Enum.count(spans, &(&1.start_metadata[:sampled] == false))
 
-      assert sampled_count > 0
-      assert unsampled_count > 0
-      # Connection spans should have approximately 10% sampling rate
-      # Use more tolerant bounds due to randomness
-      assert sampled_count / 100 > 0.01
-      assert sampled_count / 100 < 0.25
+      # This seeded sequence produces five samples at the documented 5% default.
+      assert sampled_count == 5
+      assert unsampled_count == 95
     end
   end
 
