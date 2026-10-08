@@ -24,7 +24,7 @@ The package can be installed by adding `abyss` to your list of dependencies in `
 ```elixir
 def deps do
   [
-    {:abyss, "~> 0.4.0"}
+    {:abyss, "~> 0.7.0"}
   ]
 end
 ```

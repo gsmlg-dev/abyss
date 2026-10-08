@@ -2,7 +2,7 @@ defmodule Abyss.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/gsmlg-dev/abyss"
-  @version "0.0.0"
+  @version "0.7.0"
 
   def project do
     [
@@ -114,7 +114,7 @@ defmodule Abyss.MixProject do
         "docs/udp-broadcast-multicast.md"
       ],
       source_url: @source_url,
-      source_ref: "v#{@version}"
+      source_ref: @version
     ]
   end
 
