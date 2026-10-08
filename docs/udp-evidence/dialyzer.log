@@ -1,0 +1,359 @@
+Compiling 2 files (.ex)
+Generated abyss app
+Finding suitable PLTs
+Checking PLT...
+[:abyss, :elixir, :kernel, :logger, :machete, :public_key, :stdlib, :telemetry, :telemetry_metrics]
+Looking up modules in dialyzer.plt
+Looking up modules in dialyxir_erlang-28.5.0.5_elixir-1.18.5.plt
+Looking up modules in dialyxir_erlang-28.5.0.5.plt
+Finding applications for dialyxir_erlang-28.5.0.5.plt
+Finding modules for dialyxir_erlang-28.5.0.5.plt
+Creating dialyxir_erlang-28.5.0.5.plt
+Looking up modules in dialyxir_erlang-28.5.0.5.plt
+Removing 3 modules from dialyxir_erlang-28.5.0.5.plt
+Checking 19 modules in dialyxir_erlang-28.5.0.5.plt
+Adding 201 modules to dialyxir_erlang-28.5.0.5.plt
+done in 0m30.31s
+Finding applications for dialyxir_erlang-28.5.0.5_elixir-1.18.5.plt
+Finding modules for dialyxir_erlang-28.5.0.5_elixir-1.18.5.plt
+Copying dialyxir_erlang-28.5.0.5.plt to dialyxir_erlang-28.5.0.5_elixir-1.18.5.plt
+Looking up modules in dialyxir_erlang-28.5.0.5_elixir-1.18.5.plt
+Checking 220 modules in dialyxir_erlang-28.5.0.5_elixir-1.18.5.plt
+Adding 273 modules to dialyxir_erlang-28.5.0.5_elixir-1.18.5.plt
+done in 0m18.72s
+Finding applications for dialyzer.plt
+Finding modules for dialyzer.plt
+Copying dialyxir_erlang-28.5.0.5_elixir-1.18.5.plt to dialyzer.plt
+Looking up modules in dialyzer.plt
+Checking 493 modules in dialyzer.plt
+Adding 183 modules to dialyzer.plt
+done in 0m18.36s
+No :ignore_warnings opt specified in mix.exs and default does not exist.
+
+halt_exit_status is no longer a valid CLI argument.
+Starting Dialyzer
+[
+  check_plt: false,
+  init_plt: ~c"/home/gao/Workspace/gsmlg-dev/abyss/priv/plts/dialyzer.plt",
+  files: [~c"/home/gao/Workspace/gsmlg-dev/abyss/_build/dev/lib/abyss/ebin/Elixir.Abyss.Dispatcher.SendCapability.beam",
+   ~c"/home/gao/Workspace/gsmlg-dev/abyss/_build/dev/lib/abyss/ebin/Elixir.Abyss.Listener.beam",
+   ~c"/home/gao/Workspace/gsmlg-dev/abyss/_build/dev/lib/abyss/ebin/Elixir.Abyss.Transport.UDP.Broadcast.beam",
+   ~c"/home/gao/Workspace/gsmlg-dev/abyss/_build/dev/lib/abyss/ebin/Elixir.Abyss.Logger.beam",
+   ~c"/home/gao/Workspace/gsmlg-dev/abyss/_build/dev/lib/abyss/ebin/Elixir.Abyss.Transport.UDP.Core.beam",
+   ...],
+  warnings: [:error_handling, :extra_return, :missing_return, :unknown, ...]
+]
+Total errors: 36, Skipped: 0, Unnecessary Skips: 0
+done in 0m1.85s
+lib/abyss/datagram_dispatcher.ex:280:23:unmatched_return
+The expression produces a value of type:
+
+false | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/datagram_dispatcher.ex:292:19:unmatched_return
+The expression produces a value of type:
+
+false | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/datagram_dispatcher.ex:312:21:unmatched_return
+The expression produces a value of type:
+
+false | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/datagram_dispatcher.ex:345:15:unmatched_return
+The expression produces a value of type:
+
+false | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/handler.ex:419:unmatched_return
+The expression produces a value of type:
+
+false | nil | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/handler.ex:442:unmatched_return
+The expression produces a value of type:
+
+false | nil | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/handler.ex:473:15:unmatched_return
+The expression produces a value of type:
+
+false | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/listener.ex:496:unmatched_return
+The expression produces a value of type:
+
+false | nil | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/listener.ex:201:13:unmatched_return
+The expression produces a value of type:
+
+false | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/listener.ex:257:21:call
+The function call will not succeed.
+
+Abyss.Telemetry.span_event(any(), :dispatcher_writer_error, %{:reason => _})
+
+will never return since the 2nd arguments differ
+from the success typing arguments:
+
+(
+  %Abyss.Telemetry{
+    :span_name => :connection | :listener,
+    :start_metadata => map(),
+    :start_time => integer(),
+    :telemetry_span_context => reference()
+  },
+  :packet_too_large | :ready | :recv_error,
+  map()
+)
+
+________________________________________________________________________________
+lib/abyss/listener.ex:507:15:unmatched_return
+The expression produces a value of type:
+
+false | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/listener.ex:550:15:unmatched_return
+The expression produces a value of type:
+
+false | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/listener_pool_scaler.ex:113:16:unmatched_return
+The expression produces a value of type:
+
+:ok | {:error, :already_exists}
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/listener_pool_scaler.ex:179:16:unmatched_return
+The expression produces a value of type:
+
+:ok | {:error, :not_found}
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/listener_pool_scaler.ex:305:16:unmatched_return
+The expression produces a value of type:
+
+:ok | {:error, :not_found}
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/quic/service.ex:109:unmatched_return
+The expression produces a value of type:
+
+false | nil | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/quic/service.ex:92:17:unmatched_return
+The expression produces a value of type:
+
+false | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/server.ex:170:unmatched_return
+The expression produces a value of type:
+
+nil | [any()]
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/table_owner.ex:108:10:unmatched_return
+The expression produces a value of type:
+
+atom() | :ets.tid()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/telemetry.ex:224:unmatched_return
+The expression produces a value of type:
+
+[integer()] | integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/telemetry.ex:323:contract_supertype
+Type specification is a supertype of the success typing.
+
+Function:
+Abyss.Telemetry.get_metrics/0
+
+Type specification:
+@spec get_metrics() :: map()
+
+Success typing:
+@spec get_metrics() :: %{:accepts_per_second => _, :responses_per_second => _, _ => _}
+
+________________________________________________________________________________
+lib/abyss/telemetry.ex:335:contract_supertype
+Type specification is a supertype of the success typing.
+
+Function:
+Abyss.Telemetry.get_metrics/1
+
+Type specification:
+@spec get_metrics(scope()) :: map()
+
+Success typing:
+@spec get_metrics(_) :: %{:accepts_per_second => _, :responses_per_second => _, _ => _}
+
+________________________________________________________________________________
+lib/abyss/telemetry.ex:200:5:unmatched_return
+The expression produces a value of type:
+
+[integer()] | integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/telemetry.ex:201:5:unmatched_return
+The expression produces a value of type:
+
+[integer()] | integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/telemetry.ex:208:5:unmatched_return
+The expression produces a value of type:
+
+[integer()] | integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/telemetry.ex:209:5:unmatched_return
+The expression produces a value of type:
+
+[integer()] | integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/telemetry.ex:233:5:unmatched_return
+The expression produces a value of type:
+
+:ok | [integer()] | integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/telemetry.ex:235:9:unmatched_return
+The expression produces a value of type:
+
+[integer()] | integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/telemetry.ex:236:9:unmatched_return
+The expression produces a value of type:
+
+[integer()] | integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/telemetry.ex:261:5:unmatched_return
+The expression produces a value of type:
+
+[integer()] | integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/telemetry.ex:262:5:unmatched_return
+The expression produces a value of type:
+
+[integer()] | integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/telemetry.ex:263:5:unmatched_return
+The expression produces a value of type:
+
+[integer()] | integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/telemetry.ex:279:10:unmatched_return
+The expression produces a value of type:
+
+[integer()] | integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/telemetry.ex:307:5:unmatched_return
+The expression produces a value of type:
+
+[integer()] | integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/telemetry.ex:419:5:unmatched_return
+The expression produces a value of type:
+
+[integer()] | integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/udp_admission.ex:35:14:unmatched_return
+The expression produces a value of type:
+
+[integer()] | integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+done (warnings were emitted)
+Halting VM with exit status 2

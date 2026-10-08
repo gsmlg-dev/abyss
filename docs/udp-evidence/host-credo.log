@@ -1,0 +1,207 @@
+Checking 68 source files (this might take a while) ...
+
+  Software Design                                                               
+┃ 
+┃ [D] ↘ Nested modules could be aliased at the top of the invoking module.
+┃       test/support/test_helper.ex:46:12 #(Abyss.TestHelper.send_and_receive)
+┃ [D] ↘ Nested modules could be aliased at the top of the invoking module.
+┃       test/support/test_helper.ex:44:17 #(Abyss.TestHelper.send_and_receive)
+┃ [D] ↘ Nested modules could be aliased at the top of the invoking module.
+┃       lib/abyss/quic/service.ex:145:13 #(Abyss.QUIC.Service.accept_one)
+┃ [D] ↘ Nested modules could be aliased at the top of the invoking module.
+┃       test/support/test_helper.ex:37:5 #(Abyss.TestHelper.create_test_client)
+┃ [D] ↘ Nested modules could be aliased at the top of the invoking module.
+┃       test/support/test_handler.ex:28:5 #(Abyss.TestEchoHandler.handle_data)
+┃ [D] ↘ Nested modules could be aliased at the top of the invoking module.
+┃       test/integration/echo_test.exs:17:7 #(Abyss.Integration.EchoTest)
+┃ [D] ↘ Nested modules could be aliased at the top of the invoking module.
+┃       test/integration/echo_test.exs:14:56 #(Abyss.Integration.EchoTest)
+┃ [D] ↘ Nested modules could be aliased at the top of the invoking module.
+┃       test/integration/echo_test.exs:13:22 #(Abyss.Integration.EchoTest)
+┃ [D] ↘ Nested modules could be aliased at the top of the invoking module.
+┃       test/integration/echo_test.exs:9:21 #(Abyss.Integration.EchoTest)
+
+  Code Readability                                                              
+┃ 
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+┃       test/support/test_transport.ex:56:25 #(Abyss.TestTransport.recv)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+┃       test/support/test_transport.ex:87:28 #(Abyss.TestTransport.peername)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_535
+┃       lib/abyss/quic/service.ex:419:50 #(Abyss.QUIC.Service.valid_ip?)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_535
+┃       lib/abyss/quic/service.ex:338:60 #(Abyss.QUIC.Service.validate)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+┃       test/abyss/handler_test.exs:532:72 #(Abyss.HandlerTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+┃       test/abyss/handler_test.exs:508:72 #(Abyss.HandlerTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+┃       test/abyss/handler_test.exs:482:72 #(Abyss.HandlerTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+┃       test/abyss/handler_test.exs:295:74 #(Abyss.HandlerTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+┃       test/abyss/handler_test.exs:272:72 #(Abyss.HandlerTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+┃       test/abyss/handler_test.exs:246:72 #(Abyss.HandlerTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+┃       test/abyss/handler_test.exs:220:72 #(Abyss.HandlerTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+┃       test/abyss/handler_test.exs:195:72 #(Abyss.HandlerTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_535
+┃       lib/abyss/utils.ex:51:85 #(Abyss.Utils)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_535
+┃       lib/abyss/utils.ex:51:75 #(Abyss.Utils)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_535
+┃       lib/abyss/utils.ex:51:65 #(Abyss.Utils)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_535
+┃       lib/abyss/utils.ex:51:55 #(Abyss.Utils)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_535
+┃       lib/abyss/utils.ex:51:45 #(Abyss.Utils)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_535
+┃       lib/abyss/utils.ex:51:35 #(Abyss.Utils)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_535
+┃       lib/abyss/utils.ex:51:25 #(Abyss.Utils)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_535
+┃       lib/abyss/utils.ex:51:15 #(Abyss.Utils)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 10_000
+┃       test/abyss_test.exs:66:28 #(AbyssTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+┃       test/abyss/transport_udp_comprehensive_test.exs:186:33 #(Abyss.Transport.UDPComprehensiveTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+┃       test/abyss/transport_udp_comprehensive_test.exs:176:33 #(Abyss.Transport.UDPComprehensiveTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 16_384
+┃       test/abyss/transport/udp_test.exs:114:48 #(Abyss.Transport.UDPTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_536
+┃       test/abyss/transport/udp/unicast_test.exs:453:52 #(Abyss.Transport.UDP.UnicastTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 59_999
+┃       test/abyss/transport/udp/unicast_test.exs:386:51 #(Abyss.Transport.UDP.UnicastTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 32_768
+┃       test/abyss/transport/udp/unicast_test.exs:118:56 #(Abyss.Transport.UDP.UnicastTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 32_768
+┃       test/abyss/transport/udp/core_test.exs:152:46 #(Abyss.Transport.UDP.CoreTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 32_768
+┃       test/abyss/transport/udp/core_test.exs:145:17 #(Abyss.Transport.UDP.CoreTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_536
+┃       test/abyss/transport/udp/core_test.exs:138:17 #(Abyss.Transport.UDP.CoreTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_536
+┃       test/abyss/transport/udp/broadcast_test.exs:474:54 #(Abyss.Transport.UDP.BroadcastTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 10_000
+┃       test/abyss/server_config_test.exs:187:63 #(Abyss.ServerConfigTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 10_000.0
+┃       test/abyss/server_config_test.exs:179:66 #(Abyss.ServerConfigTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 10_000
+┃       test/abyss/server_config_test.exs:145:61 #(Abyss.ServerConfigTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 99_999
+┃       test/abyss/server_config_test.exs:86:20 #(Abyss.ServerConfigTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+┃       test/abyss/connection_test.exs:114:35 #(Abyss.ConnectionTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+┃       test/abyss/connection_test.exs:75:35 #(Abyss.ConnectionTest)
+┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+┃       test/abyss/connection_test.exs:39:35 #(Abyss.ConnectionTest)
+┃ [R] → Modules should have a @moduledoc tag.
+┃       lib/abyss/datagram_dispatcher.ex:389:13 #(Abyss.Dispatcher.Writer)
+┃ [R] → Modules should have a @moduledoc tag.
+┃       lib/abyss/datagram_dispatcher.ex:40:13 #(Abyss.Dispatcher.SendCapability)
+┃ [R] ↘ Prefer using an implicit `try` rather than explicit `try`.
+┃       lib/abyss/datagram_dispatcher.ex:542:5 #(Abyss.Dispatcher.dispatch)
+┃ [R] ↘ Prefer using an implicit `try` rather than explicit `try`.
+┃       lib/abyss/datagram_dispatcher.ex:361:7 #(Abyss.Dispatcher.Admission.call)
+┃ [R] ↘ Prefer using an implicit `try` rather than explicit `try`.
+┃       lib/abyss/server.ex:126:5 #(Abyss.Server.find_child_pid)
+┃ [R] ↘ Prefer using an implicit `try` rather than explicit `try`.
+┃       lib/abyss/server.ex:73:5 #(Abyss.Server.suspend)
+┃ [R] ↘ Prefer using an implicit `try` rather than explicit `try`.
+┃       lib/abyss/server.ex:49:5 #(Abyss.Server.resume)
+┃ [R] ↘ Prefer using an implicit `try` rather than explicit `try`.
+┃       lib/abyss/listener_pool.ex:49:5 #(Abyss.ListenerPool.listener_pids)
+┃ [R] ↘ Prefer using an implicit `try` rather than explicit `try`.
+┃       lib/abyss/datagram_dispatcher.ex:768:5 #(Abyss.Dispatcher.stop_child)
+┃ [R] ↘ The alias `Abyss.Dispatcher.Writer` is not alphabetically ordered among 
+┃       its group.
+┃       lib/abyss/quic/service.ex:4:38 #(Abyss.QUIC.Service)
+
+  Refactoring opportunities                                                     
+┃ 
+┃ [F] ↗ Avoid long quote blocks.
+┃       lib/abyss/handler.ex:160:5 #(Abyss.Handler.genserver_impl)
+┃ [F] → Function is too complex (cyclomatic complexity is 30, max is 9).
+┃       lib/abyss/server_config.ex:127:8 #(Abyss.ServerConfig.validate_config!)
+┃ [F] → Function is too complex (cyclomatic complexity is 27, max is 9).
+┃       lib/abyss/quic/service.ex:263:8 #(Abyss.QUIC.Service.validate)
+┃ [F] → Function body is nested too deep (max depth is 2, was 5).
+┃       lib/abyss/quic/service.ex:482:18 #(Abyss.QUIC.Worker.handle_info)
+┃ [F] → Function is too complex (cyclomatic complexity is 14, max is 9).
+┃       lib/abyss/server_config.ex:221:8 #(Abyss.ServerConfig.validate_dispatcher!)
+┃ [F] → Function body is nested too deep (max depth is 2, was 3).
+┃       lib/abyss/quic/service.ex:505:11 #(Abyss.QUIC.Worker.handle_info)
+┃ [F] → Function body is nested too deep (max depth is 2, was 3).
+┃       lib/abyss/quic/service.ex:56:12 #(Abyss.QUIC.Service.init)
+┃ [F] → Function body is nested too deep (max depth is 2, was 3).
+┃       lib/abyss/listener_pool.ex:104:9 #(Abyss.ListenerPool.apply_to_listeners)
+┃ [F] → Function body is nested too deep (max depth is 2, was 3).
+┃       lib/abyss/datagram_dispatcher.ex:278:41 #(Abyss.Dispatcher.Admission.handle_info)
+┃ [F] → Function is too complex (cyclomatic complexity is 10, max is 9).
+┃       lib/abyss/listener.ex:80:7 #(Abyss.Listener.init)
+┃ [F] ↘ Avoid `apply/2` and `apply/3` when the number of arguments is known.
+┃       lib/abyss/quic/service.ex:212:14 #(Abyss.QUIC.Service.receive_loop)
+┃ [F] ↘ Avoid `apply/2` and `apply/3` when the number of arguments is known.
+┃       lib/abyss/quic/service.ex:518:5 #(Abyss.QUIC.Worker.handle_info)
+┃ [F] ↘ Avoid `apply/2` and `apply/3` when the number of arguments is known.
+┃       lib/abyss/quic/service.ex:474:12 #(Abyss.QUIC.Worker.handle_info)
+┃ [F] ↘ Avoid `apply/2` and `apply/3` when the number of arguments is known.
+┃       lib/abyss/quic/service.ex:460:11 #(Abyss.QUIC.Worker.handle_info)
+┃ [F] ↘ Avoid `apply/2` and `apply/3` when the number of arguments is known.
+┃       lib/abyss/quic/service.ex:450:31 #(Abyss.QUIC.Worker.handle_info)
+┃ [F] ↘ Avoid `apply/2` and `apply/3` when the number of arguments is known.
+┃       lib/abyss/quic/service.ex:445:14 #(Abyss.QUIC.Worker.handle_info)
+┃ [F] ↘ Avoid `apply/2` and `apply/3` when the number of arguments is known.
+┃       lib/abyss/quic/service.ex:403:10 #(Abyss.QUIC.Service.validate_credentials)
+┃ [F] ↘ Avoid `apply/2` and `apply/3` when the number of arguments is known.
+┃       lib/abyss/quic/service.ex:206:5 #(Abyss.QUIC.Service.start_endpoint)
+┃ [F] ↘ Avoid `apply/2` and `apply/3` when the number of arguments is known.
+┃       lib/abyss/quic/service.ex:141:10 #(Abyss.QUIC.Service.accept_one)
+
+  Warnings - please take a look                                                 
+┃ 
+┃ [W] ↗ Logger metadata key event, metadata, measurements not found in Logger 
+┃       config.
+┃       lib/abyss/logger.ex:146:29 #(Abyss.Logger.log_trace)
+┃ [W] ↗ Logger metadata key event, metadata, measurements not found in Logger 
+┃       config.
+┃       lib/abyss/logger.ex:131:29 #(Abyss.Logger.log_debug)
+┃ [W] ↗ Logger metadata key event, metadata, measurements not found in Logger 
+┃       config.
+┃       lib/abyss/logger.ex:116:28 #(Abyss.Logger.log_info)
+┃ [W] ↗ Logger metadata key event, metadata, measurements not found in Logger 
+┃       config.
+┃       lib/abyss/logger.ex:101:29 #(Abyss.Logger.log_error)
+┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+┃       test/abyss_test.exs:110:14 #(AbyssTest)
+┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+┃       test/abyss/utils_test.exs:193:14 #(Abyss.UtilsTest)
+┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+┃       test/abyss/utils_test.exs:169:14 #(Abyss.UtilsTest)
+┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+┃       test/abyss/utils_test.exs:151:14 #(Abyss.UtilsTest)
+┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+┃       test/abyss/utils_test.exs:144:14 #(Abyss.UtilsTest)
+┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+┃       test/abyss/utils_test.exs:111:14 #(Abyss.UtilsTest)
+┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+┃       test/abyss/utils_test.exs:77:14 #(Abyss.UtilsTest)
+┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+┃       test/abyss/utils_test.exs:44:14 #(Abyss.UtilsTest)
+┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+┃       test/abyss/utils_test.exs:36:14 #(Abyss.UtilsTest)
+┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+┃       test/abyss/utils_test.exs:18:14 #(Abyss.UtilsTest)
+┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+┃       test/abyss/listener_pool_test.exs:52:14 #(Abyss.ListenerPoolTest)
+
+Please report incorrect results: https://github.com/rrrene/credo/issues
+
+Analysis took 0.9 seconds (0.06s to load, 0.9s running 69 checks on 68 files)
+737 mods/funs, found 15 warnings, 19 refactoring opportunities, 48 code readability issues, 9 software design suggestions.
+
+Use `mix credo explain` to explain issues, `mix credo --help` for options.

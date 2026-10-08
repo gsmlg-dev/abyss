@@ -1,0 +1,27 @@
+Compiling 1 file (.ex)
+Generated abyss app
+Running ExUnit with seed: 252961, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+...
+01:00:52.430 [warning] Option :num_acceptors is deprecated. Use :num_listeners instead.
+......................
+01:00:52.432 [warning] Option :num_acceptors is deprecated. Use :num_listeners instead.
+......
+01:00:52.650 [info] The function passed as a handler with ID "start-deadline-#PID<0.346.0>" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.........
+01:00:53.078 [error] GenServer #PID<0.482.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.480.0>, :killed}
+State: %{owner: #PID<0.480.0>, socket: #Port<0.36>, queue: {[], []}, max_bytes: 1048576, transport: Abyss.Transport.UDP, max_queue: 128, admission: #PID<0.481.0>, generation: #Reference<0.484608293.2292711428.79578>, owner_monitor: #Reference<0.484608293.2292711428.79587>, queue_bytes: 0, sending: false, owns_admission: false}
+
+01:00:53.074 [error] GenServer #PID<0.472.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.470.0>, :killed}
+State: %{owner: #PID<0.470.0>, socket: #Port<0.34>, queue: {[], []}, max_bytes: 1048576, transport: Abyss.Transport.UDP, max_queue: 128, admission: #PID<0.471.0>, generation: #Reference<0.484608293.2292711425.79098>, owner_monitor: #Reference<0.484608293.2292711428.79533>, queue_bytes: 0, sending: false, owns_admission: false}
+.
+Finished in 0.8 seconds (0.3s async, 0.5s sync)
+3 doctests, 38 tests, 0 failures

@@ -1,0 +1,80 @@
+name: UDP Regression Matrix
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  regressions:
+    name: ${{ matrix.os }} / OTP ${{ matrix.otp }} / Elixir ${{ matrix.elixir }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            otp: '27'
+            elixir: '1.18'
+          - os: ubuntu-latest
+            otp: '28'
+            elixir: '1.18'
+          - os: macos-14
+            otp: '28'
+            elixir: '1.18'
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    env:
+      CI: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Cache dependencies by operating system and runtime
+        uses: actions/cache@v4
+        with:
+          path: |
+            deps
+            _build
+          key: udp-${{ runner.os }}-${{ runner.arch }}-otp${{ matrix.otp }}-elixir${{ matrix.elixir }}-${{ hashFiles('mix.lock', 'native/dhcp_socket/Cargo.lock') }}
+      - name: Fetch locked dependencies
+        run: mix deps.get
+      - name: Portable handler, admission, client and option regressions
+        run: |
+          mix test \
+            test/abyss/handler_test.exs \
+            test/abyss/handler_hardening_test.exs \
+            test/abyss/connection_test.exs \
+            test/abyss/connection_admission_test.exs \
+            test/abyss/telemetry_test.exs \
+            test/abyss/telemetry_metrics_test.exs \
+            test/abyss/telemetry_endpoint_test.exs \
+            test/abyss/table_owner_scope_test.exs \
+            test/abyss/client_test.exs \
+            test/abyss/transport/udp/options_regression_test.exs \
+            test/abyss/transport/udp/core_test.exs \
+            --cover --export-coverage udp-portable
+      - name: Linux multicast, packet integrity and host lifecycle regressions
+        if: runner.os == 'Linux'
+        run: |
+          mix test \
+            test/abyss/client_regression_test.exs \
+            test/abyss/transport/udp/multicast_regression_test.exs \
+            test/abyss/transport/udp_test.exs \
+            test/abyss/udp_host_hardening_test.exs \
+            test/abyss/udp_membership_host_test.exs \
+            test/abyss/udp_admission_test.exs \
+            --cover --export-coverage udp-linux
+      - name: Linux bounded admission stress
+        if: runner.os == 'Linux'
+        run: mix run scripts/udp/stress.exs
+      - name: Retain scoped coverage evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: udp-${{ runner.os }}-${{ runner.arch }}-otp${{ matrix.otp }}
+          path: cover/*.coverdata
+          if-no-files-found: ignore

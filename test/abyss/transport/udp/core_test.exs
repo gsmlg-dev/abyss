@@ -126,8 +126,8 @@ defmodule Abyss.Transport.UDP.CoreTest do
 
       # User's :inet should be present
       assert :inet in result
-      # Both atom options are present since uniq_by treats :inet and :inet6 as different keys
-      # This is correct behavior - user options come first in the list
+      # Family aliases override defaults intentionally
+      refute :inet6 in result
       assert hd(Enum.filter(result, &is_atom/1)) == :inet
     end
 
@@ -221,7 +221,7 @@ defmodule Abyss.Transport.UDP.CoreTest do
           :exit, :badarg -> {:error, :badarg}
         end
 
-      assert {:error, :badarg} = result
+      assert {:error, {:invalid_socket_options, [invalid_option_xyz: true]}} = result
     end
   end
 

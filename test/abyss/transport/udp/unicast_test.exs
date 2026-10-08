@@ -5,6 +5,11 @@ defmodule Abyss.Transport.UDP.UnicastTest do
 
   @moduletag :capture_log
 
+  setup_all do
+    Code.ensure_loaded!(Unicast)
+    :ok
+  end
+
   describe "module structure" do
     test "module is defined and loadable" do
       assert Code.ensure_loaded?(Unicast)
@@ -148,13 +153,12 @@ defmodule Abyss.Transport.UDP.UnicastTest do
       result = Unicast.listen(1, [])
 
       case result do
-        {:error, _reason} ->
-          assert true
+        {:error, reason} ->
+          assert reason in [:eacces, :eperm, :eaddrinuse]
 
         {:ok, socket} ->
           Unicast.close(socket)
-          # Test passed - we had permissions
-          assert true
+          assert is_port(socket)
       end
     end
   end

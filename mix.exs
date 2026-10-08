@@ -93,7 +93,8 @@ defmodule Abyss.MixProject do
     [
       maintainers: ["Jonathan Gao"],
       licenses: ["MIT"],
-      files: ~w(lib LICENSE mix.exs README.md docs/dispatcher.md docs/quic-service.md
+      files:
+        ~w(lib LICENSE mix.exs README.md docs/dispatcher.md docs/quic-service.md docs/udp-broadcast-multicast.md
            native/dhcp_socket/src native/dhcp_socket/Cargo.toml
            native/dhcp_socket/Cargo.lock native/dhcp_socket/.cargo),
       links: %{
@@ -106,7 +107,12 @@ defmodule Abyss.MixProject do
   defp docs do
     [
       main: "readme",
-      extras: ["README.md", "docs/dispatcher.md", "docs/quic-service.md"],
+      extras: [
+        "README.md",
+        "docs/dispatcher.md",
+        "docs/quic-service.md",
+        "docs/udp-broadcast-multicast.md"
+      ],
       source_url: @source_url,
       source_ref: "v#{@version}"
     ]

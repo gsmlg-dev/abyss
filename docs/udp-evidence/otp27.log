@@ -1,0 +1,122 @@
+Runtime identity command: ['devenv', 'shell', '--', 'elixir', '-e', 'IO.puts("RUNTIME elixir=" <> System.version() <> " otp=" <> to_string(:erlang.system_info(:otp_release)) <> " erts=" <> to_string(:erlang.system_info(:version))); IO.puts("OTP_VERSION " <> File.read!(Path.join([to_string(:code.root_dir()), "releases", to_string(:erlang.system_info(:otp_release)), "OTP_VERSION"])))']
+
+✨ devenv 2.2.2 is out of date. Please update to 2.4.0: https://devenv.sh/getting-started/#installation
+    _    _                   
+   / \  | |__  _   _ ___ ___ 
+  / _ \ | '_ \| | | / __/ __|
+ / ___ \| |_) | |_| \__ \__ \
+/_/   \_\_.__/ \__, |___/___/
+               |___/         
+RUNTIME elixir=1.18.4 otp=27 erts=15.2.7.4
+OTP_VERSION 27.3.4.6
+
+
+Previously captured isolated portable regression run:
+$ devenv shell -- env MIX_BUILD_PATH=/tmp/abyss-handler-hardening-build mix test test/abyss/handler_test.exs test/abyss/handler_hardening_test.exs test/abyss/connection_test.exs test/abyss/connection_admission_test.exs test/abyss/telemetry_test.exs test/abyss/telemetry_metrics_test.exs test/abyss/telemetry_endpoint_test.exs test/abyss/table_owner_scope_test.exs test/abyss/client_test.exs test/abyss/transport/udp/options_regression_test.exs test/abyss/transport/udp/core_test.exs --cover --export-coverage udp-portable-otp27
+
+✨ devenv 2.2.2 is out of date. Please update to 2.4.0: https://devenv.sh/getting-started/#installation
+    _    _                   
+   / \  | |__  _   _ ___ ___ 
+  / _ \ | '_ \| | | / __/ __|
+ / ___ \| |_) | |_| \__ \__ \
+/_/   \_\_.__/ \__, |___/___/
+               |___/         
+==> nimble_ownership
+Compiling 2 files (.ex)
+Generated nimble_ownership app
+==> mox
+Compiling 2 files (.ex)
+Generated mox app
+==> abyss
+Compiling 31 files (.ex)
+Compiling crate dhcp_socket in release mode (native/dhcp_socket)
+Copying /home/gao/Workspace/gsmlg-dev/abyss/native/dhcp_socket/target/release/libdhcp_socket.so to priv/native/dhcp_socket.so
+Generated abyss app
+Cover compiling modules ...
+
+01:06:25.825 [warning] The on_load function for module Elixir.Abyss.DhcpSocket.Native returned:
+{:error, {:upgrade, ~c"Upgrade not supported by this NIF library."}}
+
+Running ExUnit with seed: 47872, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+.......
+01:06:26.280 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+........................................
+01:06:26.385 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+......
+01:06:26.487 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.............
+01:06:26.693 [info] The function passed as a handler with ID :test_response_time_handler is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.............................................................
+Finished in 1.7 seconds (0.5s async, 1.2s sync)
+130 tests, 0 failures, 3 excluded
+
+Exporting cover results ...
+
+Run "mix test.coverage" once all exports complete
+
+Process exit: 0
+
+Latest platform/host command: devenv shell -- env MIX_BUILD_PATH=/tmp/abyss-handler-hardening-build mix test test/abyss/client_regression_test.exs test/abyss/transport/udp/options_regression_test.exs test/abyss/transport/udp/multicast_regression_test.exs test/abyss/transport/udp_test.exs test/abyss/udp_host_hardening_test.exs test/abyss/udp_membership_host_test.exs test/abyss/udp_admission_test.exs --cover --export-coverage udp-linux-otp27
+
+✨ devenv 2.2.2 is out of date. Please update to 2.4.0: https://devenv.sh/getting-started/#installation
+    _    _                   
+   / \  | |__  _   _ ___ ___ 
+  / _ \ | '_ \| | | / __/ __|
+ / ___ \| |_) | |_| \__ \__ \
+/_/   \_\_.__/ \__, |___/___/
+               |___/         
+Compiling 2 files (.ex)
+Generated abyss app
+Cover compiling modules ...
+Running ExUnit with seed: 954342, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+....................
+
+  1) test socket backend uses the same bounded multicast query contract (Abyss.ClientRegressionTest)
+     test/abyss/client_regression_test.exs:160
+     match (=) failed
+     code:  assert {:ok, {address, query_port, "socket-query"}} = :gen_udp.recv(peer, 0, 1000)
+     left:  {:ok, {address, query_port, "socket-query"}}
+     right: {:error, :timeout}
+     stacktrace:
+       test/abyss/client_regression_test.exs:177: (test)
+
+........................
+01:08:37.339 [info] The function passed as a handler with ID "start-deadline-#PID<0.540.0>" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+...
+01:08:37.485 [error] GenServer #PID<0.565.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.563.0>, :killed}
+State: %{owner: #PID<0.563.0>, socket: #Port<0.137>, queue: {[], []}, max_bytes: 1048576, transport: Abyss.Transport.UDP, max_queue: 128, admission: #PID<0.564.0>, generation: #Reference<0.2966030195.1488715778.192135>, owner_monitor: #Reference<0.2966030195.1488715778.192143>, owns_admission: false, sending: false, queue_bytes: 0}
+
+01:08:37.486 [error] GenServer #PID<0.575.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.573.0>, :killed}
+State: %{owner: #PID<0.573.0>, socket: #Port<0.139>, queue: {[], []}, max_bytes: 1048576, transport: Abyss.Transport.UDP, max_queue: 128, admission: #PID<0.574.0>, generation: #Reference<0.2966030195.1488715778.192203>, owner_monitor: #Reference<0.2966030195.1488715778.192210>, owns_admission: false, sending: false, queue_bytes: 0}
+.....
+Finished in 2.5 seconds (0.5s async, 2.0s sync)
+53 tests, 1 failure
+
+Exporting cover results ...
+
+Run "mix test.coverage" once all exports complete
+
+Platform/host process exit: 2

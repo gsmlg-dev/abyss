@@ -1,0 +1,41 @@
+✨ devenv 2.2.2 is out of date. Please update to 2.4.0: https://devenv.sh/getting-started/#installation
+    _    _                   
+   / \  | |__  _   _ ___ ___ 
+  / _ \ | '_ \| | | / __/ __|
+ / ___ \| |_) | |_| \__ \__ \
+/_/   \_\_.__/ \__, |___/___/
+               |___/         
+Compiling 31 files (.ex)
+Compiling crate dhcp_socket in release mode (native/dhcp_socket)
+Copying /home/gao/Workspace/gsmlg-dev/abyss/native/dhcp_socket/target/release/libdhcp_socket.so to priv/native/dhcp_socket.so
+Generated abyss app
+Cover compiling modules ...
+
+01:20:58.181 [warning] The on_load function for module Elixir.Abyss.DhcpSocket.Native returned:
+{:error, {:upgrade, ~c"Upgrade not supported by this NIF library."}}
+
+Running ExUnit with seed: 538604, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+......................................................
+01:20:59.830 [error] GenServer #PID<0.799.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.797.0>, :killed}
+State: %{owner: #PID<0.797.0>, socket: #Port<0.181>, queue: {[], []}, generation: #Reference<0.638377177.3638034434.209635>, admission: #PID<0.798.0>, max_queue: 128, max_bytes: 1048576, owner_monitor: #Reference<0.638377177.3638034434.209642>, transport: Abyss.Transport.UDP, owns_admission: false, queue_bytes: 0, sending: false}
+
+01:20:59.823 [error] GenServer #PID<0.789.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.787.0>, :killed}
+State: %{owner: #PID<0.787.0>, socket: #Port<0.179>, queue: {[], []}, generation: #Reference<0.638377177.3638034433.209610>, admission: #PID<0.788.0>, max_queue: 128, max_bytes: 1048576, owner_monitor: #Reference<0.638377177.3638034433.209617>, transport: Abyss.Transport.UDP, owns_admission: false, queue_bytes: 0, sending: false}
+.
+01:20:59.844 [info] The function passed as a handler with ID "start-deadline-#PID<0.839.0>" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.....
+Finished in 1.4 seconds (0.3s async, 1.0s sync)
+60 tests, 0 failures
+
+Exporting cover results ...
+
+Run "mix test.coverage" once all exports complete

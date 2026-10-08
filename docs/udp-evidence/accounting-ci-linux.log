@@ -1,0 +1,30 @@
+$ mix test test/abyss/client_regression_test.exs test/abyss/transport/udp/multicast_regression_test.exs test/abyss/transport/udp_test.exs test/abyss/udp_host_hardening_test.exs test/abyss/udp_membership_host_test.exs test/abyss/udp_admission_test.exs --cover --export-coverage udp-linux-local
+
+Cover compiling modules ...
+Running ExUnit with seed: 619734, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+........................................
+01:04:48.614 [info] The function passed as a handler with ID "start-deadline-#PID<0.499.0>" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+........
+Finished in 1.3 seconds (0.00s async, 1.3s sync)
+48 tests, 0 failures
+
+Exporting cover results ...
+
+
+01:04:49.000 [error] GenServer #PID<0.623.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.621.0>, :killed}
+State: %{owner: #PID<0.621.0>, socket: #Port<0.149>, queue: {[], []}, generation: #Reference<0.2223105374.951058435.212051>, admission: #PID<0.622.0>, max_queue: 128, max_bytes: 1048576, transport: Abyss.Transport.UDP, owns_admission: false, sending: false, queue_bytes: 0, owner_monitor: #Reference<0.2223105374.951058435.212061>}
+
+01:04:48.987 [error] GenServer #PID<0.613.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.611.0>, :killed}
+State: %{owner: #PID<0.611.0>, socket: #Port<0.147>, queue: {[], []}, generation: #Reference<0.2223105374.951058435.211965>, admission: #PID<0.612.0>, max_queue: 128, max_bytes: 1048576, transport: Abyss.Transport.UDP, owns_admission: false, sending: false, queue_bytes: 0, owner_monitor: #Reference<0.2223105374.951058435.211974>}
+Run "mix test.coverage" once all exports complete
+
+Process exit: 0

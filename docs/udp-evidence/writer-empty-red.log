@@ -1,0 +1,42 @@
+Compiling 3 files (.ex)
+Generated abyss app
+Running ExUnit with seed: 440606, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+...
+
+  1) test empty datagrams consume writer item capacity and complete normally (Abyss.DispatcherTest)
+     test/abyss/dispatcher_test.exs:267
+     ** (FunctionClauseError) no function clause matching in Abyss.Dispatcher.send/4
+
+     The following arguments were given to Abyss.Dispatcher.send/4:
+
+         # 1
+         %Abyss.Dispatcher.SendCapability{writer: #PID<0.266.0>, generation: #Reference<0.1020409837.950272002.79189>, admission: #PID<0.265.0>}
+
+         # 2
+         {{127, 0, 0, 1}, 1000}
+
+         # 3
+         ""
+
+         # 4
+         100
+
+     Attempted function clauses (showing 1 out of 1):
+
+         def send(capability, remote, bytes, timeout) when is_struct(capability, Abyss.Dispatcher.SendCapability) and is_tuple(remote) and is_binary(bytes) and -byte_size(bytes) > 0-
+
+     code: assert {:ok, ref} = Dispatcher.send(state.send, {{127, 0, 0, 1}, 1000}, <<>>)
+     stacktrace:
+       (abyss 0.0.0) lib/abyss/datagram_dispatcher.ex:550: Abyss.Dispatcher.send/4
+       test/abyss/dispatcher_test.exs:270: (test)
+
+.....
+00:59:11.834 [error] GenServer #PID<0.294.0> terminating
+** (stop) {:writer_exit, :killed}
+Last message: {:EXIT, #PID<0.296.0>, :killed}
+State: %{module: Abyss.DispatcherTestCallback, monitors: %{}, send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.296.0>, generation: #Reference<0.1020409837.950272002.79306>, admission: #PID<0.295.0>}, writer: #PID<0.296.0>, listener: nil, admission: #PID<0.295.0>, routes: %{}, callback_state: %{started: 0, send_fun: #Function<2.6411223/2 in Abyss.Dispatcher.init/1>}, generation: #Reference<0.1020409837.950272002.79306>}
+..........
+Finished in 0.3 seconds (0.3s async, 0.00s sync)
+19 tests, 1 failure

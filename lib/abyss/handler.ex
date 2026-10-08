@@ -33,9 +33,12 @@ defmodule Abyss.Handler do
   4. On termination one of `c:handle_close/1`, `c:handle_error/2`,
      `c:handle_shutdown/1`, or `c:handle_timeout/1` is invoked
 
-  In broadcast mode (`Abyss.Transport.UDP.Broadcast`) the handler always
-  terminates after processing its single packet, regardless of the
-  `c:handle_data/2` return value.
+  Legacy broadcast mode processes one packet and then terminates with the
+  callback's returned state and error/cleanup contract.
+
+  Memory sampling uses the byte count reported by `Process.info/2`. It is
+  a per-process safety check, not a strict total-memory bound: blocked
+  callbacks delay checks, and shared/off-heap binaries are not fully covered.
 
   # State
 
@@ -58,8 +61,9 @@ defmodule Abyss.Handler do
   Any module implementing `start_link/1` and accepting a
   `{:new_connection, socket, recv_data}` message may be used as a
   `handler_module` instead of `use Abyss.Handler`. Note that the
-  `:connection` telemetry span events and metrics tracking are emitted by
-  the generated implementation, so a custom module must emit its own.
+  `:connection` telemetry span events are emitted by the generated
+  implementation; admission and termination counters are owned by the
+  listener's process monitors for generated and custom handlers alike.
   Handler processes should use a `:temporary` restart strategy so crashed
   handlers are not restarted.
   """
@@ -67,7 +71,7 @@ defmodule Abyss.Handler do
   @typedoc "The possible ways to indicate a timeout when returning values to Abyss"
   @type timeout_options :: timeout() | {:persistent, timeout()}
 
-  @typedoc "The value returned by `c:handle_connection/2` and `c:handle_data/3`"
+  @typedoc "The result returned by `c:handle_data/2`"
   @type handler_result ::
           {:continue, state :: term()}
           | {:continue, state :: term(), timeout_options()}
@@ -75,71 +79,43 @@ defmodule Abyss.Handler do
           | {:error, term(), state :: term()}
 
   @doc """
-  This callback is called whenever client data is received after `c:handle_connection/2` or `c:handle_data/3` have returned an
-  `{:continue, state}` tuple. The data received is passed as the first argument, and handlers may choose to interact
-  synchronously with the socket in this callback via calls to various `Abyss.Transport.UDP` functions.
+  Processes one datagram `{peer_address, peer_port, payload}` (including an
+  empty payload). `{:continue, state}` preserves the process and returned
+  state, but does not route subsequent packets from that sender to it.
+  Persistent routing requires the optional datagram dispatcher.
 
-  The value returned by this callback causes Abyss to proceed in one of several ways:
+  An explicit `timeout` applies until the next `handle_data` result; a
+  `{:persistent, timeout}` also changes the default for later results.
+  `:infinity` deliberately disables idle expiry. Only application datagram
+  processing resets the idle deadline; memory checks, status calls, stale
+  timer events, and arbitrary local messages do not extend it. Application
+  `handle_info/2` callbacks may explicitly use `manage_idle_timer/1` on a
+  `{:noreply, state, timeout}` return value to reset idle expiry.
 
-  * Returning `{:close, state}` will cause Abyss to close the socket & call the `c:handle_close/2` callback to
-  allow final cleanup to be done.
-  * Returning `{:continue, state}` will cause Abyss to switch the socket to an asynchronous mode. When the
-  client subsequently sends data (or if there is already unread data waiting from the client), Abyss will call
-  `c:handle_data/3` to allow this data to be processed.
-  * Returning `{:continue, state, timeout}` is identical to the previous case with the
-  addition of a timeout. If `timeout` milliseconds passes with no data being received or messages
-  being sent to the process, the socket will be closed and `c:handle_timeout/2` will be called.
-  Note that this timeout is not persistent; it applies only to the interval until the next message
-  is received. In order to set a persistent timeout for all future messages (essentially
-  overwriting the value of `read_timeout` that was set at server startup), a value of
-  `{:persistent, timeout}` may be returned.
-  * Returning `{:error, reason, state}` will cause Abyss to close the socket & call the `c:handle_error/3` callback to
-  allow final cleanup to be done.
+  `{:close, state}` finishes and invokes `handle_close/1`; `{:error, reason,
+  state}` finishes and invokes the error callback (`:timeout` invokes the
+  timeout callback). No result closes the shared listener socket.
+
+  Legacy broadcast processing is one-shot: a continued result finishes with
+  its returned state and invokes close cleanup; errors keep their reason and
+  invoke the applicable cleanup. Delivery mode never discards callback state.
   """
-  @callback handle_data(data :: Abyss.Transport.recv_data(), state :: term()) ::
-              handler_result()
+  @callback handle_data(data :: Abyss.Transport.recv_data(), state :: term()) :: handler_result()
 
-  @doc """
-  This callback is called when the underlying socket is closed by the remote end; it should perform any cleanup required
-  as it is the last callback called before the process backing this connection is terminated. The underlying socket
-  has already been closed by the time this callback is called. The return value is ignored.
-
-  This callback is not called if the connection is explicitly closed via `Abyss.Transport.UDP.close/1`, however it
-  will be called in cases where `handle_connection/2` or `handle_data/3` return a `{:close, state}` tuple.
-  """
+  @doc "Cleanup when the application finishes a datagram; the shared socket stays open."
   @callback handle_close(state :: term()) :: term()
 
-  @doc """
-  This callback is called when the underlying socket encounters an error; it should perform any cleanup required
-  as it is the last callback called before the process backing this connection is terminated. The underlying socket
-  has already been closed by the time this callback is called. The return value is ignored.
-
-  In addition to socket level errors, this callback is also called in cases where `handle_connection/2` or `handle_data/3`
-  return a `{:error, reason, state}` tuple, or when connection handshaking (typically TLS
-  negotiation) fails.
-  """
-  @callback handle_error(reason :: any(), state :: term()) ::
-              term()
+  @doc "Cleanup on callback or infrastructure error; the shared socket remains listener-owned."
+  @callback handle_error(reason :: any(), state :: term()) :: term()
 
   @doc """
-  This callback is called when the server process itself is being shut down; it should perform any cleanup required
-  as it is the last callback called before the process backing this connection is terminated. The underlying socket
-  has NOT been closed by the time this callback is called. The return value is ignored.
-
-  This callback is only called when the shutdown reason is `:normal`, and is subject to the same caveats described
-  in `c:GenServer.terminate/2`.
+  Cleanup on orderly process shutdown. As with `GenServer.terminate/2`,
+  forced `:kill` can bypass application cleanup. Listener-owned monitors
+  release admission/accounting even when this callback cannot run.
   """
   @callback handle_shutdown(state :: term()) :: term()
 
-  @doc """
-  This callback is called when a handler process has gone more than `timeout` ms without receiving
-  either remote data or a local message. The value used for `timeout` defaults to the
-  `read_timeout` value specified at server startup, and may be overridden on a one-shot or
-  persistent basis based on values returned from `c:handle_connection/2` or `c:handle_data/3`
-  calls. Note that it is NOT called on explicit `Abyss.Transport.UDP.recv/3` calls as they have
-  their own timeout semantics. The underlying socket has NOT been closed by the time this callback
-  is called. The return value is ignored.
-  """
+  @doc "Cleanup after the managed application idle deadline expires."
   @callback handle_timeout(state :: term()) :: term()
 
   @optional_callbacks handle_data: 2,
@@ -174,6 +150,8 @@ defmodule Abyss.Handler do
           `GenServer.handle_*` callbacks you have implemented
         """
       end
+
+      def handle_info(_message, state), do: {:noreply, state}
     end
   end
 
@@ -184,8 +162,19 @@ defmodule Abyss.Handler do
       def init({connection_span, server_config, listener_pid, listener_socket}) do
         Process.flag(:trap_exit, true)
 
-        # Start memory monitoring for long-running handlers
-        Process.send_after(self(), :memory_check, server_config.handler_memory_check_interval)
+        Process.put(
+          :abyss_endpoint_id,
+          Map.get(connection_span.start_metadata, :server_pid, :unscoped)
+        )
+
+        memory_token = make_ref()
+
+        memory_timer =
+          Process.send_after(
+            self(),
+            {:abyss_memory_check, memory_token},
+            server_config.handler_memory_check_interval
+          )
 
         {:ok,
          %{
@@ -198,7 +187,12 @@ defmodule Abyss.Handler do
            # Track last 10 processing times for adaptive timeout
            processing_times: [],
            adaptive_timeout: server_config.read_timeout,
-           memory_check_interval: server_config.handler_memory_check_interval
+           memory_check_interval: server_config.handler_memory_check_interval,
+           memory_token: memory_token,
+           memory_timer: memory_timer,
+           idle_token: nil,
+           idle_timer: nil,
+           idle_deadline: :infinity
          }}
       end
 
@@ -222,55 +216,18 @@ defmodule Abyss.Handler do
         {:stop, _, _} = stop -> stop
       end
 
-      def handle_info(:timeout, state) do
-        {:stop, {:shutdown, :timeout}, state}
+      def handle_info({:abyss_idle_timeout, token}, %{idle_token: token} = state),
+        do: Abyss.Handler.expire_idle_timer(state)
+
+      def handle_info({:abyss_idle_timeout, _stale_token}, state), do: {:noreply, state}
+
+      def handle_info({:abyss_memory_check, token}, %{memory_token: token} = state) do
+        Abyss.Handler.check_memory(state)
       end
 
-      def handle_info(:memory_check, %{memory_check_interval: interval} = state) do
-        case :erlang.process_info(self(), :memory) do
-          {:memory, memory_words} ->
-            memory_mb = memory_words * :erlang.system_info(:wordsize) / (1024 * 1024)
-            warning_threshold = state.server_config.handler_memory_warning_threshold
-            hard_limit = state.server_config.handler_memory_hard_limit
-
-            if memory_mb > warning_threshold do
-              # Log memory warning via telemetry
-              :telemetry.execute(
-                [:abyss, :handler, :memory_warning],
-                %{memory_mb: memory_mb},
-                %{handler_pid: self(), threshold: warning_threshold}
-              )
-
-              # Trigger garbage collection
-              :erlang.garbage_collect(self())
-
-              # Check if memory is still high after GC
-              case :erlang.process_info(self(), :memory) do
-                {:memory, new_memory_words} ->
-                  new_memory_mb =
-                    new_memory_words * :erlang.system_info(:wordsize) / (1024 * 1024)
-
-                  if new_memory_mb > hard_limit do
-                    {:stop, {:shutdown, :memory_limit_exceeded}, state}
-                  else
-                    Process.send_after(self(), :memory_check, interval)
-                    {:noreply, state}
-                  end
-
-                _ ->
-                  Process.send_after(self(), :memory_check, interval)
-                  {:noreply, state}
-              end
-            else
-              Process.send_after(self(), :memory_check, interval)
-              {:noreply, state}
-            end
-
-          _ ->
-            Process.send_after(self(), :memory_check, interval)
-            {:noreply, state}
-        end
-      end
+      def handle_info({:abyss_memory_check, _stale_token}, state), do: {:noreply, state}
+      def handle_info(:memory_check, state), do: Abyss.Handler.check_memory(state)
+      def handle_info(:timeout, state), do: {:noreply, state}
 
       @before_compile {Abyss.Handler, :add_handle_info_fallback}
 
@@ -293,32 +250,22 @@ defmodule Abyss.Handler do
         # that handler state changes are preserved.
         adaptive_timeout = Abyss.Handler.calculate_adaptive_timeout(state.read_timeout, new_times)
 
-        Abyss.Handler.handle_continuation(result, %{
+        result
+        |> Abyss.Handler.handle_continuation(%{
           processing_times: new_times,
           adaptive_timeout: adaptive_timeout
         })
+        |> Abyss.Handler.manage_idle_timer()
       end
 
       def handle_continue({:handle_broadcast_data, recv_data}, state) do
-        _reason = __MODULE__.handle_data(recv_data, state)
-        {:stop, {:shutdown, :broadcast}, state}
-      end
+        case Abyss.Handler.handle_continuation(__MODULE__.handle_data(recv_data, state)) do
+          {:noreply, returned_state, _timeout} ->
+            {:stop, {:shutdown, :local_closed}, returned_state}
 
-      @impl true
-      def terminate({:shutdown, :broadcast}, %{connection_span: connection_span} = state) do
-        # Track connection closure
-        Abyss.Telemetry.track_connection_closed(__MODULE__)
-
-        # Calculate response time if we have accept start time
-        response_time = calculate_response_time(state)
-
-        if response_time do
-          Abyss.Telemetry.track_response_sent(response_time, %{handler: __MODULE__})
+          stop ->
+            stop
         end
-
-        Abyss.Telemetry.stop_span(connection_span, %{}, %{reason: :broadcast})
-
-        :ok
       end
 
       # Called by GenServer if we hit our read_timeout. Socket is still open
@@ -354,34 +301,24 @@ defmodule Abyss.Handler do
       # This clause could happen if we do not have a socket defined in state (either because the
       # process crashed before setting it up, or because the user sent an invalid state)
       @impl GenServer
-      def terminate(reason, state) do
-        terminate_cleanup(state, reason)
-        :ok
+      def terminate(:normal, state) do
+        out = __MODULE__.handle_shutdown(state)
+        terminate_cleanup(state, :normal)
+        out
       end
+
+      def terminate(reason, state) do
+        out = __MODULE__.handle_error(reason, state)
+        terminate_cleanup(state, reason)
+        out
+      end
+
+      defoverridable terminate: 2
 
       defp terminate_cleanup(%{connection_span: span} = state, reason) do
-        Abyss.Telemetry.track_connection_closed(__MODULE__)
-
-        response_time = calculate_response_time(state)
-
-        if response_time do
-          Abyss.Telemetry.track_response_sent(response_time, %{handler: __MODULE__})
-        end
-
+        Abyss.Handler.cancel_timers(state)
         Abyss.Telemetry.stop_span(span, %{}, %{reason: reason})
       end
-
-      # Private helper functions
-
-      defp calculate_response_time(%{
-             connection_span: %{start_metadata: %{accept_start_time: start_time}}
-           })
-           when is_integer(start_time) do
-        end_time = System.monotonic_time()
-        System.convert_time_unit(end_time - start_time, :native, :millisecond)
-      end
-
-      defp calculate_response_time(_state), do: nil
     end
   end
 
@@ -472,8 +409,95 @@ defmodule Abyss.Handler do
   defp silent_terminate_on_error?(_state, _bookkeeping), do: false
 
   @doc false
+  def manage_idle_timer({:noreply, state, timeout}) do
+    _ = if timer = Map.get(state, :idle_timer), do: Process.cancel_timer(timer)
+    token = make_ref()
+
+    {timer, deadline} =
+      case timeout do
+        :infinity ->
+          {nil, :infinity}
+
+        timeout when is_integer(timeout) and timeout >= 0 ->
+          deadline = System.monotonic_time(:millisecond) + timeout
+
+          timer =
+            Process.send_after(
+              self(),
+              {:abyss_idle_timeout, token},
+              max(deadline - System.monotonic_time(:millisecond), 0)
+            )
+
+          {timer, deadline}
+      end
+
+    {:noreply, Map.merge(state, %{idle_timer: timer, idle_token: token, idle_deadline: deadline})}
+  end
+
+  def manage_idle_timer(stop), do: stop
+
+  @doc false
+  def expire_idle_timer(%{idle_deadline: :infinity} = state), do: {:noreply, state}
+
+  def expire_idle_timer(state) do
+    remaining = state.idle_deadline - System.monotonic_time(:millisecond)
+
+    if remaining <= 0 do
+      {:stop, {:shutdown, :timeout}, state}
+    else
+      _ = if timer = state.idle_timer, do: Process.cancel_timer(timer)
+      timer = Process.send_after(self(), {:abyss_idle_timeout, state.idle_token}, remaining)
+      {:noreply, %{state | idle_timer: timer}}
+    end
+  end
+
+  @doc false
+  def memory_megabytes(memory_bytes), do: memory_bytes / (1024 * 1024)
+
+  @doc false
+  def check_memory(state) do
+    _ = if timer = Map.get(state, :memory_timer), do: Process.cancel_timer(timer)
+    {:memory, bytes} = Process.info(self(), :memory)
+    memory_mb = memory_megabytes(bytes)
+    config = state.server_config
+
+    if memory_mb > config.handler_memory_warning_threshold do
+      :telemetry.execute([:abyss, :handler, :memory_warning], %{memory_mb: memory_mb}, %{
+        handler_pid: self(),
+        threshold: config.handler_memory_warning_threshold
+      })
+
+      :erlang.garbage_collect(self())
+    end
+
+    {:memory, bytes} = Process.info(self(), :memory)
+
+    if memory_megabytes(bytes) > config.handler_memory_hard_limit do
+      {:stop, {:shutdown, {:silent_termination, :memory_limit_exceeded}}, state}
+    else
+      token = make_ref()
+
+      timer =
+        Process.send_after(self(), {:abyss_memory_check, token}, state.memory_check_interval)
+
+      {:noreply, Map.merge(state, %{memory_timer: timer, memory_token: token})}
+    end
+  end
+
+  @doc false
+  def cancel_timers(state) do
+    for key <- [:idle_timer, :memory_timer], timer = Map.get(state, key), timer != nil do
+      _ = Process.cancel_timer(timer)
+    end
+
+    :ok
+  end
+
+  @doc false
   # Add adaptive timeout calculation helper function
   # Returns timeout in milliseconds
+  def calculate_adaptive_timeout(:infinity, _processing_times), do: :infinity
+
   def calculate_adaptive_timeout(base_timeout, processing_times) do
     case processing_times do
       [] ->

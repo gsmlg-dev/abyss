@@ -1,0 +1,27 @@
+Compiling 2 files (.ex)
+     warning: variable "ip" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 368 │   defp receive_packet({ip, port, data} = packet, ancillary, state) do
+     │                        ~~
+     │
+     └─ lib/abyss/listener.ex:368:24: Abyss.Listener.receive_packet/3
+
+     warning: variable "port" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 368 │   defp receive_packet({ip, port, data} = packet, ancillary, state) do
+     │                            ~~~~
+     │
+     └─ lib/abyss/listener.ex:368:28: Abyss.Listener.receive_packet/3
+
+Generated abyss app
+Running ExUnit with seed: 32955, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+..............
+00:53:09.456 [error] GenServer #PID<0.315.0> terminating
+** (stop) {:writer_exit, :killed}
+Last message: {:EXIT, #PID<0.317.0>, :killed}
+State: %{module: Abyss.DispatcherTestCallback, monitors: %{}, send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.317.0>, generation: #Reference<0.1593498608.2559574017.54123>, admission: #PID<0.316.0>}, writer: #PID<0.317.0>, listener: nil, routes: %{}, callback_state: %{started: 0, send_fun: #Function<2.6411223/2 in Abyss.Dispatcher.init/1>}, admission: #PID<0.316.0>, generation: #Reference<0.1593498608.2559574017.54123>}
+............
+Finished in 0.6 seconds (0.4s async, 0.2s sync)
+26 tests, 0 failures

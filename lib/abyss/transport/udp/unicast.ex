@@ -76,11 +76,8 @@ defmodule Abyss.Transport.UDP.Unicast do
   @spec listen(:inet.port_number(), [:inet.inet_backend() | :gen_udp.open_option()]) ::
           Abyss.Transport.on_listen()
   def listen(port, user_options) do
-    default_options = []
-
-    resolved_options = Core.merge_options(@hardcoded_options ++ default_options, user_options)
-
-    Core.open_socket(port, resolved_options)
+    with {:ok, options} <- Core.normalize_options(@hardcoded_options, user_options),
+         do: Core.open_socket(port, options)
   end
 
   @doc """
@@ -99,11 +96,8 @@ defmodule Abyss.Transport.UDP.Unicast do
   @spec open(:inet.port_number(), [:inet.inet_backend() | :gen_udp.open_option()]) ::
           Abyss.Transport.on_open()
   def open(port, user_options) do
-    default_options = []
-
-    resolved_options = Core.merge_options(@hardcoded_options ++ default_options, user_options)
-
-    Core.open_socket(port, resolved_options)
+    with {:ok, options} <- Core.normalize_options(@hardcoded_options, user_options),
+         do: Core.open_socket(port, options)
   end
 
   # Delegate all other transport operations to Core
@@ -180,8 +174,8 @@ defmodule Abyss.Transport.UDP.Unicast do
     case open(0, mode: :binary, active: false) do
       {:ok, socket} ->
         try do
-          :ok = Core.send(socket, ip, port, data)
-          Core.recv(socket, 0, timeout)
+          with :ok <- Core.send(socket, ip, port, data),
+               do: Core.recv(socket, 0, timeout)
         after
           Core.close(socket)
         end

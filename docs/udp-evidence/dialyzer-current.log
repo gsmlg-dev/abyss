@@ -1,0 +1,23 @@
+Compiling 3 files (.ex)
+Generated abyss app
+Finding suitable PLTs
+Checking PLT...
+[:abyss, :elixir, :kernel, :logger, :machete, :public_key, :stdlib, :telemetry, :telemetry_metrics]
+PLT is up to date!
+No :ignore_warnings opt specified in mix.exs and default does not exist.
+
+Starting Dialyzer
+[
+  check_plt: false,
+  init_plt: ~c"/home/gao/Workspace/gsmlg-dev/abyss/priv/plts/dialyzer.plt",
+  files: [~c"/home/gao/Workspace/gsmlg-dev/abyss/_build/dev/lib/abyss/ebin/Elixir.Abyss.Dispatcher.SendCapability.beam",
+   ~c"/home/gao/Workspace/gsmlg-dev/abyss/_build/dev/lib/abyss/ebin/Elixir.Abyss.Listener.beam",
+   ~c"/home/gao/Workspace/gsmlg-dev/abyss/_build/dev/lib/abyss/ebin/Elixir.Abyss.Transport.UDP.Broadcast.beam",
+   ~c"/home/gao/Workspace/gsmlg-dev/abyss/_build/dev/lib/abyss/ebin/Elixir.Abyss.Logger.beam",
+   ~c"/home/gao/Workspace/gsmlg-dev/abyss/_build/dev/lib/abyss/ebin/Elixir.Abyss.Transport.UDP.Core.beam",
+   ...],
+  warnings: [:error_handling, :extra_return, :missing_return, :unknown, ...]
+]
+Total errors: 0, Skipped: 0, Unnecessary Skips: 0
+done in 0m1.85s
+done (passed successfully)

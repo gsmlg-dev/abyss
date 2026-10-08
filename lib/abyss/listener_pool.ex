@@ -60,13 +60,9 @@ defmodule Abyss.ListenerPool do
   end
 
   @doc """
-  Suspend the listener pool by stopping all listener processes.
-
-  Each listener is stopped via `Abyss.Listener.stop/1`, which closes its
-  socket (unblocking any pending `recv`) before stopping the process. This
-  stops the acceptance of new connections but doesn't affect existing
-  connections. Listeners are `:transient`, so the supervisor keeps their
-  child specs and `resume/1` can restart them.
+  Pause admission on the existing owners. Sockets, ports and memberships stay
+  available for admitted handlers. Datagrams received while paused are dropped;
+  packets retained in the bounded kernel queue can be received after resume.
 
   ## Parameters
   - `pid` - The listener pool supervisor PID
@@ -76,30 +72,12 @@ defmodule Abyss.ListenerPool do
   """
   @spec suspend(Supervisor.supervisor()) :: :ok | :error
   def suspend(pid) do
-    try do
-      if Process.alive?(pid) do
-        pid
-        |> listener_pids()
-        |> Enum.each(&Abyss.Listener.stop/1)
-
-        :ok
-      else
-        :error
-      end
-    rescue
-      _e in [ArgumentError, UndefinedFunctionError] -> :error
-    catch
-      :exit, _ -> :error
-    end
+    apply_to_listeners(pid, &Abyss.Listener.pause/1)
   end
 
   @doc """
-  Resume the listener pool by restarting suspended listener processes.
-
-  Listeners stopped by `suspend/1` are restarted via
-  `Supervisor.restart_child/2` (opening a fresh socket); listeners that are
-  still running are nudged with a `:start_listening` message. Note that a
-  server started with `port: 0` will bind to a different port after resume.
+  Resume admission on the retained sockets. Return actual receive-rearm errors
+  and retain the original ephemeral port and desired memberships.
 
   ## Parameters
   - `pid` - The listener pool supervisor PID
@@ -109,26 +87,23 @@ defmodule Abyss.ListenerPool do
   """
   @spec resume(Supervisor.supervisor()) :: :ok | :error
   def resume(pid) do
-    try do
-      if Process.alive?(pid) do
-        pid
-        |> Supervisor.which_children()
-        |> Enum.each(fn
-          {id, :undefined, _type, _modules} -> Supervisor.restart_child(pid, id)
-          {_id, child, _type, _modules} when is_pid(child) -> send(child, :start_listening)
-          _ -> :ok
-        end)
-
-        :ok
-      else
-        :error
-      end
-    rescue
-      _e in [ArgumentError, UndefinedFunctionError] -> :error
-    catch
-      :exit, _ -> :error
-    end
+    apply_to_listeners(pid, &Abyss.Listener.resume/1)
   end
+
+  defp apply_to_listeners(pid, operation) do
+    if is_pid(pid) and Process.alive?(pid) do
+      Enum.reduce_while(listener_pids(pid), :ok, fn child, :ok ->
+        operation.(child) |> operation_result()
+      end)
+    else
+      :error
+    end
+  catch
+    :exit, _ -> :error
+  end
+
+  defp operation_result(:ok), do: {:cont, :ok}
+  defp operation_result(error), do: {:halt, error}
 
   @doc """
   Send start listening message to all listener processes.
@@ -151,24 +126,18 @@ defmodule Abyss.ListenerPool do
           {:ok,
            {Supervisor.sup_flags(),
             [Supervisor.child_spec() | (old_erlang_child_spec :: :supervisor.child_spec())]}}
-  def init(
-        {server_pid, %Abyss.ServerConfig{num_listeners: num_listeners, broadcast: false} = config}
-      ) do
-    1..num_listeners
-    |> Enum.map(
-      &Supervisor.child_spec({Abyss.Listener, {"listener-#{&1}", server_pid, config}},
-        id: "listener-#{&1}"
-      )
-    )
-    |> Supervisor.init(strategy: :one_for_one)
-  end
+  def init({server_pid, config}) do
+    one_endpoint? =
+      config.port == 0 or config.broadcast or
+        config.transport_module == Abyss.Transport.UDP.Multicast or
+        Enum.any?(config.transport_options, &match?({:add_membership, _}, &1))
 
-  def init({server_pid, %Abyss.ServerConfig{num_listeners: _, broadcast: true} = config}) do
-    [
-      Supervisor.child_spec({Abyss.Listener, {"listener-broadcast", server_pid, config}},
-        id: "listener-broadcast"
-      )
-    ]
+    count = if one_endpoint?, do: 1, else: config.num_listeners
+
+    Enum.map(1..count, fn index ->
+      id = "listener-#{index}"
+      Supervisor.child_spec({Abyss.Listener, {id, server_pid, config}}, id: id)
+    end)
     |> Supervisor.init(strategy: :one_for_one)
   end
 end

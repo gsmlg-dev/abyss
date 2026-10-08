@@ -1,0 +1,58 @@
+$ mix test test/abyss/table_owner_scope_test.exs test/abyss/handler_test.exs test/abyss/connection_test.exs test/abyss/telemetry_test.exs test/abyss/telemetry_metrics_test.exs test/abyss/telemetry_integration_test.exs test/abyss/handler_hardening_test.exs test/abyss/connection_admission_test.exs test/abyss/telemetry_endpoint_test.exs --include integration --cover --export-coverage accounting-current
+
+Compiling 7 files (.ex)
+Generated abyss app
+Cover compiling modules ...
+Running ExUnit with seed: 125867, max_cases: 16
+Excluding tags: [slow: true]
+Including tags: [:integration]
+
+..
+01:03:57.322 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+..
+01:03:57.429 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+......
+01:03:57.531 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+...........
+01:03:57.682 [info] The function passed as a handler with ID :integration_test_handler is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.......
+01:03:58.793 [error] GenServer #PID<0.484.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.481.0>, :killed}
+State: %{broadcast: false, socket: #Port<0.9>, listener: #PID<0.479.0>, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.Transport.UDP, transport_options: [], handler_module: Abyss.TestHandler, handler_options: [], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 100, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, read_timeout: 60000, connection_span: %Abyss.Telemetry{span_name: :test, telemetry_span_context: #Reference<0.1423920477.145489927.240189>, start_time: -576460748715265092, start_metadata: %{telemetry_span_context: #Reference<0.1423920477.145489927.240189>, sampled: true}}, memory_token: #Reference<0.1423920477.145489923.240226>, memory_timer: #Reference<0.1423920477.145489923.240227>, processing_times: [8945], adaptive_timeout: 30000, memory_check_interval: 10000, idle_token: #Reference<0.1423920477.145489923.240228>, idle_timer: #Reference<0.1423920477.145489923.240229>, idle_deadline: -576460718716}
+
+01:03:58.897 [error] GenServer #PID<0.500.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.497.0>, :killed}
+State: %{broadcast: false, socket: #Port<0.10>, listener: #PID<0.495.0>, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.Transport.UDP, transport_options: [], handler_module: Abyss.TestHandler, handler_options: [], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 100, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, read_timeout: 60000, connection_span: %Abyss.Telemetry{span_name: :test, telemetry_span_context: #Reference<0.1423920477.145489921.243683>, start_time: -576460748711552579, start_metadata: %{telemetry_span_context: #Reference<0.1423920477.145489921.243683>, sampled: true}}, memory_token: #Reference<0.1423920477.145489927.240246>, memory_timer: #Reference<0.1423920477.145489927.240247>, processing_times: [10030], adaptive_timeout: 30000, memory_check_interval: 10000, idle_token: #Reference<0.1423920477.145489927.240248>, idle_timer: #Reference<0.1423920477.145489927.240249>, idle_deadline: -576460718712}
+...
+01:03:58.901 [error] GenServer #PID<0.514.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.511.0>, :killed}
+State: %{broadcast: false, socket: #Port<0.11>, listener: #PID<0.509.0>, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.Transport.UDP, transport_options: [], handler_module: Abyss.TestHandler, handler_options: [], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 100, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, read_timeout: 60000, connection_span: %Abyss.Telemetry{span_name: :test, telemetry_span_context: #Reference<0.1423920477.145489921.243775>, start_time: -576460748606900276, start_metadata: %{telemetry_span_context: #Reference<0.1423920477.145489921.243775>, sampled: true}}, memory_token: #Reference<0.1423920477.145489921.243781>, memory_timer: #Reference<0.1423920477.145489921.243782>, processing_times: [8738], adaptive_timeout: 30000, memory_check_interval: 10000, idle_token: #Reference<0.1423920477.145489921.243785>, idle_timer: #Reference<0.1423920477.145489921.243786>, idle_deadline: -576460718607}
+..................
+01:03:58.913 [info] The function passed as a handler with ID :test_response_time_handler is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+............................
+Finished in 2.7 seconds (0.4s async, 2.2s sync)
+77 tests, 0 failures
+
+Exporting cover results ...
+
+Run "mix test.coverage" once all exports complete
+
+Process exit: 0

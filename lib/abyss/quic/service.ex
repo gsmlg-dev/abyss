@@ -89,7 +89,7 @@ defmodule Abyss.QUIC.Service do
   def handle_info({:callback_finished, worker, token}, state) do
     case state.callbacks[worker] do
       {^token, timer} ->
-        Process.cancel_timer(timer)
+        _ = Process.cancel_timer(timer)
         {:noreply, %{state | callbacks: Map.delete(state.callbacks, worker)}}
 
       _ ->
@@ -106,7 +106,7 @@ defmodule Abyss.QUIC.Service do
     # The engine monitors its attached consumer. Never perform a blocking close
     # from this shared service process on consumer death.
     if state.worker_refs[worker] == ref do
-      if entry = state.callbacks[worker], do: Process.cancel_timer(elem(entry, 1))
+      _ = if entry = state.callbacks[worker], do: Process.cancel_timer(elem(entry, 1))
 
       {:noreply,
        %{

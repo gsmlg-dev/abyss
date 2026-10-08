@@ -1,148 +1,85 @@
 defmodule Abyss.Connection do
   @moduledoc """
-  Connection management for creating and retrying handler processes.
-
-  This module is responsible for:
-  - Creating handler processes for incoming UDP packets
-  - Managing connection limits and retry logic
-  - Handling non-blocking retries when the connection supervisor is at capacity
-
-  ## Connection Lifecycle
-
-  1. Receive UDP packet and metadata from listener
-  2. Create child specification for handler process
-  3. Attempt to start handler via DynamicSupervisor
-  4. Send connection data to handler process
-  5. Handle retry logic if the connection limit is reached
-
-  Handlers send responses through the shared listener socket; socket
-  ownership stays with the listener at all times.
-
-  ## Retry Strategy
-
-  Uses non-blocking retries via `Task.start/1` with exponential backoff and
-  jitter, so the listener process is never blocked while the connection
-  supervisor is at capacity:
-  - Configurable retry count (`max_connections_retry_count`)
-  - Configurable base wait time (`max_connections_retry_wait`)
-  - Emits `[:abyss, :connection, :limit_exceeded]` when retries are exhausted
-
-  This module is primarily used internally by `Abyss.Listener`.
+  Starts one execution process per admitted datagram under the connection
+  supervisor. Capacity failures drop new work immediately; no retry process,
+  delayed admission, or resend is created. Socket ownership stays with the
+  listener. Acceptance and termination accounting are owned by its monitor.
   """
 
   @doc """
-  Start a handler process for an incoming UDP packet.
-
-  Creates a handler process under the server's connection supervisor and
-  sends it the received packet as a `{:new_connection, socket, recv_data}`
-  message. Implements non-blocking retry logic when the connection
-  supervisor is at capacity.
-
-  ## Parameters
-  - `sup_pid` - Server supervisor PID
-  - `listener_pid` - Listener process PID
-  - `listener_socket` - UDP socket from listener
-  - `recv_data` - Received packet data `{ip, port, data}`
-  - `server_config` - Server configuration
-  - `connection_span` - Telemetry span for tracking
-
-  ## Returns
-  - `:ok` - Handler started (or retry scheduled)
-  - `{:error, :too_many_connections}` - Connection limit reached, retries exhausted
-  - Other error tuples from DynamicSupervisor
+  Starts a handler and returns its actual pid. The internal `:deferred`
+  packet sentinel starts without delivery; the listener sends the reserved
+  packet only after checking its generation and admission deadline.
   """
   @spec start(
           Supervisor.supervisor(),
           pid(),
           Abyss.Transport.socket(),
-          Abyss.Transport.recv_data(),
+          term(),
           Abyss.ServerConfig.t(),
           Abyss.Telemetry.t()
         ) ::
-          :ignore
-          | :ok
-          | {:ok, pid, info :: term}
-          | {:error, :too_many_connections | {:already_started, pid} | term}
-  def start(
-        sup_pid,
-        listener_pid,
-        listener_socket,
-        recv_data,
-        %Abyss.ServerConfig{} = server_config,
-        connection_span
-      ) do
+          {:ok, pid()} | :ignore | {:error, term()}
+  def start(sup_pid, listener_pid, socket, recv_data, config, span) do
+    args = {span, config, listener_pid, socket}
+
     child_spec =
-      {server_config.handler_module,
-       {connection_span, server_config, listener_pid, listener_socket}}
-      |> Supervisor.child_spec(shutdown: server_config.shutdown_timeout)
+      {config.handler_module, args}
+      |> Supervisor.child_spec(shutdown: config.shutdown_timeout)
+      |> Map.put(
+        :start,
+        {__MODULE__, :guarded_start, [config.handler_module, args, listener_pid, self()]}
+      )
 
-    connection_sup_pid = Abyss.Server.connection_sup_pid(sup_pid)
-
-    do_start_with_backoff(
-      connection_sup_pid,
-      child_spec,
-      listener_pid,
-      listener_socket,
-      recv_data,
-      server_config,
-      connection_span,
-      server_config.max_connections_retry_count
-    )
-  end
-
-  defp do_start_with_backoff(
-         sup_pid,
-         child_spec,
-         listener_pid,
-         listener_socket,
-         recv_data,
-         server_config,
-         connection_span,
-         retries
-       ) do
-    case DynamicSupervisor.start_child(sup_pid, child_spec) do
+    case DynamicSupervisor.start_child(Abyss.Server.connection_sup_pid(sup_pid), child_spec) do
       {:ok, pid} ->
-        send(pid, {:new_connection, listener_socket, recv_data})
-        :ok
+        deliver(pid, socket, recv_data)
 
-      {:error, :max_children} when retries > 0 ->
-        # Exponential backoff with jitter
-        base_delay = server_config.max_connections_retry_wait
-        backoff_multiplier = :math.pow(1.5, server_config.max_connections_retry_count - retries)
-        delay = round(base_delay * backoff_multiplier)
-        # 25% jitter
-        jitter = :rand.uniform(div(delay, 4))
-
-        # Use Task for non-blocking retry to avoid blocking the listener
-        Task.start(fn ->
-          Process.sleep(delay + jitter)
-
-          do_start_with_backoff(
-            sup_pid,
-            child_spec,
-            listener_pid,
-            listener_socket,
-            recv_data,
-            server_config,
-            connection_span,
-            retries - 1
-          )
-        end)
-
-        :ok
+      {:ok, pid, _info} ->
+        deliver(pid, socket, recv_data)
 
       {:error, :max_children} ->
-        # Log connection limit exceeded via telemetry
-        :telemetry.execute(
-          [:abyss, :connection, :limit_exceeded],
-          %{retries_attempted: server_config.max_connections_retry_count - retries},
-          %{listener_pid: listener_pid, socket: listener_socket}
-        )
+        :telemetry.execute([:abyss, :connection, :limit_exceeded], %{retries_attempted: 0}, %{
+          listener_pid: listener_pid,
+          socket: socket
+        })
 
         {:error, :too_many_connections}
 
       other ->
         other
     end
+  end
+
+  @doc false
+  def guarded_start(module, args, listener_pid, starter_pid) do
+    case module.start_link(args) do
+      {:ok, pid} = result -> validate_generation(result, pid, listener_pid, starter_pid)
+      {:ok, pid, _info} = result -> validate_generation(result, pid, listener_pid, starter_pid)
+      other -> other
+    end
+  end
+
+  defp validate_generation(result, pid, listener_pid, starter_pid) do
+    if Process.alive?(listener_pid) and Process.alive?(starter_pid) do
+      result
+    else
+      monitor = Process.monitor(pid)
+      Process.unlink(pid)
+      Process.exit(pid, :kill)
+
+      receive do
+        {:DOWN, ^monitor, :process, ^pid, _reason} -> :ok
+      end
+
+      {:error, :stale_generation}
+    end
+  end
+
+  defp deliver(pid, _socket, :deferred), do: {:ok, pid}
+
+  defp deliver(pid, socket, recv_data) do
+    send(pid, {:new_connection, socket, recv_data})
+    {:ok, pid}
   end
 end

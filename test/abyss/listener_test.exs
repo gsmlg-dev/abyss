@@ -80,21 +80,9 @@ defmodule Abyss.ListenerTest do
   end
 
   describe "error handling" do
-    test "stops gracefully on invalid port" do
-      server_pid = self()
-      listener_id = "test-listener"
-      # Use a port that's likely to fail but handle the error gracefully
-      config = %{ServerConfig.new(handler_module: Abyss.TestHandler, port: 0) | port: 0}
-
-      # We expect this might fail, so just verify it handles gracefully
-      case Listener.start_link({listener_id, server_pid, config}) do
-        {:ok, pid} ->
-          Listener.stop(pid)
-          assert true
-
-        {:error, _reason} ->
-          # Any error is acceptable for graceful handling
-          assert true
+    test "configuration rejects an invalid port before opening a socket" do
+      assert_raise ArgumentError, ~r/port must be/, fn ->
+        ServerConfig.new(handler_module: Abyss.TestHandler, port: -1)
       end
     end
   end

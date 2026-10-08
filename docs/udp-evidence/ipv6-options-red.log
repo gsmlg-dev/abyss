@@ -1,0 +1,24 @@
+Running ExUnit with seed: 112759, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+.....
+
+  1) test IPv6 hop and loop options affect the IPv6 kernel options on both backends (Abyss.Transport.UDP.MulticastRegressionTest)
+     test/abyss/transport/udp/multicast_regression_test.exs:127
+     match (=) failed
+     code:  assert {:ok, [{:raw, 41, 18, <<7::native-32>>}, {:raw, 41, 19, <<0::native-32>>}]} =
+              Multicast.getopts(socket, [{:raw, 41, 18, 4}, {:raw, 41, 19, 4}])
+     left:  {:ok, [{:raw, 41, 18, <<7::native-32>>}, {:raw, 41, 19, <<0::native-32>>}]}
+     right: {:ok,
+             [
+               {:raw, 41, 18, <<1, 0, 0, 0>>},
+               {:raw, 41, 19, <<1, 0, 0, 0>>}
+             ]}
+     stacktrace:
+       test/abyss/transport/udp/multicast_regression_test.exs:132: anonymous fn/2 in Abyss.Transport.UDP.MulticastRegressionTest."test IPv6 hop and loop options affect the IPv6 kernel options on both backends"/1
+       (elixir 1.18.5) lib/enum.ex:2546: Enum."-reduce/3-lists^foldl/2-0-"/3
+       test/abyss/transport/udp/multicast_regression_test.exs:128: (test)
+
+..
+Finished in 0.1 seconds (0.00s async, 0.1s sync)
+8 tests, 1 failure

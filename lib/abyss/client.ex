@@ -78,768 +78,528 @@ defmodule Abyss.Client do
   - `:ttl` - Time-to-live for multicast packets (default: 1 for link-local)
   - `:bind_port` - Port to bind the socket to (default: 0 for ephemeral)
   """
-  @type opts :: [
-          source: :inet.ip_address(),
-          interface: String.t(),
-          ttl: non_neg_integer(),
-          bind_port: :inet.port_number()
-        ]
+  @type opts :: keyword()
 
   @typedoc "POSIX error reason"
   @type reason :: :inet.posix()
 
-  # Multicast address range is 224.0.0.0/4 (224.0.0.0 - 239.255.255.255)
+  alias Abyss.Transport.UDP.Core
+  alias Abyss.Transport.UDP.Multicast
 
   @doc """
-  Send a UDP packet and wait for a response (request-response pattern).
-
-  Opens an ephemeral socket, sends the packet, waits for a response up to the
-  specified timeout, and closes the socket. This is useful for protocols like
-  DNS that expect a response to each query.
-
-  ## Parameters
-
-  - `host` - Destination IP address or hostname
-  - `port` - Destination port number
-  - `packet` - Binary data to send
-  - `timeout` - Timeout in milliseconds to wait for response
-  - `opts` - Optional keyword list:
-    - `:source` - Source IP address to bind
-    - `:interface` - Network interface name (e.g., "eth0")
-
-  ## Returns
-
-  - `{:ok, response}` - Response binary data received
-  - `{:error, :timeout}` - No response within timeout
-  - `{:error, reason}` - POSIX error
-
-  ## Examples
-
-      # DNS query with 5 second timeout
-      iex> Abyss.Client.send_recv({8, 8, 8, 8}, 53, dns_query, 5000)
-      {:ok, <<...response...>>}
-
-      iex> Abyss.Client.send_recv({8, 8, 8, 8}, 53, dns_query, 5000, source: {192, 168, 1, 10})
-      {:ok, <<...response...>>}
+  Send one datagram and return its unicast response. `source`, `interface`,
+  `family`, and `bind_port` settings are shared by all client helpers.
   """
-  @spec send_recv(host(), port_number(), packet(), timeout :: non_neg_integer(), opts()) ::
-          {:ok, binary()} | {:error, reason() | :timeout}
+  @spec send_recv(host(), port_number(), packet(), non_neg_integer(), opts()) ::
+          {:ok, binary()} | {:error, term()}
   def send_recv(host, port, packet, timeout, opts \\ []) do
-    metadata = %{
-      host: host,
-      port: port,
-      size: byte_size(packet),
-      type: :request_response,
-      timeout: timeout
-    }
-
-    start_time = System.monotonic_time()
-    :telemetry.execute([:abyss, :client, :send_recv, :start], %{}, metadata)
-
-    # Use {:active, false} for synchronous receive
-    socket_opts = [:binary, {:active, false} | build_socket_opts(opts, _broadcast = false)]
-
-    result =
-      case :gen_udp.open(0, socket_opts) do
-        {:ok, socket} ->
-          try do
-            with :ok <- :gen_udp.send(socket, host, port, packet),
-                 {:ok, {_from_ip, _from_port, response}} <- :gen_udp.recv(socket, 0, timeout) do
-              {:ok, response}
-            else
-              {:error, _reason} = error -> error
-              other -> {:error, other}
-            end
-          after
-            :gen_udp.close(socket)
-          end
-
-        {:error, _reason} = error ->
-          error
-      end
-
-    emit_send_recv_telemetry(result, start_time, metadata)
-    result
-  end
-
-  @doc """
-  Subscribe to a multicast/broadcast address and collect incoming packets.
-
-  Opens an ephemeral socket, joins multicast group if needed, and collects
-  incoming packets for the specified timeout duration. This is receive-only
-  and does not send any packets.
-
-  ## Parameters
-
-  - `broadcast_addr` - Broadcast or multicast IP address to subscribe to
-  - `port` - Port number to listen on
-  - `timeout` - Timeout in milliseconds to collect responses
-  - `opts` - Optional keyword list:
-    - `:source` - Source IP address to bind (used for multicast interface)
-    - `:interface` - Network interface name (e.g., "eth0")
-
-  ## Returns
-
-  - `{:ok, [packet]}` - List of received packet binaries (may be empty)
-  - `{:error, reason}` - POSIX error
-
-  ## Examples
-
-      # Subscribe to mDNS multicast and collect packets for 2 seconds
-      iex> Abyss.Client.subscribe_broadcast({224, 0, 0, 251}, 5353, 2000)
-      {:ok, [<<...packet1...>>, <<...packet2...>>]}
-
-      # With interface binding
-      iex> Abyss.Client.subscribe_broadcast({224, 0, 0, 251}, 5353, 2000,
-      ...>   source: {192, 168, 1, 10})
-      {:ok, [<<...packet1...>>]}
-  """
-  @spec subscribe_broadcast(
-          broadcast_addr(),
-          port_number(),
-          timeout :: non_neg_integer(),
-          opts()
-        ) ::
-          {:ok, [binary()]} | {:error, reason()}
-  def subscribe_broadcast(broadcast_addr, port, timeout, opts \\ []) do
-    metadata = %{
-      host: broadcast_addr,
-      port: port,
-      type: :subscribe_broadcast,
-      timeout: timeout
-    }
-
-    start_time = System.monotonic_time()
-    :telemetry.execute([:abyss, :client, :subscribe, :start], %{}, metadata)
-
-    # For subscribe, we need to bind to the actual port and enable reuseaddr
-    socket_opts = [
-      :binary,
-      {:active, false},
-      {:reuseaddr, true} | build_socket_opts(opts, _broadcast = true, broadcast_addr)
-    ]
-
-    result =
-      case :gen_udp.open(port, socket_opts) do
-        {:ok, socket} ->
-          try do
-            case maybe_join_multicast(socket, broadcast_addr, opts) do
-              :ok ->
-                packets = collect_responses(socket, timeout, [])
-                {:ok, packets}
-
-              {:error, _reason} = error ->
-                error
-            end
-          after
-            :gen_udp.close(socket)
-          end
-
-        {:error, _reason} = error ->
-          error
-      end
-
-    emit_subscribe_telemetry(result, start_time, metadata)
-    result
-  end
-
-  # Collect responses until timeout
-  defp collect_responses(socket, timeout, acc) do
-    deadline = System.monotonic_time(:millisecond) + timeout
-    do_collect_responses(socket, deadline, acc)
-  end
-
-  defp do_collect_responses(socket, deadline, acc) do
-    remaining = deadline - System.monotonic_time(:millisecond)
-
-    if remaining <= 0 do
-      Enum.reverse(acc)
-    else
-      case :gen_udp.recv(socket, 0, remaining) do
-        {:ok, {_from_ip, _from_port, response}} ->
-          do_collect_responses(socket, deadline, [response | acc])
-
-        {:error, :timeout} ->
-          Enum.reverse(acc)
-
-        {:error, _reason} ->
-          Enum.reverse(acc)
-      end
-    end
-  end
-
-  # Join multicast group if the address is a multicast address
-  defp maybe_join_multicast(socket, addr, opts) do
-    if multicast_address?(addr) do
-      source = opts[:source] || {0, 0, 0, 0}
-      :inet.setopts(socket, [{:add_membership, {addr, source}}])
-    else
-      :ok
-    end
-  end
-
-  @doc """
-  Send a unicast UDP packet to the specified host and port.
-
-  Opens an ephemeral socket, sends the packet, and closes the socket.
-
-  ## Parameters
-
-  - `host` - Destination IP address or hostname
-  - `port` - Destination port number
-  - `packet` - Binary data to send
-  - `opts` - Optional keyword list:
-    - `:source` - Source IP address to bind
-    - `:interface` - Network interface name (e.g., "eth0")
-
-  ## Returns
-
-  - `:ok` - Packet sent successfully
-  - `{:error, reason}` - POSIX error
-
-  ## Examples
-
-      iex> Abyss.Client.send({8, 8, 8, 8}, 53, <<0, 1, 2, 3>>)
-      :ok
-
-      iex> Abyss.Client.send({8, 8, 8, 8}, 53, <<0, 1, 2, 3>>, source: {192, 168, 1, 10})
-      :ok
-  """
-  @spec send(host(), port_number(), packet(), opts()) :: :ok | {:error, reason()}
-  def send(host, port, packet, opts \\ []) do
-    metadata = %{
-      host: host,
-      port: port,
-      size: byte_size(packet),
-      type: :unicast
-    }
-
-    start_time = System.monotonic_time()
-    :telemetry.execute([:abyss, :client, :send, :start], %{}, metadata)
-
-    socket_opts = build_socket_opts(opts, _broadcast = false)
-
-    result =
-      case :gen_udp.open(0, socket_opts) do
-        {:ok, socket} ->
-          try do
-            :gen_udp.send(socket, host, port, packet)
-          after
-            :gen_udp.close(socket)
-          end
-
-        {:error, _reason} = error ->
-          error
-      end
-
-    emit_result_telemetry(result, start_time, metadata)
-    result
-  end
-
-  @doc """
-  Send a broadcast UDP packet to the specified broadcast address and port.
-
-  Opens an ephemeral socket with broadcast enabled, sends the packet, and closes the socket.
-  Works with limited broadcast (255.255.255.255), directed broadcast (e.g., 192.168.1.255),
-  and multicast addresses (e.g., 224.0.0.251 for mDNS).
-
-  ## Parameters
-
-  - `broadcast_addr` - Broadcast or multicast IP address (mandatory, no default)
-    - Limited broadcast: `{255, 255, 255, 255}`
-    - Directed broadcast: `{192, 168, 1, 255}` (subnet-specific)
-    - Multicast: `{224, 0, 0, 251}` (mDNS)
-  - `port` - Destination port number
-  - `packet` - Binary data to send
-  - `opts` - Optional keyword list:
-    - `:source` - Source IP address to bind
-    - `:interface` - Network interface name (required for most broadcast scenarios)
-    - `:ttl` - Time-to-live for multicast (default: 1 for link-local)
-
-  ## Returns
-
-  - `:ok` - Packet sent successfully
-  - `{:error, reason}` - POSIX error
-
-  ## Examples
-
-      # Limited broadcast
-      iex> Abyss.Client.broadcast({255, 255, 255, 255}, 68, dhcp_packet,
-      ...>   source: {192, 168, 1, 1}, interface: "eth0")
-      :ok
-
-      # Multicast (mDNS)
-      iex> Abyss.Client.broadcast({224, 0, 0, 251}, 5353, mdns_packet,
-      ...>   source: {192, 168, 1, 10}, interface: "eth0")
-      :ok
-  """
-  @spec broadcast(broadcast_addr(), port_number(), packet(), opts()) :: :ok | {:error, reason()}
-  def broadcast(broadcast_addr, port, packet, opts \\ []) do
-    metadata = %{
-      host: broadcast_addr,
-      port: port,
-      size: byte_size(packet),
-      type: :broadcast
-    }
-
-    start_time = System.monotonic_time()
-    :telemetry.execute([:abyss, :client, :send, :start], %{}, metadata)
-
-    socket_opts = build_socket_opts(opts, _broadcast = true, broadcast_addr)
-
-    result =
-      case :gen_udp.open(0, socket_opts) do
-        {:ok, socket} ->
-          try do
-            :gen_udp.send(socket, broadcast_addr, port, packet)
-          after
-            :gen_udp.close(socket)
-          end
-
-        {:error, _reason} = error ->
-          error
-      end
-
-    emit_result_telemetry(result, start_time, metadata)
-    result
-  end
-
-  @doc """
-  Send a broadcast UDP packet and wait for a single response.
-
-  Opens a socket with broadcast enabled, sends the packet, waits for a response
-  up to the timeout, and closes the socket. Useful for protocols like DHCPv4
-  that send to broadcast addresses and expect a single response.
-
-  ## Parameters
-
-  - `broadcast_addr` - Broadcast IP address (e.g., `{255, 255, 255, 255}`)
-  - `dest_port` - Destination port number
-  - `packet` - Binary data to send
-  - `timeout` - Timeout in milliseconds to wait for response
-  - `opts` - Optional keyword list:
-    - `:bind_port` - Port to bind the socket to (default: 0 for ephemeral)
-    - `:source` - Source IP address to bind
-    - `:interface` - Network interface name
-
-  ## Returns
-
-  - `{:ok, response}` - Response binary data received
-  - `{:error, :timeout}` - No response within timeout
-  - `{:error, reason}` - POSIX error
-
-  ## Examples
-
-      # DHCPv4 discover on client port 68
-      iex> Abyss.Client.broadcast_send_recv({255, 255, 255, 255}, 67, dhcp_packet, 5000,
-      ...>   bind_port: 68)
-      {:ok, <<...response...>>}
-
-      # Fallback to ephemeral port
-      iex> Abyss.Client.broadcast_send_recv({255, 255, 255, 255}, 67, dhcp_packet, 5000)
-      {:ok, <<...response...>>}
-  """
-  @spec broadcast_send_recv(
-          broadcast_addr(),
-          port_number(),
-          packet(),
-          timeout :: non_neg_integer(),
-          opts()
-        ) ::
-          {:ok, binary()} | {:error, reason() | :timeout}
-  def broadcast_send_recv(broadcast_addr, dest_port, packet, timeout, opts \\ []) do
-    bind_port = Keyword.get(opts, :bind_port, 0)
-
-    metadata = %{
-      host: broadcast_addr,
-      port: dest_port,
-      size: byte_size(packet),
-      type: :broadcast_send_recv,
-      timeout: timeout
-    }
-
-    start_time = System.monotonic_time()
-    :telemetry.execute([:abyss, :client, :send_recv, :start], %{}, metadata)
-
-    socket_opts = [
-      :binary,
-      {:active, false},
-      {:reuseaddr, true} | build_socket_opts(opts, _broadcast = true, broadcast_addr)
-    ]
-
-    result =
-      case :gen_udp.open(bind_port, socket_opts) do
-        {:ok, socket} ->
-          try do
-            with :ok <- :gen_udp.send(socket, broadcast_addr, dest_port, packet),
-                 {:ok, {_ip, _port, response}} <- :gen_udp.recv(socket, 0, timeout) do
-              {:ok, response}
-            end
-          after
-            :gen_udp.close(socket)
-          end
-
-        {:error, _reason} = error ->
-          error
-      end
-
-    emit_send_recv_telemetry(result, start_time, metadata)
-    result
-  end
-
-  @doc """
-  Send a multicast UDP query and collect responses with source address info.
-
-  Opens an ephemeral socket, sends the packet to a multicast address, and
-  collects responses until timeout. Returns responses with source IP and port
-  for each responder.
-
-  ## Parameters
-
-  - `multicast_addr` - Multicast IP address (e.g., `{224, 0, 0, 251}`)
-  - `port` - Destination port number (e.g., 5353)
-  - `packet` - Binary data to send
-  - `timeout` - Timeout in milliseconds to collect responses
-  - `opts` - Optional keyword list:
-    - `:ttl` - Multicast TTL (default: 255)
-
-  ## Returns
-
-  - `{:ok, [{address, port, binary}]}` - List of responses with source info
-  - `{:error, reason}` - POSIX error
-
-  ## Examples
-
-      # mDNS query
-      iex> Abyss.Client.multicast_query({224, 0, 0, 251}, 5353, mdns_packet, 3000)
-      {:ok, [{{192, 168, 1, 5}, 5353, <<...response...>>}]}
-  """
-  @spec multicast_query(
-          broadcast_addr(),
-          port_number(),
-          packet(),
-          timeout :: non_neg_integer(),
-          opts()
-        ) ::
-          {:ok, [{:inet.ip_address(), :inet.port_number(), binary()}]} | {:error, reason()}
-  def multicast_query(multicast_addr, port, packet, timeout, opts \\ []) do
-    ttl = Keyword.get(opts, :ttl, 255)
-
-    metadata = %{
-      host: multicast_addr,
-      port: port,
-      size: byte_size(packet),
-      type: :multicast_query,
-      timeout: timeout
-    }
-
-    start_time = System.monotonic_time()
-    :telemetry.execute([:abyss, :client, :send_recv, :start], %{}, metadata)
-
-    socket_opts = [
-      :binary,
-      active: false,
-      multicast_ttl: ttl,
-      multicast_loop: true,
-      reuseaddr: true
-    ]
-
-    result =
-      case :gen_udp.open(0, socket_opts) do
-        {:ok, socket} ->
-          try do
-            :gen_udp.send(socket, multicast_addr, port, packet)
-            sources = collect_sources(socket, timeout, [])
-            {:ok, sources}
-          after
-            :gen_udp.close(socket)
-          end
-
-        {:error, _reason} = error ->
-          error
-      end
-
-    emit_multicast_telemetry(result, start_time, metadata)
-    result
-  end
-
-  # Build socket options from caller opts
-  @spec build_socket_opts(opts(), boolean()) :: [:gen_udp.option()]
-  defp build_socket_opts(opts, broadcast) do
-    build_socket_opts(opts, broadcast, nil)
-  end
-
-  @spec build_socket_opts(opts(), boolean(), broadcast_addr() | nil) :: [:gen_udp.option()]
-  defp build_socket_opts(opts, broadcast, dest_addr) do
-    base_opts = [:binary]
-
-    base_opts
-    |> maybe_add_broadcast(broadcast)
-    |> maybe_add_multicast_opts(dest_addr, opts)
-    |> maybe_add_source(opts[:source])
-    |> maybe_add_interface(opts[:interface], opts[:source])
-  end
-
-  defp maybe_add_broadcast(socket_opts, true), do: [{:broadcast, true} | socket_opts]
-  defp maybe_add_broadcast(socket_opts, false), do: socket_opts
-
-  defp maybe_add_multicast_opts(socket_opts, nil, _opts), do: socket_opts
-
-  defp maybe_add_multicast_opts(socket_opts, dest_addr, opts) do
-    if multicast_address?(dest_addr) do
-      ttl = Keyword.get(opts, :ttl, 1)
-      source = opts[:source]
-
-      socket_opts
-      |> add_if_present({:multicast_ttl, ttl})
-      |> maybe_add_multicast_if(source)
-      |> add_if_present({:multicast_loop, false})
-    else
-      socket_opts
-    end
-  end
-
-  defp maybe_add_multicast_if(socket_opts, nil), do: socket_opts
-  defp maybe_add_multicast_if(socket_opts, source), do: [{:multicast_if, source} | socket_opts]
-
-  defp maybe_add_source(socket_opts, nil), do: socket_opts
-  defp maybe_add_source(socket_opts, source), do: [{:ip, source} | socket_opts]
-
-  # Interface binding - Linux uses :bind_to_device, fallback to IP resolution
-  defp maybe_add_interface(socket_opts, nil, _source), do: socket_opts
-
-  defp maybe_add_interface(socket_opts, interface, source) when is_binary(interface) do
-    # If source is already provided, interface binding may be redundant
-    # but we still try to bind to device for proper routing
-    case try_bind_to_device(interface, socket_opts) do
-      {:ok, updated_opts} ->
-        updated_opts
-
-      {:error, _reason} ->
-        # Fallback: resolve interface to IP if no source provided
-        if is_nil(source) do
-          case resolve_interface_ip(interface) do
-            {:ok, ip} -> [{:ip, ip} | socket_opts]
-            {:error, _} -> socket_opts
-          end
-        else
-          socket_opts
-        end
-    end
-  end
-
-  # Try to use bind_to_device (Linux-specific, requires CAP_NET_RAW or root)
-  # Returns {:ok, updated_opts} or {:error, reason}
-  defp try_bind_to_device(interface, socket_opts) do
-    # :bind_to_device requires charlist on some Erlang versions
-    device = String.to_charlist(interface)
-
-    # First check if the interface exists before attempting bind_to_device
-    # This avoids the :badarg error from :gen_udp.open
-    case interface_exists?(interface) do
-      true ->
-        # Test if bind_to_device is supported by attempting a dry-run
-        do_try_bind_to_device(device, socket_opts)
-
-      false ->
-        {:error, :enodev}
-    end
-  end
-
-  defp do_try_bind_to_device(device, socket_opts) do
-    # Wrap in try/catch to handle all possible errors from gen_udp.open
-    try do
-      case :gen_udp.open(0, [:binary, {:bind_to_device, device}]) do
-        {:ok, test_socket} ->
-          :gen_udp.close(test_socket)
-          {:ok, [{:bind_to_device, device} | socket_opts]}
-
-        {:error, reason} ->
-          {:error, reason}
-      end
-    catch
-      :error, :badarg -> {:error, :einval}
-      :exit, reason -> {:error, reason}
-    end
-  end
-
-  defp interface_exists?(interface) do
-    case :inet.getifaddrs() do
-      {:ok, addrs} ->
-        interface_charlist = String.to_charlist(interface)
-        List.keyfind(addrs, interface_charlist, 0) != nil
-
-      {:error, _} ->
-        false
-    end
-  end
-
-  @doc """
-  Resolve a network interface name to its primary IPv4 address.
-
-  ## Parameters
-
-  - `interface` - Network interface name (e.g., "eth0", "lo")
-
-  ## Returns
-
-  - `{:ok, ip_address}` - IPv4 address tuple
-  - `{:error, :enodev}` - Interface not found or has no IPv4 address
-
-  ## Examples
-
-      iex> Abyss.Client.resolve_interface_ip("lo")
-      {:ok, {127, 0, 0, 1}}
-  """
-  @spec resolve_interface_ip(String.t()) :: {:ok, :inet.ip4_address()} | {:error, :enodev}
-  def resolve_interface_ip(interface) do
-    case :inet.getifaddrs() do
-      {:ok, addrs} ->
-        interface_charlist = String.to_charlist(interface)
-
-        # inet.getifaddrs returns a list of tuples like [{~c"lo", [...]}, {~c"eth0", [...]}]
-        # Use List.keyfind instead of Keyword.get since keys are charlists, not atoms
-        case List.keyfind(addrs, interface_charlist, 0) do
-          nil ->
-            {:error, :enodev}
-
-          {_name, opts} ->
-            # Get IPv4 address (4-tuple), skip IPv6 (8-tuple)
-            case find_ipv4_addr(opts) do
-              nil -> {:error, :enodev}
-              addr -> {:ok, addr}
-            end
-        end
-
-      {:error, _reason} ->
-        {:error, :enodev}
-    end
-  end
-
-  defp find_ipv4_addr(opts) do
-    # opts is a keyword list with atom keys like :addr, :netmask, etc.
-    opts
-    |> Keyword.get_values(:addr)
-    |> Enum.find(fn
-      {_, _, _, _} -> true
-      _ -> false
+    operation(:send_recv, host, port, packet, timeout, fn ->
+      request_response(host, port, packet, timeout, opts, false)
     end)
   end
 
-  # Check if address is in multicast range (224.0.0.0/4)
-  defp multicast_address?({a, _, _, _}) when a >= 224 and a <= 239, do: true
-  defp multicast_address?(_), do: false
-
-  defp add_if_present(socket_opts, opt), do: [opt | socket_opts]
-
-  # Emit success or error telemetry
-  defp emit_result_telemetry(:ok, start_time, metadata) do
-    duration = System.monotonic_time() - start_time
-
-    :telemetry.execute(
-      [:abyss, :client, :send, :stop],
-      %{duration: duration},
-      metadata
-    )
+  @doc "Send a datagram. A successful result means local submission, not peer delivery."
+  @spec send(host(), port_number(), packet(), opts()) :: :ok | {:error, term()}
+  def send(host, port, packet, opts \\ []) do
+    operation(:send, host, port, packet, nil, fn ->
+      with_socket(host, port, opts, false, fn socket, destination ->
+        Core.send(socket, destination, packet)
+      end)
+    end)
   end
 
-  defp emit_result_telemetry({:error, reason}, start_time, metadata) do
-    duration = System.monotonic_time() - start_time
-
-    :telemetry.execute(
-      [:abyss, :client, :send, :exception],
-      %{duration: duration},
-      Map.put(metadata, :reason, reason)
-    )
+  @doc """
+  Send IPv4 limited/directed broadcast or IPv4/IPv6 multicast. The caller
+  supplies the destination; no subnet broadcast is guessed. `interface` names
+  select multicast egress or Linux broadcast egress explicitly. IPv6 multicast
+  uses a positive interface index/name and scope; IPv6 broadcast is rejected.
+  `ttl` (or `hop_limit`) defaults to 1 and `loopback` defaults to true.
+  """
+  @spec broadcast(broadcast_addr(), port_number(), packet(), opts()) :: :ok | {:error, term()}
+  def broadcast(address, port, packet, opts \\ []) do
+    operation({:send, :broadcast}, address, port, packet, nil, fn ->
+      with_socket(address, port, opts, true, fn socket, destination ->
+        Core.send(socket, destination, packet)
+      end)
+    end)
   end
 
-  # Emit telemetry for send_recv operations (single response)
-  defp emit_send_recv_telemetry({:ok, response}, start_time, metadata) when is_binary(response) do
-    duration = System.monotonic_time() - start_time
-
-    :telemetry.execute(
-      [:abyss, :client, :send_recv, :stop],
-      %{duration: duration, response_size: byte_size(response)},
-      metadata
-    )
+  @doc "Send a broadcast/multicast datagram and collect one unicast reply."
+  @spec broadcast_send_recv(broadcast_addr(), port_number(), packet(), non_neg_integer(), opts()) ::
+          {:ok, binary()} | {:error, term()}
+  def broadcast_send_recv(address, port, packet, timeout, opts \\ []) do
+    operation({:send_recv, :broadcast_send_recv}, address, port, packet, timeout, fn ->
+      request_response(address, port, packet, timeout, opts, true)
+    end)
   end
 
-  defp emit_send_recv_telemetry({:error, reason}, start_time, metadata) do
-    duration = System.monotonic_time() - start_time
+  @doc """
+  Subscribe on the group/broadcast port for a finite collection window.
+  Multicast membership uses `membership_interface`, falling back to explicit
+  `interface` or `source` for IPv4, and an explicit index/name for IPv6.
+  Reception binds wildcard by default, independently of membership egress.
 
-    :telemetry.execute(
-      [:abyss, :client, :send_recv, :exception],
-      %{duration: duration},
-      Map.put(metadata, :reason, reason)
-    )
+  All collectors default to 256 packets and 1 MiB retained bytes. Exceeding
+  `max_responses` or `max_response_bytes` returns
+  `{:error, {:response_limit, :count | :bytes}, partial}`. A receive error
+  returns `{:error, reason, partial}`; deadline expiry returns `{:ok, packets}`.
+  Empty datagrams consume one response slot. `with_metadata: true` returns peer
+  tuples including actual ancillary fields, otherwise legacy binaries remain.
+  `on_ready: fn {ip, port} -> ... end` runs after bind/join and before collection.
+  """
+  @spec subscribe_broadcast(broadcast_addr(), port_number(), non_neg_integer(), opts()) ::
+          {:ok, list()} | {:error, term()} | {:error, term(), list()}
+  def subscribe_broadcast(address, port, timeout, opts \\ []) do
+    operation({:subscribe, :subscribe_broadcast}, address, port, nil, timeout, fn ->
+      subscribe(address, port, timeout, opts)
+    end)
   end
 
-  # Emit telemetry for subscribe operations (multiple packets)
-  defp emit_subscribe_telemetry({:ok, packets}, start_time, metadata) when is_list(packets) do
-    duration = System.monotonic_time() - start_time
-    total_size = Enum.sum_by(packets, &byte_size/1)
+  defp subscribe(address, port, timeout, opts) do
+    with :ok <- validate_collection(timeout, opts),
+         {:ok, socket_opts, _destination} <- build_socket_opts(address, port, opts, true),
+         {:ok, membership} <- subscription_membership(address, opts) do
+      subscription_opts =
+        socket_opts
+        |> Enum.reject(&match?({:ip, _}, &1))
+        |> Core.merge_options([{:ip, wildcard(Multicast.family(address))}, {:reuseaddr, true}])
 
-    :telemetry.execute(
-      [:abyss, :client, :subscribe, :stop],
-      %{duration: duration, packet_count: length(packets), total_size: total_size},
-      metadata
-    )
-  end
+      subscription_opts =
+        if membership,
+          do: subscription_opts ++ [{:add_membership, membership}],
+          else: subscription_opts
 
-  defp emit_subscribe_telemetry({:error, reason}, start_time, metadata) do
-    duration = System.monotonic_time() - start_time
-
-    :telemetry.execute(
-      [:abyss, :client, :subscribe, :exception],
-      %{duration: duration},
-      Map.put(metadata, :reason, reason)
-    )
-  end
-
-  # Collect multicast responses with source address info until timeout
-  defp collect_sources(socket, timeout, acc) do
-    deadline = System.monotonic_time(:millisecond) + timeout
-    do_collect_sources(socket, deadline, acc)
-  end
-
-  defp do_collect_sources(socket, deadline, acc) do
-    remaining = deadline - System.monotonic_time(:millisecond)
-
-    if remaining <= 0 do
-      Enum.reverse(acc)
-    else
-      case :gen_udp.recv(socket, 0, remaining) do
-        {:ok, {addr, port, data}} ->
-          do_collect_sources(socket, deadline, [{addr, port, data} | acc])
-
-        {:error, :timeout} ->
-          Enum.reverse(acc)
-
-        {:error, _reason} ->
-          Enum.reverse(acc)
-      end
+      with_open_socket(port, subscription_opts, &ready_collection(&1, timeout, opts, :binary))
     end
   end
 
-  # Emit telemetry for multicast_query operations
-  defp emit_multicast_telemetry({:ok, sources}, start_time, metadata) when is_list(sources) do
-    duration = System.monotonic_time() - start_time
-    total_size = Enum.sum_by(sources, fn {_, _, data} -> byte_size(data) end)
-
-    :telemetry.execute(
-      [:abyss, :client, :send_recv, :stop],
-      %{duration: duration, response_count: length(sources), total_size: total_size},
-      metadata
-    )
+  @doc """
+  Send a multicast query and collect replies with peer metadata.
+  `reply_mode: :unicast` (default) uses an ephemeral socket; responders reply
+  to its source port. `reply_mode: :multicast` binds `bind_port` (default group
+  port) and joins the group before sending. Joining and egress selection remain
+  separate: use `membership_interface` and `interface` respectively. Collection
+  bounds and partial/error outcomes match `subscribe_broadcast/4`.
+  """
+  @spec multicast_query(broadcast_addr(), port_number(), packet(), non_neg_integer(), opts()) ::
+          {:ok, list()} | {:error, term()} | {:error, term(), list()}
+  def multicast_query(address, port, packet, timeout, opts \\ []) do
+    operation({:send_recv, :multicast_query}, address, port, packet, timeout, fn ->
+      query(address, port, packet, timeout, opts)
+    end)
   end
 
-  defp emit_multicast_telemetry({:error, reason}, start_time, metadata) do
-    duration = System.monotonic_time() - start_time
-
-    :telemetry.execute(
-      [:abyss, :client, :send_recv, :exception],
-      %{duration: duration},
-      Map.put(metadata, :reason, reason)
-    )
+  defp query(address, port, packet, timeout, opts) do
+    with :ok <- validate_collection(timeout, opts),
+         true <- Multicast.multicast_address?(address),
+         {:ok, socket_opts, destination} <- build_socket_opts(address, port, opts, false),
+         {:ok, bind_port, query_opts} <- query_socket(address, port, socket_opts, opts) do
+      with_open_socket(
+        bind_port,
+        query_opts,
+        &query_exchange(&1, destination, packet, timeout, opts)
+      )
+    else
+      false -> {:error, {:invalid_multicast_group, address}}
+      error -> error
+    end
   end
+
+  defp request_response(host, port, packet, timeout, opts, broadcast) do
+    with :ok <- validate_timeout(timeout) do
+      with_socket(host, port, opts, broadcast, &single_exchange(&1, &2, packet, timeout))
+    end
+  end
+
+  defp single_exchange(socket, destination, packet, timeout) do
+    with :ok <- Core.send(socket, destination, packet),
+         {:ok, response} <- receive_packet(socket, timeout),
+         do: {:ok, packet_data(response)}
+  end
+
+  defp ready_collection(socket, timeout, opts, shape) do
+    with :ok <- ready(socket, opts), do: collect(socket, timeout, opts, shape)
+  end
+
+  defp query_exchange(socket, destination, packet, timeout, opts) do
+    with :ok <- ready(socket, opts),
+         :ok <- Core.send(socket, destination, packet),
+         do: collect(socket, timeout, opts, :peer)
+  end
+
+  defp query_socket(address, port, socket_opts, opts) do
+    case Keyword.get(opts, :reply_mode, :unicast) do
+      :unicast ->
+        {:ok, Keyword.get(opts, :bind_port, 0), socket_opts}
+
+      :multicast ->
+        with {:ok, membership} <- subscription_membership(address, opts) do
+          query_opts =
+            Enum.reject(socket_opts, &match?({:ip, _}, &1)) ++
+              [
+                {:ip, wildcard(Multicast.family(address))},
+                {:reuseaddr, true},
+                {:add_membership, membership}
+              ]
+
+          {:ok, Keyword.get(opts, :bind_port, port), query_opts}
+        end
+
+      mode ->
+        {:error, {:invalid_option, :reply_mode, mode}}
+    end
+  end
+
+  defp subscription_membership(address, opts) do
+    if Multicast.multicast_address?(address) do
+      selector =
+        Keyword.get(
+          opts,
+          :membership_interface,
+          Keyword.get(opts, :interface, Keyword.get(opts, :source, :any))
+        )
+
+      Multicast.normalize_membership({address, selector})
+    else
+      {:ok, nil}
+    end
+  end
+
+  defp with_socket(host, port, opts, broadcast, callback) do
+    with {:ok, options, destination} <- build_socket_opts(host, port, opts, broadcast) do
+      with_open_socket(Keyword.get(opts, :bind_port, 0), options, &callback.(&1, destination))
+    end
+  end
+
+  defp with_open_socket(port, options, callback) do
+    case Core.open_socket(port, options) do
+      {:ok, socket} ->
+        try do
+          callback.(socket)
+        after
+          Core.close(socket)
+        end
+
+      error ->
+        error
+    end
+  end
+
+  defp build_socket_opts(host, port, opts, broadcast) do
+    family = Keyword.get(opts, :family, host_family(host, opts))
+
+    with :ok <- validate_destination_port(port),
+         :ok <- validate_family(family),
+         {:ok, address} <- resolve_host(host, family),
+         :ok <- validate_source(Keyword.get(opts, :source), family),
+         {:ok, interface} <- resolve_selected_interface(opts, family),
+         :ok <- validate_source_interface(opts, interface, family),
+         {:ok, network_options, destination} <-
+           network_options(address, port, family, interface, opts, broadcast) do
+      options =
+        [family, :binary, {:active, false}, {:buffer, 65_536}, {:recbuf, 262_144}] ++
+          network_options
+
+      options = if opts[:source], do: options ++ [{:ip, opts[:source]}], else: options
+
+      options =
+        if opts[:inet_backend],
+          do: [{:inet_backend, opts[:inet_backend]} | options],
+          else: options
+
+      with :ok <- validate_destination_backend(destination, opts),
+           {:ok, normalized} <- Core.normalize_options([], options),
+           do: {:ok, normalized, destination}
+    end
+  end
+
+  defp validate_destination_backend(%{family: :inet6, scope_id: _}, opts) do
+    if opts[:inet_backend] == :socket,
+      do: {:error, {:unsupported_capability, :scoped_sockaddr_send, :socket}},
+      else: :ok
+  end
+
+  defp validate_destination_backend(_, _), do: :ok
+
+  defp host_family(host, opts) do
+    case Multicast.family(host) do
+      :invalid -> if Multicast.family(opts[:source]) == :inet6, do: :inet6, else: :inet
+      family -> family
+    end
+  end
+
+  defp validate_family(family) when family in [:inet, :inet6], do: :ok
+  defp validate_family(value), do: {:error, {:invalid_option, :family, value}}
+  defp validate_destination_port(port) when is_integer(port) and port in 0..65_535, do: :ok
+  defp validate_destination_port(port), do: {:error, {:invalid_port, port}}
+
+  defp resolve_host(host, family) when is_tuple(host) do
+    if Multicast.family(host) == family,
+      do: {:ok, host},
+      else: {:error, {:address_family_mismatch, host, family}}
+  end
+
+  defp resolve_host(host, family) when is_binary(host),
+    do: :inet.getaddr(String.to_charlist(host), family)
+
+  defp resolve_host(host, family) when is_list(host), do: :inet.getaddr(host, family)
+  defp resolve_host(host, _), do: {:error, {:invalid_address, host}}
+  defp validate_source(nil, _), do: :ok
+
+  defp validate_source(source, family) do
+    if Multicast.family(source) == family,
+      do: :ok,
+      else: {:error, {:invalid_option, :source, :family_mismatch}}
+  end
+
+  defp resolve_selected_interface(opts, family) do
+    case Keyword.fetch(opts, :interface) do
+      {:ok, selector} -> Multicast.resolve_interface(selector, family)
+      :error -> {:ok, if(family == :inet, do: opts[:source], else: nil)}
+    end
+  end
+
+  defp validate_source_interface(opts, interface, :inet) do
+    if opts[:source] && interface && opts[:source] != interface,
+      do: {:error, {:invalid_option, :source, :interface_mismatch}},
+      else: :ok
+  end
+
+  defp validate_source_interface(_opts, _interface, :inet6), do: :ok
+
+  defp network_options(address, port, family, interface, opts, broadcast) do
+    if Multicast.multicast_address?(address),
+      do: multicast_options(address, port, family, interface, opts),
+      else: non_multicast_options(address, port, family, opts, broadcast)
+  end
+
+  defp non_multicast_options(_address, _port, :inet6, _opts, true),
+    do: {:error, {:invalid_option, :broadcast, :ipv6}}
+
+  defp non_multicast_options(address, port, family, opts, broadcast) do
+    with {:ok, device_options} <- device_binding(opts, family) do
+      options = if broadcast, do: [{:broadcast, true} | device_options], else: device_options
+      {:ok, options, {address, port}}
+    end
+  end
+
+  defp multicast_options(address, port, family, interface, opts) do
+    ttl = Keyword.get(opts, :hop_limit, Keyword.get(opts, :ttl, 1))
+    loopback = Keyword.get(opts, :loopback, true)
+    scope = Keyword.get(opts, :scope_id, interface)
+
+    with :ok <- validate_ttl(ttl),
+         :ok <- validate_loopback(loopback),
+         :ok <- validate_scope(family, scope, interface) do
+      egress = if family == :inet6, do: scope, else: interface
+      options = [multicast_ttl: ttl, multicast_loop: loopback]
+      options = if egress, do: options ++ [{:multicast_if, egress}], else: options
+      destination = multicast_destination(address, port, family, scope)
+      {:ok, options, destination}
+    end
+  end
+
+  defp multicast_destination(address, port, :inet6, scope),
+    do: %{family: :inet6, addr: address, port: port, scope_id: scope}
+
+  defp multicast_destination(address, port, :inet, _scope), do: {address, port}
+  defp validate_ttl(ttl) when is_integer(ttl) and ttl in 0..255, do: :ok
+  defp validate_ttl(ttl), do: {:error, {:invalid_option, :ttl, ttl}}
+  defp validate_loopback(value) when is_boolean(value), do: :ok
+  defp validate_loopback(value), do: {:error, {:invalid_option, :loopback, value}}
+  defp validate_scope(:inet, _, _), do: :ok
+
+  defp validate_scope(:inet6, scope, _interface) when not is_integer(scope) or scope <= 0,
+    do: {:error, {:invalid_option, :scope_id, :required}}
+
+  defp validate_scope(:inet6, scope, interface) when not is_nil(interface) and scope != interface,
+    do: {:error, {:invalid_option, :scope_id, :interface_mismatch}}
+
+  defp validate_scope(:inet6, scope, _) do
+    case Multicast.resolve_interface(scope, :inet6) do
+      {:ok, _} -> :ok
+      error -> error
+    end
+  end
+
+  defp device_binding(opts, _family) do
+    case opts[:interface] do
+      nil ->
+        {:ok, []}
+
+      name when is_binary(name) or is_list(name) ->
+        if match?({:unix, :linux}, :os.type()),
+          do: {:ok, [{:bind_to_device, IO.chardata_to_string(name)}]},
+          else: {:error, :explicit_device_binding_not_supported}
+
+      selector ->
+        {:error, {:invalid_option, :interface, selector}}
+    end
+  end
+
+  defp wildcard(:inet6), do: {0, 0, 0, 0, 0, 0, 0, 0}
+  defp wildcard(_), do: {0, 0, 0, 0}
+
+  defp ready(socket, opts) do
+    case Keyword.get(opts, :on_ready) do
+      nil ->
+        :ok
+
+      callback when is_function(callback, 1) ->
+        with {:ok, endpoint} <- Core.sockname(socket) do
+          callback.(endpoint)
+          :ok
+        end
+
+      value ->
+        {:error, {:invalid_option, :on_ready, value}}
+    end
+  end
+
+  defp validate_timeout(timeout) when is_integer(timeout) and timeout >= 0, do: :ok
+  defp validate_timeout(timeout), do: {:error, {:invalid_option, :timeout, timeout}}
+
+  defp validate_collection(timeout, opts) do
+    with :ok <- validate_timeout(timeout),
+         :ok <- validate_limit(:max_responses, Keyword.get(opts, :max_responses, 256)),
+         do:
+           validate_limit(:max_response_bytes, Keyword.get(opts, :max_response_bytes, 1_048_576))
+  end
+
+  defp validate_limit(_key, value) when is_integer(value) and value > 0, do: :ok
+  defp validate_limit(key, value), do: {:error, {:invalid_option, key, value}}
+
+  defp collect(socket, timeout, opts, shape) do
+    deadline = System.monotonic_time(:millisecond) + timeout
+    shape = if Keyword.get(opts, :with_metadata, false), do: :peer, else: shape
+
+    limits =
+      {Keyword.get(opts, :max_responses, 256), Keyword.get(opts, :max_response_bytes, 1_048_576)}
+
+    do_collect(socket, deadline, limits, shape, [], 0, 0)
+  end
+
+  defp do_collect(socket, deadline, limits, shape, acc, count, bytes) do
+    remaining = deadline - System.monotonic_time(:millisecond)
+
+    if remaining <= 0,
+      do: {:ok, Enum.reverse(acc)},
+      else: receive_collection(socket, remaining, {deadline, limits, shape, acc, count, bytes})
+  end
+
+  defp receive_collection(
+         socket,
+         remaining,
+         {_deadline, _limits, _shape, acc, _count, _bytes} = context
+       ) do
+    case receive_packet(socket, remaining) do
+      {:ok, response} -> retain_response(socket, response, context)
+      {:error, :timeout} -> {:ok, Enum.reverse(acc)}
+      {:error, reason} -> {:error, reason, Enum.reverse(acc)}
+    end
+  end
+
+  defp retain_response(
+         socket,
+         response,
+         {deadline, {max_count, max_bytes} = limits, shape, acc, count, bytes}
+       ) do
+    size = byte_size(packet_data(response))
+
+    cond do
+      count >= max_count ->
+        {:error, {:response_limit, :count}, Enum.reverse(acc)}
+
+      bytes + size > max_bytes ->
+        {:error, {:response_limit, :bytes}, Enum.reverse(acc)}
+
+      true ->
+        value = if shape == :peer, do: response, else: packet_data(response)
+        do_collect(socket, deadline, limits, shape, [value | acc], count + 1, bytes + size)
+    end
+  end
+
+  defp receive_packet(socket, timeout) do
+    case Core.recv(socket, 0, timeout) do
+      {:ok, {_, _, data} = response} when is_binary(data) ->
+        {:ok, response}
+
+      {:ok, {_, _, ancillary, data} = response} when is_list(ancillary) and is_binary(data) ->
+        {:ok, response}
+
+      {:error, _} = error ->
+        error
+
+      other ->
+        {:error, {:unexpected_datagram, other}}
+    end
+  end
+
+  defp packet_data({_, _, data}), do: data
+  defp packet_data({_, _, _, data}), do: data
+
+  @doc "Resolve an explicitly selected interface to a local IPv4 address."
+  @spec resolve_interface_ip(String.t()) :: {:ok, :inet.ip4_address()} | {:error, term()}
+  def resolve_interface_ip(interface), do: Multicast.resolve_interface(interface, :inet)
+
+  defp operation(event, host, port, packet, timeout, callback) do
+    {kind, type} =
+      case event do
+        {kind, type} -> {kind, type}
+        :send -> {:send, :unicast}
+        :send_recv -> {:send_recv, :request_response}
+      end
+
+    metadata = %{host: host, port: port, type: type}
+    metadata = if packet, do: Map.put(metadata, :size, byte_size(packet)), else: metadata
+    metadata = if timeout, do: Map.put(metadata, :timeout, timeout), else: metadata
+    start = System.monotonic_time()
+    :telemetry.execute([:abyss, :client, kind, :start], %{}, metadata)
+    result = callback.()
+    measurements = %{duration: System.monotonic_time() - start}
+
+    case result do
+      {:error, reason} ->
+        :telemetry.execute(
+          [:abyss, :client, kind, :exception],
+          measurements,
+          Map.put(metadata, :reason, reason)
+        )
+
+      {:error, reason, _partial} ->
+        :telemetry.execute(
+          [:abyss, :client, kind, :exception],
+          measurements,
+          Map.put(metadata, :reason, reason)
+        )
+
+      _ ->
+        :telemetry.execute(
+          [:abyss, :client, kind, :stop],
+          response_measurements(measurements, result),
+          metadata
+        )
+    end
+
+    result
+  end
+
+  defp response_measurements(measurements, {:ok, data}) when is_binary(data),
+    do: Map.put(measurements, :response_size, byte_size(data))
+
+  defp response_measurements(measurements, {:ok, responses}) when is_list(responses) do
+    size =
+      Enum.reduce(responses, 0, fn
+        response, acc when is_binary(response) -> acc + byte_size(response)
+        response, acc -> acc + byte_size(packet_data(response))
+      end)
+
+    Map.merge(measurements, %{
+      packet_count: length(responses),
+      response_count: length(responses),
+      total_size: size
+    })
+  end
+
+  defp response_measurements(measurements, _), do: measurements
 end

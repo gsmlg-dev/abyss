@@ -18,8 +18,7 @@ defmodule Abyss.Transport.UDPTest do
     end
 
     test "returns error for invalid port" do
-      # Skip this test as port 0 is always valid
-      :ok
+      assert {:error, {:invalid_port, -1}} = UDP.listen(-1, [])
     end
 
     test "binds to specified port" do
@@ -33,104 +32,45 @@ defmodule Abyss.Transport.UDPTest do
   end
 
   describe "send/3 and recv/3" do
-    test "send and receive data" do
-      {:ok, server_socket} = UDP.listen(0, [])
-      {:ok, {server_ip, server_port}} = UDP.sockname(server_socket)
-      {:ok, client_socket} = UDP.listen(0, [])
+    test "preserves independent packets including empty and large payloads" do
+      {:ok, server} = UDP.listen(0, ip: {127, 0, 0, 1}, buffer: 65_536)
+      {:ok, {ip, port}} = UDP.sockname(server)
+      {:ok, client} = UDP.listen(0, [])
 
-      test_data = "hello udp"
-
-      # Send from client to server - handle connection errors gracefully
-      case UDP.send(client_socket, server_ip, server_port, test_data) do
-        :ok ->
-          # Receive on server - handle various UDP errors gracefully
-          case UDP.recv(server_socket, 1024, 1000) do
-            {:ok, {_client_ip, client_port, received_data}} ->
-              assert received_data == test_data
-              assert is_integer(client_port)
-
-            {:error, :einval} ->
-              # Skip test if UDP recv fails in environment
-              assert true
-
-            {:error, :ehostunreach} ->
-              # Skip test if UDP recv fails with host unreachable in environment
-              assert true
-
-            {:error, :econnrefused} ->
-              # Skip test if UDP recv fails with connection refused in environment
-              assert true
-
-            error ->
-              flunk("Unexpected recv result: #{inspect(error)}")
-          end
-
-        {:error, :ehostunreach} ->
-          # Skip test if UDP send fails with host unreachable in environment
-          assert true
-
-        {:error, :econnrefused} ->
-          # Skip test if UDP send fails with connection refused in environment
-          assert true
-
-        error ->
-          flunk("Unexpected send result: #{inspect(error)}")
+      try do
+        for packet <- ["hello", "", "distinct", :binary.copy("x", 65_507)] do
+          assert :ok = UDP.send(client, ip, port, packet)
+          assert {:ok, {{127, 0, 0, 1}, _, ^packet}} = UDP.recv(server, 0, 1000)
+        end
+      after
+        UDP.close(server)
+        UDP.close(client)
       end
-
-      UDP.close(server_socket)
-      UDP.close(client_socket)
     end
 
-    test "send and receive data with ancillary data" do
-      {:ok, server_socket} = UDP.listen(0, [])
-      {:ok, {server_ip, server_port}} = UDP.sockname(server_socket)
-      {:ok, client_socket} = UDP.listen(0, [])
+    test "preserves available ancillary fields" do
+      {:ok, server} = UDP.listen(0, ip: {127, 0, 0, 1}, recvtos: true)
+      {:ok, {ip, port}} = UDP.sockname(server)
+      {:ok, client} = UDP.listen(0, [])
 
-      test_data = "hello udp with anc"
-
-      # Send from client to server - skip this test if it fails consistently
-      case UDP.send(client_socket, server_ip, server_port, test_data) do
-        :ok ->
-          case UDP.recv(server_socket, 1024, 1000) do
-            {:ok, {_ip, _port, data}} when is_binary(data) ->
-              assert data == test_data
-
-            {:ok, {_ip, _port, _anc_data, data}} ->
-              assert data == test_data
-
-            {:error, :einval} ->
-              # Skip test if recv fails with einval (common in CI environments)
-              assert true
-
-            error ->
-              flunk("Unexpected recv result: #{inspect(error)}")
-          end
-
-        {:error, _} ->
-          # Skip if send fails
-          assert true
+      try do
+        assert :ok = UDP.send(client, ip, port, "ancillary")
+        assert {:ok, {_, _, ancillary, "ancillary"}} = UDP.recv(server, 0, 1000)
+        assert {:tos, 0} in ancillary
+      after
+        UDP.close(server)
+        UDP.close(client)
       end
-
-      UDP.close(server_socket)
-      UDP.close(client_socket)
     end
 
-    test "timeout on receive" do
-      {:ok, server_socket} = UDP.listen(0, [])
+    test "idle receive times out" do
+      {:ok, server} = UDP.listen(0, [])
 
-      case UDP.recv(server_socket, 1024, 100) do
-        {:error, :timeout} ->
-          assert true
-
-        {:error, :einval} ->
-          # Skip test if UDP recv fails in environment
-          assert true
-
-        error ->
-          flunk("Unexpected recv result: #{inspect(error)}")
+      try do
+        assert {:error, :timeout} = UDP.recv(server, 0, 10)
+      after
+        UDP.close(server)
       end
-
-      UDP.close(server_socket)
     end
   end
 
@@ -149,51 +89,14 @@ defmodule Abyss.Transport.UDPTest do
   end
 
   describe "peername/1" do
-    test "returns peer socket info" do
-      {:ok, server_socket} = UDP.listen(0, [])
-      {:ok, {server_ip, server_port}} = UDP.sockname(server_socket)
-      {:ok, client_socket} = UDP.listen(0, [])
+    test "an unconnected UDP socket has no remote endpoint" do
+      {:ok, socket} = UDP.listen(0, [])
 
-      test_data = "test peername"
-
-      # Send data to establish connection - skip peername test if recv fails
-      case UDP.send(client_socket, server_ip, server_port, test_data) do
-        :ok ->
-          case UDP.recv(server_socket, 1024, 1000) do
-            {:ok, {_client_ip, _client_port, _data}} ->
-              case UDP.peername(client_socket) do
-                {:ok, {peer_ip, peer_port}} ->
-                  assert is_tuple(peer_ip)
-                  assert is_integer(peer_port)
-
-                {:error, :enotconn} ->
-                  # UDP sockets are connectionless; peername on an
-                  # unconnected socket legitimately returns :enotconn
-                  assert true
-
-                {:error, :einval} ->
-                  # Skip peername if not supported
-                  assert true
-
-                error ->
-                  flunk("Unexpected peername result: #{inspect(error)}")
-              end
-
-            {:error, :einval} ->
-              # Skip if recv fails
-              assert true
-
-            error ->
-              flunk("Unexpected recv result: #{inspect(error)}")
-          end
-
-        {:error, _} ->
-          # Skip if send fails
-          assert true
+      try do
+        assert {:error, :enotconn} = UDP.peername(socket)
+      after
+        UDP.close(socket)
       end
-
-      UDP.close(server_socket)
-      UDP.close(client_socket)
     end
   end
 

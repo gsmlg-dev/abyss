@@ -1,0 +1,29 @@
+$ mix test test/abyss/handler_hardening_test.exs --cover --export-coverage idle-early-red
+
+Cover compiling modules ...
+Running ExUnit with seed: 782855, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+..
+
+  1) test an early current-token event rearms the unchanged absolute deadline (Abyss.HandlerHardeningTest)
+     test/abyss/handler_hardening_test.exs:53
+     Expected truthy, got false
+     code: assert is_reference(current.idle_timer)
+     arguments:
+
+         # 1
+         nil
+
+     stacktrace:
+       test/abyss/handler_hardening_test.exs:65: (test)
+
+....
+Finished in 0.2 seconds (0.00s async, 0.2s sync)
+7 tests, 1 failure
+
+Exporting cover results ...
+
+Run "mix test.coverage" once all exports complete
+
+Process exit: 2

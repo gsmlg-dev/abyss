@@ -29,9 +29,9 @@ defmodule Abyss.ShutdownListenerTest do
       assert Kernel.function_exported?(ShutdownListener, :init, 1)
     end
 
-    test "exports handle_continue/2" do
+    test "setup no longer requires a parent-supervisor continuation" do
       Code.ensure_loaded!(ShutdownListener)
-      assert Kernel.function_exported?(ShutdownListener, :handle_continue, 2)
+      refute Kernel.function_exported?(ShutdownListener, :handle_continue, 2)
     end
 
     test "exports terminate/2" do
@@ -47,26 +47,24 @@ defmodule Abyss.ShutdownListenerTest do
   end
 
   describe "init/1" do
-    test "returns ok tuple with state and continue" do
+    test "returns ready state without parent-supervisor setup" do
       server_pid = self()
 
       result = ShutdownListener.init(server_pid)
 
-      assert {:ok, state, {:continue, :setup_listener_pool_pid}} = result
+      assert {:ok, %{timeout: 15_000} = state} = result
       assert is_map(state)
     end
 
     test "stores server_pid in state" do
       server_pid = self()
-      {:ok, state, _} = ShutdownListener.init(server_pid)
+      {:ok, state} = ShutdownListener.init(server_pid)
 
       assert state.server_pid == server_pid
     end
 
-    test "schedules continue callback for listener pool setup" do
-      {:ok, _state, continue} = ShutdownListener.init(self())
-
-      assert continue == {:continue, :setup_listener_pool_pid}
+    test "initialization has a ready deadline without querying its parent" do
+      assert {:ok, %{timeout: 15_000}} = ShutdownListener.init(self())
     end
 
     test "accepts any PID" do
@@ -74,7 +72,7 @@ defmodule Abyss.ShutdownListenerTest do
       pid = spawn(fn -> :ok end)
       Process.sleep(10)
 
-      {:ok, state, _} = ShutdownListener.init(pid)
+      {:ok, state} = ShutdownListener.init(pid)
 
       assert state.server_pid == pid
     end
@@ -129,21 +127,21 @@ defmodule Abyss.ShutdownListenerTest do
 
   describe "state structure" do
     test "initial state is a map" do
-      {:ok, state, _} = ShutdownListener.init(self())
+      {:ok, state} = ShutdownListener.init(self())
 
       assert is_map(state)
     end
 
     test "initial state contains server_pid" do
-      {:ok, state, _} = ShutdownListener.init(self())
+      {:ok, state} = ShutdownListener.init(self())
 
       assert Map.has_key?(state, :server_pid)
     end
 
-    test "initial state only contains server_pid" do
-      {:ok, state, _} = ShutdownListener.init(self())
+    test "initial state contains server_pid and timeout" do
+      {:ok, state} = ShutdownListener.init(self())
 
-      assert Map.keys(state) == [:server_pid]
+      assert Enum.sort(Map.keys(state)) == [:server_pid, :timeout]
     end
   end
 
@@ -157,20 +155,15 @@ defmodule Abyss.ShutdownListenerTest do
     end
 
     test "init returns proper tuple structure" do
-      {:ok, state, continue} = ShutdownListener.init(self())
-
-      assert is_map(state)
-      assert is_tuple(continue)
-      assert elem(continue, 0) == :continue
+      assert {:ok, %{server_pid: server, timeout: 15_000}} = ShutdownListener.init(self())
+      assert server == self()
     end
   end
 
   describe "continue callback contract" do
-    test "handle_continue expects :setup_listener_pool_pid atom" do
+    test "explicit timeout is preserved" do
       # Verify the expected continue message is :setup_listener_pool_pid
-      {:ok, _state, {:continue, continue_action}} = ShutdownListener.init(self())
-
-      assert continue_action == :setup_listener_pool_pid
+      assert {:ok, %{timeout: 42}} = ShutdownListener.init({self(), 42})
     end
   end
 
@@ -179,7 +172,7 @@ defmodule Abyss.ShutdownListenerTest do
       # The init function calls Process.flag(:trap_exit, true)
       # We can verify this by checking the source documentation
       # and the fact that init returns a continue callback
-      {:ok, state, {:continue, _}} = ShutdownListener.init(self())
+      {:ok, state} = ShutdownListener.init(self())
 
       # State should be valid for terminate to work with
       assert is_map(state)

@@ -1,0 +1,17 @@
+Running ExUnit with seed: 20261008, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+.......
+
+  1) test scoped socket-backend sockaddr sends return a capability error and clients close resources (Abyss.Transport.UDP.MulticastRegressionTest)
+     test/abyss/transport/udp/multicast_regression_test.exs:231
+     ** (exit) :badarg
+     code: Multicast.send(socket, destination, "scoped")
+     stacktrace:
+       (kernel 10.6.3.3) gen_udp_socket.erl:449: :gen_udp_socket.send/3
+       (abyss 0.0.0) lib/abyss/transport/udp/core.ex:47: Abyss.Transport.UDP.Core.send/3
+       test/abyss/transport/udp/multicast_regression_test.exs:239: (test)
+
+....
+Finished in 0.2 seconds (0.00s async, 0.2s sync)
+12 tests, 1 failure

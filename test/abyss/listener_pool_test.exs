@@ -17,13 +17,13 @@ defmodule Abyss.ListenerPoolTest do
       :ok = Supervisor.stop(pid)
     end
 
-    test "creates correct number of listeners for non-broadcast", %{config: config} do
+    test "one ephemeral endpoint does not create unrelated ephemeral ports", %{config: config} do
       config = %{config | num_listeners: 3}
       server_pid = self()
       assert {:ok, pid} = ListenerPool.start_link({server_pid, config})
 
       listener_pids = ListenerPool.listener_pids(pid)
-      assert length(listener_pids) == 3
+      assert length(listener_pids) == 1
       assert Enum.all?(listener_pids, &Process.alive?/1)
 
       :ok = Supervisor.stop(pid)
@@ -74,28 +74,29 @@ defmodule Abyss.ListenerPoolTest do
       :ok = Supervisor.stop(pid)
     end
 
-    test "suspend actually stops listeners and resume restarts them", %{config: config} do
+    test "suspend retains listeners and resume keeps their identities", %{config: config} do
       config = %{config | num_listeners: 2}
       server_pid = self()
       assert {:ok, pid} = ListenerPool.start_link({server_pid, config})
       ListenerPool.start_listening(pid)
 
       listeners = ListenerPool.listener_pids(pid)
-      assert length(listeners) == 2
+      assert length(listeners) == 1
 
       assert :ok = ListenerPool.suspend(pid)
-      refute Enum.any?(listeners, &Process.alive?/1)
-      assert ListenerPool.listener_pids(pid) == []
+      assert Enum.all?(listeners, &Process.alive?/1)
+      assert Enum.all?(listeners, &(Abyss.Listener.status(&1).mode == :suspended))
+      assert ListenerPool.listener_pids(pid) == listeners
 
       assert :ok = ListenerPool.resume(pid)
       new_listeners = ListenerPool.listener_pids(pid)
-      assert length(new_listeners) == 2
+      assert new_listeners == listeners
       assert Enum.all?(new_listeners, &Process.alive?/1)
 
       :ok = Supervisor.stop(pid)
     end
 
-    test "suspend stops a broadcast listener", %{config: config} do
+    test "suspend retains a broadcast listener", %{config: config} do
       config = %{config | broadcast: true}
       server_pid = self()
       assert {:ok, pid} = ListenerPool.start_link({server_pid, config})
@@ -103,11 +104,11 @@ defmodule Abyss.ListenerPoolTest do
       [listener] = ListenerPool.listener_pids(pid)
 
       assert :ok = ListenerPool.suspend(pid)
-      refute Process.alive?(listener)
+      assert Process.alive?(listener)
 
       assert :ok = ListenerPool.resume(pid)
       assert [new_listener] = ListenerPool.listener_pids(pid)
-      assert Process.alive?(new_listener)
+      assert new_listener == listener
 
       :ok = Supervisor.stop(pid)
     end

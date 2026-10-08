@@ -1,0 +1,33 @@
+PASS broadcast_limited_bidirectional_two_receivers
+PASS broadcast_directed_bidirectional_two_receivers
+PASS ipv4_two_groups_bidirectional_two_subscribers
+PASS ipv4_leave_rejoin_idempotent_epoch_barriers
+PASS ipv4_two_interfaces_membership_egress_isolation
+PASS ipv4_ttl_or_hoplimit_wire_ancillary
+PASS ipv4_loopback_local_vs_remote_delivery
+FAIL AssertionError("recv tx6: AssertionError('required packet was not delivered before deadline')")
+Abyss output: WIRE READY
+WIRE OK 1
+WIRE RX4 ZW1pdDpicm9hZGNhc3Q6bGltaXRlZDpmNDViZmU0OTFiNmI0NzM4YjFiMzFhOWI4ZmQ1MmQ2ZQ==
+WIRE OK 2
+WIRE RX4 ZW1pdDpicm9hZGNhc3Q6ZGlyZWN0ZWQ6ZjQ1YmZlNDkxYjZiNDczOGIxYjMxYTliOGZkNTJkNmU=
+WIRE OK 3
+WIRE RX4 ZW1pdDptdWx0aWNhc3Q0Omdyb3VwMDpmNDViZmU0OTFiNmI0NzM4YjFiMzFhOWI4ZmQ1MmQ2ZQ==
+WIRE OK 4
+WIRE RX4 ZW1pdDptdWx0aWNhc3Q0Omdyb3VwMTpmNDViZmU0OTFiNmI0NzM4YjFiMzFhOWI4ZmQ1MmQ2ZQ==
+WIRE OK 5
+WIRE OK 6
+WIRE OK 7
+WIRE OK 8
+WIRE OK 9
+WIRE OK 10
+WIRE RX4 ZW1pdDplZ3Jlc3NfaW50ZXJmYWNlNDpmNDViZmU0OTFiNmI0NzM4YjFiMzFhOWI4ZmQ1MmQ2ZQ==
+WIRE OK 11
+WIRE OK 12
+WIRE OK 13
+WIRE OK 14
+WIRE RX4 ZW1pdDpob3A0OmY0NWJmZTQ5MWI2YjQ3MzhiMWIzMWE5YjhmZDUyZDZl
+WIRE OK 15
+WIRE OK 16
+WIRE OK 17
+WIRE OK 18

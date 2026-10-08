@@ -1,0 +1,155 @@
+Compiling 2 files (.ex)
+Generated abyss app
+Running ExUnit with seed: 782964, max_cases: 16
+Excluding tags: [slow: true]
+Including tags: [:integration]
+
+.............................................................
+01:24:38.382 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+..........
+01:24:38.504 [warning] Option :num_acceptors is deprecated. Use :num_listeners instead.
+.......................
+01:24:38.513 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.....
+01:24:38.532 [warning] Option :num_acceptors is deprecated. Use :num_listeners instead.
+..............................................................................................................................................................................................................................................................................
+01:24:44.999 [error] Telemetry event
+.
+01:24:44.999 [error] Telemetry event
+
+01:24:45.000 [info] Telemetry event
+
+01:24:45.000 [debug] Telemetry event
+
+01:24:45.000 [debug] Telemetry event
+...
+01:24:45.002 [error] Telemetry event
+..
+01:24:45.003 [debug] Telemetry event
+.
+01:24:45.004 [error] Telemetry event
+
+01:24:45.004 [info] Telemetry event
+
+01:24:45.004 [debug] Telemetry event
+.
+01:24:45.004 [debug] Telemetry event
+.
+01:24:45.005 [info] Telemetry event
+..
+01:24:45.006 [debug] Telemetry event
+.
+01:24:45.006 [error] Telemetry event
+
+01:24:45.006 [info] Telemetry event
+...
+01:24:45.008 [info] Telemetry event
+..
+01:24:45.009 [debug] Telemetry event
+....................
+01:24:45.023 [info] The function passed as a handler with ID :test_response_time_handler is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+........................................
+01:25:01.155 [info] The function passed as a handler with ID :integration_test_handler is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.
+01:25:01.156 [info] The function passed as a handler with ID "start-deadline-#PID<0.2351.0>" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+....
+01:25:01.350 [error] Telemetry event
+..
+01:25:01.403 [error] GenServer #PID<0.2436.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.2434.0>, :killed}
+State: %{owner: #PID<0.2434.0>, socket: #Port<0.358>, queue: {[], []}, max_bytes: 1048576, transport: Abyss.Transport.UDP, max_queue: 128, admission: #PID<0.2435.0>, generation: #Reference<0.1978488307.2565079048.95182>, owner_monitor: #Reference<0.1978488307.2565079048.95191>, queue_bytes: 0, sending: false, owns_admission: false}
+
+01:25:01.404 [error] GenServer #PID<0.2446.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.2444.0>, :killed}
+State: %{owner: #PID<0.2444.0>, socket: #Port<0.360>, queue: {[], []}, max_bytes: 1048576, transport: Abyss.Transport.UDP, max_queue: 128, admission: #PID<0.2445.0>, generation: #Reference<0.1978488307.2565079042.97277>, owner_monitor: #Reference<0.1978488307.2565079042.97286>, queue_bytes: 0, sending: false, owns_admission: false}
+.........................
+01:25:01.892 [error] GenServer #PID<0.2606.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.2603.0>, :killed}
+State: %{broadcast: false, socket: #Port<0.481>, read_timeout: 60000, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.Transport.UDP, transport_options: [], handler_module: Abyss.TestHandler, handler_options: [], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 100, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, listener: #PID<0.2601.0>, idle_token: #Reference<0.1978488307.2565079041.100540>, idle_deadline: -576460696934, idle_timer: #Reference<0.1978488307.2565079041.100541>, memory_timer: #Reference<0.1978488307.2565079041.100537>, memory_check_interval: 10000, memory_token: #Reference<0.1978488307.2565079041.100536>, adaptive_timeout: 30000, connection_span: %Abyss.Telemetry{span_name: :test, telemetry_span_context: #Reference<0.1978488307.2565079041.100526>, start_time: -576460726937892008, start_metadata: %{telemetry_span_context: #Reference<0.1978488307.2565079041.100526>, sampled: true}}, processing_times: [2808]}
+.
+01:25:01.894 [error] GenServer #PID<0.2618.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.2615.0>, :killed}
+State: %{broadcast: false, socket: #Port<0.482>, read_timeout: 60000, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.Transport.UDP, transport_options: [], handler_module: Abyss.TestHandler, handler_options: [], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 100, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, listener: #PID<0.2613.0>, idle_token: #Reference<0.1978488307.2565079041.100629>, idle_deadline: -576460696933, idle_timer: #Reference<0.1978488307.2565079041.100630>, memory_timer: #Reference<0.1978488307.2565079041.100626>, memory_check_interval: 10000, memory_token: #Reference<0.1978488307.2565079041.100625>, adaptive_timeout: 30000, connection_span: %Abyss.Telemetry{span_name: :test, telemetry_span_context: #Reference<0.1978488307.2565079041.100619>, start_time: -576460726932727730, start_metadata: %{telemetry_span_context: #Reference<0.1978488307.2565079041.100619>, sampled: true}}, processing_times: [2794]}
+.
+01:25:01.997 [error] GenServer #PID<0.2628.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.2625.0>, :killed}
+State: %{broadcast: false, socket: #Port<0.483>, read_timeout: 60000, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.Transport.UDP, transport_options: [], handler_module: Abyss.TestHandler, handler_options: [], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 100, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, listener: #PID<0.2623.0>, idle_token: #Reference<0.1978488307.2565079041.100709>, idle_deadline: -576460696932, idle_timer: #Reference<0.1978488307.2565079041.100710>, memory_timer: #Reference<0.1978488307.2565079041.100708>, memory_check_interval: 10000, memory_token: #Reference<0.1978488307.2565079041.100707>, adaptive_timeout: 30000, connection_span: %Abyss.Telemetry{span_name: :test, telemetry_span_context: #Reference<0.1978488307.2565079041.100701>, start_time: -576460726931824756, start_metadata: %{telemetry_span_context: #Reference<0.1978488307.2565079041.100701>, sampled: true}}, processing_times: [3146]}
+.....
+01:25:02.024 [info] The function passed as a handler with ID "scaler-test-#PID<0.3513.0>" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+...........................
+01:25:02.281 [error] GenServer #PID<0.4655.0> terminating
+** (stop) {:binding_failed, false}
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.4649.0>, connection: %{id: #PID<0.4654.0>, generation: #Reference<0.1978488307.2565079041.101184>}, initialized: false}}]]
+...
+01:25:02.489 [error] GenServer #PID<0.4669.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.4667.0>, :killed}
+State: %{owner: #PID<0.4667.0>, socket: #Port<0.541>, queue: {[], []}, max_bytes: 1048576, transport: Abyss.QUIC.SocketTransport, max_queue: 128, admission: #PID<0.4668.0>, generation: #Reference<0.1978488307.2565079041.101280>, owner_monitor: #Reference<0.1978488307.2565079041.101290>, queue_bytes: 0, sending: false, owns_admission: false}
+.
+01:25:02.490 [error] GenServer #PID<0.4676.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.4678.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 43286}, port: 0, shutdown_timeout: 50, socket: #Port<0.542>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.1978488307.2565079041.101344> => %{id: #PID<0.4681.0>, generation: #Reference<0.1978488307.2565079041.101337>}}, writer: #PID<0.4678.0>, receiver: #PID<0.4680.0>, backend: Abyss.QUICServiceTest.Backend, endpoint: #PID<0.4679.0>, admission: #PID<0.4677.0>, generation: #Reference<0.1978488307.2565079041.101319>, writer_timeout: 1000, alpn: ["test"], _backend: Abyss.QUICServiceTest.Backend, callback_timeout: 5000, poll_interval: 10, init_timeout: 5000, event_batch: 32, writer_max_bytes: 1048576, quic_options: [], max_connections: 128, worker_refs: %{#PID<0.4682.0> => #Reference<0.1978488307.2565079041.101344>}, writer_max_queue: 128}}]]
+.
+01:25:02.490 [error] GenServer #PID<0.4684.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.4687.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 55649}, port: 0, shutdown_timeout: 50, socket: #Port<0.543>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.1978488307.2565079046.96244> => %{id: #PID<0.4689.0>, generation: #Reference<0.1978488307.2565079046.96237>}}, writer: #PID<0.4686.0>, receiver: #PID<0.4688.0>, backend: Abyss.QUICServiceTest.Backend, endpoint: #PID<0.4687.0>, admission: #PID<0.4685.0>, generation: #Reference<0.1978488307.2565079046.96222>, writer_timeout: 1000, alpn: ["test"], _backend: Abyss.QUICServiceTest.Backend, callback_timeout: 5000, poll_interval: 10, init_timeout: 5000, event_batch: 32, writer_max_bytes: 1048576, quic_options: [], max_connections: 128, worker_refs: %{#PID<0.4690.0> => #Reference<0.1978488307.2565079046.96244>}, writer_max_queue: 128}}]]
+.
+01:25:02.491 [error] GenServer #PID<0.4692.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.4696.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 36696}, port: 0, shutdown_timeout: 50, socket: #Port<0.544>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.1978488307.2565079046.96286> => %{id: #PID<0.4697.0>, generation: #Reference<0.1978488307.2565079046.96279>}}, writer: #PID<0.4694.0>, receiver: #PID<0.4696.0>, backend: Abyss.QUICServiceTest.Backend, endpoint: #PID<0.4695.0>, admission: #PID<0.4693.0>, generation: #Reference<0.1978488307.2565079046.96264>, writer_timeout: 1000, alpn: ["test"], _backend: Abyss.QUICServiceTest.Backend, callback_timeout: 5000, poll_interval: 10, init_timeout: 5000, event_batch: 32, writer_max_bytes: 1048576, quic_options: [], max_connections: 128, worker_refs: %{#PID<0.4698.0> => #Reference<0.1978488307.2565079046.96286>}, writer_max_queue: 128}}]]
+.
+01:25:02.628 [error] GenServer #PID<0.4710.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.4712.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 37810}, port: 0, shutdown_timeout: 50, socket: #Port<0.546>, callbacks: %{#PID<0.4716.0> => {#Reference<0.1978488307.2565079046.96383>, #Reference<0.1978488307.2565079046.96387>}}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.1978488307.2565079046.96378> => %{id: #PID<0.4715.0>, generation: #Reference<0.1978488307.2565079046.96371>}}, writer: #PID<0.4712.0>, receiver: #PID<0.4714.0>, backend: Abyss.QUICServiceTest.Backend, endpoint: #PID<0.4713.0>, admission: #PID<0.4711.0>, generation: #Reference<0.1978488307.2565079046.96349>, writer_timeout: 1000, alpn: ["test"], _backend: Abyss.QUICServiceTest.Backend, callback_timeout: 5000, poll_interval: 10, init_timeout: 5000, event_batch: 32, writer_max_bytes: 1048576, quic_options: [], max_connections: 128, worker_refs: %{#PID<0.4716.0> => #Reference<0.1978488307.2565079046.96378>}, writer_max_queue: 128}}]]
+.
+01:25:02.629 [error] GenServer #PID<0.4730.0> terminating
+** (stop) {:binding_failed, {:error, :refused}}
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.4724.0>, connection: %{id: #PID<0.4729.0>, generation: #Reference<0.1978488307.2565079046.96440>}, initialized: false}}]]
+...
+01:25:02.633 [error] GenServer #PID<0.4752.0> terminating
+** (RuntimeError) init crashed
+    test/abyss/quic_test.exs:16: Abyss.QUICServiceTest.Handler.init/3
+    (abyss 0.0.0) lib/abyss/quic/service.ex:453: anonymous fn/1 in Abyss.QUIC.Worker.handle_info/2
+    (abyss 0.0.0) lib/abyss/quic/service.ex:547: Abyss.QUIC.Worker.watched/3
+    (stdlib 7.3.0.1) gen_server.erl:2434: :gen_server.try_handle_info/3
+    (stdlib 7.3.0.1) gen_server.erl:2420: :gen_server.handle_msg/3
+    (stdlib 7.3.0.1) proc_lib.erl:333: :proc_lib.init_p_do_apply/3
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.4746.0>, connection: %{id: #PID<0.4751.0>, generation: #Reference<0.1978488307.2565079046.96556>}, initialized: false}}]]
+.
+01:25:02.634 [error] GenServer #PID<0.4772.0> terminating
+** (stop) {:binding_failed, {:error, :init_failed}}
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.4766.0>, connection: %{id: #PID<0.4771.0>, generation: #Reference<0.1978488307.2565079046.96678>}, initialized: false}}]]
+....................................................
+Finished in 26.0 seconds (6.5s async, 19.4s sync)
+3 doctests, 573 tests, 0 failures

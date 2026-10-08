@@ -1,0 +1,18 @@
+Final locally verified commands (exit status and result):
+PASS exit 0: mix compile --warnings-as-errors
+PASS exit 0: mix format --check-formatted
+PASS exit 0: mix test --include integration --no-cover; seed 782964; 3 doctests, 573 tests, 0 failures
+PASS exit 0: mix dialyzer; 0 errors
+PASS exit 0: per-file strict Credo; exact seven commands in credo-focused-final.log
+FAIL exit 30: mix credo --strict; 15 warnings, 15 refactoring opportunities, 48 readability issues, 5 design suggestions; legacy findings documented
+PASS exit 0: python3 scripts/udp/network_fixture.py; 14 gates, inet
+PASS_SUPPORTED_SUBSET exit 0: ABYSS_UDP_BACKEND=socket python3 scripts/udp/network_fixture.py; 9 IPv4/packet gates plus explicit scoped-error gate; IPv6 scoped wire UNSUPPORTED
+PASS exit 0: mix run scripts/udp/stress.exs; processes baseline/final117/117 peak125; mailbox1 retained996 active2; 20 epochs x202 packets; pending0 bytes0; explicit drops1545; kernel drops unmeasured
+PASS exit 0: scripts/phase1/check.sh; actual locked elixir_quic0.17.0/ex_ssl0.17.0
+PASS exit 0: scripts/phase1/independent_check.sh; UDP without QUIC, release echo, outside-checkout collect
+PASS exit 0: OTP27 portable131 tests (3 excluded), Linux60 tests, stress115->115 peak123; exact commands in runtime-commands.log
+PASS exit 0: broadcast CLI example on loopback; example-broadcast-final.log
+NOT RUN: macOS, Elixir minimum runtime, remote CI
+No commit, push, merge, tag, release or publication.
+Source manifest SHA256 e81d4cea15c51bba80427c66435e7e38bf386289c1e048d8b3c07adf4d4c3512; 131 files; baseline/final Git HEAD671d0d7f004c56e4b170402f074547eed2731d04 main, uncommitted implementation.
+PASS exit 0: final multicast scoped regression after numeric-literal style cleanup; 12 tests, 0 failures; multicast-final.log

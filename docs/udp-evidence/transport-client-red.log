@@ -1,0 +1,19 @@
+Recorded excerpts from scoped RED tool output; this is an evidence summary, not a complete terminal transcript.
+Baseline: 671d0d7f004c56e4b170402f074547eed2731d04
+Pre-existing user file: untracked abyss-udp-broadcast-multicast-codex-prompt.md
+
+Command: mix test test/abyss/transport/udp/options_regression_test.exs --no-compile --no-deps-check
+Result: 4 tests, 4 failures. Seed 959165.
+- Multiple memberships: actual [add_membership: {{239,255,42,1},{127,0,0,1}}], expected three distinct operations.
+- Invalid port -1: actual {:ok, #Port<0.35>}, expected {:error,{:invalid_port,-1}}.
+- Family/mode aliases: actual [:inet,:binary,:inet6,{:mode,:list}], expected [:inet,:binary].
+- Raw four-tuple: FunctionClauseError in Core.merge_options/2 anonymous fn/1.
+
+Command: mix test test/abyss/client_regression_test.exs test/abyss/transport/udp/multicast_regression_test.exs --no-compile --no-deps-check
+Result: 7 tests, 6 failures. Seed 790022. One preliminary count test was replaced by a real packet collector test before completion.
+- Explicit nonexistent interface: actual :ok, expected {:error,:enodev}.
+- Oversized multicast query send: actual {:ok,[]}, expected {:error,:emsgsize}.
+- Invalid collection deadline: actual {:ok,[]}, expected invalid-option error.
+- Bound/readiness collection: no readiness message from the old helper.
+- Multicast facade normalization/open: module was unavailable before implementation.
+The legacy mix test alias also failed coverage and OTP cover stylesheet lookup after tests; later commands directly invoke Mix.Tasks.Test to avoid alias/coverage interference.

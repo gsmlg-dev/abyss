@@ -3,7 +3,7 @@ defmodule AbyssUDPExample.Handler do
   @impl true
   def handle_data({ip, port, bytes}, state) do
     :ok = Abyss.Transport.UDP.send(state.socket, ip, port, bytes)
-    {:continue, state}
+    {:close, state}
   end
 end
 

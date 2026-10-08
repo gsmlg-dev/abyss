@@ -1,0 +1,35 @@
+$ mix test test/abyss/handler_test.exs test/abyss/handler_hardening_test.exs test/abyss/connection_test.exs test/abyss/connection_admission_test.exs test/abyss/telemetry_test.exs test/abyss/telemetry_metrics_test.exs test/abyss/telemetry_endpoint_test.exs test/abyss/table_owner_scope_test.exs test/abyss/client_test.exs test/abyss/transport/udp/options_regression_test.exs test/abyss/transport/udp/core_test.exs --cover --export-coverage udp-portable-local
+
+Cover compiling modules ...
+Running ExUnit with seed: 815915, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+....
+01:04:45.027 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+...............................................
+01:04:45.139 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+..
+01:04:45.240 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.....................
+01:04:45.387 [info] The function passed as a handler with ID :test_response_time_handler is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.....................................................
+Finished in 1.6 seconds (0.4s async, 1.1s sync)
+130 tests, 0 failures, 3 excluded
+
+Exporting cover results ...
+
+Run "mix test.coverage" once all exports complete
+
+Process exit: 0

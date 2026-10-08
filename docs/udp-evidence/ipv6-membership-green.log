@@ -1,0 +1,22 @@
+Compiling 2 files (.ex)
+     warning: variable "ip" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 368 │   defp receive_packet({ip, port, data} = packet, ancillary, state) do
+     │                        ~~
+     │
+     └─ lib/abyss/listener.ex:368:24: Abyss.Listener.receive_packet/3
+
+     warning: variable "port" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 368 │   defp receive_packet({ip, port, data} = packet, ancillary, state) do
+     │                            ~~~~
+     │
+     └─ lib/abyss/listener.ex:368:28: Abyss.Listener.receive_packet/3
+
+Generated abyss app
+Running ExUnit with seed: 643780, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+..................
+Finished in 0.2 seconds (0.08s async, 0.1s sync)
+18 tests, 0 failures

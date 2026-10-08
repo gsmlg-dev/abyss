@@ -26,7 +26,7 @@ defmodule Abyss do
         def handle_data({ip, port, data}, state) do
           # Echo the data back to the client
           Abyss.Transport.UDP.send(state.socket, ip, port, data)
-          {:continue, state}
+          {:close, state}
         end
       end
 
@@ -166,26 +166,23 @@ defmodule Abyss do
   end
 
   @doc """
-  Suspend the server. This will close the listening port, and will stop the acceptance of new
-  connections. Existing connections will stay connected and will continue to be processed.
-
-  The server can later be resumed by calling `resume/1`, or shut down via standard supervision
-  patterns.
-
-  If this function returns `:error`, it is unlikely that the server is in a useable state
-
-  Note that if you do not explicitly set a port (or if you set port to `0`), then the server will
-  bind to a different port when you resume it. This new port can be obtained as usual via the
-  `listener_info/1` function. This is not a concern if you explicitly set a port value when first
-  instantiating the server
+  Pause new datagram admission while retaining the original socket and local
+  port. Admitted handlers can still send. Incoming packets during the pause
+  are discarded; resume uses the same socket and memberships.
   """
   defdelegate suspend(supervisor), to: Abyss.Server
 
   @doc """
-  Resume a suspended server. This will reopen the listening port, and resume the acceptance of new
-  connections
+  Resume datagram admission on the retained socket
   """
   defdelegate resume(supervisor), to: Abyss.Server
+
+  @doc "Inspect the desired memberships for the server endpoint."
+  defdelegate memberships(supervisor), to: Abyss.Server
+  @doc "Join a multicast group/interface on the server endpoint."
+  defdelegate join(supervisor, membership), to: Abyss.Server
+  @doc "Leave a multicast group/interface on the server endpoint."
+  defdelegate leave(supervisor, membership), to: Abyss.Server
 
   @doc """
   Synchronously stops the given server, waiting up to the given number of milliseconds
@@ -196,6 +193,6 @@ defmodule Abyss do
   """
   @spec stop(Supervisor.supervisor(), timeout()) :: :ok
   def stop(supervisor, connection_wait \\ 15_000) do
-    Supervisor.stop(supervisor, :normal, connection_wait)
+    Abyss.Server.stop(supervisor, connection_wait)
   end
 end

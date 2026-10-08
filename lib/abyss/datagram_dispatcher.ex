@@ -49,7 +49,7 @@ defmodule Abyss.Dispatcher do
     def start_link(opts), do: GenServer.start_link(__MODULE__, opts)
 
     def reserve(_pid, %SendCapability{generation: generation} = capability, bytes, timeout)
-        when is_integer(bytes) and bytes > 0 do
+        when is_integer(bytes) and bytes >= 0 do
       with {:ok, admission} <- admission(capability) do
         ref = make_ref()
 
@@ -277,7 +277,7 @@ defmodule Abyss.Dispatcher do
         _ ->
           case Enum.find(state.waiters, fn {_ref, waiter} -> waiter.monitor == monitor end) do
             {ref, waiter} ->
-              Process.cancel_timer(waiter.timer)
+              _ = Process.cancel_timer(waiter.timer)
               {:noreply, %{state | waiters: Map.delete(state.waiters, ref)}}
 
             nil ->
@@ -289,7 +289,7 @@ defmodule Abyss.Dispatcher do
     def handle_info({:await_expired, ref, monitor}, state) do
       case Map.get(state.waiters, ref) do
         %{from: from, monitor: ^monitor, timer: timer} ->
-          Process.cancel_timer(timer)
+          _ = Process.cancel_timer(timer)
           Process.demonitor(monitor, [:flush])
           GenServer.reply(from, {:unknown, ref})
           {:noreply, %{state | waiters: Map.delete(state.waiters, ref)}}
@@ -309,7 +309,7 @@ defmodule Abyss.Dispatcher do
             %{state | waiters: waiters}
 
           {%{from: from, timer: timer, monitor: monitor}, waiters} ->
-            Process.cancel_timer(timer)
+            _ = Process.cancel_timer(timer)
             Process.demonitor(monitor, [:flush])
             GenServer.reply(from, result)
             %{state | waiters: waiters}
@@ -342,7 +342,7 @@ defmodule Abyss.Dispatcher do
 
     defp limit_results(results, _max) do
       {ref, result} = Enum.min_by(results, fn {_ref, result} -> result.expires_at end)
-      Process.cancel_timer(result.timer)
+      _ = Process.cancel_timer(result.timer)
       Map.delete(results, ref)
     end
 
@@ -455,7 +455,7 @@ defmodule Abyss.Dispatcher do
     @impl true
     def handle_cast({:submit, generation, ref, remote, bytes}, state)
         when generation == state.generation and is_tuple(remote) and is_binary(bytes) and
-               byte_size(bytes) > 0 do
+               byte_size(bytes) >= 0 do
       {:noreply,
        maybe_send(%{
          state
@@ -547,15 +547,22 @@ defmodule Abyss.Dispatcher do
     end
   end
 
+  @doc false
+  def dispatch_with_metadata(pid, remote, bytes, received_at, metadata, timeout) do
+    GenServer.call(pid, {:datagram, remote, bytes, received_at, metadata}, timeout)
+  catch
+    :exit, reason -> {:error, reason}
+  end
+
   def send(capability, remote, bytes, timeout \\ 100)
       when is_struct(capability, SendCapability) and is_tuple(remote) and is_binary(bytes) and
-             byte_size(bytes) > 0 do
+             byte_size(bytes) >= 0 do
     Writer.enqueue(capability.writer, capability, remote, bytes, timeout)
   end
 
   def send_receipt(capability, remote, bytes, timeout \\ 100)
       when is_struct(capability, SendCapability) and is_tuple(remote) and is_binary(bytes) and
-             byte_size(bytes) > 0 do
+             byte_size(bytes) >= 0 do
     with {:ok, ref} <- send(capability, remote, bytes, timeout) do
       Writer.await(capability.writer, capability, ref, timeout)
     end
@@ -624,7 +631,10 @@ defmodule Abyss.Dispatcher do
   @impl true
   def handle_call(:routes, _from, state), do: {:reply, state.routes, state}
 
-  def handle_call({:datagram, remote, bytes, received_at}, _from, state)
+  def handle_call({:datagram, remote, bytes, received_at}, from, state),
+    do: handle_call({:datagram, remote, bytes, received_at, %{}}, from, state)
+
+  def handle_call({:datagram, remote, bytes, received_at, metadata}, _from, state)
       when is_tuple(remote) and is_binary(bytes) do
     context = %{
       local: self(),
@@ -634,6 +644,8 @@ defmodule Abyss.Dispatcher do
       routes: state.routes,
       state: state.callback_state
     }
+
+    context = Map.merge(context, Map.take(metadata, [:ancillary, :local_info]))
 
     result =
       try do

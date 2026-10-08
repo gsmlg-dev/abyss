@@ -21,11 +21,15 @@ defmodule Abyss.ListenerPoolScalerTest do
   end
 
   defp start_server(overrides \\ []) do
+    {:ok, temporary_socket} = :gen_udp.open(0, [:binary, active: false])
+    {:ok, {_, available_port}} = :inet.sockname(temporary_socket)
+    :gen_udp.close(temporary_socket)
+
     opts =
       Keyword.merge(
         [
           handler_module: ScalerTestHandler,
-          port: 0,
+          port: available_port,
           num_listeners: 2,
           dynamic_listeners: true,
           min_listeners: 1,
@@ -67,14 +71,14 @@ defmodule Abyss.ListenerPoolScalerTest do
       assert Server.listener_pool_scaler_pid(server) == nil
     end
 
-    test "scaler is not started in broadcast mode" do
-      server =
-        start_server(
+    test "broadcast endpoints reject dynamic receive-socket scaling" do
+      assert_raise ArgumentError, ~r/dynamic receive-socket scaling/, fn ->
+        Abyss.ServerConfig.new(
+          handler_module: ScalerTestHandler,
           transport_module: Abyss.Transport.UDP.Broadcast,
           dynamic_listeners: true
         )
-
-      assert Server.listener_pool_scaler_pid(server) == nil
+      end
     end
 
     test "detaches its telemetry handler when the server stops" do
@@ -140,10 +144,10 @@ defmodule Abyss.ListenerPoolScalerTest do
       scaler = Server.listener_pool_scaler_pid(server)
 
       assert :ok = Abyss.suspend(server)
-      assert active_listeners(server) == 0
+      assert active_listeners(server) == 2
 
       assert :ok = ListenerPoolScaler.check_and_scale(scaler)
-      assert active_listeners(server) == 0
+      assert active_listeners(server) == 2
     end
 
     test "emits scale telemetry events with actual counts" do
@@ -181,19 +185,20 @@ defmodule Abyss.ListenerPoolScalerTest do
   describe "response time metrics" do
     test "handle_response_time accumulates events from the matching handler only" do
       counters = :counters.new(2, [:write_concurrency])
-      config = %{handler_module: ScalerTestHandler, counters: counters}
+      server = self()
+      config = %{server_pid: server, counters: counters}
 
       ListenerPoolScaler.handle_response_time(
         @response_time_event,
         %{response_time: 40},
-        %{handler: ScalerTestHandler},
+        %{server_pid: server},
         config
       )
 
       ListenerPoolScaler.handle_response_time(
         @response_time_event,
         %{response_time: 99},
-        %{handler: OtherHandler},
+        %{server_pid: spawn(fn -> :ok end)},
         config
       )
 
@@ -217,7 +222,7 @@ defmodule Abyss.ListenerPoolScalerTest do
 
       # Feed slow response times through the real telemetry event
       for _ <- 1..10 do
-        Abyss.Telemetry.track_response_sent(200, %{handler: ScalerTestHandler})
+        Abyss.Telemetry.track_response_sent(200, %{server_pid: server})
       end
 
       assert :ok = ListenerPoolScaler.check_and_scale(scaler)

@@ -29,6 +29,13 @@ def deps do
 end
 ```
 
+UDP lifecycle, interface selection, runtime membership control, client limits,
+and tested platform restrictions are documented in
+[UDP broadcast and multicast](docs/udp-broadcast-multicast.md). Each ordinary
+packet gets an execution process; `{:continue, state}` keeps that process alive
+without automatically routing the sender's next packet to it. Stateless handlers
+should finish with `{:close, state}`.
+
 ## Quick Start
 
 ### Basic Echo Server
@@ -41,7 +48,7 @@ defmodule MyEchoHandler do
   def handle_data({ip, port, data}, state) do
     # Echo the data back to the client
     Abyss.Transport.UDP.send(state.socket, ip, port, data)
-    {:continue, state}
+    {:close, state}
   end
 end
 
@@ -157,7 +164,7 @@ defmodule MyHandler do
     # Send response back to client
     Abyss.Transport.UDP.send(state.socket, ip, port, response)
 
-    {:continue, state}  # Continue handling more packets
+    {:close, state}  # Finish this datagram
     # or
     {:close, state}     # Close connection after response
   end
@@ -225,17 +232,20 @@ Abyss.start_link([
 
 ```elixir
 Abyss.start_link([
-  handler_module: MyBroadcastHandler,
-  port: 67,  # DHCP port
+  handler_module: MyDatagramHandler,
+  port: 49_001,
   broadcast: true,
+  transport_module: Abyss.Transport.UDP.Broadcast,
   transport_options: [
-    broadcast: true,
-    multicast_if: {255, 255, 255, 255},
-    reuseaddr: true,
-    reuseport: true
+    ip: {0, 0, 0, 0}
   ]
 ])
 ```
+
+`multicast_if` selects a local outgoing multicast interface, not a broadcast or
+group destination. Receiving a group requires `add_membership`. See the
+[broadcast and multicast guide](docs/udp-broadcast-multicast.md) for tested
+interface selection and IPv4/IPv6 membership examples.
 
 #### Persistent Datagram Dispatcher
 
@@ -392,11 +402,14 @@ mix run --no-halt -e 'Code.require_file("example/dns_recursive.ex"); Abyss.start
 ### Broadcast Services
 
 ```shell
-# DHCP listener
-mix run --no-halt -e 'Code.require_file("example/dump_dhcp.ex"); Abyss.start_link(handler_module: DumpDHCP, port: 67, broadcast: true, transport_options: [broadcast: true, multicast_if: {255, 255, 255, 255}]); Process.sleep(:infinity)'
+# Protocol-neutral broadcast receiver on an isolated test interface
+mix run example/udp_one_to_many.exs receive 255.255.255.255 test0 49001
 
-# mDNS listener
-mix run --no-halt -e 'Code.require_file("example/dump_mdns.ex"); Abyss.start_link(handler_module: DumpMDNS, port: 5353, broadcast: true, transport_options: [broadcast: true, multicast_if: {224, 0, 0, 251}]); Process.sleep(:infinity)'
+# Group receiver; test0 must exist in your isolated fixture
+mix run example/udp_one_to_many.exs receive 239.255.42.1 test0 49002
+
+# Send a group query from the selected test interface
+mix run example/udp_one_to_many.exs query 239.255.42.1 test0 49002 probe
 ```
 
 ## Architecture

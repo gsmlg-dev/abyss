@@ -1,0 +1,15 @@
+Executed by the accounting agent using the existing devenv, with an isolated OTP27 build:
+
+$ devenv shell -- env MIX_BUILD_PATH=/tmp/abyss-handler-hardening-build mix test test/abyss/handler_test.exs test/abyss/handler_hardening_test.exs test/abyss/connection_test.exs test/abyss/connection_admission_test.exs test/abyss/telemetry_test.exs test/abyss/telemetry_metrics_test.exs test/abyss/telemetry_endpoint_test.exs test/abyss/table_owner_scope_test.exs test/abyss/client_test.exs test/abyss/transport/udp/options_regression_test.exs test/abyss/transport/udp/core_test.exs --cover --export-coverage udp-portable-otp27
+EXIT 0: 131 tests, 0 failures, 3 excluded; accounting-ci-otp27-final.log.
+
+$ devenv shell -- env MIX_BUILD_PATH=/tmp/abyss-handler-hardening-build mix test test/abyss/client_regression_test.exs test/abyss/transport/udp/options_regression_test.exs test/abyss/transport/udp/multicast_regression_test.exs test/abyss/transport/udp_test.exs test/abyss/udp_host_hardening_test.exs test/abyss/udp_membership_host_test.exs test/abyss/udp_admission_test.exs --cover --export-coverage udp-linux-otp27-final
+EXIT 0: 60 tests, 0 failures; otp27-linux-final.log.
+
+$ devenv shell -- env MIX_BUILD_PATH=/tmp/abyss-handler-hardening-build mix run scripts/udp/stress.exs
+EXIT 0: accounting-ci-otp27-stress.log.
+
+Network backend commands:
+$ python3 scripts/udp/network_fixture.py
+$ ABYSS_UDP_BACKEND=socket python3 scripts/udp/network_fixture.py
+The socket command verifies its explicitly supported IPv4 subset and scoped-IPv6 error; it does not assert full IPv6 delivery.

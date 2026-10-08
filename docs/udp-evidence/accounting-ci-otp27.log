@@ -1,0 +1,57 @@
+$ devenv shell -- env MIX_BUILD_PATH=/tmp/abyss-handler-hardening-build mix test test/abyss/handler_test.exs test/abyss/handler_hardening_test.exs test/abyss/connection_test.exs test/abyss/connection_admission_test.exs test/abyss/telemetry_test.exs test/abyss/telemetry_metrics_test.exs test/abyss/telemetry_endpoint_test.exs test/abyss/table_owner_scope_test.exs test/abyss/client_test.exs test/abyss/transport/udp/options_regression_test.exs test/abyss/transport/udp/core_test.exs --cover --export-coverage udp-portable-otp27
+
+✨ devenv 2.2.2 is out of date. Please update to 2.4.0: https://devenv.sh/getting-started/#installation
+    _    _                   
+   / \  | |__  _   _ ___ ___ 
+  / _ \ | '_ \| | | / __/ __|
+ / ___ \| |_) | |_| \__ \__ \
+/_/   \_\_.__/ \__, |___/___/
+               |___/         
+==> nimble_ownership
+Compiling 2 files (.ex)
+Generated nimble_ownership app
+==> mox
+Compiling 2 files (.ex)
+Generated mox app
+==> abyss
+Compiling 31 files (.ex)
+Compiling crate dhcp_socket in release mode (native/dhcp_socket)
+Copying /home/gao/Workspace/gsmlg-dev/abyss/native/dhcp_socket/target/release/libdhcp_socket.so to priv/native/dhcp_socket.so
+Generated abyss app
+Cover compiling modules ...
+
+01:06:25.825 [warning] The on_load function for module Elixir.Abyss.DhcpSocket.Native returned:
+{:error, {:upgrade, ~c"Upgrade not supported by this NIF library."}}
+
+Running ExUnit with seed: 47872, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+.......
+01:06:26.280 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+........................................
+01:06:26.385 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+......
+01:06:26.487 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.............
+01:06:26.693 [info] The function passed as a handler with ID :test_response_time_handler is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.............................................................
+Finished in 1.7 seconds (0.5s async, 1.2s sync)
+130 tests, 0 failures, 3 excluded
+
+Exporting cover results ...
+
+Run "mix test.coverage" once all exports complete
+
+Process exit: 0

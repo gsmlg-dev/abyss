@@ -1,0 +1,32 @@
+Evidence source: bounded extracts of actual tool output captured during this session.
+These are transcript extracts, not newly executed baseline tests. Original full
+stdout logs were not persisted. Worktree baseline: 671d0d7.
+
+$ mix test test/abyss/handler_hardening_test.exs
+6 tests, 6 failures
+
+Observed failures:
+- idle expiry survives repeated memory checks and status requests:
+  Assertion failed, no matching message after 300ms
+- persistent infinity does not enter adaptive arithmetic:
+  ArithmeticError: bad argument in arithmetic expression: div(:infinity, 2)
+- stale idle timer cannot expire a reset deadline:
+  KeyError: key :idle_token not found
+- sampled process memory is measured in bytes:
+  UndefinedFunctionError: function Abyss.Handler.memory_megabytes/1 is undefined or private
+- broadcast cleanup preserves returned state and reports callback error:
+  Assertion failed, no matching message after 100ms
+- handler termination does not count as a send:
+  responses_total left: 1, right: 0
+
+The repository test alias also reported coverage below its repository-wide40%
+threshold. This was independent of the six behavioral failures; scoped subsequent
+runs exported coverage rather than pretending to satisfy repository-wide coverage.
+
+$ mix test test/abyss/connection_admission_test.exs --no-compile --cover --export-coverage handler-red
+3 tests, 3 failures
+All three failed because Connection.start returned :ok instead of {:ok, pid}.
+
+$ mix test test/abyss/telemetry_endpoint_test.exs --no-compile --cover --export-coverage endpoint-red
+3 tests, 3 failures
+UndefinedFunctionError for missing track_work_finished/2 and register_scope/2.

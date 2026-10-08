@@ -1,171 +1,42 @@
 defmodule Abyss.Listener do
   @moduledoc """
-  UDP listener process that accepts incoming packets and creates handler processes.
+  Supervised owner of a UDP endpoint. Reception uses one active credit, with
+  a finite handler ceiling and no user-space pending queue. A fixed starter
+  process isolates custom handler startup from socket control operations.
 
-  Each listener process is responsible for:
-  - Binding to a UDP port and receiving packets
-  - Applying packet size validation
-  - Creating handler processes for valid packets
-  - Managing connection lifecycle and telemetry events
-
-  ## Modes of Operation
-
-  - **Regular Mode**: Passively receives packets and creates handler processes
-  - **Broadcast Mode**: Actively receives packets with `active: true`
-
-  ## Security Features
-
-  - **Packet Size Validation**: Rejects oversized packets
-  - **Telemetry Events**: Comprehensive monitoring and logging
-
-  ## Process Flow
-
-  1. Initialize UDP socket with transport options
-  2. Start receiving packets (passive or active mode)
-  3. Apply security checks (packet size)
-  4. Create handler process via `Abyss.Connection`
-  5. Emit telemetry events for monitoring
-
-  This module is primarily used internally by `Abyss.ListenerPool`.
-
-  ## Critical Implementation Note - DO NOT CHANGE
-
-  The UDP recv pattern MUST use `:infinity` timeout:
-
-      transport.recv(listener_socket, 0, :infinity)
-
-  **Why this is correct:**
-  - UDP is connectionless - there is no "connection" to maintain
-  - The recv call blocks efficiently at the OS level waiting for packets
-  - Using finite timeouts (e.g., 100ms) causes busy-polling which wastes CPU
-  - The BEAM scheduler handles this blocking call properly in a dedicated thread
-  - While blocked in recv, GenServer calls will timeout - use `listener_info_cached/1` instead
-
-  **Do NOT "optimize" by:**
-  - Adding timeout with polling loops (wastes CPU, adds latency)
-  - Using `active: true` for unicast mode (loses backpressure control)
-  - Adding {:error, :timeout} handling (unnecessary for UDP)
-
-  This pattern has been validated for high-performance UDP servers.
+  Pause discards newly received packets while retaining the socket and existing
+  handlers. Drain stops admission and waits for admitted handlers, then closes
+  I/O. Dispatcher drain is host cleanup, not application-session completion.
   """
-
   use GenServer, restart: :transient
+  alias Abyss.Transport.UDP.{Core, Multicast}
 
-  # ETS table name for caching listener info (accessible while listener is blocked in recv)
   @listener_info_table :abyss_listener_info
+  @membership_table :abyss_udp_memberships
+  @owner_table :abyss_udp_owners
+  @type state :: map()
 
-  @typedoc """
-  Internal state of a listener process.
-  """
-  @type state :: %{
-          is_active: boolean(),
-          is_listening: boolean(),
-          server_pid: pid(),
-          server_config: Abyss.ServerConfig.t(),
-          listener_id: binary(),
-          listener_socket: Abyss.Transport.socket(),
-          listener_span: Abyss.Telemetry.t(),
-          local_info: Abyss.Transport.socket_info(),
-          transport: module(),
-          dispatcher: pid() | nil
-        }
-
-  @doc """
-  Start a listener process.
-
-  ## Parameters
-  - `id` - Unique identifier for this listener
-  - `server_pid` - PID of the server supervisor
-  - `config` - Server configuration
-
-  ## Returns
-  - Standard GenServer start result
-  """
-  @spec start_link({id :: binary(), server_pid :: pid(), Abyss.ServerConfig.t()}) ::
-          GenServer.on_start()
-  def start_link({id, server_pid, config}),
-    do: GenServer.start_link(__MODULE__, {id, server_pid, config})
-
-  @doc """
-  Stop a listener process gracefully.
-
-  Closes the listener socket first to unblock any pending recv(:infinity)
-  call, then stops the GenServer. Without closing the socket first,
-  GenServer.stop/1 would time out because the process cannot handle
-  system messages while blocked in recv.
-
-  ## Parameters
-  - `server` - The listener process PID or name
-  """
-  @spec stop(GenServer.server()) :: :ok
-  def stop(server) do
-    # Close the socket first to unblock recv(:infinity), then stop the
-    # GenServer. A unicast listener blocked in recv stops itself with
-    # :normal once the socket closes; a broadcast (active mode) listener
-    # is never blocked and is stopped by GenServer.stop/3 directly.
-    pid = if is_pid(server), do: server, else: Process.whereis(server)
-
-    if pid && Process.alive?(pid) do
-      ensure_info_table_exists()
-
-      case :ets.lookup(@listener_info_table, pid) do
-        [{^pid, _local_info, socket}] -> :gen_udp.close(socket)
-        _ -> :ok
-      end
-
-      try do
-        GenServer.stop(pid, :normal, 5000)
-      catch
-        # Already stopped after the socket close (:noproc), stopped with a
-        # different reason, or unresponsive within the timeout.
-        :exit, _ -> :ok
-      end
-    else
-      :ok
-    end
-  end
-
-  @doc """
-  Get information about the listener's local socket endpoint.
-
-  ## Parameters
-  - `server` - The listener process PID or name
-
-  ## Returns
-  - `{ip_address, port}` tuple with local endpoint information
-  """
-  @spec listener_info(GenServer.server()) :: Abyss.Transport.socket_info()
+  def start_link({id, server, config}), do: GenServer.start_link(__MODULE__, {id, server, config})
+  def stop(server), do: GenServer.stop(server, :normal)
+  def pause(server), do: GenServer.call(server, :pause)
+  def resume(server), do: GenServer.call(server, :resume)
+  def status(server), do: GenServer.call(server, :status)
+  def drain(server, deadline), do: GenServer.call(server, {:drain, deadline}, :infinity)
+  def join(server, membership), do: GenServer.call(server, {:membership, :join, membership})
+  def leave(server, membership), do: GenServer.call(server, {:membership, :leave, membership})
+  def memberships(server), do: GenServer.call(server, :memberships)
   def listener_info(server), do: GenServer.call(server, :listener_info)
+  def socket_info(server), do: GenServer.call(server, :socket_info)
 
-  @doc """
-  Get listener info from the ETS cache without making a GenServer call.
-
-  This is useful when the listener may be blocked in recv(:infinity) and
-  unable to respond to GenServer calls. The info is cached during init.
-
-  ## Parameters
-  - `listener_pid` - The listener process PID
-
-  ## Returns
-  - `{:ok, {ip_address, port}}` if found
-  - `:error` if not found in cache
-  """
-  @spec listener_info_cached(pid()) :: {:ok, Abyss.Transport.socket_info()} | :error
-  def listener_info_cached(listener_pid) when is_pid(listener_pid) do
+  def listener_info_cached(pid) when is_pid(pid) do
     ensure_info_table_exists()
 
-    case :ets.lookup(@listener_info_table, listener_pid) do
-      [{^listener_pid, local_info, _socket}] -> {:ok, local_info}
-      [{^listener_pid, local_info}] -> {:ok, local_info}
+    case :ets.lookup(@listener_info_table, pid) do
+      [{^pid, local, _}] -> {:ok, local}
       [] -> :error
     end
   end
 
-  @doc false
-  # Ensure the ETS table exists. Creation is routed through Abyss.TableOwner
-  # so the table is owned by a long-lived process regardless of which process
-  # first needs it.
-  @spec ensure_info_table_exists() :: :ok
   def ensure_info_table_exists do
     Abyss.TableOwner.ensure_table(@listener_info_table, [
       :named_table,
@@ -175,284 +46,583 @@ defmodule Abyss.Listener do
     ])
   end
 
-  # Store listener info and socket in ETS cache
-  defp cache_listener_info(listener_pid, local_info, socket) do
+  def clear_desired(server) do
+    ensure_membership_table()
+    :ets.match_delete(@membership_table, {{server, :_}, :_})
+    Abyss.TableOwner.ensure_table(@owner_table, [:named_table, :public, :set])
+    :ets.match_delete(@owner_table, {:_, server})
+    Abyss.UDPAdmission.release_server(server)
+    :ok
+  end
+
+  def cleanup_owner(pid) do
     ensure_info_table_exists()
-    :ets.insert(@listener_info_table, {listener_pid, local_info, socket})
-  end
 
-  # Remove listener info from ETS cache
-  defp uncache_listener_info(listener_pid) do
-    case :ets.whereis(@listener_info_table) do
-      :undefined -> :ok
-      _ref -> :ets.delete(@listener_info_table, listener_pid)
+    case :ets.take(@listener_info_table, pid) do
+      [{^pid, _local, socket}] -> Abyss.Telemetry.unregister_socket(socket)
+      [] -> :ok
     end
+
+    Abyss.TableOwner.ensure_table(@owner_table, [:named_table, :public, :set])
+    :ets.delete(@owner_table, pid)
+    Abyss.UDPAdmission.release_owner(pid)
   end
 
-  @doc """
-  Get the listener's socket and telemetry span.
+  def for_server(server) do
+    Abyss.TableOwner.ensure_table(@owner_table, [:named_table, :public, :set])
 
-  ## Parameters
-  - `server` - The listener process PID or name
+    for {pid, ^server} <- :ets.match_object(@owner_table, {:_, server}),
+        Process.alive?(pid),
+        do: pid
+  end
 
-  ## Returns
-  - `{socket, telemetry_span}` tuple
-  """
-  @spec socket_info(GenServer.server()) ::
-          {Abyss.Transport.listener_socket(), Abyss.Telemetry.t()}
-  def socket_info(server), do: GenServer.call(server, :socket_info)
+  @impl true
+  def init({id, server, config}) do
+    Process.flag(:trap_exit, true)
+    ensure_info_table_exists()
+    ensure_membership_table()
+    desired_key = {server, id}
 
-  @impl GenServer
-  @spec init({listener_id :: neg_integer(), server_pid :: pid(), Abyss.ServerConfig.t()}) ::
-          {:ok, state} | {:stop, term}
-  def init({listener_id, server_pid, server_config}) do
-    broadcast = server_config.broadcast
+    options =
+      case Core.normalize_options([], config.transport_options) do
+        {:ok, normalized} -> normalized
+        {:error, reason} -> raise ArgumentError, "invalid transport options: #{inspect(reason)}"
+      end
+
+    initial =
+      Enum.reduce(options, [], fn
+        {:add_membership, membership}, desired -> Enum.uniq(desired ++ [membership])
+        {:drop_membership, membership}, desired -> List.delete(desired, membership)
+        _, desired -> desired
+      end)
+
+    desired =
+      case :ets.lookup(@membership_table, desired_key) do
+        [{^desired_key, saved}] -> saved
+        [] -> Enum.uniq(initial)
+      end
+
+    desired = normalize_desired(desired)
+
+    user_options =
+      Enum.reject(options, fn
+        {operation, _} when operation in [:add_membership, :drop_membership] -> true
+        _ -> false
+      end)
 
     transport_options =
-      if broadcast do
-        server_config.transport_options
-        |> Keyword.put(:active, true)
-        |> Keyword.put(:broadcast, true)
-        |> Keyword.put(:recbuf, server_config.udp_buffer_size)
-        |> Keyword.put(:sndbuf, server_config.udp_buffer_size)
-      else
-        server_config.transport_options
-        |> Keyword.put(:active, false)
-        |> Keyword.put(:broadcast, false)
-        |> Keyword.put(:recbuf, server_config.udp_buffer_size)
-        |> Keyword.put(:sndbuf, server_config.udp_buffer_size)
-      end
+      Core.merge_options(
+        user_options ++ Enum.map(desired, &{:add_membership, &1}),
+        active: false,
+        mode: :binary,
+        recbuf: config.udp_buffer_size,
+        sndbuf: config.udp_buffer_size,
+        buffer: 65_536
+      )
 
-    transport = server_config.transport_module
+    transport_options =
+      if config.broadcast, do: transport_options ++ [broadcast: true], else: transport_options
 
-    with {:ok, listener_socket} <-
-           transport.listen(
-             server_config.port,
-             transport_options
-           ),
-         {:ok, {ip, port}} <-
-           :inet.sockname(listener_socket) do
-      active =
-        case transport.getopts(listener_socket, [:active]) do
-          {:ok, [active: true]} -> true
-          _ -> false
-        end
+    transport = config.transport_module
 
-      span_metadata = %{
-        listener_id: listener_id,
-        listener_socket: listener_socket,
-        handler: server_config.handler_module,
-        local_address: ip,
-        local_port: port,
-        broadcast: broadcast,
-        transport_options: transport_options
-      }
+    case transport.listen(config.port, transport_options) do
+      {:ok, socket} ->
+        initialize_socket(socket, transport, id, server, config, desired_key, desired)
 
-      listener_span = Abyss.Telemetry.start_span(:listener, %{}, span_metadata)
-
-      with {:ok, dispatcher} <-
-             start_dispatcher(server_config, listener_socket, transport, {ip, port}) do
-        state = %{
-          broadcast: broadcast,
-          is_active: active,
-          is_listening: false,
-          server_config: server_config,
-          server_pid: server_pid,
-          listener_id: listener_id,
-          listener_socket: listener_socket,
-          listener_span: listener_span,
-          local_info: {ip, port},
-          transport: transport,
-          dispatcher: dispatcher
-        }
-
-        # Cache listener info and socket for queries while blocked in recv.
-        cache_listener_info(self(), {ip, port}, listener_socket)
-
-        unless broadcast, do: Process.send_after(self(), :start_listening, 0)
-
-        {:ok, state}
-      else
-        {:error, reason} ->
-          transport.close(listener_socket)
-          Abyss.Telemetry.stop_span(listener_span)
-          {:stop, reason}
-      end
-    else
       {:error, reason} ->
         {:stop, reason}
     end
   end
 
-  @impl GenServer
-  def handle_info(
-        :start_listening,
-        %{listener_socket: listener_socket, transport: transport} = state
-      ) do
-    if state.is_listening do
-      {:noreply, state}
+  defp normalize_desired(memberships) do
+    desired =
+      Enum.map(memberships, fn membership ->
+        case Multicast.normalize_membership(membership) do
+          {:ok, normalized} -> normalized
+          {:error, reason} -> raise ArgumentError, "invalid membership: #{inspect(reason)}"
+        end
+      end)
+      |> Enum.uniq()
+
+    if length(desired) > 64, do: raise(ArgumentError, "at most 64 memberships per endpoint")
+    desired
+  end
+
+  defp initialize_socket(socket, transport, id, server, config, key, desired) do
+    with {:ok, local} <- transport.sockname(socket),
+         {:ok, dispatcher} <- start_dispatcher(config, socket, transport, local),
+         {:ok, starter} <- Abyss.ListenerStarter.start_link(self()) do
+      span =
+        Abyss.Telemetry.start_span(:listener, %{}, %{
+          server_pid: server,
+          listener_id: id,
+          listener_socket: socket,
+          handler: config.handler_module,
+          local_info: local,
+          broadcast: config.broadcast
+        })
+
+      Abyss.Telemetry.register_scope(server, config.handler_module)
+      Abyss.Telemetry.register_socket(server, socket)
+      Abyss.TableOwner.ensure_table(@owner_table, [:named_table, :public, :set])
+      :ets.insert(@owner_table, {self(), server})
+      Abyss.TableOwner.monitor_listener(self())
+      :ets.insert(@listener_info_table, {self(), local, socket})
+      :ets.insert(@membership_table, {key, desired})
+      send(self(), :start_listening)
+
+      {:ok,
+       %{
+         server_pid: server,
+         server_config: config,
+         listener_id: id,
+         listener_socket: socket,
+         listener_span: span,
+         transport: transport,
+         local_info: local,
+         dispatcher: dispatcher,
+         starter: starter,
+         mode: :running,
+         armed: false,
+         handlers: %{},
+         reservation: nil,
+         desired_key: key,
+         memberships: desired,
+         drain_waiter: nil,
+         received: 0,
+         dropped: 0,
+         active_high_water: 0,
+         retained_high_water: 0
+       }}
     else
-      case transport.getopts(listener_socket, [:active]) do
-        {:ok, [{:active, false}]} ->
-          Abyss.Telemetry.span_event(state.listener_span, :ready, %{}, %{
-            listener_id: state.listener_id,
-            listener_socket: state.listener_socket,
-            local_info: state.local_info
-          })
-
-          Process.send_after(self(), :do_recv, 0)
-          {:noreply, state |> Map.put(:is_listening, true)}
-
-        {:ok, [active: true]} ->
-          {:noreply, state}
-
-        {:error, reason} ->
-          # Socket was closed externally (e.g., stop/1 called before :start_listening ran).
-          # :einval = closed socket; treat as normal shutdown to avoid propagating to linked processes.
-          {:stop, if(reason in [:einval, :closed], do: :normal, else: reason), state}
-      end
+      {:error, reason} ->
+        transport.close(socket)
+        {:stop, reason}
     end
   end
 
   @impl true
-  def handle_info({:udp, socket, ip, port, data}, state) do
-    accept_packet(ip, port, data, socket, state)
-    {:noreply, state}
+  def handle_info(:start_listening, %{mode: :running} = state), do: rearm(state)
+  def handle_info(:start_listening, state), do: {:noreply, state}
+
+  def handle_info({:udp, socket, ip, port, data}, %{listener_socket: socket} = state),
+    do: receive_packet({ip, port, data}, [], %{state | armed: false})
+
+  def handle_info({:udp, socket, ip, port, ancillary, data}, %{listener_socket: socket} = state),
+    do: receive_packet({ip, port, data}, ancillary, %{state | armed: false})
+
+  def handle_info({:udp_error, socket, reason}, %{listener_socket: socket} = state),
+    do: {:stop, {:udp_error, reason}, state}
+
+  def handle_info({:udp_passive, socket}, %{listener_socket: socket} = state),
+    do: rearm(%{state | armed: false})
+
+  def handle_info({:dispatch_result, token, result}, %{reservation: %{token: token}} = state) do
+    state =
+      case result do
+        {:error, reason} -> drop(state, reason, byte_size(elem(state.reservation.packet, 2)))
+        {:dropped, reason} -> drop(state, reason, byte_size(elem(state.reservation.packet, 2)))
+        _ -> state
+      end
+
+    state = %{state | reservation: nil}
+    if state.mode == :draining, do: finish_drain(state), else: rearm(state)
   end
+
+  def handle_info(
+        {:handler_started, token, result},
+        %{reservation: %{token: token} = reservation} = state
+      ) do
+    _ = Process.cancel_timer(reservation.timer)
+    valid? = state.mode == :running and not reservation.expired and now() <= reservation.deadline
+
+    case {valid?, result} do
+      {true, {:ok, pid}} ->
+        ref = Process.monitor(pid)
+        :ok = Abyss.UDPAdmission.admitted(reservation.slot, pid)
+        send(pid, {:new_connection, state.listener_socket, reservation.packet})
+        handlers = Map.put(state.handlers, ref, {pid, reservation.slot})
+
+        rearm(%{
+          state
+          | handlers: handlers,
+            reservation: nil,
+            active_high_water: max(state.active_high_water, map_size(handlers))
+        })
+
+      {_, {:ok, pid}} ->
+        Process.exit(pid, :kill)
+        finish_reservation(state, :stale_admission)
+
+      {_, error} ->
+        finish_reservation(state, {:start_failed, error})
+    end
+  end
+
+  def handle_info({:start_expired, token}, %{reservation: %{token: token}} = state) do
+    # Keep the sole reservation until the fixed starter returns. This prevents
+    # an unresponsive custom start_link from creating an unbounded start queue.
+    {:noreply, expire_reservation(state, :start_deadline)}
+  end
+
+  def handle_info({:DOWN, ref, :process, _pid, reason}, state) do
+    case Map.pop(state.handlers, ref) do
+      {nil, _} ->
+        {:noreply, state}
+
+      {{_pid, slot}, handlers} ->
+        Abyss.UDPAdmission.release(slot)
+        Abyss.Telemetry.track_work_finished(state.server_pid, reason)
+        finish_drain(%{state | handlers: handlers})
+    end
+  end
+
+  def handle_info(:drain_expired, state) do
+    Enum.each(state.handlers, fn {_ref, {pid, _slot}} -> Process.exit(pid, :kill) end)
+    complete_drain(state)
+  end
+
+  def handle_info({:EXIT, pid, reason}, %{starter: pid} = state),
+    do: {:stop, {:starter_exit, reason}, state}
+
+  def handle_info({:EXIT, pid, reason}, %{dispatcher: pid} = state),
+    do: {:stop, {:dispatcher_exit, reason}, state}
 
   def handle_info({:abyss_dispatcher_writer_error, reason}, state) do
     Abyss.Telemetry.span_event(state.listener_span, :dispatcher_writer_error, %{reason: reason})
     {:noreply, state}
   end
 
-  @impl true
-  def handle_info(
-        :do_recv,
-        %{listener_span: listener_span, listener_socket: listener_socket, transport: transport} =
-          state
-      ) do
-    Abyss.Telemetry.untimed_span_event(state.listener_span, :waiting, %{}, %{
-      listener_id: state.listener_id,
-      listener_socket: state.listener_socket,
-      local_info: state.local_info
-    })
-
-    # CRITICAL: Use :infinity timeout - DO NOT CHANGE to finite timeout!
-    # See moduledoc "Critical Implementation Note" for explanation.
-    # UDP recv blocks efficiently at OS level; finite timeouts cause CPU-wasting busy loops.
-    case transport.recv(listener_socket, 0, :infinity) do
-      {:ok, {ip, port, data}} ->
-        receive_and_rearm(ip, port, data, state)
-
-      {:ok, {ip, port, _anc_data, data}} ->
-        receive_and_rearm(ip, port, data, state)
-
-      {:error, reason} ->
-        Abyss.Telemetry.span_event(listener_span, :recv_error, %{
-          reason: reason,
-          listener_socket: listener_socket
-        })
-
-        # :einval/:closed = socket closed by stop/1; treat as normal shutdown.
-        {:stop, if(reason in [:einval, :closed], do: :normal, else: reason), state}
-    end
-  end
+  def handle_info(_message, state), do: {:noreply, state}
 
   @impl true
-  def handle_info(_msg, state) do
-    {:noreply, state}
-  end
+  def handle_call(:listener_info, _from, state), do: {:reply, state.local_info, state}
 
-  # Passive (unicast) receive path: emit telemetry, hand the packet off, and
-  # re-arm the recv loop.
-  defp receive_and_rearm(ip, port, data, state) do
-    Abyss.Telemetry.untimed_span_event(state.listener_span, :receiving, %{}, %{
-      listener_id: state.listener_id,
-      listener_socket: state.listener_socket,
-      local_info: state.local_info
-    })
-
-    accept_packet(ip, port, data, state.listener_socket, state)
-    Process.send_after(self(), :do_recv, 0)
-    {:noreply, state}
-  end
-
-  # Shared packet acceptance: size validation, telemetry, and handler start.
-  # Used by both the passive recv loop and the active (broadcast) mode.
-  defp accept_packet(ip, port, data, socket, %{listener_span: listener_span} = state) do
-    if byte_size(data) > state.server_config.max_packet_size do
-      Abyss.Telemetry.span_event(listener_span, :packet_too_large, %{
-        remote_address: ip,
-        remote_port: port,
-        packet_size: byte_size(data),
-        max_size: state.server_config.max_packet_size
-      })
-    else
-      if is_pid(state.dispatcher) do
-        case Abyss.Dispatcher.dispatch(
-               state.dispatcher,
-               {ip, port},
-               data,
-               Abyss.Telemetry.monotonic_time()
-             ) do
-          {:error, reason} ->
-            Abyss.Telemetry.span_event(listener_span, :dispatcher_drop, %{reason: reason})
-
-          {:dropped, reason} ->
-            Abyss.Telemetry.span_event(listener_span, :dispatcher_drop, %{reason: reason})
-
-          _ ->
-            :ok
-        end
-      else
-        start_time = Abyss.Telemetry.monotonic_time()
-        Abyss.Telemetry.track_connection_accepted(state.server_config.handler_module)
-
-        connection_span =
-          Abyss.Telemetry.start_child_span_with_sampling(
-            listener_span,
-            :connection,
-            %{monotonic_time: start_time},
-            %{remote_address: ip, remote_port: port, accept_start_time: start_time},
-            sample_rate: state.server_config.connection_telemetry_sample_rate
-          )
-
-        Abyss.Connection.start(
-          state.server_pid,
-          self(),
-          socket,
-          {ip, port, data},
-          state.server_config,
-          connection_span
-        )
-      end
-    end
-
-    :ok
-  end
-
-  @impl GenServer
-  @spec handle_call(:listener_info | :socket_info, any, state) ::
-          {:reply,
-           Abyss.Transport.socket_info()
-           | {Abyss.Transport.listener_socket(), Abyss.Telemetry.t()}, state}
-  def handle_call(:listener_info, _from, state) do
-    {:reply, state.local_info, state}
-  end
-
-  @impl true
   def handle_call(:socket_info, _from, state),
     do: {:reply, {state.listener_socket, state.listener_span}, state}
 
-  @impl GenServer
-  @spec terminate(reason, state) :: :ok
-        when reason: :normal | :shutdown | {:shutdown, term} | term
+  def handle_call(:memberships, _from, state), do: {:reply, state.memberships, state}
+
+  def handle_call(:status, _from, state) do
+    status = %{
+      mode: state.mode,
+      active_handlers: map_size(state.handlers),
+      pending_count: 0,
+      pending_bytes: 0,
+      starting: if(state.reservation, do: 1, else: 0),
+      retained_bytes:
+        if(state.reservation, do: byte_size(elem(state.reservation.packet, 2)), else: 0),
+      receive_credit: if(state.armed, do: 1, else: 0),
+      received: state.received,
+      dropped: state.dropped,
+      active_high_water: state.active_high_water,
+      retained_high_water: state.retained_high_water,
+      local: state.local_info
+    }
+
+    {:reply, status, state}
+  end
+
+  def handle_call(:pause, _from, %{mode: :stopped} = state), do: {:reply, :ok, state}
+
+  def handle_call(:resume, _from, %{mode: :stopped} = state),
+    do: {:reply, {:error, :stopped}, state}
+
+  def handle_call(:pause, _from, %{mode: :draining} = state),
+    do: {:reply, {:error, :draining}, state}
+
+  def handle_call(:pause, _from, state) do
+    state = expire_reservation(state, :suspended)
+    {:reply, :ok, %{state | mode: :suspended}}
+  end
+
+  def handle_call(:resume, _from, %{mode: :draining} = state),
+    do: {:reply, {:error, :draining}, state}
+
+  def handle_call(:resume, _from, state) do
+    case arm(%{state | mode: :running}) do
+      {:ok, state} -> {:reply, :ok, state}
+      {:error, reason} -> {:reply, {:error, reason}, state}
+    end
+  end
+
+  def handle_call({:drain, _deadline}, _from, %{mode: :stopped} = state), do: {:reply, :ok, state}
+
+  def handle_call({:drain, _deadline}, _from, %{drain_waiter: waiter} = state)
+      when not is_nil(waiter),
+      do: {:reply, {:error, :already_draining}, state}
+
+  def handle_call({:drain, deadline}, from, state) do
+    timer =
+      if deadline == :infinity,
+        do: nil,
+        else: Process.send_after(self(), :drain_expired, max(deadline - now(), 0))
+
+    state = %{state | mode: :draining, drain_waiter: {from, timer}}
+    finish_drain(state)
+  end
+
+  def handle_call({:membership, _operation, _membership}, _from, %{mode: mode} = state)
+      when mode in [:draining, :stopped],
+      do: {:reply, {:error, mode}, state}
+
+  def handle_call({:membership, operation, membership}, _from, state) do
+    with {:ok, normalized} <- Multicast.normalize_membership(membership),
+         :ok <- membership_family(normalized, state),
+         :ok <- membership_operation(operation, normalized, state) do
+      desired =
+        case operation do
+          :join -> Enum.uniq(state.memberships ++ [normalized])
+          :leave -> List.delete(state.memberships, normalized)
+        end
+
+      :ets.insert(@membership_table, {state.desired_key, desired})
+      {:reply, :ok, %{state | memberships: desired}}
+    else
+      {:error, reason} -> {:reply, {:error, reason}, state}
+    end
+  end
+
+  defp membership_family({group, _interface}, state) do
+    with {:ok, {local, _port}} <- state.transport.sockname(state.listener_socket) do
+      expected = Multicast.family(local)
+      actual = Multicast.family(group)
+
+      if expected == actual,
+        do: :ok,
+        else: {:error, {:membership_family_mismatch, expected, actual}}
+    end
+  end
+
+  defp membership_operation(:join, membership, state) do
+    cond do
+      membership in state.memberships -> :ok
+      length(state.memberships) >= 64 -> {:error, :membership_limit}
+      true -> state.transport.setopts(state.listener_socket, add_membership: membership)
+    end
+  end
+
+  defp membership_operation(:leave, membership, state) do
+    if membership in state.memberships,
+      do: state.transport.setopts(state.listener_socket, drop_membership: membership),
+      else: :ok
+  end
+
+  defp receive_packet({_ip, _port, data} = packet, ancillary, state) do
+    bytes = byte_size(data)
+    Abyss.Telemetry.track_datagram_received(state.server_pid, bytes)
+    state = %{state | received: state.received + 1}
+
+    cond do
+      state.mode != :running ->
+        rearm(drop(state, state.mode, bytes))
+
+      bytes > state.server_config.max_packet_size ->
+        Abyss.Telemetry.span_event(state.listener_span, :packet_too_large, %{
+          packet_size: bytes,
+          max_size: state.server_config.max_packet_size
+        })
+
+        rearm(drop(state, :packet_too_large, bytes))
+
+      is_pid(state.dispatcher) ->
+        token = make_ref()
+        reservation = %{token: token, packet: packet, timer: nil, slot: nil, expired: false}
+
+        Abyss.ListenerStarter.dispatch(
+          state.starter,
+          {token, state.dispatcher, packet, Abyss.Telemetry.monotonic_time(),
+           %{ancillary: ancillary, local_info: state.local_info}}
+        )
+
+        {:noreply,
+         %{
+           state
+           | reservation: reservation,
+             retained_high_water: max(bytes, state.retained_high_water)
+         }}
+
+      map_size(state.handlers) >= state.server_config.num_connections ->
+        rearm(drop(state, :handler_limit, bytes))
+
+      state.reservation != nil ->
+        rearm(drop(state, :starting_limit, bytes))
+
+      true ->
+        case Abyss.UDPAdmission.reserve(
+               state.server_pid,
+               self(),
+               state.server_config.num_connections
+             ) do
+          {:ok, slot} -> start_reservation(packet, ancillary, bytes, slot, state)
+          {:error, reason} -> rearm(drop(state, reason, bytes))
+        end
+    end
+  end
+
+  defp start_reservation({ip, port, _data} = packet, ancillary, bytes, slot, state) do
+    token = make_ref()
+    deadline = now() + state.server_config.admission_start_timeout
+
+    timer =
+      Process.send_after(
+        self(),
+        {:start_expired, token},
+        state.server_config.admission_start_timeout
+      )
+
+    span =
+      Abyss.Telemetry.start_child_span_with_sampling(
+        state.listener_span,
+        :connection,
+        %{monotonic_time: Abyss.Telemetry.monotonic_time()},
+        %{
+          server_pid: state.server_pid,
+          remote_address: ip,
+          remote_port: port,
+          ancillary: ancillary,
+          local_info: state.local_info
+        },
+        sample_rate: state.server_config.connection_telemetry_sample_rate
+      )
+
+    reservation = %{
+      slot: slot,
+      token: token,
+      deadline: deadline,
+      timer: timer,
+      expired: false,
+      packet: packet
+    }
+
+    Abyss.ListenerStarter.start(
+      state.starter,
+      {token, state.server_pid, state.listener_socket, state.server_config, span}
+    )
+
+    {:noreply,
+     %{
+       state
+       | reservation: reservation,
+         retained_high_water: max(bytes, state.retained_high_water)
+     }}
+  end
+
+  defp expire_reservation(%{reservation: nil} = state, _reason), do: state
+  defp expire_reservation(%{reservation: %{expired: true}} = state, _reason), do: state
+
+  defp expire_reservation(state, reason) do
+    {ip, port, data} = state.reservation.packet
+    state = drop(state, reason, byte_size(data))
+    %{state | reservation: %{state.reservation | expired: true, packet: {ip, port, <<>>}}}
+  end
+
+  defp finish_reservation(state, reason) do
+    Abyss.UDPAdmission.release(state.reservation.slot)
+
+    state =
+      if state.reservation.expired,
+        do: state,
+        else: drop(state, reason, byte_size(elem(state.reservation.packet, 2)))
+
+    state = %{state | reservation: nil}
+    if state.mode == :draining, do: finish_drain(state), else: rearm(state)
+  end
+
+  defp drop(state, reason, bytes) do
+    Abyss.Telemetry.track_datagram_dropped(state.server_pid, reason, bytes)
+    %{state | dropped: state.dropped + 1}
+  end
+
+  defp rearm(state) do
+    case arm(state) do
+      {:ok, state} -> {:noreply, state}
+      {:error, reason} -> {:stop, {:arm_failed, reason}, state}
+    end
+  end
+
+  defp arm(%{armed: true} = state), do: {:ok, state}
+  defp arm(%{reservation: reservation} = state) when not is_nil(reservation), do: {:ok, state}
+  defp arm(%{mode: :draining} = state), do: {:ok, state}
+  defp arm(%{mode: :stopped} = state), do: {:ok, state}
+
+  defp arm(state) do
+    case state.transport.setopts(state.listener_socket, active: :once) do
+      :ok -> {:ok, %{state | armed: true}}
+      {:error, reason} -> {:error, reason}
+    end
+  end
+
+  defp finish_drain(%{mode: :draining, handlers: handlers, reservation: nil} = state)
+       when map_size(handlers) == 0,
+       do: complete_drain(state)
+
+  defp finish_drain(state), do: {:noreply, state}
+
+  defp complete_drain(%{drain_waiter: {from, timer}} = state) do
+    _ = if timer, do: Process.cancel_timer(timer)
+    if is_pid(state.starter), do: Process.exit(state.starter, :shutdown)
+
+    Enum.each(state.handlers, fn {ref, {pid, slot}} ->
+      Process.demonitor(ref, [:flush])
+      Process.exit(pid, :kill)
+      Abyss.UDPAdmission.release(slot)
+      Abyss.Telemetry.track_work_finished(state.server_pid, :drain_deadline)
+    end)
+
+    if state.reservation do
+      _ = if state.reservation.timer, do: Process.cancel_timer(state.reservation.timer)
+      if state.reservation.slot, do: Abyss.UDPAdmission.release(state.reservation.slot)
+    end
+
+    Abyss.Telemetry.unregister_socket(state.listener_socket)
+    if is_pid(state.dispatcher), do: Process.exit(state.dispatcher, :kill)
+    state.transport.close(state.listener_socket)
+    GenServer.reply(from, :ok)
+
+    {:noreply,
+     %{
+       state
+       | mode: :stopped,
+         armed: false,
+         drain_waiter: nil,
+         dispatcher: nil,
+         starter: nil,
+         handlers: %{},
+         reservation: nil
+     }}
+  end
+
+  defp complete_drain(state), do: {:noreply, state}
+  defp now, do: System.monotonic_time(:millisecond)
+
+  defp ensure_membership_table do
+    Abyss.TableOwner.ensure_table(@membership_table, [:named_table, :public, :set])
+  end
+
+  @impl true
   def terminate(_reason, state) do
-    # Clean up cached listener info
-    uncache_listener_info(self())
-    if is_pid(state.dispatcher), do: GenServer.stop(state.dispatcher, :normal, 1_000)
+    :ets.delete(@listener_info_table, self())
+    :ets.delete(@owner_table, self())
+    Abyss.Telemetry.unregister_socket(state.listener_socket)
+    if is_pid(state.starter), do: Process.exit(state.starter, :shutdown)
+
+    Enum.each(state.handlers, fn {ref, {pid, slot}} ->
+      Process.demonitor(ref, [:flush])
+      Process.exit(pid, :kill)
+      Abyss.UDPAdmission.release(slot)
+    end)
+
+    if state.reservation do
+      _ = if state.reservation.timer, do: Process.cancel_timer(state.reservation.timer)
+      if state.reservation.slot, do: Abyss.UDPAdmission.release(state.reservation.slot)
+    end
+
+    if is_pid(state.dispatcher), do: Process.exit(state.dispatcher, :kill)
+
     state.transport.close(state.listener_socket)
     Abyss.Telemetry.stop_span(state.listener_span)
+    :ok
   end
 
   defp start_dispatcher(
@@ -464,7 +634,7 @@ defmodule Abyss.Listener do
        do: {:ok, nil}
 
   defp start_dispatcher(config, socket, transport, local_info) do
-    {module, module_options} =
+    {module, options} =
       case config.datagram_dispatcher do
         module when is_atom(module) -> {module, config.dispatcher_options}
         {module, options} -> {module, Keyword.merge(config.dispatcher_options, options)}
@@ -472,7 +642,7 @@ defmodule Abyss.Listener do
 
     Abyss.Dispatcher.start_link(
       module: module,
-      module_options: module_options,
+      module_options: options,
       socket: socket,
       transport: transport,
       local_info: local_info,

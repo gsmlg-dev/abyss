@@ -1,0 +1,33 @@
+name: Isolated UDP Network
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  wire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        backend: [inet, socket]
+    env:
+      CI: 'true'
+      MIX_ENV: dev
+      ABYSS_UDP_BACKEND: ${{ matrix.backend }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          elixir-version: '1.18'
+          otp-version: '28'
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install fixture tooling
+        run: sudo apt-get update && sudo apt-get install -y iproute2 util-linux python3
+      - name: Compile the locked service
+        run: mix deps.get && mix compile --warnings-as-errors
+      - name: Verify independent UDP peers in isolated namespaces
+        run: python3 scripts/udp/network_fixture.py

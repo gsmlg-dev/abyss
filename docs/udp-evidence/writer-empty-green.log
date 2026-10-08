@@ -1,0 +1,13 @@
+Compiling 4 files (.ex)
+Generated abyss app
+Running ExUnit with seed: 161937, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+..............
+00:59:40.582 [error] GenServer #PID<0.344.0> terminating
+** (stop) {:writer_exit, :killed}
+Last message: {:EXIT, #PID<0.346.0>, :killed}
+State: %{module: Abyss.DispatcherTestCallback, monitors: %{}, send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.346.0>, generation: #Reference<0.4125407352.144703492.60043>, admission: #PID<0.345.0>}, writer: #PID<0.346.0>, listener: nil, generation: #Reference<0.4125407352.144703492.60043>, admission: #PID<0.345.0>, routes: %{}, callback_state: %{started: 0, send_fun: #Function<2.70355763/2 in Abyss.Dispatcher.init/1>}}
+.............
+Finished in 0.6 seconds (0.4s async, 0.2s sync)
+27 tests, 0 failures

@@ -37,7 +37,7 @@ defmodule Abyss.Server do
   @doc """
   Resume a suspended server by resuming the listener pool.
 
-  This reopens the listening port and resumes accepting new connections.
+  This resumes admission using the original socket.
   If the server is not currently suspended or the listener pool cannot be found,
   this function returns nil.
 
@@ -61,7 +61,7 @@ defmodule Abyss.Server do
   @doc """
   Suspend a running server by suspending the listener pool.
 
-  This closes the listening port and stops accepting new connections.
+  This pauses admission while retaining the socket.
   Existing connections will continue to be processed. If the listener pool
   cannot be found, this function returns nil.
 
@@ -141,6 +141,39 @@ defmodule Abyss.Server do
     end
   end
 
+  @doc false
+  def memberships(server), do: endpoint_operation(server, &Abyss.Listener.memberships/1)
+
+  def join(server, membership),
+    do: endpoint_operation(server, &Abyss.Listener.join(&1, membership))
+
+  def leave(server, membership),
+    do: endpoint_operation(server, &Abyss.Listener.leave(&1, membership))
+
+  defp endpoint_operation(server, operation) do
+    case listener_pool_pid(server) do
+      nil ->
+        {:error, :not_running}
+
+      pool ->
+        case Abyss.ListenerPool.listener_pids(pool) do
+          [listener] -> operation.(listener)
+          _ -> {:error, :multiple_receive_endpoints}
+        end
+    end
+  end
+
+  def stop(server, timeout) when timeout == :infinity or (is_integer(timeout) and timeout >= 0) do
+    deadline =
+      if timeout == :infinity, do: :infinity, else: System.monotonic_time(:millisecond) + timeout
+
+    listeners = Abyss.Listener.for_server(server)
+    Enum.each(listeners, &Abyss.Listener.pause/1)
+    Enum.each(listeners, &Abyss.Listener.drain(&1, deadline))
+
+    Supervisor.stop(server, :normal, :infinity)
+  end
+
   @impl Supervisor
   @spec init(Abyss.ServerConfig.t()) ::
           {:ok,
@@ -151,13 +184,14 @@ defmodule Abyss.Server do
 
     # Initialize telemetry metrics
     Abyss.Telemetry.init_metrics()
+    Abyss.Telemetry.register_scope(server_pid, config.handler_module)
 
     children =
       [
         {Abyss.ListenerPool, {server_pid, config}}
         |> Supervisor.child_spec(id: :listener_pool),
         {DynamicSupervisor, strategy: :one_for_one, max_children: config.num_connections}
-        |> Supervisor.child_spec(id: :connection_sup),
+        |> Supervisor.child_spec(id: :connection_sup, shutdown: :brutal_kill),
         Supervisor.child_spec(
           {Task,
            fn ->
@@ -170,8 +204,8 @@ defmodule Abyss.Server do
       ] ++
         scaler_child_specs(config, server_pid) ++
         [
-          {Abyss.ShutdownListener, server_pid}
-          |> Supervisor.child_spec(id: :shutdown_listener)
+          {Abyss.ShutdownListener, {server_pid, config.shutdown_timeout}}
+          |> Supervisor.child_spec(id: :shutdown_listener, shutdown: :infinity)
         ]
 
     Supervisor.init(children, strategy: :rest_for_one)

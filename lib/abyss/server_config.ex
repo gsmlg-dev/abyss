@@ -37,7 +37,8 @@ defmodule Abyss.ServerConfig do
           datagram_dispatcher: nil | module() | {module(), keyword()},
           dispatcher_options: keyword(),
           dispatcher_max_queue: pos_integer(),
-          dispatcher_max_queue_bytes: pos_integer()
+          dispatcher_max_queue_bytes: pos_integer(),
+          admission_start_timeout: pos_integer()
         }
 
   @connections_per_listener 100
@@ -72,7 +73,8 @@ defmodule Abyss.ServerConfig do
             datagram_dispatcher: nil,
             dispatcher_options: [],
             dispatcher_max_queue: 128,
-            dispatcher_max_queue_bytes: 1_048_576
+            dispatcher_max_queue_bytes: 1_048_576,
+            admission_start_timeout: 1000
 
   @spec new(Abyss.options()) :: t()
   def new(opts \\ []) do
@@ -106,27 +108,6 @@ defmodule Abyss.ServerConfig do
     transport_module = Keyword.get(opts, :transport_module, Abyss.Transport.UDP)
     is_broadcast = transport_module == Abyss.Transport.UDP.Broadcast
 
-    # Warn if broadcast is set in transport_options (invalid option)
-    if get_in(opts, [:transport_options, :broadcast]) != nil do
-      Logger.warning(
-        "Invalid option: transport_options[:broadcast] is ignored. " <>
-          "Use transport_module: Abyss.Transport.UDP.Broadcast instead."
-      )
-    end
-
-    # Remove broadcast from transport_options if present
-    opts =
-      if get_in(opts, [:transport_options, :broadcast]) != nil do
-        transport_opts =
-          opts
-          |> Keyword.get(:transport_options, [])
-          |> Keyword.delete(:broadcast)
-
-        Keyword.put(opts, :transport_options, transport_opts)
-      else
-        opts
-      end
-
     opts =
       if is_broadcast do
         Keyword.put(opts, :broadcast, true)
@@ -144,37 +125,124 @@ defmodule Abyss.ServerConfig do
 
   # Private validation function
   defp validate_config!(config) do
+    _ = validate_limits!(config)
+    _ = validate_timeouts!(config)
+    validate_socket_options!(config)
+    validate_scaling!(config)
+    validate_resources!(config)
+    validate_dispatcher!(config)
+    :ok
+  end
+
+  defp validate_limits!(config) do
+    for {name, value} <- [
+          num_listeners: config.num_listeners,
+          num_connections: config.num_connections,
+          max_packet_size: config.max_packet_size,
+          udp_buffer_size: config.udp_buffer_size,
+          admission_start_timeout: config.admission_start_timeout
+        ] do
+      unless is_integer(value) and value > 0,
+        do: raise(ArgumentError, "#{name} must be a positive integer")
+    end
+
+    unless is_integer(config.port) and config.port in 0..65_535,
+      do: raise(ArgumentError, "port must be between 0 and 65535")
+  end
+
+  defp validate_timeouts!(config) do
+    for {name, value} <- [
+          read_timeout: config.read_timeout,
+          shutdown_timeout: config.shutdown_timeout
+        ] do
+      unless value == :infinity or (is_integer(value) and value >= 0),
+        do: raise(ArgumentError, "#{name} must be a non-negative timeout or :infinity")
+    end
+  end
+
+  defp validate_socket_options!(config) do
+    for key <- [:broadcast, :dynamic_listeners, :silent_terminate_on_error] do
+      unless is_boolean(Map.fetch!(config, key)),
+        do: raise(ArgumentError, "#{key} must be boolean")
+    end
+
+    unless is_list(config.transport_options),
+      do: raise(ArgumentError, "transport_options must be a list")
+
+    for option <- config.transport_options do
+      case option do
+        {:active, value} when value not in [false, :once] ->
+          raise ArgumentError, "host owns receive activation; active must be false or :once"
+
+        :list ->
+          raise ArgumentError, "host requires binary datagrams"
+
+        {:mode, :list} ->
+          raise ArgumentError, "host requires binary datagrams"
+
+        _ ->
+          :ok
+      end
+    end
+
+    validate_dynamic_endpoint!(config)
+  end
+
+  defp validate_dynamic_endpoint!(config) do
+    membership? = Enum.any?(config.transport_options, &match?({:add_membership, _}, &1))
+
+    if config.dynamic_listeners and
+         (config.broadcast or config.port == 0 or membership? or
+            config.transport_module == Abyss.Transport.UDP.Multicast),
+       do:
+         raise(
+           ArgumentError,
+           "dynamic receive-socket scaling is incompatible with ephemeral, broadcast or multicast endpoints"
+         )
+  end
+
+  defp validate_scaling!(config) do
     # Validate listener scaling configuration
-    unless config.min_listeners > 0 and config.min_listeners <= config.max_listeners do
+    unless is_integer(config.min_listeners) and is_integer(config.max_listeners) and
+             config.min_listeners > 0 and config.min_listeners <= config.max_listeners do
       raise ArgumentError,
             "min_listeners must be positive and <= max_listeners (got min: #{config.min_listeners}, max: #{config.max_listeners})"
     end
 
-    unless config.listener_scale_threshold > 0.0 and config.listener_scale_threshold <= 1.0 do
+    unless is_number(config.listener_scale_threshold) and config.listener_scale_threshold > 0.0 and
+             config.listener_scale_threshold <= 1.0 do
       raise ArgumentError,
             "listener_scale_threshold must be between 0.0 and 1.0 (got #{config.listener_scale_threshold})"
     end
+  end
 
+  defp validate_resources!(config) do
     # Validate telemetry sampling rate
-    unless config.connection_telemetry_sample_rate >= 0.0 and
+    unless is_number(config.connection_telemetry_sample_rate) and
+             config.connection_telemetry_sample_rate >= 0.0 and
              config.connection_telemetry_sample_rate <= 1.0 do
       raise ArgumentError,
             "connection_telemetry_sample_rate must be between 0.0 and 1.0 (got #{config.connection_telemetry_sample_rate})"
     end
 
+    validate_memory!(config)
+  end
+
+  defp validate_memory!(config) do
     # Validate memory thresholds
-    unless config.handler_memory_check_interval > 0 do
+    unless is_integer(config.handler_memory_check_interval) and
+             config.handler_memory_check_interval > 0 do
       raise ArgumentError,
             "handler_memory_check_interval must be positive (got #{config.handler_memory_check_interval})"
     end
 
-    unless config.handler_memory_warning_threshold > 0 and
+    unless is_number(config.handler_memory_warning_threshold) and
+             is_number(config.handler_memory_hard_limit) and
+             config.handler_memory_warning_threshold > 0 and
              config.handler_memory_warning_threshold < config.handler_memory_hard_limit do
       raise ArgumentError,
             "handler_memory_warning_threshold must be positive and < handler_memory_hard_limit (got warning: #{config.handler_memory_warning_threshold}, hard limit: #{config.handler_memory_hard_limit})"
     end
-
-    validate_dispatcher!(config)
 
     :ok
   end
@@ -201,7 +269,11 @@ defmodule Abyss.ServerConfig do
             "datagram_dispatcher must be a module exporting init/2 and handle_datagram/4"
     end
 
-    unless is_list(config.dispatcher_options) do
+    validate_dispatcher_limits!(config)
+  end
+
+  defp validate_dispatcher_limits!(config) do
+    unless Keyword.keyword?(config.dispatcher_options) do
       raise ArgumentError, "dispatcher_options must be a keyword list"
     end
 

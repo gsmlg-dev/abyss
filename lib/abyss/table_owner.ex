@@ -39,11 +39,39 @@ defmodule Abyss.TableOwner do
     end
   end
 
+  @doc false
+  def track_scope(scope) when is_pid(scope) do
+    case Process.whereis(__MODULE__) do
+      nil -> :ok
+      pid when pid == self() -> :ok
+      _ -> GenServer.call(__MODULE__, {:track_scope, scope})
+    end
+  end
+
+  def track_scope(_scope), do: :ok
+
+  @doc false
+  def monitor_listener(listener) do
+    case Process.whereis(__MODULE__) do
+      nil -> :ok
+      _ -> GenServer.call(__MODULE__, {:monitor_listener, listener})
+    end
+  end
+
+  @doc false
+  def admission(operation) do
+    case Process.whereis(__MODULE__) do
+      pid when pid == self() -> Abyss.UDPAdmission.transition(operation)
+      nil -> Abyss.UDPAdmission.transition(operation)
+      _pid -> GenServer.call(__MODULE__, {:admission, operation})
+    end
+  end
+
   @impl GenServer
   def init(_arg) do
     Abyss.Listener.ensure_info_table_exists()
     Abyss.Telemetry.init_metrics()
-    {:ok, %{}}
+    {:ok, %{scopes: %{}, listeners: %{}}}
   end
 
   @impl GenServer
@@ -51,8 +79,45 @@ defmodule Abyss.TableOwner do
     {:reply, create_table(name, opts), state}
   end
 
+  def handle_call({:admission, operation}, _from, state),
+    do: {:reply, Abyss.UDPAdmission.transition(operation), state}
+
+  def handle_call({:track_scope, scope}, _from, state) do
+    scopes = Map.put_new_lazy(state.scopes, scope, fn -> Process.monitor(scope) end)
+    {:reply, :ok, %{state | scopes: scopes}}
+  end
+
+  def handle_call({:monitor_listener, listener}, _from, state) do
+    listeners = Map.put_new_lazy(state.listeners, listener, fn -> Process.monitor(listener) end)
+    {:reply, :ok, %{state | listeners: listeners}}
+  end
+
+  @impl GenServer
+  def handle_info({:DOWN, monitor, :process, scope, _reason}, state) do
+    case Map.fetch(state.scopes, scope) do
+      {:ok, ^monitor} ->
+        Abyss.Listener.clear_desired(scope)
+        Abyss.Telemetry.clear_scope(scope)
+        {:noreply, %{state | scopes: Map.delete(state.scopes, scope)}}
+
+      _ ->
+        cleanup_listener(monitor, scope, state)
+    end
+  end
+
+  defp cleanup_listener(monitor, listener, state) do
+    case Map.fetch(state.listeners, listener) do
+      {:ok, ^monitor} ->
+        Abyss.Listener.cleanup_owner(listener)
+        {:noreply, %{state | listeners: Map.delete(state.listeners, listener)}}
+
+      _ ->
+        {:noreply, state}
+    end
+  end
+
   defp create_table(name, opts) do
-    :ets.new(name, opts)
+    _ = :ets.new(name, opts)
     :ok
   rescue
     # Concurrent creation race - the table already exists

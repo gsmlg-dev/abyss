@@ -264,6 +264,13 @@ defmodule Abyss.DispatcherTest do
     assert {:ok, _completed_at} = Dispatcher.Writer.await(state.writer, capability, ref)
   end
 
+  test "empty datagrams consume writer item capacity and complete normally" do
+    {:ok, dispatcher} = start_dispatcher(max_queue: 1, max_bytes: 1)
+    state = :sys.get_state(dispatcher)
+    assert {:ok, ref} = Dispatcher.send(state.send, {{127, 0, 0, 1}, 1000}, <<>>)
+    assert {:ok, _} = Dispatcher.Writer.await(state.writer, state.send, ref)
+  end
+
   test "writer death invalidates dispatcher capability instead of retaining success" do
     previous = Process.flag(:trap_exit, true)
     on_exit(fn -> Process.flag(:trap_exit, previous) end)

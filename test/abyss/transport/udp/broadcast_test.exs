@@ -5,6 +5,11 @@ defmodule Abyss.Transport.UDP.BroadcastTest do
 
   @moduletag :capture_log
 
+  setup_all do
+    Code.ensure_loaded!(Broadcast)
+    :ok
+  end
+
   describe "module structure" do
     test "module is defined and loadable" do
       assert Code.ensure_loaded?(Broadcast)
@@ -73,7 +78,7 @@ defmodule Abyss.Transport.UDP.BroadcastTest do
 
       # Verify broadcast-specific options
       {:ok, opts} = Broadcast.getopts(socket, [:active, :broadcast])
-      assert opts[:active] == true
+      assert opts[:active] == false
       assert opts[:broadcast] == true
 
       Broadcast.close(socket)
@@ -160,13 +165,12 @@ defmodule Abyss.Transport.UDP.BroadcastTest do
       result = Broadcast.listen(1, [])
 
       case result do
-        {:error, _reason} ->
-          assert true
+        {:error, reason} ->
+          assert reason in [:eacces, :eperm, :eaddrinuse]
 
         {:ok, socket} ->
           Broadcast.close(socket)
-          # Test passed - we had permissions
-          assert true
+          assert is_port(socket)
       end
     end
   end
@@ -176,7 +180,7 @@ defmodule Abyss.Transport.UDP.BroadcastTest do
       assert {:ok, socket} = Broadcast.open(0, [])
 
       {:ok, opts} = Broadcast.getopts(socket, [:active, :broadcast])
-      assert opts[:active] == true
+      assert opts[:active] == false
       assert opts[:broadcast] == true
 
       Broadcast.close(socket)
@@ -328,22 +332,18 @@ defmodule Abyss.Transport.UDP.BroadcastTest do
       Broadcast.close(socket)
     end
 
-    test "sends to broadcast address" do
-      {:ok, socket} = Broadcast.open(0, ip: {0, 0, 0, 0})
+    test "sends to directed loopback broadcast and proves delivery" do
+      {:ok, receiver} = Broadcast.listen(0, active: false)
+      {:ok, {_, port}} = Broadcast.sockname(receiver)
+      {:ok, socket} = Broadcast.open(0, ip: {127, 0, 0, 1})
 
-      # Send to local broadcast address
-      result = Broadcast.send_broadcast(socket, {255, 255, 255, 255}, 9999, "broadcast test")
-
-      case result do
-        :ok ->
-          assert true
-
-        {:error, reason} ->
-          # Limited broadcast can fail due to host routing, permissions, or network state.
-          assert reason in [:enetunreach, :ehostunreach, :eacces, :eperm, :enetdown, :einval]
+      try do
+        assert :ok = Broadcast.send_broadcast(socket, {127, 255, 255, 255}, port, "broadcast")
+        assert {:ok, {{127, 0, 0, 1}, _, "broadcast"}} = Broadcast.recv(receiver, 0, 1000)
+      after
+        Broadcast.close(receiver)
+        Broadcast.close(socket)
       end
-
-      Broadcast.close(socket)
     end
 
     test "sends binary data via broadcast" do
@@ -369,7 +369,7 @@ defmodule Abyss.Transport.UDP.BroadcastTest do
 
   describe "active mode message receiving" do
     test "receives messages as Erlang messages in active mode" do
-      {:ok, server} = Broadcast.listen(0, [])
+      {:ok, server} = Broadcast.listen(0, active: 16)
       {:ok, {_ip, port}} = Broadcast.sockname(server)
 
       spawn(fn ->
@@ -385,7 +385,7 @@ defmodule Abyss.Transport.UDP.BroadcastTest do
     end
 
     test "receives binary data in active mode" do
-      {:ok, server} = Broadcast.listen(0, [])
+      {:ok, server} = Broadcast.listen(0, active: 16)
       {:ok, {_ip, port}} = Broadcast.sockname(server)
 
       binary_data = <<1, 2, 3, 4, 5>>
@@ -402,7 +402,7 @@ defmodule Abyss.Transport.UDP.BroadcastTest do
     end
 
     test "receives multiple messages in active mode" do
-      {:ok, server} = Broadcast.listen(0, [])
+      {:ok, server} = Broadcast.listen(0, active: 16)
       {:ok, {_ip, port}} = Broadcast.sockname(server)
 
       spawn(fn ->
@@ -438,7 +438,7 @@ defmodule Abyss.Transport.UDP.BroadcastTest do
       {:ok, socket} = Broadcast.listen(0, [])
 
       {:ok, opts} = Broadcast.getopts(socket, [:active, :broadcast])
-      assert opts[:active] == true
+      assert opts[:active] == false
       assert opts[:broadcast] == true
 
       Broadcast.close(socket)
@@ -492,9 +492,9 @@ defmodule Abyss.Transport.UDP.BroadcastTest do
     test "can switch between active modes" do
       {:ok, socket} = Broadcast.listen(0, [])
 
-      # Initially active: true
+      # Initially passive; the host controls receive credits
       {:ok, opts1} = Broadcast.getopts(socket, [:active])
-      assert opts1[:active] == true
+      assert opts1[:active] == false
 
       # Switch to passive
       Broadcast.setopts(socket, active: false)
@@ -592,10 +592,10 @@ defmodule Abyss.Transport.UDP.BroadcastTest do
   end
 
   describe "default options verification" do
-    test "active defaults to true for broadcast" do
+    test "active defaults to false for broadcast" do
       {:ok, socket} = Broadcast.listen(0, [])
       {:ok, opts} = Broadcast.getopts(socket, [:active])
-      assert opts[:active] == true
+      assert opts[:active] == false
       Broadcast.close(socket)
     end
 
@@ -707,7 +707,7 @@ defmodule Abyss.Transport.UDP.BroadcastTest do
     end
 
     test "rapid send in active mode" do
-      {:ok, server} = Broadcast.listen(0, [])
+      {:ok, server} = Broadcast.listen(0, active: 16)
       {:ok, {_ip, port}} = Broadcast.sockname(server)
 
       {:ok, client} = Broadcast.open(0, [])
@@ -728,7 +728,7 @@ defmodule Abyss.Transport.UDP.BroadcastTest do
 
   describe "concurrent operations" do
     test "multiple processes can send to same server" do
-      {:ok, server} = Broadcast.listen(0, [])
+      {:ok, server} = Broadcast.listen(0, active: 16)
       {:ok, {_ip, port}} = Broadcast.sockname(server)
 
       parent = self()

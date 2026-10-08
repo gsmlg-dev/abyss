@@ -1,0 +1,16 @@
+Evidence source: bounded extract of actual tool output captured during this session.
+This is historical session evidence. The original full stdout log was not
+persisted; accounting-current-green.log records the latest raw rerun separately.
+
+$ mix test test/abyss/table_owner_scope_test.exs test/abyss/handler_test.exs test/abyss/connection_test.exs test/abyss/telemetry_test.exs test/abyss/telemetry_metrics_test.exs test/abyss/telemetry_integration_test.exs test/abyss/handler_hardening_test.exs test/abyss/connection_admission_test.exs test/abyss/telemetry_endpoint_test.exs --include integration --cover --export-coverage accounting-complete
+
+Running ExUnit with seed: 145290, max_cases: 16
+Excluding tags: [slow: true]
+Including tags: [:integration]
+Finished in 2.6 seconds (0.4s async, 2.2s sync)
+77 tests, 0 failures
+
+Exporting cover results ...
+Run "mix test.coverage" once all exports complete
+
+Result: PASS (process exit0). Runtime: system Elixir1.18.5 / OTP28.

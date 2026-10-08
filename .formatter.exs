@@ -5,6 +5,7 @@
     "{config,lib,test,example}/**/*.{ex,exs}",
     "examples/*/mix.exs",
     "examples/*/lib/*.{ex,exs}",
-    "scripts/phase1/*.exs"
+    "scripts/phase1/*.exs",
+    "scripts/udp/*.exs"
   ]
 ]

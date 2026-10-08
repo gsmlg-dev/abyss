@@ -27,7 +27,7 @@ defmodule Abyss.Transport.UDP do
   ```
 
   Note that `Abyss.Listener` explicitly sets `active` according to the
-  server's mode (passive for unicast, active for broadcast), overriding
+  receive budget (one active datagram at a time), overriding
   the default above.
   """
   @behaviour Abyss.Transport
@@ -40,17 +40,15 @@ defmodule Abyss.Transport.UDP do
   @spec listen(:inet.port_number(), [:inet.inet_backend() | :gen_udp.open_option()]) ::
           Abyss.Transport.on_listen()
   def listen(port, user_options) do
-    resolved_options = Core.merge_options(@default_options, user_options)
-
-    :gen_udp.open(port, resolved_options)
+    with {:ok, options} <- Core.normalize_options(@default_options, user_options),
+         do: Core.open_socket(port, options)
   end
 
   @spec open(:inet.port_number(), [:inet.inet_backend() | :gen_udp.open_option()]) ::
           Abyss.Transport.on_open()
   def open(port, user_options) do
-    resolved_options = Core.merge_options(@default_options, user_options)
-
-    :gen_udp.open(port, resolved_options)
+    with {:ok, options} <- Core.normalize_options(@default_options, user_options),
+         do: Core.open_socket(port, options)
   end
 
   @impl Abyss.Transport
@@ -69,20 +67,20 @@ defmodule Abyss.Transport.UDP do
 
   @impl Abyss.Transport
   @spec send(Abyss.Transport.socket(), iodata()) :: Abyss.Transport.on_send()
-  defdelegate send(socket, data), to: :gen_udp
-  defdelegate send(socket, dest, data), to: :gen_udp
-  defdelegate send(socket, ip, port, data), to: :gen_udp
-  defdelegate send(socket, ip, port, anc_data, data), to: :gen_udp
+  defdelegate send(socket, data), to: Core
+  defdelegate send(socket, dest, data), to: Core
+  defdelegate send(socket, ip, port, data), to: Core
+  defdelegate send(socket, ip, port, anc_data, data), to: Core
 
   @impl Abyss.Transport
   @spec getopts(Abyss.Transport.socket(), Abyss.Transport.socket_get_options()) ::
           Abyss.Transport.on_getopts()
-  defdelegate getopts(socket, options), to: :inet
+  defdelegate getopts(socket, options), to: Core
 
   @impl Abyss.Transport
   @spec setopts(Abyss.Transport.socket(), Abyss.Transport.socket_set_options()) ::
           Abyss.Transport.on_setopts()
-  defdelegate setopts(socket, options), to: :inet
+  defdelegate setopts(socket, options), to: Core
 
   @impl Abyss.Transport
   @spec close(Abyss.Transport.socket() | Abyss.Transport.listener_socket()) :: :ok

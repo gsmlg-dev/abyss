@@ -7,7 +7,7 @@ defmodule Abyss.Transport.UDP.Broadcast do
 
   ## Characteristics
 
-  - Socket configured with `active: true` for active receive mode
+  - Socket configured with `active: false` for passive receive mode
   - Broadcast enabled (`broadcast: true`)
   - Optimized for one-to-many communication patterns
   - Single listener process (broadcast mode requirement)
@@ -56,7 +56,7 @@ defmodule Abyss.Transport.UDP.Broadcast do
   - `mode: :binary` - Binary mode for data
   - `reuseaddr: true` - Allow address reuse (essential for multicast)
   - `reuseport: true` - Allow port reuse (essential for multicast)
-  - `active: true` - Active receive mode for broadcast
+  - `active: false` - Passive receive mode; the host owns receive credits
   - `broadcast: true` - Enable broadcast
 
   ## Multicast Configuration
@@ -87,7 +87,7 @@ defmodule Abyss.Transport.UDP.Broadcast do
     mode: :binary,
     reuseaddr: true,
     reuseport: true,
-    active: true,
+    active: false,
     broadcast: true
   ]
 
@@ -119,11 +119,8 @@ defmodule Abyss.Transport.UDP.Broadcast do
   @spec listen(:inet.port_number(), [:inet.inet_backend() | :gen_udp.open_option()]) ::
           Abyss.Transport.on_listen()
   def listen(port, user_options) do
-    default_options = []
-
-    resolved_options = Core.merge_options(@hardcoded_options ++ default_options, user_options)
-
-    Core.open_socket(port, resolved_options)
+    with {:ok, options} <- Core.normalize_options(@hardcoded_options, user_options),
+         do: Core.open_socket(port, options)
   end
 
   @doc """
@@ -149,11 +146,8 @@ defmodule Abyss.Transport.UDP.Broadcast do
   @spec open(:inet.port_number(), [:inet.inet_backend() | :gen_udp.open_option()]) ::
           Abyss.Transport.on_open()
   def open(port, user_options) do
-    default_options = []
-
-    resolved_options = Core.merge_options(@hardcoded_options ++ default_options, user_options)
-
-    Core.open_socket(port, resolved_options)
+    with {:ok, options} <- Core.normalize_options(@hardcoded_options, user_options),
+         do: Core.open_socket(port, options)
   end
 
   # Delegate all other transport operations to Core

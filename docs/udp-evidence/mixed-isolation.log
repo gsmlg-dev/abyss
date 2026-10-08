@@ -1,0 +1,21 @@
+Running ExUnit with seed: 129416, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+...........
+01:15:57.929 [info] The function passed as a handler with ID "start-deadline-#PID<0.398.0>" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+
+01:15:57.927 [error] GenServer #PID<0.392.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.390.0>, :killed}
+State: %{owner: #PID<0.390.0>, socket: #Port<0.43>, queue: {[], []}, admission: #PID<0.391.0>, transport: Abyss.Transport.UDP, max_bytes: 1048576, max_queue: 128, generation: #Reference<0.4274356816.416022529.71216>, owner_monitor: #Reference<0.4274356816.416022529.71225>, queue_bytes: 0, sending: false, owns_admission: false}
+
+01:15:57.914 [error] GenServer #PID<0.382.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.380.0>, :killed}
+State: %{owner: #PID<0.380.0>, socket: #Port<0.41>, queue: {[], []}, admission: #PID<0.381.0>, transport: Abyss.Transport.UDP, max_bytes: 1048576, max_queue: 128, generation: #Reference<0.4274356816.416022529.71145>, owner_monitor: #Reference<0.4274356816.416022529.71162>, queue_bytes: 0, sending: false, owns_admission: false}
+.
+Finished in 0.8 seconds (0.00s async, 0.8s sync)
+12 tests, 0 failures

@@ -4,8 +4,11 @@ defmodule Abyss.Telemetry do
 
   ## Telemetry Metrics
 
-  Abyss tracks real-time counters per server instance, keyed by the server's
-  handler module (the same identity used by `Abyss.ListenerPoolScaler`):
+  Abyss tracks counters per logical endpoint, keyed by its server pid. Handler
+  module queries aggregate registered endpoints for legacy callers. Runtime
+  socket generations share the logical endpoint scope; closing an endpoint
+  removes its socket registrations and counter rows. Raw socket operations
+  bypass the supported transport send instrumentation.
 
   - `connections_active`: Number of currently active connections
   - `connections_total`: Total number of connections since server start
@@ -95,14 +98,20 @@ defmodule Abyss.Telemetry do
   @type span_name :: :listener | :connection
   @type metadata :: :telemetry.event_metadata()
 
-  @typedoc "Metrics scope - a server's handler module, or :unscoped"
-  @type scope :: module() | :unscoped
+  @typedoc "Metrics scope - a logical server pid, legacy handler module, or :unscoped"
+  @type scope :: term()
+
+  @type metrics :: %{
+          required(:accepts_per_second) => integer(),
+          required(:responses_per_second) => integer(),
+          optional(atom()) => term()
+        }
 
   @typedoc false
   @type measurements :: :telemetry.event_measurements()
 
   @typedoc false
-  @type event_name :: :ready | :packet_too_large | :recv_error
+  @type event_name :: atom()
 
   @typedoc false
   @type untimed_event_name :: :stop | :waiting | :receiving
@@ -115,8 +124,8 @@ defmodule Abyss.Telemetry do
   # 100% sampling for listeners (they're few)
   @default_listener_sample_rate 1.0
 
-  # Metrics tracking. Counters are stored as {{scope, counter_name}, value}
-  # rows where scope is the server's handler module (or :unscoped).
+  # Counter rows use {{scope, counter_name}, value}; registry rows have
+  # distinct three-part keys so they cannot contribute to counter aggregation.
   @metrics_table :abyss_telemetry_metrics
 
   @doc """
@@ -155,6 +164,98 @@ defmodule Abyss.Telemetry do
     end
   end
 
+  @doc false
+  def register_scope(scope, handler) do
+    :ets.insert(get_metrics_table(), {{:scope_handler, scope, handler}, true})
+    Abyss.TableOwner.track_scope(scope)
+    :ok
+  end
+
+  @doc false
+  def register_socket(scope, socket) do
+    :ets.insert(get_metrics_table(), {{:socket_scope, socket, scope}, true})
+    :ok
+  end
+
+  @doc false
+  def unregister_socket(socket) do
+    :ets.match_delete(get_metrics_table(), {{:socket_scope, socket, :_}, :_})
+    :ok
+  end
+
+  @doc false
+  def socket_scope(socket) do
+    case :ets.match_object(get_metrics_table(), {{:socket_scope, socket, :_}, :_}) do
+      [{{:socket_scope, ^socket, scope}, _}] -> scope
+      _ -> :unscoped
+    end
+  end
+
+  @doc false
+  def clear_scope(scope) do
+    table = get_metrics_table()
+    :ets.match_delete(table, {{scope, :_}, :_})
+    :ets.match_delete(table, {{:scope_handler, scope, :_}, :_})
+    :ets.match_delete(table, {{:socket_scope, :_, scope}, :_})
+    :ok
+  end
+
+  @doc false
+  def track_datagram_received(scope, bytes) do
+    table = get_metrics_table()
+    _ = bump(table, scope, :datagrams_received)
+    _ = add(table, scope, :bytes_received, bytes)
+    :ok
+  end
+
+  @doc false
+  def track_datagram_dropped(scope, reason, bytes) do
+    table = get_metrics_table()
+    _ = bump(table, scope, :datagrams_dropped)
+    _ = add(table, scope, :bytes_dropped, bytes)
+
+    :telemetry.execute([:abyss, :datagram, :dropped], %{bytes: bytes}, %{
+      server_id: scope,
+      reason: reason
+    })
+
+    :ok
+  end
+
+  @doc false
+  def track_work_finished(scope, reason) do
+    completed? =
+      reason in [:normal, :shutdown, {:shutdown, :local_closed}, {:shutdown, :broadcast}]
+
+    _ = bump(get_metrics_table(), scope, if(completed?, do: :work_completed, else: :work_failed))
+    :ok
+  end
+
+  @doc false
+  def track_send_result(scope, result, bytes, metadata \\ %{}) do
+    table = get_metrics_table()
+    metadata = Map.put(metadata, :server_id, scope)
+
+    _ =
+      case result do
+        :ok ->
+          _ = bump(table, scope, :responses_total)
+          _ = add(table, scope, :bytes_sent, bytes)
+          update_rate_window(table, scope, :response_rate_window_start, :responses_in_window)
+
+        {:error, _reason} ->
+          _ = bump(table, scope, :send_errors_total)
+      end
+
+    :telemetry.execute(
+      [:abyss, :datagram, :send],
+      %{bytes: bytes},
+      Map.put(metadata, :result, result)
+    )
+
+    :ok
+  end
+
   @doc """
   Track a new connection being accepted.
 
@@ -164,9 +265,9 @@ defmodule Abyss.Telemetry do
   def track_connection_accepted(scope \\ :unscoped) do
     table = get_metrics_table()
 
-    bump(table, scope, :accepts_total)
-    bump(table, scope, :connections_active)
-    bump(table, scope, :connections_total)
+    _ = bump(table, scope, :accepts_total)
+    _ = bump(table, scope, :connections_active)
+    _ = bump(table, scope, :connections_total)
     update_rate_window(table, scope, :accept_rate_window_start, :accepts_in_window)
 
     :ok
@@ -182,12 +283,13 @@ defmodule Abyss.Telemetry do
     table = get_metrics_table()
 
     # Atomically decrement, but never below zero
-    :ets.update_counter(
-      table,
-      {scope, :connections_active},
-      {2, -1, 0, 0},
-      {{scope, :connections_active}, 0}
-    )
+    _ =
+      :ets.update_counter(
+        table,
+        {scope, :connections_active},
+        {2, -1, 0, 0},
+        {{scope, :connections_active}, 0}
+      )
 
     :ok
   end
@@ -202,9 +304,15 @@ defmodule Abyss.Telemetry do
   @spec track_response_sent(response_time :: integer(), metadata()) :: :ok
   def track_response_sent(response_time, metadata \\ %{}) when is_integer(response_time) do
     table = get_metrics_table()
-    scope = Map.get(metadata, :handler, :unscoped)
 
-    bump(table, scope, :responses_total)
+    scope =
+      Map.get(
+        metadata,
+        :server_id,
+        Map.get(metadata, :server_pid, Map.get(metadata, :handler, :unscoped))
+      )
+
+    _ = bump(table, scope, :responses_total)
     update_rate_window(table, scope, :response_rate_window_start, :responses_in_window)
 
     # Emit response time event
@@ -220,44 +328,61 @@ defmodule Abyss.Telemetry do
   @doc """
   Get telemetry metrics aggregated across all server instances.
   """
-  @spec get_metrics() :: map()
+  @spec get_metrics() :: metrics()
   def get_metrics do
     table = get_metrics_table()
     scopes = list_scopes(table)
 
-    %{
-      connections_active: sum_counter(table, :connections_active),
-      connections_total: sum_counter(table, :connections_total),
-      accepts_total: sum_counter(table, :accepts_total),
-      responses_total: sum_counter(table, :responses_total),
-      accepts_per_second:
-        scopes
-        |> Enum.map(&get_rate(table, &1, :accept_rate_window_start, :accepts_in_window))
-        |> Enum.sum(),
-      responses_per_second:
-        scopes
-        |> Enum.map(&get_rate(table, &1, :response_rate_window_start, :responses_in_window))
-        |> Enum.sum()
-    }
+    metrics_for_scopes(table, scopes)
   end
 
   @doc """
-  Get telemetry metrics for a single server instance, identified by its
-  handler module.
+  Returns counters for an endpoint scope. A handler module query aggregates
+  endpoints registered with that module and any legacy directly keyed rows.
   """
-  @spec get_metrics(scope()) :: map()
+  @spec get_metrics(scope()) :: metrics()
   def get_metrics(scope) do
     table = get_metrics_table()
+    registered = :ets.match_object(table, {{:scope_handler, :_, scope}, :_})
+    scopes = Enum.map(registered, fn {{:scope_handler, endpoint, _}, _} -> endpoint end)
+    metrics_for_scopes(table, Enum.uniq([scope | scopes]))
+  end
 
-    %{
-      connections_active: counter(table, scope, :connections_active),
-      connections_total: counter(table, scope, :connections_total),
-      accepts_total: counter(table, scope, :accepts_total),
-      responses_total: counter(table, scope, :responses_total),
-      accepts_per_second: get_rate(table, scope, :accept_rate_window_start, :accepts_in_window),
+  defp metrics_for_scopes(table, scopes) do
+    counters = [
+      :connections_active,
+      :connections_total,
+      :accepts_total,
+      :responses_total,
+      :datagrams_received,
+      :datagrams_dropped,
+      :bytes_received,
+      :bytes_dropped,
+      :bytes_sent,
+      :send_errors_total,
+      :work_completed,
+      :work_failed
+    ]
+
+    metrics =
+      Map.new(counters, fn key ->
+        {key, Enum.reduce(scopes, 0, &(counter(table, &1, key) + &2))}
+      end)
+
+    Map.merge(metrics, %{
+      accepts_per_second:
+        Enum.reduce(
+          scopes,
+          0,
+          &(get_rate(table, &1, :accept_rate_window_start, :accepts_in_window) + &2)
+        ),
       responses_per_second:
-        get_rate(table, scope, :response_rate_window_start, :responses_in_window)
-    }
+        Enum.reduce(
+          scopes,
+          0,
+          &(get_rate(table, &1, :response_rate_window_start, :responses_in_window) + &2)
+        )
+    })
   end
 
   @doc """
@@ -278,8 +403,10 @@ defmodule Abyss.Telemetry do
 
   # Private metrics functions
 
-  defp bump(table, scope, counter) do
-    :ets.update_counter(table, {scope, counter}, 1, {{scope, counter}, 0})
+  defp bump(table, scope, counter), do: add(table, scope, counter, 1)
+
+  defp add(table, scope, counter, amount) do
+    :ets.update_counter(table, {scope, counter}, amount, {{scope, counter}, 0})
   end
 
   defp counter(table, scope, counter) do
@@ -287,12 +414,6 @@ defmodule Abyss.Telemetry do
       [{_key, value}] -> value
       [] -> 0
     end
-  end
-
-  defp sum_counter(table, counter) do
-    table
-    |> :ets.select([{{{:_, counter}, :"$1"}, [], [:"$1"]}])
-    |> Enum.sum()
   end
 
   defp list_scopes(table) do
@@ -303,7 +424,7 @@ defmodule Abyss.Telemetry do
 
   defp update_rate_window(table, scope, window_key, counter_key) do
     current_time = System.monotonic_time(:millisecond)
-    bump(table, scope, counter_key)
+    _ = bump(table, scope, counter_key)
 
     case :ets.lookup(table, {scope, window_key}) do
       [{_key, window_start}] ->
@@ -326,7 +447,7 @@ defmodule Abyss.Telemetry do
       [{_key, window_start}] ->
         time_diff = current_time - window_start
 
-        if time_diff > 0 do
+        if time_diff > 0 and time_diff < 1000 do
           round(counter(table, scope, counter_key) * 1000 / time_diff)
         else
           0
@@ -381,10 +502,10 @@ defmodule Abyss.Telemetry do
   @spec start_child_span(t(), span_name(), measurements(), metadata()) :: t()
   def start_child_span(parent_span, span_name, measurements \\ %{}, metadata \\ %{}) do
     metadata =
-      Map.merge(metadata, %{
-        parent_telemetry_span_context: parent_span.telemetry_span_context,
-        handler: parent_span.start_metadata.handler
-      })
+      parent_span.start_metadata
+      |> Map.take([:handler, :server_pid, :server_id, :endpoint_id, :generation])
+      |> Map.merge(metadata)
+      |> Map.put(:parent_telemetry_span_context, parent_span.telemetry_span_context)
 
     start_span(span_name, measurements, metadata)
   end
@@ -400,10 +521,10 @@ defmodule Abyss.Telemetry do
         opts \\ []
       ) do
     metadata =
-      Map.merge(metadata, %{
-        parent_telemetry_span_context: parent_span.telemetry_span_context,
-        handler: parent_span.start_metadata.handler
-      })
+      parent_span.start_metadata
+      |> Map.take([:handler, :server_pid, :server_id, :endpoint_id, :generation])
+      |> Map.merge(metadata)
+      |> Map.put(:parent_telemetry_span_context, parent_span.telemetry_span_context)
 
     start_span_with_sampling(span_name, measurements, metadata, opts)
   end
@@ -464,7 +585,8 @@ defmodule Abyss.Telemetry do
     # Only emit events if this span was sampled
     if span.start_metadata[:sampled] != false do
       metadata =
-        metadata
+        span.start_metadata
+        |> Map.merge(metadata)
         |> Map.put(:telemetry_span_context, span.telemetry_span_context)
         |> Map.put_new(:handler, span.start_metadata[:handler] || :unknown)
 

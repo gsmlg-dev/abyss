@@ -1,0 +1,665 @@
+Running ExUnit with seed: 648103, max_cases: 16
+Excluding tags: [slow: true]
+Including tags: [:integration]
+
+........................................................................
+
+  1) test init/1 accepts any PID (Abyss.ShutdownListenerTest)
+     test/shutdown_listener_test.exs:72
+     ** (MatchError) no match of right hand side value: {:ok, %{timeout: 15000, server_pid: #PID<0.440.0>}}
+     code: {:ok, state, _} = ShutdownListener.init(pid)
+     stacktrace:
+       test/shutdown_listener_test.exs:77: (test)
+
+
+
+  2) test terminate/2 returns :ok without listener_pool_pid in state (Abyss.ShutdownListenerTest)
+     test/shutdown_listener_test.exs:89
+     ** (FunctionClauseError) no function clause matching in Abyss.ShutdownListener.terminate/2
+
+     The following arguments were given to Abyss.ShutdownListener.terminate/2:
+
+         # 1
+         :normal
+
+         # 2
+         %{}
+
+     Attempted function clauses (showing 1 out of 1):
+
+         def terminate(_reason, -%{server_pid: server, timeout: timeout}-)
+
+     code: result = ShutdownListener.terminate(:normal, state)
+     stacktrace:
+       (abyss 0.0.0) lib/abyss/shutdown_listener.ex:20: Abyss.ShutdownListener.terminate/2
+       test/shutdown_listener_test.exs:92: (test)
+
+.
+
+  3) test type specifications init returns proper tuple structure (Abyss.ShutdownListenerTest)
+     test/shutdown_listener_test.exs:159
+     ** (MatchError) no match of right hand side value: {:ok, %{timeout: 15000, server_pid: #PID<0.505.0>}}
+     code: {:ok, state, continue} = ShutdownListener.init(self())
+     stacktrace:
+       test/shutdown_listener_test.exs:160: (test)
+
+
+
+  4) test state structure initial state contains server_pid (Abyss.ShutdownListenerTest)
+     test/shutdown_listener_test.exs:137
+     ** (MatchError) no match of right hand side value: {:ok, %{timeout: 15000, server_pid: #PID<0.506.0>}}
+     code: {:ok, state, _} = ShutdownListener.init(self())
+     stacktrace:
+       test/shutdown_listener_test.exs:138: (test)
+
+
+
+  5) test trap_exit setup init is designed to trap exits (Abyss.ShutdownListenerTest)
+     test/shutdown_listener_test.exs:178
+     ** (MatchError) no match of right hand side value: {:ok, %{timeout: 15000, server_pid: #PID<0.507.0>}}
+     code: {:ok, state, {:continue, _}} = ShutdownListener.init(self())
+     stacktrace:
+       test/shutdown_listener_test.exs:182: (test)
+
+
+
+  6) test init/1 stores server_pid in state (Abyss.ShutdownListenerTest)
+     test/shutdown_listener_test.exs:59
+     ** (MatchError) no match of right hand side value: {:ok, %{timeout: 15000, server_pid: #PID<0.508.0>}}
+     code: {:ok, state, _} = ShutdownListener.init(server_pid)
+     stacktrace:
+       test/shutdown_listener_test.exs:61: (test)
+
+
+
+  7) test init/1 schedules continue callback for listener pool setup (Abyss.ShutdownListenerTest)
+     test/shutdown_listener_test.exs:66
+     ** (MatchError) no match of right hand side value: {:ok, %{timeout: 15000, server_pid: #PID<0.509.0>}}
+     code: {:ok, _state, continue} = ShutdownListener.init(self())
+     stacktrace:
+       test/shutdown_listener_test.exs:67: (test)
+
+
+
+  8) test state structure initial state is a map (Abyss.ShutdownListenerTest)
+     test/shutdown_listener_test.exs:131
+     ** (MatchError) no match of right hand side value: {:ok, %{timeout: 15000, server_pid: #PID<0.510.0>}}
+     code: {:ok, state, _} = ShutdownListener.init(self())
+     stacktrace:
+       test/shutdown_listener_test.exs:132: (test)
+
+
+
+  9) test continue callback contract handle_continue expects :setup_listener_pool_pid atom (Abyss.ShutdownListenerTest)
+     test/shutdown_listener_test.exs:169
+     ** (MatchError) no match of right hand side value: {:ok, %{timeout: 15000, server_pid: #PID<0.511.0>}}
+     code: {:ok, _state, {:continue, continue_action}} = ShutdownListener.init(self())
+     stacktrace:
+       test/shutdown_listener_test.exs:171: (test)
+
+
+
+ 10) test init/1 returns ok tuple with state and continue (Abyss.ShutdownListenerTest)
+     test/shutdown_listener_test.exs:50
+     match (=) failed
+     code:  assert {:ok, state, {:continue, :setup_listener_pool_pid}} = result
+     left:  {:ok, state, {:continue, :setup_listener_pool_pid}}
+     right: {:ok, %{timeout: 15000, server_pid: #PID<0.512.0>}}
+     stacktrace:
+       test/shutdown_listener_test.exs:55: (test)
+
+.
+
+ 11) test terminate/2 handles {:shutdown, term} reason (Abyss.ShutdownListenerTest)
+     test/shutdown_listener_test.exs:108
+     ** (FunctionClauseError) no function clause matching in Abyss.ShutdownListener.terminate/2
+
+     The following arguments were given to Abyss.ShutdownListener.terminate/2:
+
+         # 1
+         {:shutdown, :test}
+
+         # 2
+         %{server_pid: #PID<0.514.0>}
+
+     Attempted function clauses (showing 1 out of 1):
+
+         def terminate(_reason, -%{server_pid: server, timeout: timeout}-)
+
+     code: assert ShutdownListener.terminate({:shutdown, :test}, state) == :ok
+     stacktrace:
+       (abyss 0.0.0) lib/abyss/shutdown_listener.ex:20: Abyss.ShutdownListener.terminate/2
+       test/shutdown_listener_test.exs:110: (test)
+
+
+
+ 12) test terminate/2 handles :normal reason (Abyss.ShutdownListenerTest)
+     test/shutdown_listener_test.exs:97
+     ** (FunctionClauseError) no function clause matching in Abyss.ShutdownListener.terminate/2
+
+     The following arguments were given to Abyss.ShutdownListener.terminate/2:
+
+         # 1
+         :normal
+
+         # 2
+         %{server_pid: #PID<0.515.0>}
+
+     Attempted function clauses (showing 1 out of 1):
+
+         def terminate(_reason, -%{server_pid: server, timeout: timeout}-)
+
+     code: assert ShutdownListener.terminate(:normal, state) == :ok
+     stacktrace:
+       (abyss 0.0.0) lib/abyss/shutdown_listener.ex:20: Abyss.ShutdownListener.terminate/2
+       test/shutdown_listener_test.exs:100: (test)
+
+
+
+ 13) test state structure initial state only contains server_pid (Abyss.ShutdownListenerTest)
+     test/shutdown_listener_test.exs:143
+     ** (MatchError) no match of right hand side value: {:ok, %{timeout: 15000, server_pid: #PID<0.516.0>}}
+     code: {:ok, state, _} = ShutdownListener.init(self())
+     stacktrace:
+       test/shutdown_listener_test.exs:144: (test)
+
+
+
+ 14) test module structure exports handle_continue/2 (Abyss.ShutdownListenerTest)
+     test/shutdown_listener_test.exs:32
+     Expected truthy, got false
+     code: assert Kernel.function_exported?(ShutdownListener, :handle_continue, 2)
+     stacktrace:
+       test/shutdown_listener_test.exs:34: (test)
+
+
+
+ 15) test terminate/2 handles :shutdown reason (Abyss.ShutdownListenerTest)
+     test/shutdown_listener_test.exs:103
+     ** (FunctionClauseError) no function clause matching in Abyss.ShutdownListener.terminate/2
+
+     The following arguments were given to Abyss.ShutdownListener.terminate/2:
+
+         # 1
+         :shutdown
+
+         # 2
+         %{server_pid: #PID<0.518.0>}
+
+     Attempted function clauses (showing 1 out of 1):
+
+         def terminate(_reason, -%{server_pid: server, timeout: timeout}-)
+
+     code: assert ShutdownListener.terminate(:shutdown, state) == :ok
+     stacktrace:
+       (abyss 0.0.0) lib/abyss/shutdown_listener.ex:20: Abyss.ShutdownListener.terminate/2
+       test/shutdown_listener_test.exs:105: (test)
+
+..
+
+ 16) test terminate/2 handles empty map state (Abyss.ShutdownListenerTest)
+     test/shutdown_listener_test.exs:125
+     ** (FunctionClauseError) no function clause matching in Abyss.ShutdownListener.terminate/2
+
+     The following arguments were given to Abyss.ShutdownListener.terminate/2:
+
+         # 1
+         :normal
+
+         # 2
+         %{}
+
+     Attempted function clauses (showing 1 out of 1):
+
+         def terminate(_reason, -%{server_pid: server, timeout: timeout}-)
+
+     code: assert ShutdownListener.terminate(:normal, %{}) == :ok
+     stacktrace:
+       (abyss 0.0.0) lib/abyss/shutdown_listener.ex:20: Abyss.ShutdownListener.terminate/2
+       test/shutdown_listener_test.exs:126: (test)
+
+
+
+ 17) test terminate/2 handles state with server_pid only (Abyss.ShutdownListenerTest)
+     test/shutdown_listener_test.exs:120
+     ** (FunctionClauseError) no function clause matching in Abyss.ShutdownListener.terminate/2
+
+     The following arguments were given to Abyss.ShutdownListener.terminate/2:
+
+         # 1
+         :normal
+
+         # 2
+         %{server_pid: #PID<0.522.0>}
+
+     Attempted function clauses (showing 1 out of 1):
+
+         def terminate(_reason, -%{server_pid: server, timeout: timeout}-)
+
+     code: assert ShutdownListener.terminate(:normal, state) == :ok
+     stacktrace:
+       (abyss 0.0.0) lib/abyss/shutdown_listener.ex:20: Abyss.ShutdownListener.terminate/2
+       test/shutdown_listener_test.exs:122: (test)
+
+
+
+ 18) test terminate/2 handles arbitrary termination reason (Abyss.ShutdownListenerTest)
+     test/shutdown_listener_test.exs:113
+     ** (FunctionClauseError) no function clause matching in Abyss.ShutdownListener.terminate/2
+
+     The following arguments were given to Abyss.ShutdownListener.terminate/2:
+
+         # 1
+         :killed
+
+         # 2
+         %{server_pid: #PID<0.523.0>}
+
+     Attempted function clauses (showing 1 out of 1):
+
+         def terminate(_reason, -%{server_pid: server, timeout: timeout}-)
+
+     code: assert ShutdownListener.terminate(:killed, state) == :ok
+     stacktrace:
+       (abyss 0.0.0) lib/abyss/shutdown_listener.ex:20: Abyss.ShutdownListener.terminate/2
+       test/shutdown_listener_test.exs:115: (test)
+
+..........................................................................
+
+ 19) test writer death invalidates dispatcher capability instead of retaining success (Abyss.DispatcherTest)
+     test/abyss/dispatcher_test.exs:267
+     Assertion failed, no matching message after 100ms
+     The following variables were pinned:
+       dispatcher = #PID<0.842.0>
+     The process mailbox is empty.
+     code: assert_receive {:EXIT, ^dispatcher, {:writer_exit, :killed}}
+     stacktrace:
+       test/abyss/dispatcher_test.exs:285: (test)
+
+...........................................................
+00:47:36.402 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.....................
+00:47:36.505 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+...................................................    warning: incompatible types given to Abyss.ShutdownListener.terminate/2:
+
+        Abyss.ShutdownListener.terminate(:normal, state)
+
+    given types:
+
+        :normal, -empty_map()-
+
+    but expected one of:
+
+        dynamic(), dynamic(%{..., server_pid: term(), timeout: term()})
+
+    where "state" was given the type:
+
+        # type: empty_map()
+        # from: test/shutdown_listener_test.exs:90:13
+        state = %{}
+
+    typing violation found at:
+    │
+ 92 │       result = ShutdownListener.terminate(:normal, state)
+    │                                 ~
+    │
+    └─ test/shutdown_listener_test.exs:92:33: Abyss.ShutdownListenerTest."test terminate/2 returns :ok without listener_pool_pid in state"/1
+
+     warning: incompatible types given to Abyss.ShutdownListener.terminate/2:
+
+         Abyss.ShutdownListener.terminate(:normal, state)
+
+     given types:
+
+         :normal, -%{server_pid: pid()}-
+
+     but expected one of:
+
+         dynamic(), dynamic(%{..., server_pid: term(), timeout: term()})
+
+     where "state" was given the type:
+
+         # type: %{server_pid: pid()}
+         # from: test/shutdown_listener_test.exs:99:13
+         state = %{server_pid: self()}
+
+     typing violation found at:
+     │
+ 100 │       assert ShutdownListener.terminate(:normal, state) == :ok
+     │                               ~
+     │
+     └─ test/shutdown_listener_test.exs:100:31: Abyss.ShutdownListenerTest."test terminate/2 handles :normal reason"/1
+
+     warning: incompatible types given to Abyss.ShutdownListener.terminate/2:
+
+         Abyss.ShutdownListener.terminate(:shutdown, state)
+
+     given types:
+
+         :shutdown, -%{server_pid: pid()}-
+
+     but expected one of:
+
+         dynamic(), dynamic(%{..., server_pid: term(), timeout: term()})
+
+     where "state" was given the type:
+
+         # type: %{server_pid: pid()}
+         # from: test/shutdown_listener_test.exs:104:13
+         state = %{server_pid: self()}
+
+     typing violation found at:
+     │
+ 105 │       assert ShutdownListener.terminate(:shutdown, state) == :ok
+     │                               ~
+     │
+     └─ test/shutdown_listener_test.exs:105:31: Abyss.ShutdownListenerTest."test terminate/2 handles :shutdown reason"/1
+
+.     warning: incompatible types given to Abyss.ShutdownListener.terminate/2:
+
+         Abyss.ShutdownListener.terminate({:shutdown, :test}, state)
+
+     given types:
+
+         {:shutdown, :test}, -%{server_pid: pid()}-
+
+     but expected one of:
+
+         dynamic(), dynamic(%{..., server_pid: term(), timeout: term()})
+
+     where "state" was given the type:
+
+         # type: %{server_pid: pid()}
+         # from: test/shutdown_listener_test.exs:109:13
+         state = %{server_pid: self()}
+
+     typing violation found at:
+     │
+ 110 │       assert ShutdownListener.terminate({:shutdown, :test}, state) == :ok
+     │                               ~
+     │
+     └─ test/shutdown_listener_test.exs:110:31: Abyss.ShutdownListenerTest."test terminate/2 handles {:shutdown, term} reason"/1
+
+     warning: incompatible types given to Abyss.ShutdownListener.terminate/2:
+
+         Abyss.ShutdownListener.terminate(:killed, state)
+
+     given types:
+
+         :killed, -%{server_pid: pid()}-
+
+     but expected one of:
+
+         dynamic(), dynamic(%{..., server_pid: term(), timeout: term()})
+
+     where "state" was given the type:
+
+         # type: %{server_pid: pid()}
+         # from: test/shutdown_listener_test.exs:114:13
+         state = %{server_pid: self()}
+
+     typing violation found at:
+     │
+ 115 │       assert ShutdownListener.terminate(:killed, state) == :ok
+     │                               ~
+     │
+     └─ test/shutdown_listener_test.exs:115:31: Abyss.ShutdownListenerTest."test terminate/2 handles arbitrary termination reason"/1
+
+     warning: incompatible types given to Abyss.ShutdownListener.terminate/2:
+
+         Abyss.ShutdownListener.terminate(:normal, state)
+
+     given types:
+
+         :normal, -%{server_pid: pid()}-
+
+     but expected one of:
+
+         dynamic(), dynamic(%{..., server_pid: term(), timeout: term()})
+
+     where "state" was given the type:
+
+         # type: %{server_pid: pid()}
+         # from: test/shutdown_listener_test.exs:121:13
+         state = %{server_pid: self()}
+
+     typing violation found at:
+     │
+ 122 │       assert ShutdownListener.terminate(:normal, state) == :ok
+     │                               ~
+     │
+     └─ test/shutdown_listener_test.exs:122:31: Abyss.ShutdownListenerTest."test terminate/2 handles state with server_pid only"/1
+
+     warning: incompatible types given to Abyss.ShutdownListener.terminate/2:
+
+         Abyss.ShutdownListener.terminate(:normal, %{})
+
+     given types:
+
+         :normal, -empty_map()-
+
+     but expected one of:
+
+         dynamic(), dynamic(%{..., server_pid: term(), timeout: term()})
+
+     typing violation found at:
+     │
+ 126 │       assert ShutdownListener.terminate(:normal, %{}) == :ok
+     │                               ~
+     │
+     └─ test/shutdown_listener_test.exs:126:31: Abyss.ShutdownListenerTest."test terminate/2 handles empty map state"/1
+
+.........................................
+00:47:42.706 [info] The function passed as a handler with ID :integration_test_handler is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+..................
+
+ 20) test failed startup closes temporary resources (Abyss.Transport.UDP.MulticastRegressionTest)
+     test/abyss/transport/udp/multicast_regression_test.exs:69
+     match (=) failed
+     code:  assert {:error, _} =
+              Multicast.open(0, [
+                {:add_membership, {{239, 255, 42, 53}, {127, 0, 0, 1}}},
+                {:raw, 65535, 65535, <<0::native-32>>}
+              ])
+     left:  {:error, _}
+     right: {:ok, #Port<0.265>}
+     stacktrace:
+       test/abyss/transport/udp/multicast_regression_test.exs:71: (test)
+
+....................................................
+00:47:48.324 [info] The function passed as a handler with ID "scaler-test-#PID<0.3017.0>" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.................
+00:47:48.571 [debug] Telemetry event
+.
+00:47:48.571 [error] Telemetry event
+.
+00:47:48.571 [info] Telemetry event
+...
+00:47:48.572 [error] Telemetry event
+.
+00:47:48.572 [error] Telemetry event
+.
+00:47:48.572 [info] Telemetry event
+.
+00:47:48.573 [debug] Telemetry event
+.
+00:47:48.573 [debug] Telemetry event
+.
+00:47:48.573 [debug] Telemetry event
+.
+00:47:48.573 [info] Telemetry event
+.
+00:47:48.574 [error] Telemetry event
+.
+00:47:48.574 [info] Telemetry event
+.
+00:47:48.574 [debug] Telemetry event
+.
+00:47:48.574 [debug] Telemetry event
+.
+00:47:48.574 [error] Telemetry event
+.
+00:47:48.574 [info] Telemetry event
+.
+00:47:48.574 [debug] Telemetry event
+.
+00:47:48.578 [info] Telemetry event
+
+00:47:48.581 [info] Telemetry event
+.
+00:47:48.581 [info] Telemetry event
+.
+00:47:48.582 [info] Telemetry event
+.
+00:47:48.584 [info] Telemetry event
+.
+00:47:48.585 [info] Telemetry event
+.
+00:47:48.585 [info] Telemetry event
+.
+00:47:48.585 [info] Telemetry event
+.
+00:47:48.586 [info] Telemetry event
+.
+00:47:48.586 [info] Telemetry event
+.
+00:47:48.587 [info] Telemetry event
+.
+00:47:48.587 [info] Telemetry event
+.
+00:47:48.588 [info] Telemetry event
+.
+00:47:48.588 [info] Telemetry event
+.
+00:47:48.589 [info] Telemetry event
+
+00:47:48.589 [info] Telemetry event
+
+00:47:48.590 [info] Telemetry event
+
+00:47:48.590 [info] Telemetry event
+
+00:47:48.591 [info] Telemetry event
+
+00:47:48.591 [info] Telemetry event
+
+00:47:48.592 [info] Telemetry event
+
+00:47:48.592 [info] Telemetry event
+
+00:47:48.593 [info] Telemetry event
+
+00:47:48.596 [info] Telemetry event
+.
+00:47:48.597 [info] Telemetry event
+.
+00:47:48.597 [info] Telemetry event
+.
+00:47:48.598 [info] Telemetry event
+....
+00:47:48.699 [info] Telemetry event
+............
+00:47:48.701 [info] The function passed as a handler with ID :test_response_time_handler is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.........
+00:47:48.703 [info] Telemetry event
+
+00:47:48.703 [info] Telemetry event
+
+00:47:48.703 [info] Telemetry event
+.
+00:47:48.704 [info] Telemetry event
+
+00:47:48.704 [info] Telemetry event
+.
+00:47:48.705 [info] Telemetry event
+
+00:47:48.705 [info] Telemetry event
+.
+00:47:48.706 [info] Telemetry event
+
+00:47:48.706 [info] Telemetry event
+.
+00:47:48.707 [info] Telemetry event
+.
+00:47:48.707 [info] Telemetry event
+.
+00:47:48.708 [info] Telemetry event
+.
+00:47:48.708 [info] Telemetry event
+.
+00:47:48.709 [info] Telemetry event
+.
+00:47:48.712 [info] Telemetry event
+.
+00:47:48.714 [info] Telemetry event
+..
+00:47:48.768 [info] Telemetry event
+.......................................
+00:47:49.884 [error] GenServer #PID<0.4544.0> terminating
+** (stop) {:binding_failed, false}
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.4538.0>, connection: %{id: #PID<0.4543.0>, generation: #Reference<0.3801624978.2827747329.207924>}, initialized: false}}]]
+..
+00:47:50.020 [error] GenServer #PID<0.4558.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.4560.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 44883}, port: 0, shutdown_timeout: 50, socket: #Port<0.538>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.3801624978.2827747329.208048> => %{id: #PID<0.4563.0>, generation: #Reference<0.3801624978.2827747329.208041>}}, writer: #PID<0.4560.0>, receiver: #PID<0.4562.0>, generation: #Reference<0.3801624978.2827747329.208026>, admission: #PID<0.4559.0>, writer_timeout: 1000, endpoint: #PID<0.4561.0>, alpn: ["test"], _backend: Abyss.QUICServiceTest.Backend, callback_timeout: 5000, poll_interval: 10, init_timeout: 5000, event_batch: 32, writer_max_bytes: 1048576, quic_options: [], backend: Abyss.QUICServiceTest.Backend, max_connections: 128, worker_refs: %{#PID<0.4564.0> => #Reference<0.3801624978.2827747329.208048>}, writer_max_queue: 128}}]]
+
+00:47:50.021 [error] GenServer #PID<0.4566.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.4569.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 40478}, port: 0, shutdown_timeout: 50, socket: #Port<0.539>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.3801624978.2827747329.208090> => %{id: #PID<0.4571.0>, generation: #Reference<0.3801624978.2827747329.208083>}}, writer: #PID<0.4568.0>, receiver: #PID<0.4570.0>, generation: #Reference<0.3801624978.2827747329.208067>, admission: #PID<0.4567.0>, writer_timeout: 1000, endpoint: #PID<0.4569.0>, alpn: ["test"], _backend: Abyss.QUICServiceTest.Backend, callback_timeout: 5000, poll_interval: 10, init_timeout: 5000, event_batch: 32, writer_max_bytes: 1048576, quic_options: [], backend: Abyss.QUICServiceTest.Backend, max_connections: 128, worker_refs: %{#PID<0.4572.0> => #Reference<0.3801624978.2827747329.208090>}, writer_max_queue: 128}}]]
+
+00:47:50.021 [error] GenServer #PID<0.4574.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.4578.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 33350}, port: 0, shutdown_timeout: 50, socket: #Port<0.540>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.3801624978.2827747329.208135> => %{id: #PID<0.4579.0>, generation: #Reference<0.3801624978.2827747329.208128>}}, writer: #PID<0.4576.0>, receiver: #PID<0.4578.0>, generation: #Reference<0.3801624978.2827747329.208112>, admission: #PID<0.4575.0>, writer_timeout: 1000, endpoint: #PID<0.4577.0>, alpn: ["test"], _backend: Abyss.QUICServiceTest.Backend, callback_timeout: 5000, poll_interval: 10, init_timeout: 5000, event_batch: 32, writer_max_bytes: 1048576, quic_options: [], backend: Abyss.QUICServiceTest.Backend, max_connections: 128, worker_refs: %{#PID<0.4580.0> => #Reference<0.3801624978.2827747329.208135>}, writer_max_queue: 128}}]]
+...
+00:47:50.022 [error] GenServer #PID<0.4610.0> terminating
+** (RuntimeError) init crashed
+    test/abyss/quic_test.exs:16: Abyss.QUICServiceTest.Handler.init/3
+    (abyss 0.0.0) lib/abyss/quic/service.ex:453: anonymous fn/1 in Abyss.QUIC.Worker.handle_info/2
+    (abyss 0.0.0) lib/abyss/quic/service.ex:547: Abyss.QUIC.Worker.watched/3
+    (stdlib 7.3.0.1) gen_server.erl:2434: :gen_server.try_handle_info/3
+    (stdlib 7.3.0.1) gen_server.erl:2420: :gen_server.handle_msg/3
+    (stdlib 7.3.0.1) proc_lib.erl:333: :proc_lib.init_p_do_apply/3
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.4604.0>, connection: %{id: #PID<0.4609.0>, generation: #Reference<0.3801624978.2827747329.208275>}, initialized: false}}]]
+.
+00:47:50.023 [error] GenServer #PID<0.4622.0> terminating
+** (stop) {:binding_failed, {:error, :refused}}
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.4616.0>, connection: %{id: #PID<0.4621.0>, generation: #Reference<0.3801624978.2827747329.208342>}, initialized: false}}]]
+..
+00:47:50.024 [error] GenServer #PID<0.4636.0> terminating
+** (stop) {:binding_failed, {:error, :init_failed}}
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.4630.0>, connection: %{id: #PID<0.4635.0>, generation: #Reference<0.3801624978.2827747332.208487>}, initialized: false}}]]
+..
+00:47:50.025 [error] GenServer #PID<0.4644.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.4646.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 57910}, port: 0, shutdown_timeout: 50, socket: #Port<0.546>, callbacks: %{#PID<0.4650.0> => {#Reference<0.3801624978.2827747329.208429>, #Reference<0.3801624978.2827747329.208433>}}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.3801624978.2827747329.208424> => %{id: #PID<0.4649.0>, generation: #Reference<0.3801624978.2827747329.208417>}}, writer: #PID<0.4646.0>, receiver: #PID<0.4648.0>, generation: #Reference<0.3801624978.2827747329.208398>, admission: #PID<0.4645.0>, writer_timeout: 1000, endpoint: #PID<0.4647.0>, alpn: ["test"], _backend: Abyss.QUICServiceTest.Backend, callback_timeout: 5000, poll_interval: 10, init_timeout: 5000, event_batch: 32, writer_max_bytes: 1048576, quic_options: [], backend: Abyss.QUICServiceTest.Backend, max_connections: 128, worker_refs: %{#PID<0.4650.0> => #Reference<0.3801624978.2827747329.208424>}, writer_max_queue: 128}}]]
+.
+00:47:50.025 [error] GenServer #PID<0.4660.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.4658.0>, :killed}
+State: %{owner: #PID<0.4658.0>, socket: #Port<0.548>, queue: {[], []}, transport: Abyss.QUIC.SocketTransport, max_bytes: 1048576, max_queue: 128, generation: #Reference<0.3801624978.2827747329.208463>, admission: #PID<0.4659.0>, owner_monitor: #Reference<0.3801624978.2827747329.208473>, queue_bytes: 0, sending: false, owns_admission: false}
+.......
+Finished in 15.3 seconds (6.7s async, 8.6s sync)
+3 doctests, 556 tests, 20 failures

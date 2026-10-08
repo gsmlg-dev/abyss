@@ -1,0 +1,20 @@
+Running ExUnit with seed: 45223, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+
+
+  1) test startup membership operations retain add/drop order across restart (Abyss.UDPMembershipHostTest)
+     test/abyss/udp_membership_host_test.exs:60
+     match (=) failed
+     code:  assert [{@group2, {127, 0, 0, 1}}] = Abyss.memberships(server)
+     left:  [{{239, 255, 72, 2}, {127, 0, 0, 1}}]
+     right: [
+              {{239, 255, 72, 1}, {127, 0, 0, 1}},
+              {{239, 255, 72, 2}, {127, 0, 0, 1}}
+            ]
+     stacktrace:
+       test/abyss/udp_membership_host_test.exs:78: (test)
+
+..
+Finished in 0.1 seconds (0.00s async, 0.1s sync)
+3 tests, 1 failure

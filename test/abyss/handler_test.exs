@@ -404,8 +404,12 @@ defmodule Abyss.HandlerTest do
       state = %{processing_times: [], read_timeout: 5000, adaptive_timeout: 5000}
       packet = {{127, 0, 0, 1}, 4000, "ping"}
 
-      assert {:noreply, new_state, _timeout} =
+      assert {:noreply, new_state} =
                TestAdaptiveHandler.handle_continue({:handle_data, packet}, state)
+
+      assert is_reference(new_state.idle_token)
+      assert is_integer(new_state.idle_deadline)
+      Handler.cancel_timers(new_state)
 
       # State modification made by handle_data must survive
       assert new_state.last_data == packet
@@ -418,18 +422,28 @@ defmodule Abyss.HandlerTest do
       state = %{processing_times: [], read_timeout: 5000}
       packet = {{127, 0, 0, 1}, 4000, "ping"}
 
-      assert {:noreply, _new_state, 1234} =
+      before = System.monotonic_time(:millisecond)
+
+      assert {:noreply, new_state} =
                OneShotTimeoutHandler.handle_continue({:handle_data, packet}, state)
+
+      assert new_state.idle_deadline >= before + 1234
+      assert new_state.read_timeout == 5000
+      Handler.cancel_timers(new_state)
     end
 
     test "handle_data may return {:continue, state, {:persistent, timeout}}" do
       state = %{processing_times: [], read_timeout: 5000}
       packet = {{127, 0, 0, 1}, 4000, "ping"}
 
-      assert {:noreply, new_state, 9999} =
+      before = System.monotonic_time(:millisecond)
+
+      assert {:noreply, new_state} =
                PersistentTimeoutHandler.handle_continue({:handle_data, packet}, state)
 
       assert new_state.read_timeout == 9999
+      assert new_state.idle_deadline >= before + 9999
+      Handler.cancel_timers(new_state)
     end
   end
 

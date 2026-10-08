@@ -110,12 +110,13 @@ defmodule Abyss.ListenerPoolScaler do
     counters = :counters.new(2, [:write_concurrency])
     telemetry_id = "abyss-listener-pool-scaler-#{inspect(self())}"
 
-    :telemetry.attach(
-      telemetry_id,
-      @response_time_event,
-      &__MODULE__.handle_response_time/4,
-      %{handler_module: server_config.handler_module, counters: counters}
-    )
+    :ok =
+      :telemetry.attach(
+        telemetry_id,
+        @response_time_event,
+        &__MODULE__.handle_response_time/4,
+        %{server_pid: server_supervisor, counters: counters}
+      )
 
     # Note: supervisor pids (listener pool, connection supervisor) are looked
     # up lazily on each check. Doing it here would deadlock: our parent
@@ -148,7 +149,7 @@ defmodule Abyss.ListenerPoolScaler do
           map()
         ) :: :ok
   def handle_response_time(_event, measurements, metadata, config) do
-    if metadata[:handler] == config.handler_module do
+    if metadata[:server_pid] == config.server_pid do
       :counters.add(config.counters, 1, round(measurements[:response_time] || 0))
       :counters.add(config.counters, 2, 1)
     end
@@ -176,7 +177,7 @@ defmodule Abyss.ListenerPoolScaler do
 
   @impl GenServer
   def terminate(_reason, state) do
-    :telemetry.detach(state.telemetry_id)
+    _ = :telemetry.detach(state.telemetry_id)
     :ok
   end
 
@@ -185,7 +186,15 @@ defmodule Abyss.ListenerPoolScaler do
   defp perform_scale_check(state) do
     state = gather_metrics(state)
     pool = Abyss.Server.listener_pool_pid(state.server_supervisor)
-    current = if is_pid(pool), do: active_listener_count(pool), else: 0
+
+    running? =
+      is_pid(pool) and
+        Enum.any?(
+          Abyss.ListenerPool.listener_pids(pool),
+          &(Abyss.Listener.status(&1).mode == :running)
+        )
+
+    current = if running?, do: active_listener_count(pool), else: 0
 
     # current == 0 means the pool is missing or suspended — don't scale.
     if current > 0 do
@@ -294,7 +303,7 @@ defmodule Abyss.ListenerPoolScaler do
     # terminate/2), then sync the supervisor and drop the child spec so a
     # later resume doesn't resurrect it.
     Abyss.Listener.stop(pid)
-    Supervisor.terminate_child(pool, id)
+    _ = Supervisor.terminate_child(pool, id)
     Supervisor.delete_child(pool, id) == :ok
   end
 

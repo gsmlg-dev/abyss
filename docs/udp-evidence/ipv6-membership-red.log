@@ -1,0 +1,31 @@
+     warning: variable "ip" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 368 │   defp receive_packet({ip, port, data} = packet, ancillary, state) do
+     │                        ~~
+     │
+     └─ lib/abyss/listener.ex:368:24: Abyss.Listener.receive_packet/3
+
+     warning: variable "port" is unused (if the variable is not meant to be used, prefix it with an underscore)
+     │
+ 368 │   defp receive_packet({ip, port, data} = packet, ancillary, state) do
+     │                            ~~~~
+     │
+     └─ lib/abyss/listener.ex:368:28: Abyss.Listener.receive_packet/3
+
+Running ExUnit with seed: 439250, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+....
+
+  1) test every IPv6 startup group is actually joined despite OTP scalar option merging (Abyss.Transport.UDP.MulticastRegressionTest)
+     test/abyss/transport/udp/multicast_regression_test.exs:99
+     Assertion with =~ failed
+     code:  assert groups =~ "ff02000000000000000000000000aa74"
+     left:  "1    lo              ff02000000000000000000000000aa75     1 00000004 0\n1    lo              ff020000000000000000000000000001     1 0000000C 0\n1    lo              ff010000000000000000000000000001     1 00000008 0\n2    enp111s0        ff050000000000000000000000000002     1 00000004 0\n2    enp111s0        ff010000000000000000000000000002     1 00000008 0\n2    enp111s0        ff020000000000000000000000000002     1 00000004 0\n2    enp111s0        ff020000000000000000000000000001     1 0000000C 0\n2    enp111s0        ff010000000000000000000000000001     1 00000008 0\n3    eno1            ff0200000000000000000001ffbd9d36     1 00000004 0\n3    eno1            ff0200000000000000000001ff1ad5bc     1 00000004 0\n3    eno1            ff0200000000000000000001ff96e431     1 00000004 0\n3    eno1            ff0200000000000000000001ff915979     1 00000004 0\n3    eno1            ff0200000000000000000001ffa852ad     1 00000004 0\n3    eno1            ff0200000000000000000001ff184261     1 00000004 0\n3    eno1            ff0200000000000000000001ffaa8d0e     1 00000004 0\n3    eno1            ff0200000000000000000001ff000000     2 00000004 0\n3    eno1            ff050000000000000000000000000002     1 00000004 0\n3    eno1            ff010000000000000000000000000002     1 00000008 0\n3    eno1            ff020000000000000000000000000002     1 00000004 0\n3    eno1            ff0200000000000000000001ff96316f     1 00000004 0\n3    eno1            ff0200000000000000000001ff84a44a     1 00000004 0\n3    eno1            ff020000000000000000000000000001     1 0000000C 0\n3    eno1            ff010000000000000000000000000001     1 00000008 0\n4    wlp3s0          ff050000000000000000000000000002     1 00000004 0\n4    wlp3s0          ff010000000000000000000000000002     1 00000008 0\n4    wlp3s0          ff020000000000000000000000000002     1 00000004 0\n4    wlp3s0          ff020000000000000000000000000001     1 0000000C 0\n4    wlp3s0          ff010000000000000000000000000001     1 00000008 0\n5    docker0         ff0200000000000000000001ffc53a50     1 00000004 0\n5    docker0         ff02000000000000000000000000006a     1 00000004 0\n5    docker0         ff0200000000000000000001ff000000     2 00000004 0\n5    docker0         ff050000000000000000000000000002     1 00000004 0\n5    docker0         ff010000000000000000000000000002     1 00000008 0\n5    docker0         ff020000000000000000000000000002     1 00000004 0\n5    docker0         ff0200000000000000000001ff000001     1 00000004 0\n5    docker0         ff020000000000000000000000000001     1 0000000C 0\n5    docker0         ff010000000000000000000000000001     1 00000008 0\n"
+     right: "ff02000000000000000000000000aa74"
+     stacktrace:
+       test/abyss/transport/udp/multicast_regression_test.exs:108: (test)
+
+..
+Finished in 0.1 seconds (0.00s async, 0.1s sync)
+7 tests, 1 failure

@@ -1,0 +1,40 @@
+PASS broadcast_limited_bidirectional_two_receivers
+PASS broadcast_directed_bidirectional_two_receivers
+PASS ipv4_two_groups_bidirectional_two_subscribers
+PASS ipv4_leave_rejoin_idempotent_epoch_barriers
+PASS ipv4_two_interfaces_membership_egress_isolation
+PASS ipv4_ttl_or_hoplimit_wire_ancillary
+PASS ipv4_loopback_local_vs_remote_delivery
+PASS ipv6_two_groups_bidirectional_two_subscribers
+PASS ipv6_leave_rejoin_idempotent_epoch_barriers
+FAIL AssertionError('none rx6: AssertionError("unexpected packet b\'emit:second_interface6:f0b2501b030843c799b81e5bfb6fe029\' from (\'fd00:ab:74:1::11\', 59421, 0, 0)")')
+Abyss output: WIRE OK 2
+WIRE RX4 ZW1pdDpicm9hZGNhc3Q6ZGlyZWN0ZWQ6ZjBiMjUwMWIwMzA4NDNjNzk5YjgxZTViZmI2ZmUwMjk=
+WIRE OK 3
+WIRE RX4 ZW1pdDptdWx0aWNhc3Q0Omdyb3VwMDpmMGIyNTAxYjAzMDg0M2M3OTliODFlNWJmYjZmZTAyOQ==
+WIRE OK 4
+WIRE RX4 ZW1pdDptdWx0aWNhc3Q0Omdyb3VwMTpmMGIyNTAxYjAzMDg0M2M3OTliODFlNWJmYjZmZTAyOQ==
+WIRE OK 5
+WIRE OK 6
+WIRE OK 7
+WIRE OK 8
+WIRE OK 9
+WIRE OK 10
+WIRE RX4 ZW1pdDplZ3Jlc3NfaW50ZXJmYWNlNDpmMGIyNTAxYjAzMDg0M2M3OTliODFlNWJmYjZmZTAyOQ==
+WIRE OK 11
+WIRE OK 12
+WIRE OK 13
+WIRE OK 14
+WIRE RX4 ZW1pdDpob3A0OmYwYjI1MDFiMDMwODQzYzc5OWI4MWU1YmZiNmZlMDI5
+WIRE OK 15
+WIRE OK 16
+WIRE OK 17
+WIRE OK 18
+WIRE OK 19
+WIRE RX6 ZW1pdDptdWx0aWNhc3Q2Omdyb3VwMDpmMGIyNTAxYjAzMDg0M2M3OTliODFlNWJmYjZmZTAyOQ==
+WIRE OK 20
+WIRE RX6 ZW1pdDptdWx0aWNhc3Q2Omdyb3VwMTpmMGIyNTAxYjAzMDg0M2M3OTliODFlNWJmYjZmZTAyOQ==
+WIRE OK 21
+WIRE OK 22
+WIRE OK 23
+WIRE OK 24

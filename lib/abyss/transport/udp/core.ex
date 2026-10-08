@@ -20,6 +20,8 @@ defmodule Abyss.Transport.UDP.Core do
   - `Abyss.Transport.UDP.Broadcast` for broadcast/multicast traffic
   """
 
+  alias Abyss.Transport.UDP.Multicast
+
   @doc """
   Transfers ownership of the given socket to the given process.
   """
@@ -41,24 +43,62 @@ defmodule Abyss.Transport.UDP.Core do
   Sends data on a UDP socket.
   """
   @spec send(Abyss.Transport.socket(), iodata()) :: Abyss.Transport.on_send()
-  defdelegate send(socket, data), to: :gen_udp
-  defdelegate send(socket, dest, data), to: :gen_udp
-  defdelegate send(socket, ip, port, data), to: :gen_udp
-  defdelegate send(socket, ip, port, anc_data, data), to: :gen_udp
+  def send(socket, data), do: record_send(socket, data, :gen_udp.send(socket, data))
+
+  def send(socket, %{family: :inet6, scope_id: _}, data) when not is_port(socket),
+    do:
+      record_send(
+        socket,
+        data,
+        {:error, {:unsupported_capability, :scoped_sockaddr_send, :socket}}
+      )
+
+  def send(socket, dest, data), do: record_send(socket, data, :gen_udp.send(socket, dest, data))
+
+  def send(socket, ip, port, data),
+    do: record_send(socket, data, :gen_udp.send(socket, ip, port, data))
+
+  def send(socket, ip, port, anc_data, data),
+    do: record_send(socket, data, :gen_udp.send(socket, ip, port, anc_data, data))
+
+  defp record_send(socket, data, result) do
+    Abyss.Telemetry.track_send_result(
+      Abyss.Telemetry.socket_scope(socket),
+      result,
+      IO.iodata_length(data),
+      %{socket: socket}
+    )
+
+    result
+  end
 
   @doc """
   Gets socket options.
   """
   @spec getopts(Abyss.Transport.socket(), Abyss.Transport.socket_get_options()) ::
           Abyss.Transport.on_getopts()
-  defdelegate getopts(socket, options), to: :inet
+  def getopts(socket, options) do
+    with {:ok, {local, _}} <- sockname(socket),
+         {:ok, requested} <- normalize_get_options(options, Multicast.family(local), socket),
+         {:ok, values} <- :inet.getopts(socket, requested) do
+      {:ok,
+       Enum.map(Enum.zip(options, values), fn {requested, value} ->
+         restore_get_option(requested, value)
+       end)}
+    end
+  end
 
   @doc """
   Sets socket options.
   """
   @spec setopts(Abyss.Transport.socket(), Abyss.Transport.socket_set_options()) ::
           Abyss.Transport.on_setopts()
-  defdelegate setopts(socket, options), to: :inet
+  def setopts(socket, options) do
+    with {:ok, {local, _}} <- sockname(socket),
+         {:ok, normalized} <- normalize_all(options, Multicast.family(local)),
+         {:ok, runtime_options} <- runtime_options(socket, normalized),
+         do: :inet.setopts(socket, runtime_options)
+  end
 
   @doc """
   Closes a UDP socket.
@@ -86,37 +126,334 @@ defmodule Abyss.Transport.UDP.Core do
   defdelegate getstat(socket), to: :inet
 
   @doc """
-  Merges user options with default options, ensuring user options take precedence.
-
-  The function handles both keyword-style options (e.g., `{:key, value}`) and
-  atom-style options (e.g., `:atom_option`).
-
-  ## Parameters
-  - `default_options` - Default options to use as base
-  - `user_options` - User-provided options that override defaults
-
-  ## Returns
-  - Merged options list with user options taking precedence
+  Merge scalar options with first-user-value precedence. Family and data-mode
+  aliases share a key. Membership operations retain their order and distinct
+  group/interface pairs; repeated identical operations are idempotent until an
+  opposite operation appears. Raw options are ordered operations, not keywords.
+  The backend selector is always first as required by OTP.
   """
-  @spec merge_options(keyword(), keyword()) :: keyword()
-  def merge_options(default_options, user_options) do
-    Enum.uniq_by(
-      user_options ++ default_options,
-      fn
-        {key, _} when is_atom(key) -> key
-        key when is_atom(key) -> key
-      end
-    )
+  @spec merge_options(list(), list()) :: list()
+  def merge_options(defaults, users) do
+    {options, _, _} =
+      Enum.reduce(users ++ defaults, {[], MapSet.new(), %{}}, fn
+        {op, membership} = option, {acc, seen, memberships}
+        when op in [:add_membership, :drop_membership] ->
+          if Map.get(memberships, membership) == op do
+            {acc, seen, memberships}
+          else
+            {[option | acc], seen, Map.put(memberships, membership, op)}
+          end
+
+        {:raw, _, _, _} = option, {acc, seen, memberships} ->
+          {[option | acc], seen, memberships}
+
+        option, {acc, seen, memberships} ->
+          key = option_key(option)
+
+          if MapSet.member?(seen, key),
+            do: {acc, seen, memberships},
+            else: {[option | acc], MapSet.put(seen, key), memberships}
+      end)
+
+    {backend, rest} =
+      options |> Enum.reverse() |> Enum.split_with(&match?({:inet_backend, _}, &1))
+
+    backend ++ rest
   end
 
-  @doc """
-  Opens a UDP socket with the given port and options.
+  defp option_key(atom) when atom in [:inet, :inet6, :local], do: :family
+  defp option_key(atom) when atom in [:binary, :list], do: :mode
+  defp option_key({key, _}), do: key
+  defp option_key(option), do: option
 
-  This is a common helper used by both Unicast and Broadcast transports.
-  """
-  @spec open_socket(:inet.port_number(), [:inet.inet_backend() | :gen_udp.open_option()]) ::
-          {:ok, Abyss.Transport.socket()} | {:error, :system_limit} | {:error, :inet.posix()}
-  def open_socket(port, options) do
-    :gen_udp.open(port, options)
+  @doc "Validate actual UDP option forms before opening a socket."
+  @spec normalize_options(list(), list()) :: {:ok, list()} | {:error, term()}
+  def normalize_options(defaults, users) when is_list(defaults) and is_list(users) do
+    with :ok <- validate_conflicts(users) do
+      options = merge_options(defaults, users)
+      family = selected_family(options)
+
+      options =
+        if family == :inet6 and :inet6 not in options, do: [:inet6 | options], else: options
+
+      {backend, rest} = Enum.split_with(options, &match?({:inet_backend, _}, &1))
+      options = backend ++ rest
+
+      normalize_all(options, family)
+    end
+  end
+
+  def normalize_options(_, users), do: {:error, {:invalid_options, users}}
+
+  defp normalize_all(options, family) do
+    result = Enum.reduce_while(options, {:ok, []}, &normalize_step(&1, &2, family))
+
+    case result do
+      {:ok, normalized} -> {:ok, Enum.reverse(normalized)}
+      error -> error
+    end
+  end
+
+  defp normalize_step(option, {:ok, acc}, family) do
+    case normalize_option(option, family) do
+      {:ok, normalized} -> {:cont, {:ok, [normalized | acc]}}
+      error -> {:halt, error}
+    end
+  end
+
+  defp validate_conflicts(options) do
+    families = Enum.filter(options, &(&1 in [:inet, :inet6, :local])) |> Enum.uniq()
+
+    modes =
+      Enum.flat_map(options, fn
+        mode when mode in [:binary, :list] -> [mode]
+        {:mode, mode} -> [mode]
+        _ -> []
+      end)
+      |> Enum.uniq()
+
+    cond do
+      length(families) > 1 -> {:error, {:invalid_option, :family, :conflicting}}
+      length(modes) > 1 -> {:error, {:invalid_option, :mode, :conflicting}}
+      true -> :ok
+    end
+  end
+
+  @doc false
+  def selected_family(options) do
+    Enum.find(options, &(&1 in [:inet, :inet6, :local])) ||
+      Enum.find_value(options, :inet, fn
+        {:ip, ip} when is_tuple(ip) and tuple_size(ip) == 8 ->
+          :inet6
+
+        {op, {group, _}}
+        when op in [:add_membership, :drop_membership] and is_tuple(group) and
+               tuple_size(group) == 8 ->
+          :inet6
+
+        _ ->
+          nil
+      end)
+  end
+
+  defp normalize_option({op, membership}, family)
+       when op in [:add_membership, :drop_membership] do
+    with {:ok, {group, _} = normalized} <-
+           Multicast.normalize_membership(membership),
+         true <- Multicast.family(group) == family do
+      {:ok, {op, normalized}}
+    else
+      false -> {:error, {:invalid_option, op, :family_mismatch}}
+      error -> error
+    end
+  end
+
+  defp normalize_option({:broadcast, true}, :inet6),
+    do: {:error, {:invalid_option, :broadcast, :ipv6}}
+
+  defp normalize_option({:ip, ip} = option, family)
+       when is_tuple(ip) and tuple_size(ip) in [4, 8] do
+    if Multicast.family(ip) == family,
+      do: {:ok, option},
+      else: {:error, {:invalid_option, :ip, :family_mismatch}}
+  end
+
+  defp normalize_option({:multicast_if, selector}, family) do
+    with {:ok, interface} <- Multicast.resolve_interface(selector, family),
+         do: multicast_option(:multicast_if, interface, family)
+  end
+
+  defp normalize_option({:multicast_ttl, value}, family)
+       when is_integer(value) and value in 0..255,
+       do: multicast_option(:multicast_ttl, value, family)
+
+  defp normalize_option({:multicast_ttl, value}, _),
+    do: {:error, {:invalid_option, :multicast_ttl, value}}
+
+  defp normalize_option({:multicast_loop, value}, family) when is_boolean(value),
+    do: multicast_option(:multicast_loop, value, family)
+
+  defp normalize_option({key, value} = option, _)
+       when key in [:broadcast, :multicast_loop, :reuseaddr, :reuseport] do
+    if is_boolean(value), do: {:ok, option}, else: {:error, {:invalid_option, key, value}}
+  end
+
+  defp normalize_option({:raw, level, name, value} = option, _)
+       when is_integer(level) and is_integer(name) and is_binary(value),
+       do: {:ok, option}
+
+  defp normalize_option(option, _) when is_atom(option), do: {:ok, option}
+  defp normalize_option({key, _} = option, _) when is_atom(key), do: {:ok, option}
+  defp normalize_option(option, _), do: {:error, {:invalid_option, option, :unsupported_form}}
+
+  # OTP generic multicast option names target IPv4, even on IPv6 sockets.
+  # Use the correct public raw socket option ABI on the verified Linux backend.
+  defp multicast_option(key, value, :inet6) do
+    with {:ok, number} <- ipv6_option_number(key) do
+      encoded = encode_option_value(value)
+      {:ok, {:raw, 41, number, <<encoded::native-unsigned-32>>}}
+    end
+  end
+
+  defp multicast_option(key, value, _), do: {:ok, {key, value}}
+
+  defp encode_option_value(true), do: 1
+  defp encode_option_value(false), do: 0
+  defp encode_option_value(value), do: value
+
+  defp ipv6_option_number(key) do
+    if :os.type() == {:unix, :linux},
+      do: {:ok, Map.fetch!(%{multicast_if: 17, multicast_ttl: 18, multicast_loop: 19}, key)},
+      else: {:error, {:unsupported_capability, :ipv6_multicast_options, :os.type()}}
+  end
+
+  defp ipv4_option_number(key) do
+    if :os.type() == {:unix, :linux},
+      do: {:ok, Map.fetch!(%{multicast_if: 32, multicast_ttl: 33, multicast_loop: 34}, key)},
+      else: {:error, {:unsupported_capability, :socket_backend_multicast_options, :os.type()}}
+  end
+
+  defp normalize_get_options(options, family, socket) do
+    Enum.reduce_while(options, {:ok, []}, &normalize_get_step(&1, &2, family, socket))
+    |> reverse_normalized()
+  end
+
+  defp normalize_get_step(key, {:ok, acc}, family, socket)
+       when key in [:multicast_if, :multicast_ttl, :multicast_loop] do
+    case multicast_get_option(key, family, socket) do
+      {:ok, option} -> {:cont, {:ok, [option | acc]}}
+      error -> {:halt, error}
+    end
+  end
+
+  defp normalize_get_step(option, {:ok, acc}, _, _), do: {:cont, {:ok, [option | acc]}}
+
+  defp multicast_get_option(key, :inet6, _) do
+    with {:ok, number} <- ipv6_option_number(key), do: {:ok, {:raw, 41, number, 4}}
+  end
+
+  defp multicast_get_option(key, :inet, socket) when not is_port(socket) do
+    with {:ok, number} <- ipv4_option_number(key), do: {:ok, {:raw, 0, number, 4}}
+  end
+
+  defp multicast_get_option(key, _, _), do: {:ok, key}
+  defp reverse_normalized({:ok, options}), do: {:ok, Enum.reverse(options)}
+  defp reverse_normalized(error), do: error
+
+  defp restore_get_option(:multicast_if, {:raw, 0, 32, <<a, b, c, d>>}),
+    do: {:multicast_if, {a, b, c, d}}
+
+  defp restore_get_option(key, {:raw, level, _, <<value::native-unsigned-32>>})
+       when level in [0, 41] and key in [:multicast_if, :multicast_ttl, :multicast_loop] do
+    {key, if(key == :multicast_loop, do: value != 0, else: value)}
+  end
+
+  defp restore_get_option(key, {{:raw, level, number, 4}, value})
+       when level in [0, 41] and key in [:multicast_if, :multicast_ttl, :multicast_loop],
+       do: restore_get_option(key, {:raw, level, number, value})
+
+  defp restore_get_option(_requested, value), do: value
+
+  @doc "Open a validated socket; failed startup leaves no live socket or memberships."
+  @spec open_socket(integer(), list()) :: {:ok, Abyss.Transport.socket()} | {:error, term()}
+  def open_socket(port, options) when is_integer(port) and port in 0..65_535 do
+    with {:ok, normalized} <- normalize_options([], options) do
+      {memberships, socket_options} = Enum.split_with(normalized, &membership_option?/1)
+
+      with {:ok, socket_options} <- open_backend_options(socket_options),
+           {:ok, socket} <- :gen_udp.open(port, socket_options),
+           do: initialize_memberships(socket, memberships)
+    end
+  catch
+    :error, :badarg -> {:error, {:invalid_socket_options, options}}
+    :exit, :badarg -> {:error, {:invalid_socket_options, options}}
+  end
+
+  def open_socket(port, _), do: {:error, {:invalid_port, port}}
+
+  defp runtime_options(socket, options) when is_port(socket), do: {:ok, options}
+
+  defp runtime_options(_socket, options), do: socket_backend_options(options)
+
+  defp open_backend_options(options) do
+    if {:inet_backend, :socket} in options,
+      do: socket_backend_options(options),
+      else: {:ok, options}
+  end
+
+  defp socket_backend_options(options) do
+    Enum.reduce_while(options, {:ok, []}, &runtime_option_step/2)
+    |> reverse_normalized()
+  end
+
+  defp runtime_option_step({operation, {group, interface}}, {:ok, acc})
+       when operation in [:add_membership, :drop_membership] do
+    case raw_membership(operation, group, interface) do
+      {:ok, option} -> {:cont, {:ok, [option | acc]}}
+      error -> {:halt, error}
+    end
+  end
+
+  defp runtime_option_step({key, value}, {:ok, acc})
+       when key in [:multicast_if, :multicast_ttl, :multicast_loop] do
+    case ipv4_option_number(key) do
+      {:ok, number} ->
+        encoded = encode_ipv4_option(key, value)
+        {:cont, {:ok, [{:raw, 0, number, encoded} | acc]}}
+
+      error ->
+        {:halt, error}
+    end
+  end
+
+  defp runtime_option_step(option, {:ok, acc}), do: {:cont, {:ok, [option | acc]}}
+
+  defp encode_ipv4_option(:multicast_if, {a, b, c, d}), do: <<a, b, c, d>>
+  defp encode_ipv4_option(_, value), do: <<encode_option_value(value)::native-unsigned-32>>
+
+  defp raw_membership(operation, group, interface) do
+    if :os.type() == {:unix, :linux},
+      do: {:ok, encode_membership(operation, group, interface)},
+      else: {:error, {:unsupported_capability, :socket_backend_membership, :os.type()}}
+  end
+
+  defp encode_membership(operation, {a, b, c, d}, {e, f, g, h}) do
+    number = if operation == :add_membership, do: 35, else: 36
+    {:raw, 0, number, <<a, b, c, d, e, f, g, h, 0::native-32>>}
+  end
+
+  defp encode_membership(operation, group, index) do
+    number = if operation == :add_membership, do: 20, else: 21
+    address = for part <- Tuple.to_list(group), into: <<>>, do: <<part::16>>
+    {:raw, 41, number, <<address::binary, index::native-32>>}
+  end
+
+  defp membership_option?({operation, _}) when operation in [:add_membership, :drop_membership],
+    do: true
+
+  defp membership_option?(_), do: false
+
+  # OTP's open-option parser treats IPv6 membership as a scalar; apply each
+  # operation separately through its public API, then roll back on any error.
+  defp initialize_memberships(socket, memberships) do
+    case Enum.reduce_while(memberships, :ok, &apply_membership(socket, &1, &2)) do
+      :ok ->
+        {:ok, socket}
+
+      error ->
+        close(socket)
+        error
+    end
+  catch
+    kind, reason ->
+      close(socket)
+      :erlang.raise(kind, reason, __STACKTRACE__)
+  end
+
+  defp apply_membership(socket, option, :ok) do
+    case setopts(socket, [option]) do
+      :ok -> {:cont, :ok}
+      {:error, reason} -> {:halt, {:error, {:membership_failed, option, reason}}}
+    end
   end
 end

@@ -15,7 +15,7 @@ defmodule Abyss.ConnectionTest do
 
   describe "start/6" do
     @tag :integration
-    test "returns :ok when starting connection process", %{config: config} do
+    test "returns the admitted pid when starting connection process", %{config: config} do
       # Start a complete server with proper setup
       assert {:ok, server_pid} =
                Abyss.start_link(
@@ -31,7 +31,7 @@ defmodule Abyss.ConnectionTest do
 
       span = Abyss.Telemetry.start_span(:test, %{}, %{})
 
-      assert :ok =
+      assert {:ok, pid} =
                Connection.start(
                  server_pid,
                  listener_pid,
@@ -40,6 +40,8 @@ defmodule Abyss.ConnectionTest do
                  config,
                  span
                )
+
+      assert is_pid(pid)
 
       :ok = Abyss.stop(server_pid)
     end
@@ -65,7 +67,7 @@ defmodule Abyss.ConnectionTest do
 
       span = Abyss.Telemetry.start_span(:test, %{}, %{})
 
-      assert :ok =
+      assert {:ok, pid} =
                Connection.start(
                  server_pid,
                  listener_pid,
@@ -74,6 +76,8 @@ defmodule Abyss.ConnectionTest do
                  config,
                  span
                )
+
+      assert is_pid(pid)
 
       # Allow some time for the handler to process
       Process.sleep(100)
@@ -102,7 +106,7 @@ defmodule Abyss.ConnectionTest do
 
       span = Abyss.Telemetry.start_span(:test, %{}, %{})
 
-      assert :ok =
+      assert {:ok, pid} =
                Connection.start(
                  server_pid,
                  listener_pid,
@@ -111,6 +115,8 @@ defmodule Abyss.ConnectionTest do
                  config,
                  span
                )
+
+      assert is_pid(pid)
 
       :ok = Abyss.stop(server_pid)
     end

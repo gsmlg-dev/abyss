@@ -1,0 +1,68 @@
+[0mWaiting for lock on the build directory (held by process 3973369)
+[0mWaiting for lock on the build directory (held by process 3973536)
+[0mWaiting for lock on the build directory (held by process 3973369)
+Running ExUnit with seed: 223551, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+    warning: Abyss.Listener.status/1 is undefined or private
+    │
+ 28 │     assert %{mode: :running, pending_count: 0, pending_bytes: 0} = Abyss.Listener.status(listener)
+    │                                                                                   ~
+    │
+    └─ test/abyss/udp_host_hardening_test.exs:28:83: Abyss.UDPHostHardeningTest."test one ephemeral endpoint is responsive without packets"/1
+    └─ test/abyss/udp_host_hardening_test.exs:65:87: Abyss.UDPHostHardeningTest."test empty datagrams count toward concurrency and overload is bounded"/1
+    └─ test/abyss/udp_host_hardening_test.exs:86:25: Abyss.UDPHostHardeningTest.wait_draining/2
+
+
+
+  1) test oversized datagram is rejected whole and stale socket messages are ignored (Abyss.UDPHostHardeningTest)
+     test/abyss/udp_host_hardening_test.exs:72
+     ** (MatchError) no match of right hand side value: [#PID<0.238.0>, #PID<0.237.0>, #PID<0.236.0>, #PID<0.235.0>]
+     code: {_, listener, socket, port} = endpoint(max_packet_size: 64)
+     stacktrace:
+       test/abyss/udp_host_hardening_test.exs:18: Abyss.UDPHostHardeningTest.endpoint/1
+       test/abyss/udp_host_hardening_test.exs:73: (test)
+
+
+
+  2) test pause keeps admitted replies and port; paused packets are discarded (Abyss.UDPHostHardeningTest)
+     test/abyss/udp_host_hardening_test.exs:31
+     ** (MatchError) no match of right hand side value: [#PID<0.249.0>, #PID<0.248.0>, #PID<0.247.0>, #PID<0.246.0>]
+     code: {server, listener, socket, port} = endpoint()
+     stacktrace:
+       test/abyss/udp_host_hardening_test.exs:18: Abyss.UDPHostHardeningTest.endpoint/1
+       test/abyss/udp_host_hardening_test.exs:32: (test)
+
+
+
+  3) test empty datagrams count toward concurrency and overload is bounded (Abyss.UDPHostHardeningTest)
+     test/abyss/udp_host_hardening_test.exs:60
+     ** (MatchError) no match of right hand side value: [#PID<0.260.0>, #PID<0.259.0>, #PID<0.258.0>, #PID<0.257.0>]
+     code: {server, listener, socket, port} = endpoint(num_connections: 1)
+     stacktrace:
+       test/abyss/udp_host_hardening_test.exs:18: Abyss.UDPHostHardeningTest.endpoint/1
+       test/abyss/udp_host_hardening_test.exs:61: (test)
+
+
+
+  4) test one ephemeral endpoint is responsive without packets (Abyss.UDPHostHardeningTest)
+     test/abyss/udp_host_hardening_test.exs:25
+     ** (MatchError) no match of right hand side value: [#PID<0.271.0>, #PID<0.270.0>, #PID<0.269.0>, #PID<0.268.0>]
+     code: {_, listener, _, port} = endpoint()
+     stacktrace:
+       test/abyss/udp_host_hardening_test.exs:18: Abyss.UDPHostHardeningTest.endpoint/1
+       test/abyss/udp_host_hardening_test.exs:26: (test)
+
+
+
+  5) test drain retains socket until the admitted response completes (Abyss.UDPHostHardeningTest)
+     test/abyss/udp_host_hardening_test.exs:48
+     ** (MatchError) no match of right hand side value: [#PID<0.282.0>, #PID<0.281.0>, #PID<0.280.0>, #PID<0.279.0>]
+     code: {server, listener, socket, port} = endpoint()
+     stacktrace:
+       test/abyss/udp_host_hardening_test.exs:18: Abyss.UDPHostHardeningTest.endpoint/1
+       test/abyss/udp_host_hardening_test.exs:49: (test)
+
+
+Finished in 0.2 seconds (0.00s async, 0.2s sync)
+5 tests, 5 failures

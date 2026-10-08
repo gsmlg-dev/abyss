@@ -80,56 +80,42 @@ defmodule Abyss.ServerConfigTest do
       assert config.handler_module == :not_a_module
     end
 
-    test "accepts any port value" do
-      config = Abyss.ServerConfig.new(handler_module: Abyss.TestHandler, port: -1)
-      assert config.port == -1
+    test "rejects invalid ports, limits, and timeouts" do
+      for opts <- [
+            [port: -1],
+            [port: 99999],
+            [num_listeners: 0],
+            [num_listeners: -5],
+            [num_connections: -1],
+            [num_connections: :infinity],
+            [read_timeout: -1],
+            [shutdown_timeout: -1000]
+          ] do
+        assert_raise ArgumentError, fn ->
+          Abyss.ServerConfig.new([handler_module: Abyss.TestHandler] ++ opts)
+        end
+      end
 
-      config = Abyss.ServerConfig.new(handler_module: Abyss.TestHandler, port: 99999)
-      assert config.port == 99999
+      assert %{read_timeout: :infinity} =
+               Abyss.ServerConfig.new(handler_module: Abyss.TestHandler, read_timeout: :infinity)
     end
 
-    test "accepts any num_listeners value" do
-      config =
-        Abyss.ServerConfig.new(handler_module: Abyss.TestHandler, port: 1234, num_listeners: 0)
-
-      assert config.num_listeners == 0
-
-      config =
-        Abyss.ServerConfig.new(handler_module: Abyss.TestHandler, port: 1234, num_listeners: -5)
-
-      assert config.num_listeners == -5
-    end
-
-    test "accepts any num_connections value" do
-      config =
-        Abyss.ServerConfig.new(handler_module: Abyss.TestHandler, port: 1234, num_connections: -1)
-
-      assert config.num_connections == -1
-
-      config =
-        Abyss.ServerConfig.new(
-          handler_module: Abyss.TestHandler,
-          port: 1234,
-          num_connections: :infinity
-        )
-
-      assert config.num_connections == :infinity
-    end
-
-    test "accepts any timeout values" do
-      config =
-        Abyss.ServerConfig.new(handler_module: Abyss.TestHandler, port: 1234, read_timeout: -1)
-
-      assert config.read_timeout == -1
-
-      config =
-        Abyss.ServerConfig.new(
-          handler_module: Abyss.TestHandler,
-          port: 1234,
-          shutdown_timeout: -1000
-        )
-
-      assert config.shutdown_timeout == -1000
+    test "rejects malformed resource types and host-owned options" do
+      for opts <- [
+            [handler_memory_check_interval: :infinity],
+            [handler_memory_warning_threshold: :a, handler_memory_hard_limit: :b],
+            [broadcast: :invalid],
+            [dynamic_listeners: 1],
+            [silent_terminate_on_error: nil],
+            [min_listeners: :x, max_listeners: :y],
+            [listener_scale_threshold: :infinity],
+            [transport_options: [active: true]],
+            [transport_options: [:list]]
+          ] do
+        assert_raise ArgumentError, fn ->
+          Abyss.ServerConfig.new([handler_module: Abyss.TestHandler] ++ opts)
+        end
+      end
     end
 
     test "accepts UDP buffer size configuration" do
