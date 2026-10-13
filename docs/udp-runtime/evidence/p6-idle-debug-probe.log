@@ -1,0 +1,342 @@
+DEBUG_OTHER: {:in, {:"$gen_call", {#PID<0.198.0>, ...}, :info}}
+DEBUG_OTHER: {:out,
+ %{
+   send: %Abyss.Dispatcher.SendCapability{
+     writer: #PID<0.202.0>,
+     generation: #Reference<0.567111095.1172832257.193388>,
+     ...
+   },
+   dropped: 0,
+   retained_bytes: 0,
+   ...
+ }, {#PID<0.198.0>, [...]}, %{owner: #PID<0.198.0>, ...}}
+DEBUG_OTHER: {:in, {:"$gen_call", {#PID<0.198.0>, ...}, {...}}}
+DEBUG_OTHER: {:out, :ok, {#PID<0.198.0>, [...]}, %{owner: #PID<0.198.0>, ...}}
+DEBUG_OTHER: {:in, {:route_result, #Reference<0.567111095.1172832257.193458>, {...}}}
+DEBUG_NOREPLY: %{workers: %{}}
+DEBUG_OTHER: {:in, {:EXIT, #PID<0.206.0>, :normal}}
+DEBUG_NOREPLY: %{workers: %{}}
+DEBUG_OTHER: {:in, {:DOWN, #Reference<0.567111095.1172832257.193461>, :process, ...}}
+DEBUG_NOREPLY: %{
+  workers: %{
+    "a" => %{
+      monitor: #Reference<0.567111095.1172832257.193476>,
+      pid: #PID<0.207.0>,
+      queue: {[], []},
+      items: 1,
+      bytes: 384,
+      phase: :init,
+      initialized: false,
+      current: #Reference<0.567111095.1172832257.193458>,
+      idle_token: nil,
+      idle_timer: nil,
+      effect_pid: nil,
+      watchdog: #Reference<0.567111095.1172832257.193477>,
+      effect_result: nil,
+      effect_monitor: nil,
+      callback_settled: false
+    }
+  }
+}
+OWNER: {:initialized, #PID<0.207.0>,
+ %{
+   send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.202.0>, ...},
+   generation: #Reference<0.567111095.1172832257.193388>,
+   ...
+ }}
+OWNER: {:invoked, #PID<0.207.0>, %Abyss.Datagram{payload: "a", peer: %{...}, ...}, 0}
+DEBUG_OTHER: {:in, {:initialized, "a", #Reference<0.567111095.1172832257.193458>}}
+DEBUG_NOREPLY: %{
+  workers: %{
+    "a" => %{
+      monitor: #Reference<0.567111095.1172832257.193476>,
+      pid: #PID<0.207.0>,
+      queue: {[], []},
+      items: 1,
+      bytes: 384,
+      phase: :callback,
+      initialized: false,
+      current: #Reference<0.567111095.1172832257.193458>,
+      idle_token: nil,
+      idle_timer: nil,
+      effect_pid: nil,
+      watchdog: #Reference<0.567111095.1172832257.193480>,
+      effect_result: nil,
+      effect_monitor: nil,
+      callback_settled: false
+    }
+  }
+}
+DEBUG_OTHER: {:in, {:invocation_result, "a", #Reference<0.567111095.1172832257.193458>, ...}}
+DEBUG_NOREPLY: %{
+  workers: %{
+    "a" => %{
+      monitor: #Reference<0.567111095.1172832257.193476>,
+      pid: #PID<0.207.0>,
+      queue: {[], []},
+      items: 1,
+      bytes: 384,
+      phase: :effects,
+      initialized: true,
+      current: #Reference<0.567111095.1172832257.193458>,
+      idle_token: nil,
+      idle_timer: nil,
+      effect_pid: #PID<0.208.0>,
+      watchdog: #Reference<0.567111095.1172832257.193488>,
+      effect_result: nil,
+      effect_monitor: #Reference<0.567111095.1172832257.193487>,
+      callback_settled: false
+    }
+  }
+}
+DEBUG_OTHER: {:in, {:invocation_settled, "a", #Reference<0.567111095.1172832257.193458>}}
+DEBUG_NOREPLY: %{
+  workers: %{
+    "a" => %{
+      monitor: #Reference<0.567111095.1172832257.193476>,
+      pid: #PID<0.207.0>,
+      queue: {[], []},
+      items: 1,
+      bytes: 384,
+      phase: :effects,
+      initialized: true,
+      current: #Reference<0.567111095.1172832257.193458>,
+      idle_token: nil,
+      idle_timer: nil,
+      effect_pid: #PID<0.208.0>,
+      watchdog: #Reference<0.567111095.1172832257.193488>,
+      effect_result: nil,
+      effect_monitor: #Reference<0.567111095.1172832257.193487>,
+      callback_settled: true
+    }
+  }
+}
+DEBUG_OTHER: {:in,
+ {:abyss_dispatcher_send, #Reference<0.567111095.1172832257.193388>,
+  #Reference<0.567111095.1172832257.193493>, ...}}
+DEBUG_NOREPLY: %{
+  workers: %{
+    "a" => %{
+      monitor: #Reference<0.567111095.1172832257.193476>,
+      pid: #PID<0.207.0>,
+      queue: {[], []},
+      items: 1,
+      bytes: 384,
+      phase: :effects,
+      initialized: true,
+      current: #Reference<0.567111095.1172832257.193458>,
+      idle_token: nil,
+      idle_timer: nil,
+      effect_pid: #PID<0.208.0>,
+      watchdog: #Reference<0.567111095.1172832257.193488>,
+      effect_result: nil,
+      effect_monitor: #Reference<0.567111095.1172832257.193487>,
+      callback_settled: true
+    }
+  }
+}
+DEBUG_OTHER: {:in, {:effects_result, "a", #Reference<0.567111095.1172832257.193458>, ...}}
+DEBUG_NOREPLY: %{
+  workers: %{
+    "a" => %{
+      monitor: #Reference<0.567111095.1172832257.193476>,
+      pid: #PID<0.207.0>,
+      queue: {[], []},
+      items: 1,
+      bytes: 384,
+      phase: :effects,
+      initialized: true,
+      current: #Reference<0.567111095.1172832257.193458>,
+      idle_token: nil,
+      idle_timer: nil,
+      effect_pid: #PID<0.208.0>,
+      watchdog: #Reference<0.567111095.1172832257.193488>,
+      effect_result: {[
+         {#Reference<0.567111095.1172832257.193493>, {:ok, -576460750461890}}
+       ], nil},
+      effect_monitor: #Reference<0.567111095.1172832257.193487>,
+      callback_settled: true
+    }
+  }
+}
+DEBUG_OTHER: {:in, {:EXIT, #PID<0.208.0>, :normal}}
+DEBUG_NOREPLY: %{
+  workers: %{
+    "a" => %{
+      monitor: #Reference<0.567111095.1172832257.193476>,
+      pid: #PID<0.207.0>,
+      queue: {[], []},
+      items: 1,
+      bytes: 384,
+      phase: :effects,
+      initialized: true,
+      current: #Reference<0.567111095.1172832257.193458>,
+      idle_token: nil,
+      idle_timer: nil,
+      effect_pid: #PID<0.208.0>,
+      watchdog: #Reference<0.567111095.1172832257.193488>,
+      effect_result: {[
+         {#Reference<0.567111095.1172832257.193493>, {:ok, -576460750461890}}
+       ], nil},
+      effect_monitor: #Reference<0.567111095.1172832257.193487>,
+      callback_settled: true
+    }
+  }
+}
+DEBUG_OTHER: {:in, {:DOWN, #Reference<0.567111095.1172832257.193487>, :process, ...}}
+DEBUG_NOREPLY: %{
+  workers: %{
+    "a" => %{
+      monitor: #Reference<0.567111095.1172832257.193476>,
+      pid: #PID<0.207.0>,
+      queue: {[], []},
+      items: 1,
+      bytes: 144,
+      phase: :callback,
+      initialized: true,
+      current: #Reference<0.567111095.1172832257.193512>,
+      idle_token: nil,
+      idle_timer: nil,
+      effect_pid: nil,
+      watchdog: #Reference<0.567111095.1172832257.193513>,
+      effect_result: nil,
+      effect_monitor: nil,
+      callback_settled: true
+    }
+  }
+}
+OWNER: {:outcomes, #Reference<0.567111095.1172832257.193388>,
+ #Reference<0.567111095.1172832257.193458>, [{...}]}
+DEBUG_OTHER: {:in, {:initialized, "a", #Reference<0.567111095.1172832257.193512>}}
+DEBUG_NOREPLY: %{
+  workers: %{
+    "a" => %{
+      monitor: #Reference<0.567111095.1172832257.193476>,
+      pid: #PID<0.207.0>,
+      queue: {[], []},
+      items: 1,
+      bytes: 144,
+      phase: :callback,
+      initialized: true,
+      current: #Reference<0.567111095.1172832257.193512>,
+      idle_token: nil,
+      idle_timer: nil,
+      effect_pid: nil,
+      watchdog: #Reference<0.567111095.1172832257.193513>,
+      effect_result: nil,
+      effect_monitor: nil,
+      callback_settled: true
+    }
+  }
+}
+DEBUG_OTHER: {:in, {:invocation_result, "a", #Reference<0.567111095.1172832257.193512>, ...}}
+DEBUG_NOREPLY: %{
+  workers: %{
+    "a" => %{
+      monitor: #Reference<0.567111095.1172832257.193476>,
+      pid: #PID<0.207.0>,
+      queue: {[], []},
+      items: 1,
+      bytes: 144,
+      phase: :effects,
+      initialized: true,
+      current: #Reference<0.567111095.1172832257.193512>,
+      idle_token: nil,
+      idle_timer: nil,
+      effect_pid: #PID<0.209.0>,
+      watchdog: #Reference<0.567111095.1172832257.193521>,
+      effect_result: nil,
+      effect_monitor: #Reference<0.567111095.1172832257.193520>,
+      callback_settled: false
+    }
+  }
+}
+DEBUG_OTHER: {:in, {:invocation_settled, "a", #Reference<0.567111095.1172832257.193512>}}
+DEBUG_NOREPLY: %{
+  workers: %{
+    "a" => %{
+      monitor: #Reference<0.567111095.1172832257.193476>,
+      pid: #PID<0.207.0>,
+      queue: {[], []},
+      items: 1,
+      bytes: 144,
+      phase: :effects,
+      initialized: true,
+      current: #Reference<0.567111095.1172832257.193512>,
+      idle_token: nil,
+      idle_timer: nil,
+      effect_pid: #PID<0.209.0>,
+      watchdog: #Reference<0.567111095.1172832257.193521>,
+      effect_result: nil,
+      effect_monitor: #Reference<0.567111095.1172832257.193520>,
+      callback_settled: true
+    }
+  }
+}
+DEBUG_OTHER: {:in, {:effects_result, "a", #Reference<0.567111095.1172832257.193512>, ...}}
+DEBUG_NOREPLY: %{
+  workers: %{
+    "a" => %{
+      monitor: #Reference<0.567111095.1172832257.193476>,
+      pid: #PID<0.207.0>,
+      queue: {[], []},
+      items: 1,
+      bytes: 144,
+      phase: :effects,
+      initialized: true,
+      current: #Reference<0.567111095.1172832257.193512>,
+      idle_token: nil,
+      idle_timer: nil,
+      effect_pid: #PID<0.209.0>,
+      watchdog: #Reference<0.567111095.1172832257.193521>,
+      effect_result: {[], nil},
+      effect_monitor: #Reference<0.567111095.1172832257.193520>,
+      callback_settled: true
+    }
+  }
+}
+DEBUG_OTHER: {:in, {:EXIT, #PID<0.209.0>, :normal}}
+DEBUG_NOREPLY: %{
+  workers: %{
+    "a" => %{
+      monitor: #Reference<0.567111095.1172832257.193476>,
+      pid: #PID<0.207.0>,
+      queue: {[], []},
+      items: 1,
+      bytes: 144,
+      phase: :effects,
+      initialized: true,
+      current: #Reference<0.567111095.1172832257.193512>,
+      idle_token: nil,
+      idle_timer: nil,
+      effect_pid: #PID<0.209.0>,
+      watchdog: #Reference<0.567111095.1172832257.193521>,
+      effect_result: {[], nil},
+      effect_monitor: #Reference<0.567111095.1172832257.193520>,
+      callback_settled: true
+    }
+  }
+}
+DEBUG_OTHER: {:in, {:DOWN, #Reference<0.567111095.1172832257.193520>, :process, ...}}
+DEBUG_NOREPLY: %{
+  workers: %{
+    "a" => %{
+      monitor: #Reference<0.567111095.1172832257.193476>,
+      pid: #PID<0.207.0>,
+      queue: {[], []},
+      items: 0,
+      bytes: 0,
+      phase: :effects,
+      initialized: true,
+      current: nil,
+      idle_token: #Reference<0.567111095.1172832257.193524>,
+      idle_timer: #Reference<0.567111095.1172832257.193525>,
+      effect_pid: nil,
+      watchdog: nil,
+      effect_result: nil,
+      effect_monitor: nil,
+      callback_settled: true
+    }
+  }
+}
+DEBUG_OTHER: {:in, {:idle_expired, "a", #Reference<0.567111095.1172832257.193524>}}

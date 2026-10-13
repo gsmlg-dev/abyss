@@ -64,6 +64,21 @@ defmodule Abyss.RuntimeTestHandler do
   end
 end
 
+defmodule Abyss.RuntimeIdleTestHandler do
+  @behaviour Abyss.DatagramHandler
+  defdelegate init(opts, context), to: Abyss.RuntimeTestHandler
+  defdelegate handle_event(event, state), to: Abyss.RuntimeTestHandler
+  defdelegate terminate(reason, state), to: Abyss.RuntimeTestHandler
+
+  def handle_datagram(%{payload: "a"} = datagram, state) do
+    send(state.owner, {:idle_callback, self()})
+    receive do: (:continue -> :ok)
+    Abyss.RuntimeTestHandler.handle_datagram(datagram, state)
+  end
+
+  defdelegate handle_datagram(datagram, state), to: Abyss.RuntimeTestHandler
+end
+
 defmodule Abyss.RuntimeBlockingTransport do
   alias Abyss.Transport.UDP
   defdelegate listen(port, options), to: UDP
@@ -241,23 +256,73 @@ defmodule Abyss.DatagramRuntimeTest do
 
     {server, client, port} =
       endpoint(
+        datagram_handler: Abyss.RuntimeIdleTestHandler,
         execution: :keyed,
-        route_key: & &1.payload,
+        route_key: fn datagram ->
+          send(owner, {:routed, self(), datagram.payload})
+          datagram.payload
+        end,
         runtime_options: [max_keys: 1, idle_timeout: 40]
       )
 
-    :ok = packet(client, port, "a")
-    assert {:ok, {_, ^port, <<1::32>>}} = response(client)
-    assert_receive {:invoked, first, _, 0}
-    :ok = packet(client, port, "b")
-    assert {:error, :timeout} = :gen_udp.recv(client, 0, 15)
-    assert {:ok, %{key_count: 1}} = Endpoint.info(server)
-    assert_receive {:terminated, ^first, {:shutdown, :idle_timeout}, 1}, 1000
+    [listener] = server |> Abyss.Server.listener_pool_pid() |> Abyss.ListenerPool.listener_pids()
+    runtime = :sys.get_state(listener).runtime
+
+    :ok =
+      :sys.install(
+        runtime,
+        {fn observed, event, _name ->
+           observe_idle_status(observed, event, owner)
+         end, false}
+      )
+
+    :erlang.trace(runtime, true, [:receive])
+
+    try do
+      :ok = packet(client, port, "a")
+      assert_receive {:initialized, first, %{endpoint_id: _}}
+      assert_receive {:idle_callback, ^first}
+      monitor = Process.monitor(first)
+      :ok = packet(client, port, "b")
+      assert_receive {:routed, route, "b"}
+      assert_receive {:trace, ^runtime, :receive, {:DOWN, _, :process, ^route, :normal}}
+      assert {:error, :timeout} = :gen_udp.recv(client, 0, 15)
+      assert {:ok, %{key_count: 1}} = Endpoint.info(server)
+      assert %{dropped: 1} = Abyss.DatagramRuntime.info(runtime)
+      send(first, :continue)
+      assert {:ok, {_, ^port, <<1::32>>}} = response(client)
+      assert_receive {:invoked, ^first, _, 0}
+      assert_receive {:idle_status, token, timer, status_token, status_timer}
+      assert status_token == token
+      assert status_timer == timer
+      assert_receive {:terminated, ^first, {:shutdown, :idle_timeout}, 1}, 1000
+      assert_receive {:DOWN, ^monitor, :process, ^first, _}
+      assert_receive {:trace, ^runtime, :receive, {:DOWN, _, :process, ^first, _}}
+    after
+      :erlang.trace(runtime, false, [:receive])
+    end
+
     :ok = packet(client, port, "b")
     assert {:ok, {_, ^port, <<1::32>>}} = response(client)
     assert_receive {:initialized, second, %{endpoint_id: _}}
     assert is_pid(owner) and is_pid(second)
   end
+
+  defp observe_idle_status(
+         false,
+         {:noreply,
+          %{workers: %{"a" => %{current: nil, idle_token: token, idle_timer: timer}}} = state},
+         owner
+       )
+       when is_reference(token) do
+    {:reply, _, state} = Abyss.DatagramRuntime.handle_call(:info, nil, state)
+    {:reply, _, state} = Abyss.DatagramRuntime.handle_call(:info, nil, state)
+    worker = state.workers["a"]
+    send(owner, {:idle_status, token, timer, worker.idle_token, worker.idle_timer})
+    true
+  end
+
+  defp observe_idle_status(observed, _event, _owner), do: observed
 
   test "termination hook is watchdog bounded and retains its reservation" do
     {server, client, port} =

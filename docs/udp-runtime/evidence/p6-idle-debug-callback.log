@@ -1,0 +1,35 @@
+PROBE: {:initialized, #PID<0.209.0>,
+ %{
+   send: %Abyss.Dispatcher.SendCapability{
+     writer: #PID<0.204.0>,
+     generation: #Reference<0.1320085191.3858235393.105760>,
+     admission: #PID<0.203.0>,
+     io_backend: :gen_udp
+   },
+   generation: #Reference<0.1320085191.3858235393.105760>,
+   endpoint_id: {#PID<0.198.0>, "listener-1"}
+ }}
+PROBE: {:invoked, #PID<0.209.0>,
+ %Abyss.Datagram{
+   payload: "a",
+   peer: %{port: 43018, addr: {127, 0, 0, 1}, family: :inet},
+   local_endpoint: {{127, 0, 0, 1}, 47422},
+   destination: nil,
+   interface_index: nil,
+   local_address: nil,
+   hop_limit: nil,
+   traffic_class: nil,
+   endpoint_id: {#PID<0.198.0>, "listener-1"},
+   generation: #Reference<0.1320085191.3858235393.105760>,
+   received_at: -576460750438486,
+   ancillary: [],
+   flags: []
+ }, 0}
+PROBE: {:outcomes, #Reference<0.1320085191.3858235393.105760>,
+ #Reference<0.1320085191.3858235393.105826>,
+ [{#Reference<0.1320085191.3858235393.105861>, {:ok, -576460750433266}}]}
+PROBE: {:idle_status, #Reference<0.1320085191.3858235393.105888>,
+ #Reference<0.1320085191.3858235393.105889>,
+ #Reference<0.1320085191.3858235393.105888>,
+ #Reference<0.1320085191.3858235393.105889>}
+PROBE: {:terminated, #PID<0.209.0>, {:shutdown, :idle_timeout}, 1}
