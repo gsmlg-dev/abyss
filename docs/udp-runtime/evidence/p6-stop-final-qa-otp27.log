@@ -1,0 +1,120 @@
+✨ devenv 2.2.2 is out of date. Please update to 2.4.0: https://devenv.sh/getting-started/#installation
+    _    _                   
+   / \  | |__  _   _ ___ ___ 
+  / _ \ | '_ \| | | / __/ __|
+ / ___ \| |_) | |_| \__ \__ \
+/_/   \_\_.__/ \__, |___/___/
+               |___/         
++ cd .trees/udp-runtime
++ mix format --check-formatted
++ mix compile --warnings-as-errors
+Compiling 2 files (.ex)
+Generated abyss app
++ MIX_ENV=test
++ mix compile --warnings-as-errors
+==> earmark_parser
+Compiling 3 files (.erl)
+Compiling 32 files (.ex)
+Generated earmark_parser app
+==> file_system
+Compiling 7 files (.ex)
+Generated file_system app
+==> mime
+Compiling 1 file (.ex)
+Generated mime app
+==> nimble_parsec
+Compiling 4 files (.ex)
+Generated nimble_parsec app
+==> bunt
+Compiling 2 files (.ex)
+Generated bunt app
+==> telemetry_metrics
+Compiling 7 files (.ex)
+Generated telemetry_metrics app
+==> jason
+Compiling 10 files (.ex)
+Generated jason app
+==> dhcp_ex
+Compiling 12 files (.ex)
+Generated dhcp_ex app
+==> credo
+Compiling 257 files (.ex)
+Generated credo app
+==> makeup
+Compiling 15 files (.ex)
+Generated makeup app
+==> makeup_elixir
+Compiling 6 files (.ex)
+Generated makeup_elixir app
+==> makeup_erlang
+Compiling 4 files (.ex)
+Compiling lib/makeup/lexers/erlang_lexer.ex (it's taking more than 10s)
+Generated makeup_erlang app
+==> ex_doc
+Compiling 30 files (.ex)
+Generated ex_doc app
+==> erlex
+Compiling 2 files (.erl)
+Compiling 2 files (.ex)
+Generated erlex app
+==> dialyxir
+Compiling 70 files (.ex)
+Generated dialyxir app
+==> machete
+Compiling 43 files (.ex)
+Generated machete app
+==> nimble_ownership
+Compiling 2 files (.ex)
+Generated nimble_ownership app
+==> mox
+Compiling 2 files (.ex)
+Generated mox app
+==> tesla
+Compiling 57 files (.ex)
+Generated tesla app
+==> ex_dns
+Compiling 71 files (.ex)
+Generated ex_dns app
+==> abyss
+Compiling 38 files (.ex)
+Generated abyss app
++ mix test --include integration --no-cover --seed 953627
++ mix dialyzer
+Finding suitable PLTs
+Checking PLT...
+[:abyss, :elixir, :kernel, :logger, :machete, :public_key, :stdlib, :telemetry, :telemetry_metrics]
+PLT is up to date!
+No :ignore_warnings opt specified in mix.exs and default does not exist.
+
+Starting Dialyzer
+[
+  check_plt: false,
+  init_plt: ~c"/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/priv/plts/dialyzer.plt",
+  files: [~c"/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/_build/dev/lib/abyss/ebin/Elixir.Abyss.Dispatcher.SendCapability.beam",
+   ~c"/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/_build/dev/lib/abyss/ebin/Elixir.Abyss.Listener.beam",
+   ~c"/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/_build/dev/lib/abyss/ebin/Elixir.Abyss.Transport.UDP.Broadcast.beam",
+   ~c"/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/_build/dev/lib/abyss/ebin/Elixir.Abyss.Endpoint.beam",
+   ~c"/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/_build/dev/lib/abyss/ebin/Elixir.Abyss.Logger.beam",
+   ...],
+  warnings: [:error_handling, :extra_return, :missing_return, :unknown, ...]
+]
+Total errors: 0, Skipped: 0, Unnecessary Skips: 0
+done in 0m2.0s
+done (passed successfully)
++ mix run scripts/udp/runtime_stress.exs
++ mix run example/datagram_echo.exs
+DATAGRAM_EXAMPLE_PASS
++ mix run scripts/udp/runtime_smoke.exs
+ACTUAL_METADATA: %{
+  local_address: {127, 0, 0, 1},
+  destination: {127, 0, 0, 1},
+  interface_index: 1,
+  hop_limit: 64
+}
+ACTUAL_METADATA: %{
+  local_address: {0, 0, 0, 0, 0, 0, 0, 1},
+  destination: {0, 0, 0, 0, 0, 0, 0, 1},
+  interface_index: 1,
+  hop_limit: 64
+}
+NATIVE_ENDPOINT_IPV4_IPV6_STRICT_REPLY_PASS

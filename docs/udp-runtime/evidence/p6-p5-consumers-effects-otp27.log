@@ -1,0 +1,240 @@
+✨ devenv 2.2.2 is out of date. Please update to 2.4.0: https://devenv.sh/getting-started/#installation
+    _    _                   
+   / \  | |__  _   _ ___ ___ 
+  / _ \ | '_ \| | | / __/ __|
+ / ___ \| |_) | |_| \__ \__ \
+/_/   \_\_.__/ \__, |___/___/
+               |___/         
+P5_STAGE=/tmp/abyss-p5-4kv0x2yo
+COMMAND /tmp/abyss-p5-4kv0x2yo/core-source ['mix', 'hex.build']
+Building abyss 0.7.0
+  Dependencies:
+    telemetry ~> 1.0 (app: telemetry)
+    telemetry_metrics ~> 1.0 (app: telemetry_metrics)
+    ex_doc >= 0.0.0 (app: ex_doc)
+  App: abyss
+  Name: abyss
+  Files:
+    lib
+    lib/abyss.ex
+    lib/abyss
+    lib/abyss/application.ex
+    lib/abyss/client.ex
+    lib/abyss/connection.ex
+    lib/abyss/datagram_dispatcher.ex
+    lib/abyss/dhcp_socket
+    lib/abyss/dhcp_socket/native.ex
+    lib/abyss/handler.ex
+    lib/abyss/listener.ex
+    lib/abyss/listener_pool.ex
+    lib/abyss/listener_pool_scaler.ex
+    lib/abyss/listener_starter.ex
+    lib/abyss/logger.ex
+    lib/abyss/quic.ex
+    lib/abyss/quic
+    lib/abyss/quic/handler.ex
+    lib/abyss/quic/service.ex
+    lib/abyss/server.ex
+    lib/abyss/server_config.ex
+    lib/abyss/shutdown_listener.ex
+    lib/abyss/table_owner.ex
+    lib/abyss/telemetry.ex
+    lib/abyss/transport.ex
+    lib/abyss/transport
+    lib/abyss/transport/udp.ex
+    lib/abyss/transport/udp
+    lib/abyss/transport/udp/broadcast.ex
+    lib/abyss/transport/udp/core.ex
+    lib/abyss/transport/udp/multicast.ex
+    lib/abyss/transport/udp/unicast.ex
+    lib/abyss/transport/udp/native.ex
+    lib/abyss/udp_admission.ex
+    lib/abyss/utils.ex
+    lib/abyss/datagram_actions.ex
+    lib/abyss/datagram_worker.ex
+    lib/abyss/datagram.ex
+    lib/abyss/datagram_handler.ex
+    lib/abyss/endpoint.ex
+    lib/abyss/datagram_runtime.ex
+    LICENSE
+    mix.exs
+    README.md
+    docs/dispatcher.md
+    docs/quic-service.md
+    docs/udp-broadcast-multicast.md
+    docs/udp-runtime/design.md
+    docs/udp-runtime/migration.md
+  Version: 0.7.0
+  Build tools: mix
+  Description: Abyss is a pure Elixir UDP server
+  Licenses: MIT
+  Links: 
+    Github: https://github.com/gsmlg-dev/abyss
+    Changelog: https://hexdocs.pm/abyss/changelog.html
+  Elixir: ~> 1.13
+Package checksum: 276282d23a879ff51cb4d89e3d739efcacc60fbdc4bc15232f637ccd209f9d5f
+Saved to abyss-0.7.0.tar
+COMMAND /tmp/abyss-p5-4kv0x2yo/native-source ['mix', 'hex.build']
+Building abyss_dhcp_socket 0.1.0
+  Dependencies:
+    rustler ~> 0.34 (app: rustler)
+  App: abyss_dhcp_socket
+  Name: abyss_dhcp_socket
+  Files:
+    lib
+    lib/abyss_dhcp_socket
+    lib/abyss_dhcp_socket/native.ex
+    mix.exs
+    README.md
+    LICENSE
+    native/dhcp_socket/src
+    native/dhcp_socket/src/lib.rs
+    native/dhcp_socket/src/socket.rs
+    native/dhcp_socket/src/poll.rs
+    native/dhcp_socket/src/arp.rs
+    native/dhcp_socket/Cargo.toml
+    native/dhcp_socket/Cargo.lock
+    native/dhcp_socket/.cargo
+    native/dhcp_socket/.cargo/config.toml
+  Version: 0.1.0
+  Build tools: mix
+  Description: Optional interface-bound DHCP and raw ARP sockets for Abyss
+  Licenses: MIT
+  Links: 
+    GitHub: https://github.com/gsmlg-dev/abyss
+  Elixir: ~> 1.13
+Package checksum: 0b157f77c10df4a2c82ec6ba3ee8f7bc5695fee57bf5cbd0a489420fee388a71
+Saved to abyss_dhcp_socket-0.1.0.tar
+COMMAND /tmp/abyss-p5-4kv0x2yo/core-consumer ['mix', 'deps.get']
+Resolving Hex dependencies...
+Resolution completed in 0.028s
+Unchanged:
+  earmark_parser 1.4.46
+  ex_doc 0.40.4
+  makeup 1.2.3
+  makeup_elixir 1.0.1
+  makeup_erlang 1.1.0
+  nimble_parsec 1.4.2
+  telemetry 1.4.2
+  telemetry_metrics 1.2.0
+* Getting telemetry (Hex package)
+* Getting telemetry_metrics (Hex package)
+* Getting ex_doc (Hex package)
+* Getting earmark_parser (Hex package)
+* Getting makeup_elixir (Hex package)
+* Getting makeup_erlang (Hex package)
+* Getting makeup (Hex package)
+* Getting nimble_parsec (Hex package)
+COMMAND /tmp/abyss-p5-4kv0x2yo/core-consumer ['mix', 'compile', '--warnings-as-errors']
+==> earmark_parser
+Compiling 2 files (.xrl)
+Compiling 1 file (.yrl)
+Compiling 3 files (.erl)
+Compiling 32 files (.ex)
+Generated earmark_parser app
+==> nimble_parsec
+Compiling 4 files (.ex)
+Generated nimble_parsec app
+==> p5_consumer
+===> Analyzing applications...
+===> Compiling telemetry
+==> telemetry_metrics
+Compiling 7 files (.ex)
+Generated telemetry_metrics app
+==> makeup
+Compiling 15 files (.ex)
+Generated makeup app
+==> makeup_elixir
+Compiling 6 files (.ex)
+Generated makeup_elixir app
+==> makeup_erlang
+Compiling 4 files (.ex)
+Compiling lib/makeup/lexers/erlang_lexer.ex (it's taking more than 10s)
+Generated makeup_erlang app
+==> ex_doc
+Compiling 30 files (.ex)
+Generated ex_doc app
+==> abyss
+Compiling 35 files (.ex)
+Generated abyss app
+==> p5_consumer
+Generated p5_consumer app
+COMMAND /tmp/abyss-p5-4kv0x2yo/core-consumer ['mix', 'run', '/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/scripts/udp/p5_core_consumer.exs']
+P5_CORE_NO_RUST_UDP_PASS
+COMMAND /tmp/abyss-p5-4kv0x2yo/native-consumer ['mix', 'deps.get']
+Resolving Hex dependencies...
+Resolution completed in 0.039s
+New:
+  rustler 0.38.0
+Unchanged:
+  earmark_parser 1.4.46
+  ex_doc 0.40.4
+  jason 1.4.5
+  makeup 1.2.3
+  makeup_elixir 1.0.1
+  makeup_erlang 1.1.0
+  nimble_parsec 1.4.2
+  telemetry 1.4.2
+  telemetry_metrics 1.2.0
+* Getting rustler (Hex package)
+* Getting jason (Hex package)
+* Getting telemetry (Hex package)
+* Getting telemetry_metrics (Hex package)
+* Getting ex_doc (Hex package)
+* Getting earmark_parser (Hex package)
+* Getting makeup_elixir (Hex package)
+* Getting makeup_erlang (Hex package)
+* Getting makeup (Hex package)
+* Getting nimble_parsec (Hex package)
+COMMAND /tmp/abyss-p5-4kv0x2yo/native-consumer ['mix', 'compile', '--warnings-as-errors']
+==> earmark_parser
+Compiling 2 files (.xrl)
+Compiling 1 file (.yrl)
+Compiling 3 files (.erl)
+Compiling 32 files (.ex)
+Generated earmark_parser app
+==> nimble_parsec
+Compiling 4 files (.ex)
+Generated nimble_parsec app
+==> p5_consumer
+===> Analyzing applications...
+===> Compiling telemetry
+==> telemetry_metrics
+Compiling 7 files (.ex)
+Generated telemetry_metrics app
+==> jason
+Compiling 10 files (.ex)
+Generated jason app
+==> rustler
+Compiling 7 files (.ex)
+Generated rustler app
+==> makeup
+Compiling 15 files (.ex)
+Generated makeup app
+==> makeup_elixir
+Compiling 6 files (.ex)
+Generated makeup_elixir app
+==> makeup_erlang
+Compiling 4 files (.ex)
+Compiling lib/makeup/lexers/erlang_lexer.ex (it's taking more than 10s)
+Generated makeup_erlang app
+==> ex_doc
+Compiling 30 files (.ex)
+Generated ex_doc app
+==> abyss
+Compiling 35 files (.ex)
+Generated abyss app
+==> abyss_dhcp_socket
+Compiling 1 file (.ex)
+Compiling crate dhcp_socket in release mode (native/dhcp_socket)
+Copying /tmp/abyss-p5-4kv0x2yo/native-package/native/dhcp_socket/target/release/libdhcp_socket.so to priv/native/dhcp_socket.so
+Generated abyss_dhcp_socket app
+==> p5_consumer
+Generated p5_consumer app
+COMMAND /tmp/abyss-p5-4kv0x2yo/native-consumer ['mix', 'run', '-e', 'true = Code.ensure_loaded?(AbyssDhcpSocket.Native); IO.puts("P5_NATIVE_LOAD_PASS")']
+==> abyss
+Generated abyss app
+P5_NATIVE_LOAD_PASS
+COMMAND /home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime ['python3', '/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/scripts/udp/dhcp_fixture.py', '--consumer', '/tmp/abyss-p5-4kv0x2yo/native-consumer']
+{"result": "PASS", "gates": ["native_bind_68", "broadcast_source_68", "unicast_source_68", "dhcp_owner_payload", "arp_probe_wire", "arp_owner_frame", "idempotent_close", "closed_send_errors", "close_kernel_release", "owner_death_explicit_close", "orphan_kernel_release"], "consumer": "/tmp/abyss-p5-4kv0x2yo/native-consumer", "capabilities": ["CAP_NET_RAW", "CAP_NET_BIND_SERVICE"]}
+P5_PACKAGED_CONSUMERS_PASS /tmp/abyss-p5-4kv0x2yo

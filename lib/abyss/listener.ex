@@ -266,8 +266,9 @@ defmodule Abyss.Listener do
   def handle_info({:runtime_drained, runtime}, %{runtime: runtime, mode: :draining} = state),
     do: complete_drain(%{state | runtime: nil})
 
-  def handle_info({:EXIT, runtime, :normal}, %{runtime: runtime, mode: :draining} = state),
-    do: complete_drain(%{state | runtime: nil})
+  def handle_info({:EXIT, runtime, reason}, %{runtime: runtime, mode: :draining} = state)
+      when reason in [:normal, :killed],
+      do: complete_drain(%{state | runtime: nil})
 
   def handle_info({:EXIT, runtime, reason}, %{runtime: runtime} = state),
     do: {:stop, {:runtime_exit, reason}, state}

@@ -1,0 +1,111 @@
+✨ devenv 2.2.2 is out of date. Please update to 2.4.0: https://devenv.sh/getting-started/#installation
+    _    _                   
+   / \  | |__  _   _ ___ ___ 
+  / _ \ | '_ \| | | / __/ __|
+ / ___ \| |_) | |_| \__ \__ \
+/_/   \_\_.__/ \__, |___/___/
+               |___/         
+Compiling 2 files (.ex)
+Generated abyss app
+{
+  "runtime": "Elixir 1.18.4 / OTP 27 / ERTS 15.2.7.4",
+  "schedulers": 8,
+  "workload": "legacy; 500 warmup + 3000 sequential 64-byte request/replies",
+  "samples": [
+    {
+      "label": "baseline",
+      "repetition": 1,
+      "log": "p6-steady-paired-baseline-1.log",
+      "throughput_per_second": 10308.392749763765,
+      "latency_median_us": 94.0,
+      "latency_p95_us": 132.0,
+      "latency_p99_us": 150.0
+    },
+    {
+      "label": "candidate",
+      "repetition": 1,
+      "log": "p6-steady-paired-candidate-1.log",
+      "throughput_per_second": 9306.856361081209,
+      "latency_median_us": 105.0,
+      "latency_p95_us": 147.0,
+      "latency_p99_us": 171.0
+    },
+    {
+      "label": "baseline",
+      "repetition": 2,
+      "log": "p6-steady-paired-baseline-2.log",
+      "throughput_per_second": 10082.068033795093,
+      "latency_median_us": 98.0,
+      "latency_p95_us": 134.0,
+      "latency_p99_us": 149.0
+    },
+    {
+      "label": "candidate",
+      "repetition": 2,
+      "log": "p6-steady-paired-candidate-2.log",
+      "throughput_per_second": 9391.023433733808,
+      "latency_median_us": 104.0,
+      "latency_p95_us": 147.0,
+      "latency_p99_us": 183.0
+    },
+    {
+      "label": "baseline",
+      "repetition": 3,
+      "log": "p6-steady-paired-baseline-3.log",
+      "throughput_per_second": 9894.067517116737,
+      "latency_median_us": 99.0,
+      "latency_p95_us": 137.0,
+      "latency_p99_us": 156.0
+    },
+    {
+      "label": "candidate",
+      "repetition": 3,
+      "log": "p6-steady-paired-candidate-3.log",
+      "throughput_per_second": 9652.385426184992,
+      "latency_median_us": 102.0,
+      "latency_p95_us": 140.0,
+      "latency_p99_us": 158.0
+    }
+  ],
+  "median_of_three": {
+    "baseline": {
+      "throughput_per_second": 10082.068033795093,
+      "latency_median_us": 98.0,
+      "latency_p95_us": 134.0,
+      "latency_p99_us": 150.0
+    },
+    "candidate": {
+      "throughput_per_second": 9391.023433733808,
+      "latency_median_us": 104.0,
+      "latency_p95_us": 147.0,
+      "latency_p99_us": 171.0
+    }
+  }
+}
+✨ devenv 2.2.2 is out of date. Please update to 2.4.0: https://devenv.sh/getting-started/#installation
+    _    _                   
+   / \  | |__  _   _ ___ ___ 
+  / _ \ | '_ \| | | / __/ __|
+ / ___ \| |_) | |_| \__ \__ \
+/_/   \_\_.__/ \__, |___/___/
+               |___/         
+{
+  "per_datagram": {
+    "throughput_per_second": 3430.963300129233,
+    "latency_median_us": 286.0,
+    "latency_p95_us": 376.0,
+    "latency_p99_us": 430.0
+  },
+  "endpoint": {
+    "throughput_per_second": 3735.8225534098096,
+    "latency_median_us": 262.0,
+    "latency_p95_us": 353.0,
+    "latency_p99_us": 409.0
+  },
+  "keyed": {
+    "throughput_per_second": 3382.2557842211004,
+    "latency_median_us": 288.0,
+    "latency_p95_us": 389.0,
+    "latency_p99_us": 440.0
+  }
+}

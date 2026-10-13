@@ -8,12 +8,12 @@ Linux x86_64, devenv Elixir 1.18.4 / OTP27 / ERTS15.2.7.4, eight schedulers. Bas
 
 | Median of three samples | Baseline legacy | Candidate legacy |
 |---|---:|---:|
-| Exchanges/second | 10,025 | 9,634 |
-| Per-sample median latency,µs | 99 | 103 |
-| Per-sample p95 latency,µs | 133 | 141 |
-| Per-sample p99 latency,µs | 151 | 161 |
+| Exchanges/second | 10,082 | 9,391 |
+| Per-sample median latency,µs | 98 | 104 |
+| Per-sample p95 latency,µs | 134 | 147 |
+| Per-sample p99 latency,µs | 150 | 171 |
 
-Candidate legacy throughput is about 3.9% lower; latency median about 4.0% higher. This is a reported regression, not a performance improvement claim. Candidate shared ownership/admission cleanup has additional monitored accounting, but these samples do not independently profile or assign causality. No arbitrary listener-pool increase is proposed. Earlier concurrent test/build samples (`baseline-steady.log`, `p6-steady-*.log`) are retained as historical runs and are not controlled comparisons.
+Candidate legacy throughput is about 6.9% lower; latency median about 6.1% higher. This is a reported regression, not a performance improvement claim. Candidate shared ownership/admission cleanup has additional monitored accounting, but these samples do not independently profile or assign causality. No arbitrary listener-pool increase is proposed. Earlier concurrent test/build samples (`baseline-steady.log`, `p6-steady-*.log`) are retained as historical runs and are not controlled comparisons.
 
 Reproduce from the primary checkout, with no competing heavy jobs:
 
@@ -29,15 +29,15 @@ Three serial samples per policy with the same 500/3000/64-byte workload all pass
 
 | Policy | Exchanges/second | Median latency,µs | p95,µs | p99,µs |
 |---|---:|---:|---:|---:|
-| per_datagram | 3,317 | 294 | 396 | 453 |
-| endpoint | 3,603 | 270 | 378 | 434 |
-| keyed | 3,480 | 280 | 377 | 422 |
+| per_datagram | 3,431 | 286 | 376 | 430 |
+| endpoint | 3,736 | 262 | 353 | 409 |
+| keyed | 3,382 | 288 | 389 | 440 |
 
-Reproduce each policy three times using `ERL_FLAGS='+S 8:8' ABYSS_STEADY_MODE=endpoint mix run --no-compile scripts/udp/steady.exs`, substituting `per_datagram` and `keyed`, in the OTP27 devenv. Measurements were serial and separate from full tests/builds. Relative to baseline legacy these policies have materially lower throughput (about 64–67% lower) and longer latencies for this tiny sequential workload. Raw socket handlers avoid the action/receipt coordination costs. New policies perform bounded action/Writer/outcome handling rather than a direct raw-socket call; per-datagram initializes and terminates each invocation, endpoint/keyed retain application state. Those costs are part of their measured behavior, not implied improvements over legacy execution.
+Reproduce each policy three times using `ERL_FLAGS='+S 8:8' ABYSS_STEADY_MODE=endpoint mix run --no-compile scripts/udp/steady.exs`, substituting `per_datagram` and `keyed`, in the OTP27 devenv. Measurements were serial and separate from full tests/builds. Relative to baseline legacy these policies have materially lower throughput (about 63–66% lower) and longer latencies for this tiny sequential workload. Raw socket handlers avoid the action/receipt coordination costs. New policies perform bounded action/Writer/outcome handling rather than a direct raw-socket call; per-datagram initializes and terminates each invocation, endpoint/keyed retain application state. Those costs are part of their measured behavior, not implied improvements over legacy execution.
 
 ## Controlled overload and lifecycle
 
-`devenv shell -- bash -c 'cd .trees/udp-runtime && mix run scripts/udp/runtime_stress.exs'` passes actual traffic, blocked callback/Writer and observed process DOWN gates for all three policies, five epochs each (`p6-runtime-stress-effects-final.log`). Offered UDP load is 1320 packets per policy in batches with explicit receive barriers; admitted 40, application drops 1280. Direct egress offers 180, rejects 160, verifies 60 actual replies across the five epochs. Kernel drops are unmeasured.
+`devenv shell -- bash -c 'cd .trees/udp-runtime && mix run scripts/udp/runtime_stress.exs'` passes actual traffic, blocked callback/Writer and observed process DOWN gates for all three policies, five epochs each (`p6-runtime-stress-stop-final.log`). Offered UDP load is 1320 packets per policy in batches with explicit receive barriers; admitted 40, application drops 1280. Direct egress offers 180, rejects 160, verifies 60 actual replies across the five epochs. Kernel drops are unmeasured.
 
 | Observed/accounted bound | Result | Configured ceiling |
 |---|---:|---:|
@@ -55,4 +55,4 @@ Counters cover queued and in-flight host-managed work, including helper/worker o
 
 The unchanged legacy stress workload has matching baseline/final results (`baseline-stress.log`, `p6-legacy-stress.log`):processes 115→high 123→final115, active high 2, owner mailbox high 1, retained high 996 bytes. This is scoped overload evidence, not a claim that new application state or the whole VM is bounded to that size.
 
-These latest measurements cover the completed-effects watchdog repair, source manifest418b001f5b061c41e1d22d917b401a11922ff40f2738f454bf70f2bab9120e8f. All15serialsamples PASS; `p6-performance-effects-final.log` records run output. Earlier paired/new-policy samples are retained with `pre-effects-fix-` filenames and JSON references, attributed to e120451; their6.5% legacy regression is historical. Differences between snapshots are not proof of causal improvement.
+These latest measurements cover the completed-effects and absolute-stop repairs, source manifest `8736649a89a4e33cb448ec79cd1473d1015a922a1c431f8d73c73e48fe749a66`. All 15 serial samples PASS; `p6-performance-stop-final.log` records run output. Earlier samples are retained with `pre-effects-fix-` and `pre-stop-fix-` filenames and source-attributed JSON references; their 6.5% and 3.9% legacy regressions are historical. Differences between snapshots are not proof of causal improvement.

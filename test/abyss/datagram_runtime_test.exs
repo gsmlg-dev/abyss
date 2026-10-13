@@ -185,6 +185,49 @@ defmodule Abyss.DatagramRuntimeTest do
     end
   end
 
+  test "absolute stop completes when runtime deadline retires protected input first" do
+    owner = self()
+    {server, client, port} = endpoint(handler_options: [owner: owner, block_init: true])
+    :ok = packet(client, port, "block")
+    assert_receive {:initialized, worker, _}
+    [listener] = server |> Abyss.Server.listener_pool_pid() |> Abyss.ListenerPool.listener_pids()
+    runtime = :sys.get_state(listener).runtime
+    %{writer: writer, admission: admission} = :sys.get_state(runtime)
+
+    monitors =
+      Enum.map([server, listener, runtime, worker, writer, admission], &{&1, Process.monitor(&1)})
+
+    :ok =
+      :sys.install(
+        listener,
+        {fn observed, event, _name ->
+           case event do
+             {:in, {:"$gen_call", _, {:drain, deadline}}} ->
+               monitor = Process.monitor(runtime)
+               Abyss.DatagramRuntime.drain(runtime, deadline)
+
+               receive do
+                 {:DOWN, ^monitor, :process, ^runtime, reason} ->
+                   send(owner, {:runtime_deadline_down, reason})
+                   :done
+               end
+
+             _ ->
+               observed
+           end
+         end, false}
+      )
+
+    started = System.monotonic_time(:millisecond)
+    assert :ok = Endpoint.stop(server, 30)
+    assert System.monotonic_time(:millisecond) - started < 500
+    assert_receive {:runtime_deadline_down, :killed}
+
+    Enum.each(monitors, fn {pid, monitor} ->
+      assert_receive {:DOWN, ^monitor, :process, ^pid, _}, 1000
+    end)
+  end
+
   test "invalid collection emits no partial packet and termination retains returned state" do
     {_server, client, port} = endpoint()
     :ok = packet(client, port, "invalid")

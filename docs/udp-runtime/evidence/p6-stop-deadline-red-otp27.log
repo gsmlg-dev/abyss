@@ -1,0 +1,37 @@
+✨ devenv 2.2.2 is out of date. Please update to 2.4.0: https://devenv.sh/getting-started/#installation
+    _    _                   
+   / \  | |__  _   _ ___ ___ 
+  / _ \ | '_ \| | | / __/ __|
+ / ___ \| |_) | |_| \__ \__ \
+/_/   \_\_.__/ \__, |___/___/
+               |___/         
+Cover compiling modules ...
+Running ExUnit with seed: 295234, max_cases: 16
+Excluding tags: [:test]
+Including tags: [location: {"test/abyss/datagram_runtime_test.exs", 188}]
+
+
+21:09:42.747 [error] GenServer #PID<0.319.0> terminating
+** (stop) {:runtime_exit, :killed}
+Last message: {:EXIT, #PID<0.321.0>, :killed}
+State: %{runtime: #PID<0.321.0>, mode: :draining, handlers: %{}, dropped: 0, starter: #PID<0.320.0>, listener_socket: #Port<0.7>, server_pid: #PID<0.317.0>, generation: #Reference<0.290779566.3863740420.192905>, memberships: [], dispatcher: nil, transport: Abyss.Transport.UDP, local_info: {{127, 0, 0, 1}, 60673}, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.Transport.UDP, transport_options: [ip: {127, 0, 0, 1}], handler_module: nil, datagram_options: %{io_backend: :gen_udp, datagram_handler: Abyss.RuntimeTestHandler, execution: :per_datagram, runtime_options: [], route_key: nil, required_metadata: [], required_capabilities: []}, handler_options: [owner: #PID<0.316.0>, block_init: true], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 1, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, reservation: nil, listener_span: %Abyss.Telemetry{span_name: :listener, telemetry_span_context: #Reference<0.290779566.3863740420.192919>, start_time: -576460749357449516, start_metadata: %{broadcast: false, handler: nil, listener_socket: #Port<0.7>, server_pid: #PID<0.317.0>, local_info: {{127, 0, 0, 1}, 60673}, telemetry_span_context: #Reference<0.290779566.3863740420.192919>, sampled: true, listener_id: "listener-1"}}, retained_high_water: 0, received: 1, listener_id: "listener-1", runtime_send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.323.0>, generation: #Reference<0.290779566.3863740420.192905>, admission: #PID<0.322.0>, io_backend: :gen_udp}, native_select: nil, armed: true, desired_key: {#PID<0.317.0>, "listener-1"}, drain_waiter: {{#PID<0.316.0>, #Reference<0.290779566.3863740420.192978>}, #Reference<0.290779566.3863740420.192992>}, active_high_water: 0}
+
+
+  1) test absolute stop completes when runtime deadline retires protected input first (Abyss.DatagramRuntimeTest)
+     test/abyss/datagram_runtime_test.exs:188
+     ** (exit) exited in: GenServer.call(#PID<0.319.0>, {:drain, -576460749324}, :infinity)
+         ** (EXIT) {:runtime_exit, :killed}
+     code: assert :ok = Endpoint.stop(server, 30)
+     stacktrace:
+       (elixir 1.18.4) lib/gen_server.ex:1128: GenServer.call/3
+       (elixir 1.18.4) lib/enum.ex:987: Enum."-each/2-lists^foreach/1-0-"/2
+       (abyss 0.7.0) lib/abyss/server.ex:172: Abyss.Server.stop/2
+       test/abyss/datagram_runtime_test.exs:220: (test)
+
+
+Finished in 1.2 seconds (0.00s async, 1.2s sync)
+23 tests, 1 failure, 22 excluded
+
+Exporting cover results ...
+
+Run "mix test.coverage" once all exports complete
