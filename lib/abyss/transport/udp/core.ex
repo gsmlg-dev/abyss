@@ -22,6 +22,110 @@ defmodule Abyss.Transport.UDP.Core do
 
   alias Abyss.Transport.UDP.Multicast
 
+  @doc false
+  def effective_backend(options) when is_list(options) do
+    case List.keyfind(options, :inet_backend, 0) do
+      {:inet_backend, backend} when backend in [:inet, :socket] -> {:ok, backend}
+      {:inet_backend, value} -> {:error, {:invalid_option, :inet_backend, value}}
+      nil -> boot_backend()
+    end
+  end
+
+  def effective_backend(options), do: {:error, {:invalid_options, options}}
+
+  # OTP caches its startup choice. Probe the public API once instead of reading
+  # mutable application settings or depending on private OTP implementation.
+  defp boot_backend do
+    case :persistent_term.get({__MODULE__, :boot_backend}, :unknown) do
+      :unknown ->
+        probe_boot_backend()
+
+      backend ->
+        {:ok, backend}
+    end
+  end
+
+  defp probe_boot_backend do
+    with {:ok, socket} <- :gen_udp.open(0, [:binary, {:active, false}]) do
+      backend = if is_port(socket), do: :inet, else: :socket
+      :gen_udp.close(socket)
+      :persistent_term.put({__MODULE__, :boot_backend}, backend)
+      {:ok, backend}
+    end
+  end
+
+  @doc false
+  def resolve_destination(host) when is_tuple(host), do: {:ok, host}
+
+  def resolve_destination(host) when is_binary(host),
+    do: :inet.getaddr(String.to_charlist(host), :inet)
+
+  def resolve_destination(host) when is_list(host), do: :inet.getaddr(host, :inet)
+  def resolve_destination(host), do: {:error, {:invalid_address, host}}
+
+  @doc false
+  def response_policy({address, _}) do
+    if Multicast.multicast_address?(address) or address == {255, 255, 255, 255},
+      do: :any,
+      else: :exact
+  end
+
+  def response_policy(%{addr: address, port: port}), do: response_policy({address, port})
+
+  @doc false
+  def exchange(socket, destination, data, timeout, policy) do
+    deadline =
+      if timeout == :infinity,
+        do: :infinity,
+        else: System.monotonic_time(:millisecond) + timeout
+
+    with :ok <- send(socket, destination, data),
+         do: receive_response(socket, destination, deadline, policy, true)
+  end
+
+  defp receive_response(socket, destination, deadline, policy, first) do
+    remaining =
+      if deadline == :infinity,
+        do: :infinity,
+        else: max(0, deadline - System.monotonic_time(:millisecond))
+
+    # Preserve one nonblocking receive for timeout zero. Subsequent rejected
+    # packets must not keep a full kernel queue alive past the deadline.
+    if remaining == 0 and not first do
+      {:error, :timeout}
+    else
+      accept_response(socket, destination, deadline, policy, recv(socket, 0, remaining))
+    end
+  end
+
+  defp accept_response(socket, destination, deadline, policy, {:ok, response} = result) do
+    if policy == :any or peer_matches?(response, destination),
+      do: result,
+      else: receive_response(socket, destination, deadline, policy, false)
+  end
+
+  defp accept_response(_socket, _destination, _deadline, _policy, error), do: error
+
+  @doc false
+  def peer_matches?(response, {address, port}) when tuple_size(response) in [3, 4],
+    do: elem(response, 0) == address and elem(response, 1) == port
+
+  def peer_matches?(response, %{addr: address, port: port} = destination)
+      when tuple_size(response) in [3, 4] do
+    case elem(response, 0) do
+      %{addr: ^address, port: ^port} = peer ->
+        Map.get(peer, :scope_id) == Map.get(destination, :scope_id)
+
+      ^address ->
+        elem(response, 1) == port and Map.get(destination, :scope_id, 0) == 0
+
+      _ ->
+        false
+    end
+  end
+
+  def peer_matches?(_, _), do: false
+
   @doc """
   Transfers ownership of the given socket to the given process.
   """
@@ -169,17 +273,19 @@ defmodule Abyss.Transport.UDP.Core do
   @doc "Validate actual UDP option forms before opening a socket."
   @spec normalize_options(list(), list()) :: {:ok, list()} | {:error, term()}
   def normalize_options(defaults, users) when is_list(defaults) and is_list(users) do
-    with :ok <- validate_conflicts(users) do
+    with :ok <- validate_conflicts(users),
+         {:ok, backend} <- effective_backend(merge_options(defaults, users)) do
       options = merge_options(defaults, users)
       family = selected_family(options)
 
       options =
         if family == :inet6 and :inet6 not in options, do: [:inet6 | options], else: options
 
-      {backend, rest} = Enum.split_with(options, &match?({:inet_backend, _}, &1))
-      options = backend ++ rest
+      rest = Enum.reject(options, &match?({:inet_backend, _}, &1))
+      options = [{:inet_backend, backend} | rest]
 
-      normalize_all(options, family)
+      with {:ok, normalized} <- normalize_all(options, family),
+           do: {:ok, merge_options([], normalized)}
     end
   end
 
@@ -330,6 +436,14 @@ defmodule Abyss.Transport.UDP.Core do
 
   defp multicast_get_option(key, :inet6, _) do
     with {:ok, number} <- ipv6_option_number(key), do: {:ok, {:raw, 41, number, 4}}
+  end
+
+  # The inet driver's named getter can misdecode IP_MULTICAST_IF on Linux.
+  # The kernel's four-byte address is unambiguous on the verified ABI.
+  defp multicast_get_option(:multicast_if, :inet, socket) when is_port(socket) do
+    if :os.type() == {:unix, :linux},
+      do: {:ok, {:raw, 0, 32, 4}},
+      else: {:ok, :multicast_if}
   end
 
   defp multicast_get_option(key, :inet, socket) when not is_port(socket) do

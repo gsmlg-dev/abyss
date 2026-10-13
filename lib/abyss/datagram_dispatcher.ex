@@ -39,7 +39,7 @@ defmodule Abyss.Dispatcher do
 
   defmodule SendCapability do
     @enforce_keys [:writer, :generation]
-    defstruct [:writer, :generation, :admission]
+    defstruct [:writer, :generation, :admission, io_backend: :gen_udp]
   end
 
   defmodule Admission do
@@ -47,6 +47,11 @@ defmodule Abyss.Dispatcher do
     use GenServer
 
     def start_link(opts), do: GenServer.start_link(__MODULE__, opts)
+
+    def size({kind, _} = remote, bytes) when kind in [:native, :native_reply, :scoped],
+      do: byte_size(bytes) + :erlang.external_size(remote)
+
+    def size(_, bytes), do: byte_size(bytes)
 
     def reserve(_pid, %SendCapability{generation: generation} = capability, bytes, timeout)
         when is_integer(bytes) and bytes >= 0 do
@@ -87,6 +92,8 @@ defmodule Abyss.Dispatcher do
 
     def await(_capability, _ref, _timeout), do: {:error, :stale_generation}
 
+    def status(pid), do: GenServer.call(pid, :status)
+
     def complete(pid, generation, ref, result),
       do: GenServer.cast(pid, {:complete, generation, ref, result})
 
@@ -114,6 +121,9 @@ defmodule Abyss.Dispatcher do
     end
 
     @impl true
+    def handle_call(:status, _from, state),
+      do: {:reply, %{entries: map_size(state.entries), bytes: state.reserved_bytes}, state}
+
     def handle_call({:reserve, generation, ref, bytes, caller}, _from, state)
         when generation == state.generation and is_reference(ref) and is_pid(caller) do
       state = prune_results(state)
@@ -194,16 +204,18 @@ defmodule Abyss.Dispatcher do
 
     def handle_call({:submitted, generation, ref, remote, bytes}, _from, state)
         when generation == state.generation do
+      expected_size = size(remote, bytes)
+
       case Map.get(state.entries, ref) do
         %{status: :reserved, monitor: monitor, bytes: size} = entry
-        when size == byte_size(bytes) and is_pid(state.writer) ->
+        when size == expected_size and is_pid(state.writer) ->
           Process.demonitor(monitor, [:flush])
           GenServer.cast(state.writer, {:submit, generation, ref, remote, bytes})
 
           {:reply, :ok,
            %{state | entries: Map.put(state.entries, ref, %{entry | status: :submitted})}}
 
-        %{status: :submitted, bytes: size} when size == byte_size(bytes) ->
+        %{status: :submitted, bytes: size} when size == expected_size ->
           {:reply, :ok, state}
 
         nil ->
@@ -410,7 +422,8 @@ defmodule Abyss.Dispatcher do
     end
 
     def enqueue(pid, capability, remote, bytes, timeout \\ 100) do
-      with {:ok, ref} <- Admission.reserve(pid, capability, byte_size(bytes), timeout) do
+      with {:ok, ref} <-
+             Admission.reserve(pid, capability, Admission.size(remote, bytes), timeout) do
         Admission.submit(capability, ref, remote, bytes, timeout)
         |> case do
           :ok -> {:ok, ref}
@@ -496,7 +509,7 @@ defmodule Abyss.Dispatcher do
         {{:value, {ref, remote, bytes}}, queue} ->
           result =
             try do
-              state.transport.send(state.socket, elem(remote, 0), elem(remote, 1), bytes)
+              send_target(state, remote, bytes)
             rescue
               error -> {:error, error}
             catch
@@ -516,6 +529,16 @@ defmodule Abyss.Dispatcher do
           state
       end
     end
+
+    defp send_target(state, {kind, _} = operation, bytes)
+         when kind in [:native, :native_reply],
+         do: state.transport.send(state.socket, operation, bytes)
+
+    defp send_target(state, {:scoped, destination}, bytes),
+      do: state.transport.send(state.socket, destination, bytes)
+
+    defp send_target(state, {ip, port}, bytes),
+      do: state.transport.send(state.socket, ip, port, bytes)
 
     defp monotonic_time, do: System.monotonic_time(:microsecond)
     defp owner_down_reason(:normal), do: :normal

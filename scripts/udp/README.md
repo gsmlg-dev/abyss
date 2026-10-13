@@ -50,3 +50,29 @@ multicast, reliable UDP under overload, or strict destination metadata on
 backends that do not report it. Unit/host tests cover invalid configuration,
 startup rollback, truncation/size limits, ancillary tuple normalization, and
 resource/lifecycle behavior separately.
+
+## Datagram runtime and optional package gates
+
+Use `ABYSS_UDP_BACKEND=inet|socket|native` independently of
+`ABYSS_UDP_API=datagram ABYSS_UDP_EXECUTION=per_datagram|endpoint|keyed`.
+The native adapter always selects the new API. The fixture runs inside isolated
+namespaces and independently measures destination/interface and strict replies;
+it never changes the ambient LAN. Native is Linux-only, tested on OTP 27/28.
+
+```sh
+ABYSS_UDP_BACKEND=native python3 scripts/udp/network_fixture.py
+ABYSS_UDP_API=datagram ABYSS_UDP_EXECUTION=keyed python3 scripts/udp/network_fixture.py
+bash scripts/udp/backend_boot.sh
+mix run example/datagram_echo.exs
+mix run scripts/udp/runtime_smoke.exs
+mix run scripts/udp/runtime_stress.exs
+ABYSS_STEADY_MODE=endpoint mix run scripts/udp/steady.exs
+python3 scripts/udp/compare_steady.py /path/to/baseline-checkout
+python3 scripts/udp/p5_consumers.py
+```
+
+`steady.exs` uses the same sequential64-byte workload on baseline/final code;
+measurements are samples, not a whole-VM bound. The package consumer gate builds
+fresh Hex contents outside the checkout, hides Rust/Cargo for core and explicitly
+adds the unpublished DHCP package for native tests. DHCP capabilities remain
+inside the owned namespace. It performs no publication.

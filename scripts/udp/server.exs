@@ -25,6 +25,37 @@ defmodule Abyss.UDPWireHandler do
   end
 end
 
+defmodule Abyss.UDPDatagramWireHandler do
+  @behaviour Abyss.DatagramHandler
+  def init(options, context), do: {:ok, {options, context}}
+
+  def handle_datagram(datagram, {options, context} = state) do
+    true = datagram.generation == context.generation
+    family = if datagram.peer.family == :inet, do: 4, else: 6
+    encoded = if datagram.payload == <<>>, do: "-", else: Base.encode64(datagram.payload)
+    IO.puts("WIRE RX#{family} #{encoded}")
+    scope = Map.get(datagram.peer, :scope_id, 0)
+
+    IO.puts(
+      "WIRE META #{family} #{address(datagram.destination)} #{datagram.interface_index || 0} #{address(datagram.local_address)} #{scope} #{datagram.hop_limit || -1} #{encoded}"
+    )
+
+    actions =
+      if datagram.payload == <<>> or String.starts_with?(datagram.payload, "probe:") do
+        if options[:strict],
+          do: [{:reply, "reply:" <> datagram.payload, :strict}],
+          else: [{:reply, "reply:" <> datagram.payload}]
+      else
+        []
+      end
+
+    {:ok, state, actions}
+  end
+
+  defp address(nil), do: "unknown"
+  defp address(address), do: address |> :inet.ntoa() |> List.to_string()
+end
+
 defmodule Abyss.UDPWireControl do
   def address(text) do
     {:ok, address} = :inet.parse_address(String.to_charlist(text))
@@ -42,8 +73,30 @@ defmodule Abyss.UDPWireControl do
       case System.get_env("ABYSS_UDP_BACKEND", "inet") do
         "inet" -> :inet
         "socket" -> :socket
+        "native" -> :socket_native
         value -> raise ArgumentError, "unsupported fixture backend: #{inspect(value)}"
       end
+
+    datagram? = backend == :socket_native or System.get_env("ABYSS_UDP_API") == "datagram"
+
+    handler_opts =
+      if datagram? do
+        [
+          datagram_handler: Abyss.UDPDatagramWireHandler,
+          execution: execution(),
+          handler_options: [strict: backend == :socket_native]
+        ]
+      else
+        [handler_module: Abyss.UDPWireHandler]
+      end
+
+    handler_opts =
+      if datagram? and System.get_env("ABYSS_UDP_EXECUTION") == "keyed",
+        do: handler_opts ++ [route_key: fn d -> {d.destination, d.interface_index} end],
+        else: handler_opts
+
+    io_opts = if backend == :socket_native, do: [io_backend: :socket_native], else: []
+    driver_opts = if backend == :socket_native, do: [], else: [{:inet_backend, backend}]
 
     group4 = address("239.192.74.1")
     group4b = address("239.192.74.2")
@@ -52,40 +105,48 @@ defmodule Abyss.UDPWireControl do
 
     {:ok, server4} =
       Abyss.start_link(
-        handler_module: Abyss.UDPWireHandler,
-        port: port4,
-        broadcast: true,
-        num_connections: 16,
-        transport_module: Abyss.Transport.UDP.Multicast,
-        transport_options: [
-          inet_backend: backend,
-          reuseaddr: true,
-          multicast_if: {192, 0, 2, 10},
-          add_membership: {group4, {192, 0, 2, 10}},
-          add_membership: {group4b, {192, 0, 2, 10}},
-          multicast_ttl: 1,
-          multicast_loop: true
-        ]
+        [
+          port: port4,
+          broadcast: true,
+          num_connections: 16,
+          transport_module: Abyss.Transport.UDP.Multicast,
+          transport_options:
+            driver_opts ++
+              [
+                reuseaddr: true,
+                strict_group_filter: backend != :socket,
+                multicast_if: {192, 0, 2, 10},
+                add_membership: {group4, {192, 0, 2, 10}},
+                add_membership: {group4b, {192, 0, 2, 10}},
+                multicast_ttl: 1,
+                multicast_loop: true
+              ]
+        ] ++ handler_opts ++ io_opts
       )
 
     {:ok, server6} =
       Abyss.start_link(
-        handler_module: Abyss.UDPWireHandler,
-        port: port6,
-        num_connections: 16,
-        handler_options: [scope_id: index("eth0")],
-        transport_module: Abyss.Transport.UDP.Multicast,
-        transport_options: [
-          {:inet_backend, backend},
-          :inet6,
-          {:ipv6_v6only, true},
-          {:reuseaddr, true},
-          {:multicast_if, index("eth0")},
-          {:add_membership, {group6, index("eth0")}},
-          {:add_membership, {group6b, index("eth0")}},
-          {:multicast_ttl, 1},
-          {:multicast_loop, true}
-        ]
+        [
+          port: port6,
+          num_connections: 16,
+          transport_module: Abyss.Transport.UDP.Multicast,
+          transport_options:
+            driver_opts ++
+              [
+                :inet6,
+                {:ipv6_v6only, true},
+                {:reuseaddr, true},
+                {:multicast_if, index("eth0")},
+                {:add_membership, {group6, index("eth0")}},
+                {:add_membership, {group6b, index("eth0")}},
+                {:multicast_ttl, 1},
+                {:multicast_loop, true}
+              ]
+        ] ++
+          if(datagram?,
+            do: handler_opts,
+            else: handler_opts ++ [handler_options: [scope_id: index("eth0")]]
+          ) ++ io_opts
       )
 
     %{4 => server4, 6 => server6}
@@ -119,11 +180,22 @@ defmodule Abyss.UDPWireControl do
         },
         else: {address(host), String.to_integer(port)}
 
-    Abyss.Transport.UDP.send(
-      socket(servers[family]),
-      destination,
-      if(encoded == "-", do: <<>>, else: Base.decode64!(encoded))
-    )
+    data = if encoded == "-", do: <<>>, else: Base.decode64!(encoded)
+
+    if System.get_env("ABYSS_UDP_BACKEND") == "native" do
+      destination =
+        if is_tuple(destination),
+          do: %{family: :inet, addr: elem(destination, 0), port: elem(destination, 1)},
+          else: destination
+
+      {:ok, capability} = Abyss.Endpoint.capability(servers[family])
+
+      with {:ok, ref} <- Abyss.Endpoint.send(capability, destination, data),
+           {:ok, _} <- Abyss.Endpoint.await(capability, ref, 1000),
+           do: :ok
+    else
+      Abyss.Transport.UDP.send(socket(servers[family]), destination, data)
+    end
   end
 
   def execute([operation, family, group, interface], servers)
@@ -137,7 +209,7 @@ defmodule Abyss.UDPWireControl do
   end
 
   def execute(["OPTIONS", family, ttl, loop], servers) do
-    Abyss.Transport.UDP.setopts(socket(servers[String.to_integer(family)]),
+    transport().setopts(socket(servers[String.to_integer(family)]),
       multicast_ttl: String.to_integer(ttl),
       multicast_loop: loop == "true"
     )
@@ -146,7 +218,7 @@ defmodule Abyss.UDPWireControl do
   def execute(["INTERFACE", family, interface], servers) do
     family = String.to_integer(family)
 
-    Abyss.Transport.UDP.setopts(socket(servers[family]),
+    transport().setopts(socket(servers[family]),
       multicast_if: if(family == 6, do: index(interface), else: address(interface))
     )
   end
@@ -156,6 +228,20 @@ defmodule Abyss.UDPWireControl do
   def execute(["STOP"], servers) do
     for {_family, server} <- servers, do: :ok = Abyss.stop(server, 1000)
     :ok
+  end
+
+  defp transport do
+    if System.get_env("ABYSS_UDP_BACKEND") == "native",
+      do: Abyss.Transport.UDP.Native,
+      else: Abyss.Transport.UDP
+  end
+
+  defp execution do
+    case System.get_env("ABYSS_UDP_EXECUTION", "per_datagram") do
+      "per_datagram" -> :per_datagram
+      "endpoint" -> :endpoint
+      "keyed" -> :keyed
+    end
   end
 
   def run(servers) do

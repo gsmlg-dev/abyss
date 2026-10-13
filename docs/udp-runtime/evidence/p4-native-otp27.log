@@ -1,0 +1,22 @@
+Compiling 2 files (.ex)
+Generated abyss app
+Running ExUnit with seed: 283367, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+..................
+19:10:16.632 [warning] Option :num_acceptors is deprecated. Use :num_listeners instead.
+............
+19:10:16.635 [warning] Option :num_acceptors is deprecated. Use :num_listeners instead.
+.....................................
+Finished in 0.3 seconds (0.3s async, 0.01s sync)
+3 doctests, 64 tests, 0 failures
+
+Native scoped source SHA256 (baseline 9b710e6480900e16e304f40e63623aff8c922e19):
+adac99f7468d95aed593583a1052a343e3d0d768f378c5e044b13d7e7681aabe  lib/abyss/transport/udp/native.ex
+0b586088668bb63b013cf815fd35e001cd51dc1c72c372efb87de01431572d39  lib/abyss/datagram.ex
+9e9f90ecf7141ea8d2f4ce9cbef5ec0f5013225a91bec9f907d4dc2775c330c8  lib/abyss/endpoint.ex
+a39c60a5ed889fe67d1d62cb0c65e250a0b63fd8e5a6569f7da3075f489de2b7  lib/abyss/server_config.ex
+7f144fe8c662500a53f046591fec9368506642b95e794b2536870bc6ea442b9f  test/abyss/transport/native_test.exs
+bd17c429c3769df513edb93c786679285d60fb254ae97997f414e119ad5714d6  test/abyss/transport/native_abi_probe.c
+6c037ddd7c3e8af59d7412902b3b682cbe94fc1c8192f2fb1dd7951d10fd197a  test/abyss/datagram_config_test.exs
+Scoped format exit0; Native+Datagram+Endpoint+new tests strict Credo exit0; config Complexity/Nesting exit0.

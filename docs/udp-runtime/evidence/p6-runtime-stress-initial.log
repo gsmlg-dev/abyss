@@ -1,0 +1,17 @@
+✨ devenv 2.2.2 is out of date. Please update to 2.4.0: https://devenv.sh/getting-started/#installation
+    _    _                   
+   / \  | |__  _   _ ___ ___ 
+  / _ \ | '_ \| | | / __/ __|
+ / ___ \| |_) | |_| \__ \__ \
+/_/   \_\_.__/ \__, |___/___/
+               |___/         
+Compiling 3 files (.ex)
+Generated abyss app
+** (RuntimeError) status barrier expired: %{send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.230.0>, generation: #Reference<0.440533086.3043753988.218095>, admission: #PID<0.229.0>, io_backend: :gen_udp}, mode: :running, dropped: 150, capabilities: %{driver: :inet, runtime: %{otp: ~c"27", erts: ~c"15.2.7.4"}, family: :inet, local_address: %{enabled: false, reason: :gen_udp_metadata_unavailable, supported: false}, destination: %{enabled: false, reason: :gen_udp_metadata_unavailable, supported: false}, strict_group_filter: %{enabled: false, reason: :disabled, supported: true}, platform: {:unix, :linux}, memberships: %{enabled: true, reason: nil, supported: true}, interface_index: %{enabled: false, reason: :gen_udp_metadata_unavailable, supported: false}, scoped_send: %{enabled: false, reason: nil, supported: false}, source_control: %{enabled: false, reason: :gen_udp_metadata_unavailable, supported: false}, strict_interface_filter: %{enabled: false, reason: :gen_udp_metadata_unavailable, supported: false}, adapter: :gen_udp}, endpoint_id: {#PID<0.224.0>, "listener-1"}, generation: #Reference<0.440533086.3043753988.218095>, local_endpoint: {{127, 0, 0, 1}, 56751}, received: 158, egress: %{bytes: 0, entries: 0}, high_bytes: 7160, high_items: 8, receipts: %{}, retained_bytes: 0, input_count: 0, key_count: 0, timer_count: 0}
+    scripts/udp/runtime_stress.exs:247: Abyss.RuntimeStress.await_info/4
+    scripts/udp/runtime_stress.exs:99: Abyss.RuntimeStress.epoch/2
+    (elixir 1.18.4) lib/enum.ex:4507: Enum.reduce/3
+    scripts/udp/runtime_stress.exs:47: anonymous fn/1 in Abyss.RuntimeStress.run/0
+    (elixir 1.18.4) lib/enum.ex:1714: Enum."-map/2-lists^map/1-1-"/2
+    scripts/udp/runtime_stress.exs:45: Abyss.RuntimeStress.run/0
+    scripts/udp/runtime_stress.exs:272: (file)

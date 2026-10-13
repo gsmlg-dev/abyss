@@ -1,0 +1,23 @@
+Compiling 2 files (.ex)
+Generated abyss app
+Running ExUnit with seed: 855171, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+.................
+18:49:44.026 [warning] Option :num_acceptors is deprecated. Use :num_listeners instead.
+............
+18:49:44.044 [warning] Option :num_acceptors is deprecated. Use :num_listeners instead.
+...........................
+Finished in 0.1 seconds (0.1s async, 0.01s sync)
+3 doctests, 53 tests, 0 failures
+
+P2 scoped source SHA256 (baseline 9b710e6480900e16e304f40e63623aff8c922e19):
+6938d618ad668893b589c2e57d386fa3493a41afb741452e9a2c1f691cb48c25  lib/abyss/datagram.ex
+da084d4a090ffbb2b54eab621d17b4301206e4aea63a5e8c0ce8850be6969020  lib/abyss/datagram_handler.ex
+2229102bb599ff1a06e76cb4c0154aaf91f3785619cd0234d4c534c3bce6984b  lib/abyss/endpoint.ex
+3bbce11cdec300bd45bd9b9da80494edd3c1ad3ab0eb9e493c26a9a2d59124d8  lib/abyss/server_config.ex
+4a6ada389c22452688ed7851ce8261261bd19f2c44ea0c983485c05906a89fb8  lib/abyss/listener_pool.ex
+0528839948fa5bc86cd45387cb5f2519e42c0f953c22ecd531ff2e2e5e42dbf7  test/abyss/datagram_test.exs
+104f2d069d5d01d3f9d5ef09ffe65cfe06970b13acf4a62b8140c2e863f110b5  test/abyss/datagram_config_test.exs
+7c10aac359670e6faf0d2e5de32aff48012763121ce029ada458564f57c72226  test/abyss/endpoint_contract_test.exs
+Checks: focused mix test exit 0; scoped mix format --check-formatted exit 0; scoped git diff --check exit 0.

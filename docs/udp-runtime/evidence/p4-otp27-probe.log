@@ -1,0 +1,72 @@
+raw pktinfo inet: :ok
+raw hoplimit inet: :ok
+arm inet: {:select, {:select_info, :recvmsg, #Reference<0.3862433571.3843555329.38765>}}
+notification inet: {:"$socket", {:"$socket", #Reference<0.3862433571.3843686401.38729>}, :select,
+ #Reference<0.3862433571.3843555329.38765>}
+message inet: %{
+  flags: [],
+  addr: %{port: 45945, addr: {127, 0, 0, 1}, family: :inet},
+  iov: ["request"],
+  ctrl: [
+    %{
+      data: <<1, 0, 0, 0, 127, 0, 0, 1, 127, 0, 0, 1>>,
+      type: :pktinfo,
+      value: %{addr: {127, 0, 0, 1}, ifindex: 1, spec_dst: {127, 0, 0, 1}},
+      level: :hopopt
+    },
+    %{data: <<64, 0, 0, 0>>, type: :ttl, value: 64, level: :hopopt}
+  ]
+}
+symbolic send inet: {:error,
+ {:invalid,
+  {:msg, :ctrl,
+   %{
+     ctrl: [
+       %{
+         type: :pktinfo,
+         value: %{addr: {127, 0, 0, 1}, ifindex: 1, spec_dst: {127, 0, 0, 1}},
+         level: :hopopt
+       }
+     ]
+   }}}}
+raw send inet: :ok
+wire raw inet: {:ok, {{127, 0, 0, 1}, 41363, "raw"}}
+raw pktinfo inet6: :ok
+raw hoplimit inet6: :ok
+arm inet6: {:select, {:select_info, :recvmsg, #Reference<0.3862433571.3843555329.38820>}}
+notification inet6: {:"$socket", {:"$socket", #Reference<0.3862433571.3843686401.38812>}, :select,
+ #Reference<0.3862433571.3843555329.38820>}
+message inet6: %{
+  flags: [],
+  addr: %{
+    port: 37651,
+    addr: {0, 0, 0, 0, 0, 0, 0, 1},
+    family: :inet6,
+    scope_id: 0,
+    flowinfo: 0
+  },
+  iov: ["request"],
+  ctrl: [
+    %{
+      data: <<0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0>>,
+      type: :pktinfo,
+      value: %{addr: {0, 0, 0, 0, 0, 0, 0, 1}, ifindex: 1},
+      level: :ipv6
+    },
+    %{data: <<64, 0, 0, 0>>, type: :hoplimit, value: 64, level: :ipv6}
+  ]
+}
+symbolic send inet6: {:error,
+ {:invalid,
+  {:msg, :ctrl,
+   %{
+     ctrl: [
+       %{
+         type: :pktinfo,
+         value: %{addr: {0, 0, 0, 0, 0, 0, 0, 1}, ifindex: 1},
+         level: :ipv6
+       }
+     ]
+   }}}}
+raw send inet6: :ok
+wire raw inet6: {:ok, {{0, 0, 0, 0, 0, 0, 0, 1}, 36991, "raw"}}

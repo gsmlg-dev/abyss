@@ -1,0 +1,49 @@
+Resolving Hex dependencies...
+Resolution completed in 0.037s
+Unchanged:
+  earmark_parser 1.4.46
+  elixir_quic 0.17.0
+  ex_doc 0.40.4
+  ex_ssl 0.17.0
+  jason 1.4.5
+  makeup 1.2.2
+  makeup_elixir 1.0.1
+  makeup_erlang 1.1.0
+  nimble_parsec 1.4.2
+  rustler 0.38.0
+  telemetry 1.4.2
+  telemetry_metrics 1.2.0
+==> earmark_parser
+Compiling 3 files (.erl)
+Compiling 32 files (.ex)
+Generated earmark_parser app
+==> nimble_parsec
+Compiling 4 files (.ex)
+Generated nimble_parsec app
+==> telemetry_metrics
+Compiling 7 files (.ex)
+** (EXIT from #PID<0.95.0>) an exception was raised:
+    ** (RuntimeError) found error while checking types for Telemetry.Metrics.ConsoleReporter.terminate/2:
+
+** (MatchError) no match of right hand side value: {:EXIT, {:badarg, [{:erlang, :binary_to_atom, [<<116, 101, 108, 101, 109, 101, 116, 114, 121, 96, 97, 116, 116, 97, 99, 104, 176, 97, 116, 116, 97, 99, 104, 95, 109, 97, 110, 121, 64, 116, 121, 112, 101, 96, 101, 114, 108, 97, 110, 103, 128, ...>>, :utf8], [error_info: %{module: :erl_erts_errors}]}, {:beam_lib, :extract_atom, 2, [file: ~c"beam_lib.erl", line: 1217]}, {:beam_lib, :get_atom_data, 8, [file: ~c"beam_lib.erl", line: 981]}, {:beam_lib, :scan_beam1, 2, [file: ~c"beam_lib.erl", line: 942]}, {:beam_lib, :scan_beam, 4, [file: ~c"beam_lib.erl", line: 927]}, {:beam_lib, :read_chunk_data, 3, [file: ~c"beam_lib.erl", line: 899]}, {:beam_lib, :read_chunk_data, 2, [file: ~c"beam_lib.erl", line: 890]}, {Module.ParallelChecker, :cache_module, 2, [file: ~c"lib/module/parallel_checker.ex", line: 381]}]}}
+The exception happened while checking this code:
+
+def terminate(_, events) do
+  for event <- events do
+    :telemetry.detach({Telemetry.Metrics.ConsoleReporter, event, :erlang.self()})
+  end
+
+  :ok
+end
+
+Please report this bug at: https://github.com/elixir-lang/elixir/issues
+
+        (stdlib 6.2.2.2) beam_lib.erl:899: :beam_lib.read_chunk_data/3
+        (stdlib 6.2.2.2) beam_lib.erl:890: :beam_lib.read_chunk_data/2
+        (elixir 1.18.4) lib/module/parallel_checker.ex:381: Module.ParallelChecker.cache_module/2
+        (elixir 1.18.4) lib/module/parallel_checker.ex:207: Module.ParallelChecker.fetch_export/4
+        (elixir 1.18.4) lib/module/types/apply.ex:523: Module.Types.Apply.export/6
+        (elixir 1.18.4) lib/module/types/apply.ex:441: Module.Types.Apply.remote/6
+        (elixir 1.18.4) lib/module/types/expr.ex:350: Module.Types.Expr.of_expr/3
+        (elixir 1.18.4) lib/module/types/expr.ex:225: anonymous fn/3 in Module.Types.Expr.of_expr/3
+

@@ -2,12 +2,12 @@
 
 Default Abyss UDP mode creates a legacy handler per datagram. Persistent UDP
 protocols can configure `datagram_dispatcher: Module` or `{Module, options}` on
-a unicast listener; the module implements `Abyss.DatagramDispatcher`. QUIC
+a listener with `broadcast: false`; the module implements `Abyss.DatagramDispatcher`. QUIC
 applications instead use the supported [QUIC service](quic-service.md), which
 owns application binding and uses the same independent writer. The lower-level
 `Quic.AbyssDispatcher` adapter alone is not an application service.
 
-The dispatcher runs separately from the listener's blocking `recv(:infinity)`.
+The dispatcher runs separately from the nonblocking socket control owner.
 Callbacks can register generic routes via `{:new, keys, pid, state}` or
 `{:route, keys, pid, state}`. Replacing routes removes displaced monitors;
 process death removes only that process's routes. QUIC services do not install
@@ -62,7 +62,7 @@ The owning QUIC service drains its workers within a configured deadline and then
 terminates its host components and closes its socket. One connection close never
 closes that socket. Stale or late completion cannot refund a different generation.
 
-The dispatcher remains unavailable in broadcast mode and optional. Omitted
+The dispatcher remains optional and unavailable in broadcast mode. Multicast memberships with `broadcast: false` remain supported; direct native sockets require the new datagram API. See the [tested eligibility matrix](udp-runtime/migration.md#dispatcher-eligibility). Omitted
 QUIC/dispatcher configuration does not load or require elixir_quic. Callers must use
 the capability API rather than forging internal GenServer messages. Application
 code is responsible for its own bounded input queues; this contract bounds

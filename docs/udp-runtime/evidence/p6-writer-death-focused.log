@@ -1,0 +1,20 @@
+Compiling 2 files (.ex)
+     warning: clauses with the same name and arity (number of arguments) should be grouped together, "defp gen_udp_capabilities/1" was previously defined (lib/abyss/listener.ex:857)
+     │
+ 899 │   defp gen_udp_capabilities(state) do
+     │        ~
+     │
+     └─ lib/abyss/listener.ex:899:8
+
+Generated abyss app
+Running ExUnit with seed: 91644, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+.....
+19:49:34.136 [error] GenServer #PID<0.269.0> terminating
+** (stop) {:writer_exit, :killed}
+Last message: {:EXIT, #PID<0.271.0>, :killed}
+State: %{module: Abyss.DispatcherTestCallback, monitors: %{}, send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.271.0>, generation: #Reference<0.1976507058.1704460290.223220>, admission: #PID<0.270.0>, io_backend: :gen_udp}, writer: #PID<0.271.0>, generation: #Reference<0.1976507058.1704460290.223220>, listener: nil, admission: #PID<0.270.0>, routes: %{}, callback_state: %{started: 0, send_fun: #Function<2.54173241/2 in Abyss.Dispatcher.init/1>}}
+..............
+Finished in 0.4 seconds (0.4s async, 0.00s sync)
+19 tests, 0 failures

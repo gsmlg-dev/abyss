@@ -12,7 +12,8 @@ defmodule Abyss.ServerConfig do
           port: :inet.port_number(),
           transport_module: module(),
           transport_options: Abyss.transport_options(),
-          handler_module: module(),
+          handler_module: module() | nil,
+          datagram_options: map(),
           handler_options: term(),
           genserver_options: GenServer.options(),
           supervisor_options: [Supervisor.option()],
@@ -45,10 +46,21 @@ defmodule Abyss.ServerConfig do
   @processing_time_baseline_ms 100
   @min_processing_factor 0.5
 
+  @datagram_defaults %{
+    datagram_handler: nil,
+    execution: :per_datagram,
+    route_key: nil,
+    io_backend: :gen_udp,
+    runtime_options: [],
+    required_capabilities: [],
+    required_metadata: []
+  }
+
   defstruct port: 4000,
             transport_module: Abyss.Transport.UDP,
             transport_options: [],
             handler_module: nil,
+            datagram_options: @datagram_defaults,
             handler_options: [],
             genserver_options: [],
             supervisor_options: [],
@@ -82,15 +94,7 @@ defmodule Abyss.ServerConfig do
       raise ArgumentError, "configuration must be a keyword list"
     end
 
-    unless Keyword.has_key?(opts, :handler_module) do
-      raise ArgumentError, "No handler_module defined in server configuration"
-    end
-
-    handler_module = Keyword.get(opts, :handler_module)
-
-    unless is_atom(handler_module) do
-      raise ArgumentError, "handler_module must be a module"
-    end
+    validate_handler_selection!(opts)
 
     # num_acceptors is deprecated but documented; map it to num_listeners
     # rather than crashing in struct!/2 (it is not a struct field).
@@ -115,7 +119,25 @@ defmodule Abyss.ServerConfig do
         opts
       end
 
-    config = struct!(__MODULE__, opts)
+    opts =
+      if Keyword.get(opts, :datagram_handler) do
+        Keyword.put_new(opts, :num_listeners, 1)
+      else
+        opts
+      end
+
+    opts =
+      if Keyword.get(opts, :io_backend, :gen_udp) == :socket_native do
+        Keyword.put(opts, :transport_module, Abyss.Transport.UDP.Native)
+      else
+        opts
+      end
+
+    datagram_options =
+      Map.new(@datagram_defaults, fn {key, default} -> {key, Keyword.get(opts, key, default)} end)
+
+    legacy_options = Keyword.drop(opts, Map.keys(@datagram_defaults))
+    config = struct!(__MODULE__, Keyword.put(legacy_options, :datagram_options, datagram_options))
 
     # Validate numeric ranges for new configuration options
     validate_config!(config)
@@ -123,8 +145,183 @@ defmodule Abyss.ServerConfig do
     config
   end
 
+  defp validate_handler_selection!(opts) do
+    handler = Keyword.get(opts, :datagram_handler)
+    dispatcher = Keyword.get(opts, :datagram_dispatcher)
+
+    case {handler, dispatcher, Keyword.has_key?(opts, :handler_module)} do
+      {nil, nil, false} ->
+        raise ArgumentError, "No handler_module defined in server configuration"
+
+      _ ->
+        :ok
+    end
+
+    validate_legacy_handler!(opts)
+    validate_datagram_handler!(handler)
+    validate_handler_conflict!(handler, Keyword.get(opts, :handler_module), dispatcher)
+  end
+
+  defp validate_legacy_handler!(opts) do
+    case Keyword.fetch(opts, :handler_module) do
+      {:ok, module} when is_atom(module) -> :ok
+      :error -> :ok
+      _ -> raise ArgumentError, "handler_module must be a module"
+    end
+  end
+
+  defp validate_datagram_handler!(nil), do: :ok
+
+  defp validate_datagram_handler!(handler) do
+    unless is_atom(handler) and Code.ensure_loaded?(handler) and
+             function_exported?(handler, :init, 2) and
+             function_exported?(handler, :handle_datagram, 2),
+           do: raise(ArgumentError, "datagram_handler must export init/2 and handle_datagram/2")
+  end
+
+  defp validate_handler_conflict!(nil, _legacy, _dispatcher), do: :ok
+
+  defp validate_handler_conflict!(_handler, legacy, dispatcher) do
+    if legacy || dispatcher,
+      do:
+        raise(
+          ArgumentError,
+          "datagram_handler cannot be combined with handler_module or datagram_dispatcher"
+        )
+  end
+
+  @runtime_defaults [
+    max_queue: 128,
+    max_queue_bytes: 1_048_576,
+    max_keys: 128,
+    max_key_bytes: 1024,
+    max_key_queue: 32,
+    max_key_queue_bytes: 262_144,
+    max_timers: 128,
+    max_actions: 32,
+    max_action_bytes: 1_048_576,
+    init_timeout: 1000,
+    callback_timeout: 1000,
+    route_timeout: 1000,
+    terminate_timeout: 100,
+    idle_timeout: 60_000,
+    send_timeout: 100
+  ]
+
+  @doc "Finite bounds used by the datagram runtime, merged with endpoint options."
+  def runtime_options(%__MODULE__{datagram_options: %{runtime_options: options}}),
+    do: Keyword.merge(@runtime_defaults, options)
+
+  defp validate_runtime!(config) do
+    validate_backend!(config)
+    validate_requirements!(config)
+
+    unless config.datagram_options.execution in [:per_datagram, :endpoint, :keyed],
+      do: raise(ArgumentError, "execution must be :per_datagram, :endpoint or :keyed")
+
+    _ = validate_runtime_limits!(config.datagram_options.runtime_options)
+    validate_datagram_topology!(config)
+    if config.datagram_options.datagram_handler, do: validate_dispatcher_limits!(config)
+  end
+
+  defp validate_requirements!(config) do
+    capabilities = [
+      :destination,
+      :interface_index,
+      :local_address,
+      :scoped_send,
+      :source_control,
+      :memberships,
+      :strict_group_filter,
+      :strict_interface_filter
+    ]
+
+    metadata = [:destination, :interface_index, :local_address, :hop_limit, :traffic_class]
+
+    _ =
+      for {name, values, allowed} <- [
+            {:required_capabilities, config.datagram_options.required_capabilities, capabilities},
+            {:required_metadata, config.datagram_options.required_metadata, metadata}
+          ] do
+        unless is_list(values) and Enum.all?(values, &(&1 in allowed)),
+          do: raise(ArgumentError, "#{name} must contain supported requirement names")
+      end
+
+    if is_nil(config.datagram_options.datagram_handler) and
+         (config.datagram_options.required_capabilities != [] or
+            config.datagram_options.required_metadata != []),
+       do: raise(ArgumentError, "metadata requirements need datagram_handler")
+  end
+
+  defp validate_backend!(config) do
+    unless config.datagram_options.io_backend in [:gen_udp, :socket_native],
+      do: raise(ArgumentError, "io_backend must be :gen_udp or :socket_native")
+
+    if config.transport_module == Abyss.Transport.UDP.Native and
+         config.datagram_options.io_backend != :socket_native,
+       do: raise(ArgumentError, "native transport requires io_backend: :socket_native")
+
+    validate_native_selection!(config)
+  end
+
+  defp validate_native_selection!(%{
+         datagram_options: %{io_backend: :socket_native, datagram_handler: nil}
+       }),
+       do:
+         raise(
+           ArgumentError,
+           "socket_native requires datagram_handler; legacy handlers and dispatchers are unsupported"
+         )
+
+  defp validate_native_selection!(%{datagram_options: %{io_backend: :socket_native}} = config) do
+    if Enum.any?(config.transport_options, &match?({:inet_backend, _}, &1)),
+      do: raise(ArgumentError, "inet_backend cannot be combined with socket_native")
+  end
+
+  defp validate_native_selection!(_config), do: :ok
+
+  defp validate_runtime_limits!(options) do
+    unless Keyword.keyword?(options),
+      do: raise(ArgumentError, "runtime_options must be a keyword list")
+
+    for {key, value} <- options do
+      unless Keyword.has_key?(@runtime_defaults, key),
+        do: raise(ArgumentError, "unknown runtime option #{inspect(key)}")
+
+      unless is_integer(value) and value > 0,
+        do: raise(ArgumentError, "runtime option #{key} must be a finite positive integer")
+    end
+  end
+
+  defp validate_datagram_topology!(%{datagram_options: %{datagram_handler: nil}}), do: :ok
+
+  defp validate_datagram_topology!(%{num_listeners: 1, dynamic_listeners: false} = config),
+    do: validate_route_key!(config.datagram_options.execution, config.datagram_options.route_key)
+
+  defp validate_datagram_topology!(_config),
+    do: raise(ArgumentError, "datagram_handler requires one listener without dynamic scaling")
+
+  defp validate_route_key!(:keyed, route_key) do
+    unless valid_route_key?(route_key),
+      do:
+        raise(
+          ArgumentError,
+          "keyed execution requires an explicit route_key function or {module, function}"
+        )
+  end
+
+  defp validate_route_key!(_execution, nil), do: :ok
+
+  defp validate_route_key!(_execution, _route_key),
+    do: raise(ArgumentError, "route_key is only supported with keyed execution")
+
+  defp valid_route_key?(function) when is_function(function, 1), do: true
+  defp valid_route_key?({module, function}) when is_atom(module) and is_atom(function), do: true
+  defp valid_route_key?(_route_key), do: false
+
   # Private validation function
   defp validate_config!(config) do
+    validate_runtime!(config)
     _ = validate_limits!(config)
     _ = validate_timeouts!(config)
     validate_socket_options!(config)

@@ -1,0 +1,25 @@
+Compiling 3 files (.ex)
+Generated abyss app
+Finding suitable PLTs
+Checking PLT...
+[:abyss, :elixir, :kernel, :logger, :machete, :public_key, :stdlib, :telemetry, :telemetry_metrics]
+PLT is up to date!
+No :ignore_warnings opt specified in mix.exs and default does not exist.
+
+Starting Dialyzer
+[
+  check_plt: false,
+  init_plt: ~c"/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/priv/plts/dialyzer.plt",
+  files: [~c"/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/_build/dev/lib/abyss/ebin/Elixir.Abyss.Dispatcher.SendCapability.beam",
+   ~c"/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/_build/dev/lib/abyss/ebin/Elixir.Abyss.Listener.beam",
+   ~c"/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/_build/dev/lib/abyss/ebin/Elixir.Abyss.Transport.UDP.Broadcast.beam",
+   ~c"/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/_build/dev/lib/abyss/ebin/Elixir.Abyss.Endpoint.beam",
+   ~c"/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/_build/dev/lib/abyss/ebin/Elixir.Abyss.Logger.beam",
+   ...],
+  warnings: [:error_handling, :extra_return, :missing_return, :unknown, ...]
+]
+Total errors: 1, Skipped: 0, Unnecessary Skips: 0
+done in 0m2.01s
+lib/abyss/server_config.ex:220:5:unmatched_return The expression produces multiple types, but none are matched.
+done (warnings were emitted)
+Halting VM with exit status 2

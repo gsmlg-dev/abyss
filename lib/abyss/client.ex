@@ -89,6 +89,12 @@ defmodule Abyss.Client do
   @doc """
   Send one datagram and return its unicast response. `source`, `interface`,
   `family`, and `bind_port` settings are shared by all client helpers.
+
+  Unicast responses must match the resolved address and port. Multicast and
+  limited broadcast accept any peer. Directed broadcast requires explicit
+  `response_policy: :any`; `:exact` may be selected to restrict other requests.
+  Resolution and socket startup precede the response budget; sending and all
+  rejected packets share one monotonic deadline. Matching is not authentication.
   """
   @spec send_recv(host(), port_number(), packet(), non_neg_integer(), opts()) ::
           {:ok, binary()} | {:error, term()}
@@ -207,13 +213,27 @@ defmodule Abyss.Client do
 
   defp request_response(host, port, packet, timeout, opts, broadcast) do
     with :ok <- validate_timeout(timeout) do
-      with_socket(host, port, opts, broadcast, &single_exchange(&1, &2, packet, timeout))
+      with_socket(host, port, opts, broadcast, fn socket, destination ->
+        single_response(socket, destination, packet, timeout, opts, broadcast)
+      end)
     end
   end
 
-  defp single_exchange(socket, destination, packet, timeout) do
-    with :ok <- Core.send(socket, destination, packet),
-         {:ok, response} <- receive_packet(socket, timeout),
+  defp single_response(socket, destination, packet, timeout, opts, broadcast) do
+    policy =
+      Keyword.get(
+        opts,
+        :response_policy,
+        if(broadcast, do: :any, else: Core.response_policy(destination))
+      )
+
+    if policy in [:exact, :any],
+      do: single_exchange(socket, destination, packet, timeout, policy),
+      else: {:error, {:invalid_option, :response_policy, policy}}
+  end
+
+  defp single_exchange(socket, destination, packet, timeout, policy) do
+    with {:ok, response} <- Core.exchange(socket, destination, packet, timeout, policy),
          do: {:ok, packet_data(response)}
   end
 
@@ -288,7 +308,8 @@ defmodule Abyss.Client do
   defp build_socket_opts(host, port, opts, broadcast) do
     family = Keyword.get(opts, :family, host_family(host, opts))
 
-    with :ok <- validate_destination_port(port),
+    with {:ok, backend} <- Core.effective_backend(opts),
+         :ok <- validate_destination_port(port),
          :ok <- validate_family(family),
          {:ok, address} <- resolve_host(host, family),
          :ok <- validate_source(Keyword.get(opts, :source), family),
@@ -302,19 +323,16 @@ defmodule Abyss.Client do
 
       options = if opts[:source], do: options ++ [{:ip, opts[:source]}], else: options
 
-      options =
-        if opts[:inet_backend],
-          do: [{:inet_backend, opts[:inet_backend]} | options],
-          else: options
+      options = [{:inet_backend, backend} | options]
 
-      with :ok <- validate_destination_backend(destination, opts),
+      with :ok <- validate_destination_backend(destination, backend),
            {:ok, normalized} <- Core.normalize_options([], options),
            do: {:ok, normalized, destination}
     end
   end
 
-  defp validate_destination_backend(%{family: :inet6, scope_id: _}, opts) do
-    if opts[:inet_backend] == :socket,
+  defp validate_destination_backend(%{family: :inet6, scope_id: _}, backend) do
+    if backend == :socket,
       do: {:error, {:unsupported_capability, :scoped_sockaddr_send, :socket}},
       else: :ok
   end

@@ -1,0 +1,158 @@
+Finding suitable PLTs
+Checking PLT...
+[:abyss, :elixir, :kernel, :logger, :machete, :public_key, :stdlib, :telemetry, :telemetry_metrics]
+Looking up modules in dialyzer.plt
+Looking up modules in dialyxir_erlang-27.3.4.6_elixir-1.18.4.plt
+Looking up modules in dialyxir_erlang-27.3.4.6.plt
+Finding applications for dialyxir_erlang-27.3.4.6.plt
+Finding modules for dialyxir_erlang-27.3.4.6.plt
+Creating dialyxir_erlang-27.3.4.6.plt
+Looking up modules in dialyxir_erlang-27.3.4.6.plt
+Removing 3 modules from dialyxir_erlang-27.3.4.6.plt
+Checking 19 modules in dialyxir_erlang-27.3.4.6.plt
+Adding 196 modules to dialyxir_erlang-27.3.4.6.plt
+done in 0m28.7s
+Finding applications for dialyxir_erlang-27.3.4.6_elixir-1.18.4.plt
+Finding modules for dialyxir_erlang-27.3.4.6_elixir-1.18.4.plt
+Copying dialyxir_erlang-27.3.4.6.plt to dialyxir_erlang-27.3.4.6_elixir-1.18.4.plt
+Looking up modules in dialyxir_erlang-27.3.4.6_elixir-1.18.4.plt
+Checking 215 modules in dialyxir_erlang-27.3.4.6_elixir-1.18.4.plt
+Adding 273 modules to dialyxir_erlang-27.3.4.6_elixir-1.18.4.plt
+done in 0m34.72s
+Finding applications for dialyzer.plt
+Finding modules for dialyzer.plt
+Copying dialyxir_erlang-27.3.4.6_elixir-1.18.4.plt to dialyzer.plt
+Looking up modules in dialyzer.plt
+Checking 488 modules in dialyzer.plt
+Adding 162 modules to dialyzer.plt
+done in 0m23.28s
+No :ignore_warnings opt specified in mix.exs and default does not exist.
+
+Starting Dialyzer
+[
+  check_plt: false,
+  init_plt: ~c"/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/priv/plts/dialyzer.plt",
+  files: [~c"/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/_build/dev/lib/abyss/ebin/Elixir.Abyss.Dispatcher.SendCapability.beam",
+   ~c"/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/_build/dev/lib/abyss/ebin/Elixir.Abyss.Listener.beam",
+   ~c"/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/_build/dev/lib/abyss/ebin/Elixir.Abyss.Transport.UDP.Broadcast.beam",
+   ~c"/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/_build/dev/lib/abyss/ebin/Elixir.Abyss.Endpoint.beam",
+   ~c"/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/_build/dev/lib/abyss/ebin/Elixir.Abyss.Logger.beam",
+   ...],
+  warnings: [:error_handling, :extra_return, :missing_return, :unknown, ...]
+]
+Total errors: 14, Skipped: 0, Unnecessary Skips: 0
+done in 0m3.97s
+lib/abyss/datagram_runtime.ex:201:9:unmatched_return
+The expression produces a value of type:
+
+false | :ok | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/datagram_runtime.ex:216:9:unmatched_return
+The expression produces a value of type:
+
+false | :ok | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/datagram_runtime.ex:234:9:unmatched_return
+The expression produces a value of type:
+
+false | :ok | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/datagram_runtime.ex:353:13:unmatched_return
+The expression produces a value of type:
+
+false | :ok | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/datagram_runtime.ex:430:9:unmatched_return
+The expression produces a value of type:
+
+false | :ok | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/datagram_runtime.ex:619:9:unmatched_return
+The expression produces a value of type:
+
+false | :ok | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/datagram_runtime.ex:633:9:unmatched_return
+The expression produces a value of type:
+
+false | :ok | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/datagram_runtime.ex:634:9:unmatched_return
+The expression produces a value of type:
+
+false | :ok | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/datagram_runtime.ex:682:9:unmatched_return
+The expression produces a value of type:
+
+false | :ok | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/datagram_runtime.ex:721:7:unmatched_return
+The expression produces a value of type:
+
+false | :ok | non_neg_integer()
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/server_config.ex:220:5:unmatched_return
+The expression produces a value of type:
+
+[any()]
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/transport/udp/multicast.ex:79:8:pattern_match_cov
+The pattern
+variable_options
+
+can never match, because previous clauses completely cover the type
+[any(), ...].
+
+________________________________________________________________________________
+lib/abyss/transport/udp/native.ex:38:19:unmatched_return
+The expression produces a value of type:
+
+:ok | {:error, atom()}
+
+but this value is unmatched.
+
+________________________________________________________________________________
+lib/abyss/udp_admission.ex:47:7:unmatched_return
+The expression produces a value of type:
+
+:ok | {:error, :handler_limit | :input_bytes_limit | :stale_owner} | {:ok, reference()}
+
+but this value is unmatched.
+
+________________________________________________________________________________
+done (warnings were emitted)
+Halting VM with exit status 2

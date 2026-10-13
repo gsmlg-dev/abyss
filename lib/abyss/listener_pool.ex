@@ -128,7 +128,7 @@ defmodule Abyss.ListenerPool do
             [Supervisor.child_spec() | (old_erlang_child_spec :: :supervisor.child_spec())]}}
   def init({server_pid, config}) do
     one_endpoint? =
-      config.port == 0 or config.broadcast or
+      not is_nil(config.datagram_options.datagram_handler) or config.port == 0 or config.broadcast or
         config.transport_module == Abyss.Transport.UDP.Multicast or
         Enum.any?(config.transport_options, &match?({:add_membership, _}, &1))
 

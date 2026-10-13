@@ -46,6 +46,7 @@ defmodule Abyss.Transport.UDP.Unicast do
 
   @behaviour Abyss.Transport
 
+  alias Abyss.Transport.UDP
   alias Abyss.Transport.UDP.Core
 
   @hardcoded_options [
@@ -170,18 +171,10 @@ defmodule Abyss.Transport.UDP.Unicast do
           iodata(),
           timeout()
         ) :: Abyss.Transport.on_recv()
-  def send_recv({ip, port}, data, timeout \\ 5000) do
-    case open(0, mode: :binary, active: false) do
-      {:ok, socket} ->
-        try do
-          with :ok <- Core.send(socket, ip, port, data),
-               do: Core.recv(socket, 0, timeout)
-        after
-          Core.close(socket)
-        end
+  def send_recv(destination, data, timeout \\ 5000),
+    do: UDP.send_recv(destination, data, timeout)
 
-      {:error, reason} ->
-        {:error, reason}
-    end
-  end
+  @doc "Request-response with explicit response policy or socket options; see `Abyss.Transport.UDP.send_recv/4`."
+  def send_recv(destination, data, timeout, options),
+    do: UDP.send_recv(destination, data, timeout, options)
 end

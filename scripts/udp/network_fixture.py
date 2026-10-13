@@ -41,7 +41,17 @@ def peer_worker():
             operation = request["op"]
             try:
                 label = request.get("label")
-                if operation == "open":
+                if operation == "indices":
+                    result = {name: index for index, name in socket.if_nameindex()}
+                elif operation == "interfaces":
+                    result = {}
+                    with open("/proc/net/if_inet6") as addresses:
+                        for entry in addresses:
+                            address, _, _, scope, _, interface = entry.split()
+                            if scope == "20":
+                                result[interface] = socket.inet_ntop(socket.AF_INET6, bytes.fromhex(address))
+                    assert "eth0" in result and "eth1" in result, result
+                elif operation == "open":
                     family = request["family"]
                     endpoint = socket.socket(socket.AF_INET if family == 4 else socket.AF_INET6, socket.SOCK_DGRAM)
                     endpoint.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -120,7 +130,7 @@ class Child:
     def __init__(self, fixture, namespace, command, wire=False):
         drop = [shutil.which("setpriv"), f"--reuid={os.getuid()}", f"--regid={os.getgid()}", "--init-groups"]
         environment = [shutil.which("env"), f"PATH={os.environ['PATH']}", f"HOME={os.environ['HOME']}", "MIX_ENV=dev"]
-        for key in ("MIX_HOME", "HEX_HOME", "MIX_BUILD_PATH", "ERL_FLAGS", "ELIXIR_ERL_OPTIONS", "ABYSS_UDP_BACKEND"):
+        for key in ("MIX_HOME", "HEX_HOME", "MIX_BUILD_PATH", "ERL_FLAGS", "ELIXIR_ERL_OPTIONS", "ABYSS_UDP_BACKEND", "ABYSS_UDP_API", "ABYSS_UDP_EXECUTION"):
             if key in os.environ:
                 environment.append(f"{key}={os.environ[key]}")
         if os.environ.get("CI"):
@@ -180,6 +190,24 @@ class Child:
             return
         self.wait(lambda line: line == marker, timeout)
         self.events.remove(marker)
+
+    def metadata(self, family, payload, destination, interface, local_address=None):
+        suffix = " " + encode(payload)
+        prefix = f"WIRE META {family} "
+        def matches(line):
+            return line.startswith(prefix) and line.endswith(suffix)
+        line = next((line for line in self.events if matches(line)), None)
+        if line is None:
+            line = self.wait(matches, timeout=2)
+        self.events.remove(line)
+        _, _, actual_family, actual_dst, actual_if, actual_local, scope, hop, _ = line.split()
+        assert int(actual_family) == family, line
+        assert actual_dst == destination, line
+        assert int(actual_if) == interface, line
+        assert int(hop) > 0, line
+        if local_address is not None:
+            assert actual_local == local_address, line
+        return dict(scope=int(scope), local=actual_local)
 
     def assert_no_received(self, family, payload, timeout=0.2):
         marker = f"WIRE RX{family} {encode(payload)}"
@@ -288,8 +316,8 @@ def expect(peer, label, payload, source=None, source_port=None, ttl=None):
 
 def run_gates(fixture):
     backend = os.environ.get("ABYSS_UDP_BACKEND", "inet")
-    assert backend in ("inet", "socket"), f"unsupported fixture backend: {backend}"
-    families = (4, 6) if backend == "inet" else (4,)
+    assert backend in ("inet", "socket", "native"), f"unsupported fixture backend: {backend}"
+    families = (4, 6) if backend != "socket" else (4,)
     command = [sys.executable, str(Path(__file__).resolve()), "--peer"]
     peers = [Child(fixture, namespace, command) for namespace in fixture.peers]
     observer = Child(fixture, fixture.server, command)
@@ -330,6 +358,18 @@ def run_gates(fixture):
             expect(peer, "rx4", outgoing, "192.0.2.10", PORTS[4])
             peer.rpc(op="none", label="rx4")
         passed("broadcast_" + label + "_bidirectional_two_receivers")
+
+    if backend in ("inet", "native"):
+        # Another local socket creates a kernel membership that our endpoint
+        # does not own. The independent observer proves the packet arrived.
+        foreign_group = "239.192.74.3"
+        open_peer(observer, "foreign4", 4, 10, PORTS[4], [foreign_group])
+        foreign_payload = b"foreign-group:" + epoch
+        send(peers[0], "tx4", foreign_group, PORTS[4], foreign_payload)
+        expect(observer, "foreign4", foreign_payload)
+        server.assert_no_received(4, foreign_payload)
+        observer.rpc(op="close", label="foreign4")
+        passed("ipv4_strict_group_filter_foreign_socket_membership")
 
     for family in families:
         for group_number, group in enumerate(GROUPS[family]):
@@ -414,6 +454,58 @@ def run_gates(fixture):
         expect(observer, f"local{family}", outgoing, ttl=1)
         passed(f"ipv{family}_loopback_local_vs_remote_delivery")
 
+    if backend == "native":
+        server_indices = observer.rpc(op="indices")
+        # Same sender and byte-identical payload to different groups: no dedup.
+        for family in families:
+            identical = f"emit:identical{family}:".encode() + epoch
+            for group in GROUPS[family]:
+                send(peers[0], f"tx{family}", group, PORTS[family], identical)
+                server.received(family, identical)
+                server.metadata(family, identical, group, server_indices["eth0"],
+                                "192.0.2.10" if family == 4 else None)
+                for peer in peers:
+                    expect(peer, f"rx{family}", identical)
+            passed(f"ipv{family}_identical_payload_distinct_destination_metadata")
+            group = GROUPS[family][0]
+            secondary = "198.51.100.10" if family == 4 else "eth1"
+            server.command("JOIN", family, group, secondary)
+            probe = f"probe:strict_second_link{family}:".encode() + epoch
+            send(peers[0], f"alt_tx{family}", group, PORTS[family], probe)
+            server.received(family, probe)
+            server.metadata(family, probe, group, server_indices["eth1"],
+                            "198.51.100.10" if family == 4 else None)
+            expect(peers[0], f"alt_tx{family}", b"reply:" + probe,
+                   "198.51.100.10" if family == 4 else "fd00:ab:74:1::10", PORTS[family])
+            for peer in peers:
+                expect(peer, f"alt_rx{family}", probe)
+                peer.rpc(op="none", label=f"rx{family}")
+            server.command("LEAVE", family, group, secondary)
+            passed(f"ipv{family}_strict_reply_original_socket_second_interface")
+        # Link-local peer scope cannot be replaced with route fallback.
+        peer_interfaces = peers[0].rpc(op="interfaces")
+        server_interfaces = observer.rpc(op="interfaces")
+        for network in (0, 1):
+            interface = f"eth{network}"
+            peer_link = peer_interfaces[interface]
+            local_link = server_interfaces[interface]
+            open_peer(peers[0], f"link{network}", 6, 11, network=network, bind=peer_link)
+            payload = f"probe:link_scope{network}:".encode() + epoch
+            send(peers[0], f"link{network}", local_link, PORTS[6], payload)
+            server.received(6, payload)
+            metadata = server.metadata(6, payload, local_link, server_indices[interface], local_link)
+            assert metadata["scope"] == server_indices[interface], metadata
+            expect(peers[0], f"link{network}", b"reply:" + payload, local_link, PORTS[6])
+        passed("ipv6_two_link_local_scopes_strict_original_socket_replies")
+        broadcast = b"probe:native_broadcast_metadata:" + epoch
+        send(peers[0], "tx4", "192.0.2.255", PORTS[4], broadcast)
+        server.received(4, broadcast)
+        server.metadata(4, broadcast, "192.0.2.255", server_indices["eth0"], "192.0.2.10")
+        expect(peers[0], "tx4", b"reply:" + broadcast, "192.0.2.10", PORTS[4])
+        for peer in peers:
+            expect(peer, "rx4", broadcast)
+        passed("ipv4_directed_broadcast_truthful_metadata_strict_unicast_reply")
+
     send(peers[0], "tx4", "192.0.2.10", PORTS[4], b"")
     server.received(4, b"")
     expect(peers[0], "tx4", b"reply:", "192.0.2.10", PORTS[4])
@@ -452,9 +544,9 @@ def main():
             return 77
         passes = run_gates(fixture)
         backend = os.environ.get("ABYSS_UDP_BACKEND", "inet")
-        print(json.dumps({"result": "PASS" if backend == "inet" else "PASS_SUPPORTED_SUBSET",
+        print(json.dumps({"result": "PASS_SUPPORTED_SUBSET" if backend == "socket" else "PASS",
                           "backend": backend, "gates": passes, "payload_sizes": sorted(PAYLOAD_SIZES),
-                          "unsupported": [] if backend == "inet" else ["ipv6_scoped_wire"],
+                          "unsupported": ["ipv6_scoped_wire"] if backend == "socket" else [],
                           "topology": "3 endpoint namespaces, 2 isolated bridged subnets"}), flush=True)
         return 0
     except Exception as error:

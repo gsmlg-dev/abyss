@@ -32,7 +32,7 @@ defmodule Abyss.Transport.UDP do
   """
   @behaviour Abyss.Transport
 
-  alias Abyss.Transport.UDP.Core
+  alias Abyss.Transport.UDP.{Core, Multicast}
 
   @default_options [mode: :binary, reuseaddr: true, reuseport: true, active: false]
 
@@ -104,19 +104,37 @@ defmodule Abyss.Transport.UDP do
           iodata(),
           timeout()
         ) :: Abyss.Transport.on_recv()
-  def send_recv({ip, port}, data, timeout \\ 5000) do
-    case open(0, mode: :binary, active: false) do
-      {:ok, socket} ->
-        try do
-          with :ok <- send(socket, ip, port, data) do
-            recv(socket, 0, timeout)
-          end
-        after
-          close(socket)
-        end
+  @doc """
+  Exchange with the resolved peer using one response deadline. Multicast and
+  limited broadcast retain first-response-from-any-peer behavior. For directed
+  broadcast or intentional cross-peer responses use `response_policy: :any`.
+  DNS resolution and opening are outside the response budget. The full receive
+  tuple, including ancillary data when enabled, is returned unchanged.
+  """
+  def send_recv(destination, data, timeout \\ 5000),
+    do: send_recv(destination, data, timeout, [])
 
-      {:error, reason} ->
-        {:error, reason}
+  @doc "Request-response with `response_policy: :exact | :any` and explicit socket options."
+  def send_recv({host, port}, data, timeout, options) do
+    with {:ok, ip} <- Core.resolve_destination(host) do
+      request_exchange({ip, port}, data, timeout, options)
     end
   end
+
+  defp request_exchange({ip, _port} = destination, data, timeout, options) do
+    policy = Keyword.get(options, :response_policy, Core.response_policy(destination))
+    socket_options = Keyword.delete(options, :response_policy)
+
+    with :ok <- validate_response_policy(policy),
+         {:ok, socket} <- open(0, [Multicast.family(ip) | socket_options]) do
+      try do
+        Core.exchange(socket, destination, data, timeout, policy)
+      after
+        close(socket)
+      end
+    end
+  end
+
+  defp validate_response_policy(policy) when policy in [:exact, :any], do: :ok
+  defp validate_response_policy(policy), do: {:error, {:invalid_option, :response_policy, policy}}
 end

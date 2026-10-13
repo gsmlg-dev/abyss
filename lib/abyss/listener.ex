@@ -84,7 +84,7 @@ defmodule Abyss.Listener do
     desired_key = {server, id}
 
     options =
-      case Core.normalize_options([], config.transport_options) do
+      case normalize_transport_options(config) do
         {:ok, normalized} -> normalized
         {:error, reason} -> raise ArgumentError, "invalid transport options: #{inspect(reason)}"
       end
@@ -134,6 +134,15 @@ defmodule Abyss.Listener do
     end
   end
 
+  defp normalize_transport_options(%{
+         datagram_options: %{io_backend: :socket_native},
+         transport_options: options
+       }),
+       do: {:ok, options}
+
+  defp normalize_transport_options(config),
+    do: Core.normalize_options([], config.transport_options)
+
   defp normalize_desired(memberships) do
     desired =
       Enum.map(memberships, fn membership ->
@@ -149,9 +158,14 @@ defmodule Abyss.Listener do
   end
 
   defp initialize_socket(socket, transport, id, server, config, key, desired) do
+    generation = make_ref()
+
     with {:ok, local} <- transport.sockname(socket),
+         :ok <- validate_capabilities(socket, transport, config, local, desired),
          {:ok, dispatcher} <- start_dispatcher(config, socket, transport, local),
-         {:ok, starter} <- Abyss.ListenerStarter.start_link(self()) do
+         {:ok, starter} <- Abyss.ListenerStarter.start_link(self()),
+         {:ok, runtime} <-
+           start_runtime(config, socket, transport, local, {server, id}, generation, server) do
       span =
         Abyss.Telemetry.start_span(:listener, %{}, %{
           server_pid: server,
@@ -181,6 +195,11 @@ defmodule Abyss.Listener do
          transport: transport,
          local_info: local,
          dispatcher: dispatcher,
+         runtime: runtime,
+         runtime_send:
+           if(is_pid(runtime), do: Abyss.DatagramRuntime.info(runtime).send, else: nil),
+         generation: generation,
+         native_select: nil,
          starter: starter,
          mode: :running,
          armed: false,
@@ -210,6 +229,48 @@ defmodule Abyss.Listener do
 
   def handle_info({:udp, socket, ip, port, ancillary, data}, %{listener_socket: socket} = state),
     do: receive_packet({ip, port, data}, ancillary, %{state | armed: false})
+
+  def handle_info(
+        {:"$socket", socket, :select, reference},
+        %{
+          listener_socket: socket,
+          native_select: {_generation, {:select_info, :recvmsg, reference}}
+        } = state
+      ),
+      do: rearm(%{state | armed: false, native_select: nil})
+
+  def handle_info(
+        {:"$socket", socket, :abort, {reference, reason}},
+        %{
+          listener_socket: socket,
+          native_select: {_generation, {:select_info, :recvmsg, reference}}
+        } = state
+      ),
+      do: {:stop, {:native_receive_abort, reason}, state}
+
+  def handle_info({:native_datagram, generation, message}, %{generation: generation} = state) do
+    state = %{state | armed: false}
+
+    context = %{
+      endpoint_id: {state.server_pid, state.listener_id},
+      generation: generation,
+      local_endpoint: state.local_info
+    }
+
+    case state.transport.datagram(message, context) do
+      {:ok, datagram} -> receive_datagram(datagram, state)
+      {:error, reason} -> rearm(drop(state, reason, 0))
+    end
+  end
+
+  def handle_info({:runtime_drained, runtime}, %{runtime: runtime, mode: :draining} = state),
+    do: complete_drain(%{state | runtime: nil})
+
+  def handle_info({:EXIT, runtime, :normal}, %{runtime: runtime, mode: :draining} = state),
+    do: complete_drain(%{state | runtime: nil})
+
+  def handle_info({:EXIT, runtime, reason}, %{runtime: runtime} = state),
+    do: {:stop, {:runtime_exit, reason}, state}
 
   def handle_info({:udp_error, socket, reason}, %{listener_socket: socket} = state),
     do: {:stop, {:udp_error, reason}, state}
@@ -296,6 +357,24 @@ defmodule Abyss.Listener do
   def handle_info(_message, state), do: {:noreply, state}
 
   @impl true
+  def handle_call(:endpoint_info, _from, state) do
+    runtime = if is_pid(state.runtime), do: Abyss.DatagramRuntime.info(state.runtime), else: %{}
+    capabilities = capabilities(state)
+
+    info =
+      Map.merge(runtime, %{
+        local_endpoint: state.local_info,
+        endpoint_id: {state.server_pid, state.listener_id},
+        generation: state.generation,
+        capabilities: capabilities,
+        mode: state.mode,
+        received: state.received,
+        dropped: state.dropped
+      })
+
+    {:reply, {:ok, info}, state}
+  end
+
   def handle_call(:listener_info, _from, state), do: {:reply, state.local_info, state}
 
   def handle_call(:socket_info, _from, state),
@@ -359,6 +438,7 @@ defmodule Abyss.Listener do
         else: Process.send_after(self(), :drain_expired, max(deadline - now(), 0))
 
     state = %{state | mode: :draining, drain_waiter: {from, timer}}
+    if is_pid(state.runtime), do: Abyss.DatagramRuntime.drain(state.runtime, deadline)
     finish_drain(state)
   end
 
@@ -367,7 +447,8 @@ defmodule Abyss.Listener do
       do: {:reply, {:error, mode}, state}
 
   def handle_call({:membership, operation, membership}, _from, state) do
-    with {:ok, normalized} <- Multicast.normalize_membership(membership),
+    with :ok <- membership_topology(state),
+         {:ok, normalized} <- Multicast.normalize_membership(membership),
          :ok <- membership_family(normalized, state),
          :ok <- membership_operation(operation, normalized, state) do
       desired =
@@ -381,6 +462,12 @@ defmodule Abyss.Listener do
     else
       {:error, reason} -> {:reply, {:error, reason}, state}
     end
+  end
+
+  defp membership_topology(state) do
+    if length(for_server(state.server_pid)) > 1 or state.server_config.dynamic_listeners,
+      do: {:error, :multiple_receive_endpoints},
+      else: :ok
   end
 
   defp membership_family({group, _interface}, state) do
@@ -408,6 +495,42 @@ defmodule Abyss.Listener do
       else: :ok
   end
 
+  defp receive_datagram(datagram, state) do
+    bytes = byte_size(datagram.payload)
+    Abyss.Telemetry.track_datagram_received(state.server_pid, bytes)
+    state = %{state | received: state.received + 1}
+
+    cond do
+      state.mode != :running ->
+        rearm(drop(state, state.mode, bytes))
+
+      bytes > state.server_config.max_packet_size ->
+        rearm(drop(state, :packet_too_large, bytes))
+
+      true ->
+        admit_datagram(datagram, state)
+    end
+  end
+
+  defp admit_datagram(datagram, state) do
+    missing =
+      Enum.filter(
+        state.server_config.datagram_options.required_metadata,
+        &is_nil(Map.get(datagram, &1))
+      )
+
+    case missing do
+      [] ->
+        case Abyss.DatagramRuntime.admit(state.runtime, datagram) do
+          :ok -> rearm(state)
+          {:error, _} -> rearm(%{state | dropped: state.dropped + 1})
+        end
+
+      fields ->
+        rearm(drop(state, {:missing_metadata, fields}, byte_size(datagram.payload)))
+    end
+  end
+
   defp receive_packet({_ip, _port, data} = packet, ancillary, state) do
     bytes = byte_size(data)
     Abyss.Telemetry.track_datagram_received(state.server_pid, bytes)
@@ -425,6 +548,16 @@ defmodule Abyss.Listener do
 
         rearm(drop(state, :packet_too_large, bytes))
 
+      is_pid(state.runtime) ->
+        admit_gen_udp(packet, ancillary, state)
+
+      true ->
+        receive_legacy_packet(packet, ancillary, bytes, state)
+    end
+  end
+
+  defp receive_legacy_packet(packet, ancillary, bytes, state) do
+    cond do
       is_pid(state.dispatcher) ->
         token = make_ref()
         reservation = %{token: token, packet: packet, timer: nil, slot: nil, expired: false}
@@ -458,6 +591,17 @@ defmodule Abyss.Listener do
           {:error, reason} -> rearm(drop(state, reason, bytes))
         end
     end
+  end
+
+  defp admit_gen_udp({ip, port, data}, ancillary, state) do
+    datagram =
+      Abyss.Datagram.from_gen_udp({ip, port, ancillary, data}, %{
+        endpoint_id: {state.server_pid, state.listener_id},
+        generation: state.generation,
+        local_endpoint: state.local_info
+      })
+
+    admit_datagram(datagram, state)
   end
 
   defp start_reservation({ip, port, _data} = packet, ancillary, bytes, slot, state) do
@@ -546,12 +690,30 @@ defmodule Abyss.Listener do
   defp arm(%{mode: :draining} = state), do: {:ok, state}
   defp arm(%{mode: :stopped} = state), do: {:ok, state}
 
+  defp arm(%{server_config: %{datagram_options: %{io_backend: :socket_native}}} = state) do
+    operation = make_ref()
+
+    case state.transport.arm(state.listener_socket, operation) do
+      {:ok, message} ->
+        send(self(), {:native_datagram, state.generation, message})
+        {:ok, %{state | armed: true, native_select: nil}}
+
+      {:select, select_info} ->
+        {:ok, %{state | armed: true, native_select: {state.generation, select_info}}}
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
+
   defp arm(state) do
     case state.transport.setopts(state.listener_socket, active: :once) do
       :ok -> {:ok, %{state | armed: true}}
       {:error, reason} -> {:error, reason}
     end
   end
+
+  defp finish_drain(%{runtime: runtime} = state) when is_pid(runtime), do: {:noreply, state}
 
   defp finish_drain(%{mode: :draining, handlers: handlers, reservation: nil} = state)
        when map_size(handlers) == 0,
@@ -576,7 +738,9 @@ defmodule Abyss.Listener do
     end
 
     Abyss.Telemetry.unregister_socket(state.listener_socket)
+    force_runtime_cleanup(state)
     if is_pid(state.dispatcher), do: Process.exit(state.dispatcher, :kill)
+    cancel_native_receive(state)
     state.transport.close(state.listener_socket)
     GenServer.reply(from, :ok)
 
@@ -587,6 +751,7 @@ defmodule Abyss.Listener do
          armed: false,
          drain_waiter: nil,
          dispatcher: nil,
+         runtime: nil,
          starter: nil,
          handlers: %{},
          reservation: nil
@@ -594,6 +759,24 @@ defmodule Abyss.Listener do
   end
 
   defp complete_drain(state), do: {:noreply, state}
+
+  defp force_runtime_cleanup(%{runtime_send: %{writer: writer, admission: admission}} = state) do
+    # Kill blocked components directly: a trapped EXIT cannot interrupt a socket send.
+    :persistent_term.erase({Abyss.Dispatcher.Writer, writer})
+    Process.exit(writer, :kill)
+    Process.exit(admission, :kill)
+    if is_pid(state.runtime), do: Process.exit(state.runtime, :kill)
+  end
+
+  defp force_runtime_cleanup(state) do
+    if is_pid(state.runtime), do: Process.exit(state.runtime, :kill)
+  end
+
+  defp cancel_native_receive(%{native_select: {_, select_info}} = state),
+    do: state.transport.cancel(state.listener_socket, select_info)
+
+  defp cancel_native_receive(_state), do: :ok
+
   defp now, do: System.monotonic_time(:millisecond)
 
   defp ensure_membership_table do
@@ -618,12 +801,134 @@ defmodule Abyss.Listener do
       if state.reservation.slot, do: Abyss.UDPAdmission.release(state.reservation.slot)
     end
 
+    force_runtime_cleanup(state)
     if is_pid(state.dispatcher), do: Process.exit(state.dispatcher, :kill)
 
+    cancel_native_receive(state)
     state.transport.close(state.listener_socket)
     Abyss.Telemetry.stop_span(state.listener_span)
     :ok
   end
+
+  defp start_runtime(%{datagram_options: %{datagram_handler: nil}}, _, _, _, _, _, _),
+    do: {:ok, nil}
+
+  defp start_runtime(config, socket, transport, _local, endpoint_id, generation, server) do
+    Abyss.DatagramRuntime.start_link(%{
+      config: config,
+      socket: socket,
+      transport: transport,
+      owner: self(),
+      endpoint_id: endpoint_id,
+      generation: generation,
+      server: server
+    })
+  end
+
+  defp validate_capabilities(socket, transport, config, local, desired) do
+    available =
+      capabilities(%{
+        server_config: config,
+        transport: transport,
+        listener_socket: socket,
+        local_info: local,
+        memberships: desired
+      })
+
+    case Enum.find(config.datagram_options.required_capabilities, fn name ->
+           not Map.fetch!(available, name).enabled
+         end) do
+      nil ->
+        :ok
+
+      name ->
+        {:error, {:required_capability_unavailable, name, Map.fetch!(available, name).reason}}
+    end
+  end
+
+  defp capabilities(state) do
+    if state.server_config.datagram_options.io_backend == :socket_native do
+      state.transport.capabilities(state.listener_socket)
+    else
+      gen_udp_capabilities(state)
+    end
+  end
+
+  defp gen_udp_capabilities(%{transport: transport} = state)
+       when transport in [
+              Abyss.Transport.UDP,
+              Abyss.Transport.UDP.Unicast,
+              Abyss.Transport.UDP.Broadcast,
+              Abyss.Transport.UDP.Multicast
+            ] do
+    unavailable = %{supported: false, enabled: false, reason: :gen_udp_metadata_unavailable}
+    family = Multicast.family(elem(state.local_info, 0))
+
+    %{
+      adapter: :gen_udp,
+      driver: if(is_port(state.listener_socket), do: :inet, else: :socket),
+      family: Multicast.family(elem(state.local_info, 0)),
+      platform: :os.type(),
+      runtime: %{otp: :erlang.system_info(:otp_release), erts: :erlang.system_info(:version)},
+      destination: unavailable,
+      interface_index: unavailable,
+      local_address: unavailable,
+      source_control: unavailable,
+      strict_group_filter: %{
+        supported:
+          :os.type() == {:unix, :linux} and is_port(state.listener_socket) and
+            Multicast.family(elem(state.local_info, 0)) == :inet,
+        enabled: gen_udp_group_filter_enabled?(state.listener_socket),
+        reason: if(gen_udp_group_filter_enabled?(state.listener_socket), do: nil, else: :disabled)
+      },
+      strict_interface_filter: unavailable,
+      memberships: %{supported: true, enabled: true, reason: nil},
+      scoped_send: gen_udp_scoped_send(state.listener_socket, family)
+    }
+  end
+
+  defp gen_udp_capabilities(state) do
+    unavailable = %{supported: false, enabled: false, reason: :custom_transport_unverified}
+
+    Map.new(
+      [
+        :destination,
+        :interface_index,
+        :local_address,
+        :source_control,
+        :strict_group_filter,
+        :strict_interface_filter,
+        :memberships,
+        :scoped_send
+      ],
+      &{&1, unavailable}
+    )
+    |> Map.merge(%{
+      adapter: :custom,
+      driver: nil,
+      transport: state.transport,
+      family: Multicast.family(elem(state.local_info, 0)),
+      platform: :os.type()
+    })
+  end
+
+  defp gen_udp_scoped_send(socket, :inet6) when is_port(socket),
+    do: %{supported: true, enabled: true, reason: nil}
+
+  defp gen_udp_scoped_send(_socket, :inet6),
+    do: %{supported: false, enabled: false, reason: :scoped_sockaddr_send}
+
+  defp gen_udp_scoped_send(_socket, _family),
+    do: %{supported: false, enabled: false, reason: :family_unsupported}
+
+  defp gen_udp_group_filter_enabled?(socket) when is_port(socket) do
+    case :inet.getopts(socket, [{:raw, 0, 49, 4}]) do
+      {:ok, [{:raw, 0, 49, <<0::native-signed-32>>}]} -> true
+      _ -> false
+    end
+  end
+
+  defp gen_udp_group_filter_enabled?(_socket), do: false
 
   defp start_dispatcher(
          %Abyss.ServerConfig{datagram_dispatcher: nil},

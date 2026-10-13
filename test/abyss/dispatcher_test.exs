@@ -146,18 +146,23 @@ defmodule Abyss.DispatcherTest do
       Dispatcher.start_link(
         module: Abyss.DispatcherTestCallback,
         module_options: [],
-        socket: :socket,
-        transport: Abyss.DispatcherTestTransport,
+        socket: self(),
+        transport: Abyss.DispatcherBlockingTransport,
         local_info: {{127, 0, 0, 1}, 4433},
         max_queue: 2,
         max_bytes: 2
       )
 
     state = :sys.get_state(dispatcher)
-    assert {:ok, _ref} = Dispatcher.send(state.send, {{127, 0, 0, 1}, 1000}, <<1>>)
+    assert {:ok, ref} = Dispatcher.send(state.send, {{127, 0, 0, 1}, 1000}, <<1>>)
+    assert_receive {:writer_send_entered, writer, <<1>>}
 
     assert {:error, :queue_bytes_limit} =
              Dispatcher.send(state.send, {{127, 0, 0, 1}, 1000}, <<2, 3>>)
+
+    send(writer, :release_writer_send)
+    assert {:ok, at} = Dispatcher.Writer.await(writer, state.send, ref)
+    assert is_integer(at)
   end
 
   test "callback receives a socket-independent send function" do

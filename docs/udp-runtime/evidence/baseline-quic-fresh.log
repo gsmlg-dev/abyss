@@ -1,0 +1,119 @@
+Resolving Hex dependencies...
+Resolution completed in 0.056s
+Unchanged:
+  earmark_parser 1.4.46
+  elixir_quic 0.17.0
+  ex_doc 0.40.4
+  ex_ssl 0.17.0
+  jason 1.4.5
+  makeup 1.2.2
+  makeup_elixir 1.0.1
+  makeup_erlang 1.1.0
+  nimble_parsec 1.4.2
+  rustler 0.38.0
+  telemetry 1.4.2
+  telemetry_metrics 1.2.0
+==> earmark_parser
+Compiling 3 files (.erl)
+Compiling 32 files (.ex)
+Generated earmark_parser app
+==> nimble_parsec
+Compiling 4 files (.ex)
+Generated nimble_parsec app
+==> abyss_quic_echo_example
+===> Failed to restore /home/gao/Workspace/gsmlg-dev/abyss/examples/quic_echo/deps/telemetry/_build/prod/lib/.rebar3/rebar_compiler_erl/source.dag file. Discarding it.
+
+===> Analyzing applications...
+===> Compiling telemetry
+==> telemetry_metrics
+Compiling 7 files (.ex)
+Generated telemetry_metrics app
+==> jason
+Compiling 10 files (.ex)
+Generated jason app
+==> ex_ssl
+Compiling 58 files (.ex)
+Generated ex_ssl app
+==> elixir_quic
+Compiling 23 files (.ex)
+Generated elixir_quic app
+==> rustler
+Compiling 7 files (.ex)
+Generated rustler app
+==> makeup
+Compiling 15 files (.ex)
+Generated makeup app
+==> makeup_elixir
+Compiling 6 files (.ex)
+Compiling lib/makeup/lexers/elixir_lexer.ex (it's taking more than 10s)
+Generated makeup_elixir app
+==> makeup_erlang
+Compiling 4 files (.ex)
+Compiling lib/makeup/lexers/erlang_lexer.ex (it's taking more than 10s)
+Generated makeup_erlang app
+==> ex_doc
+Compiling 30 files (.ex)
+Generated ex_doc app
+==> abyss
+Compiling 28 files (.ex)
+Compiling crate dhcp_socket in release mode (native/dhcp_socket)
+Copying /home/gao/Workspace/gsmlg-dev/abyss/native/dhcp_socket/target/release/libdhcp_socket.so to priv/native/dhcp_socket.so
+Generated abyss app
+==> abyss_quic_echo_example
+Compiling 2 files (.ex)
+Generated abyss_quic_echo_example app
+PUBLISHED_QUIC_PROVENANCE_PASS elixir_quic=0.17.0 ex_ssl=0.17.0
+INVALID_TLS_STARTUP_PASS
+{"status": "PASS", "mode": "echo", "bytes": 1048576, "bidi": 5, "uni": 2, "server_single_write": 16384, "receive_after_fin": true}
+{"observations": {"retry_received": 0, "retry_dropped": 0, "token_changed": false}, "scenario": "normal"}
+{"status": "PASS", "mode": "collect", "bytes": 1048576, "receive_after_fin": true, "digest": "c5a3e27d1ed0f894843bca3a5473c4bf0f76a19b6830a2e491292591613a12bf"}
+{"observations": {"retry_received": 0, "retry_dropped": 0, "token_changed": false}, "scenario": "normal"}
+
+19:23:38.852 [error] GenServer #PID<0.226.0> terminating
+** (stop) {:write_failed, {:error, :not_established}}
+Last message: :poll
+State: [data: [{~c"State", %{owner: #PID<0.196.0>, connection: %Quic.Runtime.ConnectionHandle{id: #PID<0.222.0>, generation: #Reference<0.1200904383.2774007812.39476>}, initialized: true}}]]
+{"failure": "deadline", "bytes": {"1": 13181}, "fins": [], "termination": null, "termination_reason": null}
+Traceback (most recent call last):
+  File "/home/gao/Workspace/gsmlg-dev/abyss/scripts/phase1/peer.py", line 72, in wait_for
+    await self.changed.wait()
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/locks.py", line 212, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/gao/Workspace/gsmlg-dev/abyss/scripts/phase1/peer.py", line 159, in <module>
+    asyncio.run(run(args))
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/gao/Workspace/gsmlg-dev/abyss/scripts/phase1/peer.py", line 93, in run
+    await p.wait_for(lambda: all(sid in p.finished for sid in values) and 1 in p.finished and 3 in p.finished)
+  File "/home/gao/Workspace/gsmlg-dev/abyss/scripts/phase1/peer.py", line 69, in wait_for
+    async with asyncio.timeout(25):
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/timeouts.py", line 115, in __aexit__
+    raise TimeoutError from exc_val
+TimeoutError
+** (EXIT from #PID<0.95.0>) an exception was raised:
+    ** (RuntimeError) independent echo peer failed: 1
+        /home/gao/Workspace/gsmlg-dev/abyss/scripts/phase1/network.exs:89: AbyssPhase1.Network.peer/5
+        (elixir 1.18.4) lib/task/supervised.ex:101: Task.Supervised.invoke_mfa/2
+        (elixir 1.18.4) lib/task/supervised.ex:36: Task.Supervised.reply/4
+
+
+19:23:39.217 [error] Task #PID<0.220.0> started from #PID<0.95.0> terminating
+** (RuntimeError) independent echo peer failed: 1
+    /home/gao/Workspace/gsmlg-dev/abyss/scripts/phase1/network.exs:89: AbyssPhase1.Network.peer/5
+    (elixir 1.18.4) lib/task/supervised.ex:101: Task.Supervised.invoke_mfa/2
+    (elixir 1.18.4) lib/task/supervised.ex:36: Task.Supervised.reply/4
+Function: #Function<2.58803695/0 in AbyssPhase1.Network.run/0>
+    Args: []

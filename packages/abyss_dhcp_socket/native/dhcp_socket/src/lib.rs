@@ -281,4 +281,4 @@ fn load(env: Env, _: Term) -> bool {
     rustler::resource!(DhcpSocketResource, env)
 }
 
-rustler::init!("Elixir.Abyss.DhcpSocket.Native", load = load);
+rustler::init!("Elixir.AbyssDhcpSocket.Native", load = load);

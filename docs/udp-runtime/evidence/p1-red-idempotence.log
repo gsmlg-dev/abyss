@@ -1,0 +1,32 @@
+Running ExUnit with seed: 778757, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+
+
+  1) test normalization is idempotent after interface aliases and IPv6 raw conversion (Abyss.UDPBackendResolutionTest)
+     test/abyss/udp_backend_resolution_test.exs:12
+     Assertion with == failed
+     code:  assert Core.normalize_options([], once) == {:ok, once}
+     left:  {:ok,
+             [
+               {:inet_backend, :socket},
+               :inet6,
+               {:raw, 41, 18, <<7, 0, 0, 0>>},
+               {:raw, 41, 19, <<0, 0, 0, 0>>},
+               {:add_membership, {{65282, 0, 0, 0, 0, 0, 0, 42}, 1}}
+             ]}
+     right: {:ok,
+             [
+               {:inet_backend, :socket},
+               :inet6,
+               {:raw, 41, 18, <<7, 0, 0, 0>>},
+               {:raw, 41, 19, <<0, 0, 0, 0>>},
+               {:add_membership, {{65282, 0, 0, 0, 0, 0, 0, 42}, 1}},
+               {:add_membership, {{65282, 0, 0, 0, 0, 0, 0, 42}, 1}}
+             ]}
+     stacktrace:
+       test/abyss/udp_backend_resolution_test.exs:18: (test)
+
+.
+Finished in 0.04 seconds (0.04s async, 0.00s sync)
+2 tests, 1 failure

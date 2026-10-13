@@ -1,0 +1,133 @@
+✨ devenv 2.2.2 is out of date. Please update to 2.4.0: https://devenv.sh/getting-started/#installation
+    _    _                   
+   / \  | |__  _   _ ___ ___ 
+  / _ \ | '_ \| | | / __/ __|
+ / ___ \| |_) | |_| \__ \__ \
+/_/   \_\_.__/ \__, |___/___/
+               |___/         
+Compiling 3 files (.ex)
+Generated abyss app
+RUNTIME_STRESS_PASS: %{
+  key_limit: 8,
+  payload_bytes: 512,
+  egress_byte_limit: 4096,
+  epochs: 5,
+  policy: :per_datagram,
+  offered_udp: 1320,
+  offered_load: :batches_of_16_with_observed_receive_barriers,
+  accepted_callbacks: 40,
+  ingress_application_drops: 1280,
+  offered_direct_sends: 180,
+  direct_send_admission_rejections: 160,
+  verified_wire_replies: 60,
+  kernel_drops: :unmeasured,
+  baseline_processes: 116,
+  final_processes: 116,
+  input_item_limit: 8,
+  input_byte_limit: 16384,
+  egress_entry_limit: 4,
+  observations: :sampled_high_water_not_whole_vm_bound,
+  sampled_processes: 134,
+  sampled_owner_mailbox: 1,
+  sampled_runtime_mailbox: 1,
+  sampled_worker_mailbox: 0,
+  sampled_writer_mailbox: 3,
+  sampled_input_items: 8,
+  sampled_retained_bytes: 7160,
+  accounted_input_high_water: 8,
+  accounted_retained_high_water: 7160,
+  sampled_keys: 8,
+  sampled_egress_entries: 4,
+  sampled_egress_bytes: 2048
+}
+RUNTIME_STRESS_PASS: %{
+  key_limit: 8,
+  payload_bytes: 512,
+  egress_byte_limit: 4096,
+  epochs: 5,
+  policy: :endpoint,
+  offered_udp: 1320,
+  offered_load: :batches_of_16_with_observed_receive_barriers,
+  accepted_callbacks: 40,
+  ingress_application_drops: 1280,
+  offered_direct_sends: 180,
+  direct_send_admission_rejections: 160,
+  verified_wire_replies: 60,
+  kernel_drops: :unmeasured,
+  baseline_processes: 116,
+  final_processes: 116,
+  input_item_limit: 8,
+  input_byte_limit: 16384,
+  egress_entry_limit: 4,
+  observations: :sampled_high_water_not_whole_vm_bound,
+  sampled_processes: 127,
+  sampled_owner_mailbox: 1,
+  sampled_runtime_mailbox: 0,
+  sampled_worker_mailbox: 0,
+  sampled_writer_mailbox: 3,
+  sampled_input_items: 8,
+  sampled_retained_bytes: 7160,
+  accounted_input_high_water: 8,
+  accounted_retained_high_water: 7160,
+  sampled_keys: 1,
+  sampled_egress_entries: 4,
+  sampled_egress_bytes: 2048
+}
+RUNTIME_STRESS_PASS: %{
+  key_limit: 8,
+  payload_bytes: 512,
+  egress_byte_limit: 4096,
+  epochs: 5,
+  policy: :keyed,
+  offered_udp: 1320,
+  offered_load: :batches_of_16_with_observed_receive_barriers,
+  accepted_callbacks: 40,
+  ingress_application_drops: 1280,
+  offered_direct_sends: 180,
+  direct_send_admission_rejections: 160,
+  verified_wire_replies: 60,
+  kernel_drops: :unmeasured,
+  baseline_processes: 116,
+  final_processes: 116,
+  input_item_limit: 8,
+  input_byte_limit: 16384,
+  egress_entry_limit: 4,
+  observations: :sampled_high_water_not_whole_vm_bound,
+  sampled_processes: 130,
+  sampled_owner_mailbox: 1,
+  sampled_runtime_mailbox: 3,
+  sampled_worker_mailbox: 0,
+  sampled_writer_mailbox: 3,
+  sampled_input_items: 8,
+  sampled_retained_bytes: 7160,
+  accounted_input_high_water: 8,
+  accounted_retained_high_water: 7160,
+  sampled_keys: 4,
+  sampled_egress_entries: 4,
+  sampled_egress_bytes: 2048
+}
+Checking 1 source file ...
+
+  Software Design                                                               
+┃ 
+┃ [D] ↘ Nested modules could be aliased at the top of the invoking module.
+┃       scripts/udp/runtime_stress.exs:126:20 #(Abyss.RuntimeStress.epoch)
+┃ [D] ↘ Nested modules could be aliased at the top of the invoking module.
+┃       scripts/udp/runtime_stress.exs:26:5 #(Abyss.RuntimeStressTransport.send)
+
+  Refactoring opportunities                                                     
+┃ 
+┃ [F] → Function is too complex (cyclomatic complexity is 13, max is 9).
+┃       scripts/udp/runtime_stress.exs:81:8 #(Abyss.RuntimeStress.epoch)
+
+  Warnings - please take a look                                                 
+┃ 
+┃ [W] ↗ There should be no calls to `IO.inspect/1`.
+┃       scripts/udp/runtime_stress.exs:50:9 #(Abyss.RuntimeStress.run)
+
+Please report incorrect results: https://github.com/rrrene/credo/issues
+
+Analysis took 0.1 seconds (0.03s to load, 0.09s running 69 checks on 1 file)
+19 mods/funs, found 1 warning, 1 refactoring opportunity, 2 software design suggestions.
+
+Use `mix credo explain` to explain issues, `mix credo --help` for options.

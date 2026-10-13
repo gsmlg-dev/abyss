@@ -1,0 +1,84 @@
+DIAGNOSTIC_SOURCE=/tmp/abyss-quic-direct-vufly79t.exs
+DIRECT_LOOP_FAILURE: {:read_failed, {:unknown, #Reference<0.1650947107.4118544386.51407>}}
+DIRECT_CLOSE_REASON: :ack_range_limit
+DIRECT_LOOP_FAILURE: {:read_failed, {:error, :closed}}
+DIRECT_CLOSE_REASON: :ack_range_limit
+DIRECT_ENDPOINT_STATS: %{
+  routes: 0,
+  admission_drops: 0,
+  retry_sent: 0,
+  last_error: :ack_range_limit,
+  retry_validated: 0
+}
+{"failure": "deadline", "bytes": {"1": 16384, "0": 206584, "3": 10, "4": 213873, "8": 209368, "12": 208408}, "fins": [1, 3], "termination": null, "termination_reason": null}
+Traceback (most recent call last):
+  File "/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/scripts/phase1/peer.py", line 72, in wait_for
+    await self.changed.wait()
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/locks.py", line 212, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/scripts/phase1/peer.py", line 159, in <module>
+    asyncio.run(run(args))
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/scripts/phase1/peer.py", line 93, in run
+    await p.wait_for(lambda: all(sid in p.finished for sid in values) and 1 in p.finished and 3 in p.finished)
+  File "/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/scripts/phase1/peer.py", line 69, in wait_for
+    async with asyncio.timeout(25):
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/timeouts.py", line 115, in __aexit__
+    raise TimeoutError from exc_val
+TimeoutError
+{"failure": "deadline", "bytes": {"1": 16384, "0": 230962, "3": 10, "4": 220195, "8": 224304, "12": 224262}, "fins": [1, 3], "termination": null, "termination_reason": null}
+Traceback (most recent call last):
+  File "/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/scripts/phase1/peer.py", line 72, in wait_for
+    await self.changed.wait()
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/locks.py", line 212, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/scripts/phase1/peer.py", line 159, in <module>
+    asyncio.run(run(args))
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/scripts/phase1/peer.py", line 93, in run
+    await p.wait_for(lambda: all(sid in p.finished for sid in values) and 1 in p.finished and 3 in p.finished)
+  File "/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/scripts/phase1/peer.py", line 69, in wait_for
+    async with asyncio.timeout(25):
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/timeouts.py", line 115, in __aexit__
+    raise TimeoutError from exc_val
+TimeoutError
+DIRECT_TWO_ECHO_RESULT: [1, 1]
+DIRECT_ENDPOINT_FINAL_STATS: %{
+  routes: 0,
+  admission_drops: 0,
+  retry_sent: 0,
+  last_error: :ack_range_limit,
+  retry_validated: 0
+}
+** (exit) exited in: GenServer.stop(#PID<0.181.0>, :normal, :infinity)
+    ** (EXIT) no process: the process is not alive or there's no process currently associated with the given name, possibly because its application isn't started
+    (elixir 1.18.4) lib/gen_server.ex:1089: GenServer.stop/3
+    /tmp/abyss-quic-direct-vufly79t.exs:91: (file)

@@ -209,6 +209,7 @@ defmodule Abyss.QUIC.Service do
   defp receive_loop(socket, endpoint, backend) do
     case :gen_udp.recv(socket, 0, :infinity) do
       {:ok, {ip, port, bytes}} ->
+        # TODO(upstream): gsmlg-dev/http_fetch#108
         case apply(Module.concat(backend, Endpoint), :receive_datagram, [
                endpoint,
                {ip, port},

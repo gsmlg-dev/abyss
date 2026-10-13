@@ -223,12 +223,18 @@ defmodule Abyss.UDPHostHardeningTest do
 
     Process.exit(held, :kill)
     assert :ok = Abyss.stop(unicast, 100)
+    broadcast_monitor = Process.monitor(broadcast_handler)
+    multicast_monitor = Process.monitor(multicast_handler)
     send(broadcast_handler, :reply)
     send(multicast_handler, :reply)
 
     replies = for _ <- 1..2, do: :gen_udp.recv(sender, 0, 1000)
     assert {:ok, {{127, 0, 0, 1}, broadcast_port, "broadcast"}} in replies
     assert {:ok, {{127, 0, 0, 1}, multicast_port, "multicast"}} in replies
+    # Wire arrival precedes the sender's telemetry update. Handler completion
+    # orders the accounting assertions after both transport calls returned.
+    assert_receive {:DOWN, ^broadcast_monitor, :process, ^broadcast_handler, _}
+    assert_receive {:DOWN, ^multicast_monitor, :process, ^multicast_handler, _}
     assert %{responses_total: 1, bytes_sent: 9} = Abyss.Telemetry.get_metrics(broadcast)
     assert %{responses_total: 1, bytes_sent: 9} = Abyss.Telemetry.get_metrics(multicast)
   end

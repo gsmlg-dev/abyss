@@ -1,0 +1,118 @@
+DIRECT_APPLICATION_STOP: {:error, :closed}
+DIRECT_APPLICATION_STOP: {:stop, {:write_failed, {:error, :closed}},
+ %{
+   local: %Quic.Runtime.StreamHandle{
+     connection: %Quic.Runtime.ConnectionHandle{
+       id: #PID<0.194.0>,
+       generation: #Reference<0.2402458732.2507669506.137972>
+     },
+     id: 1
+   },
+   pending: %{
+     %Quic.Runtime.StreamHandle{
+       connection: %Quic.Runtime.ConnectionHandle{
+         id: #PID<0.194.0>,
+         generation: #Reference<0.2402458732.2507669506.137972>
+       },
+       id: 8
+     } => {<<3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, ...>>, false}
+   },
+   observer: nil,
+   streams: %{
+     %Quic.Runtime.StreamHandle{
+       connection: %Quic.Runtime.ConnectionHandle{
+         id: #PID<0.194.0>,
+         generation: #Reference<0.2402458732.2507669506.137972>
+       },
+       id: 0
+     } => :bidi,
+     %Quic.Runtime.StreamHandle{
+       connection: %Quic.Runtime.ConnectionHandle{
+         id: #PID<0.194.0>,
+         generation: #Reference<0.2402458732.2507669506.137972>
+       },
+       id: 4
+     } => :bidi,
+     %Quic.Runtime.StreamHandle{
+       connection: %Quic.Runtime.ConnectionHandle{
+         id: #PID<0.194.0>,
+         generation: #Reference<0.2402458732.2507669506.137972>
+       },
+       id: 8
+     } => :bidi,
+     %Quic.Runtime.StreamHandle{
+       connection: %Quic.Runtime.ConnectionHandle{
+         id: #PID<0.194.0>,
+         generation: #Reference<0.2402458732.2507669506.137972>
+       },
+       id: 12
+     } => :bidi
+   }
+ }}
+DIRECT_APPLICATION_STOP: {:error, :closed}
+{"status": "PASS", "mode": "collect", "bytes": 1048576, "receive_after_fin": true, "digest": "c5a3e27d1ed0f894843bca3a5473c4bf0f76a19b6830a2e491292591613a12bf"}
+{"observations": {"retry_received": 0, "retry_dropped": 0, "token_changed": false}, "scenario": "normal"}
+DIRECT_ENGINE_PEER_RESULT: {"collect", 0}
+{"failure": "deadline", "bytes": {"1": 16384, "0": 199841, "3": 10, "4": 199779, "8": 199251, "12": 197858}, "fins": [1, 3], "termination": null, "termination_reason": null}
+Traceback (most recent call last):
+  File "/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/scripts/phase1/peer.py", line 72, in wait_for
+    await self.changed.wait()
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/locks.py", line 212, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/scripts/phase1/peer.py", line 159, in <module>
+    asyncio.run(run(args))
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/scripts/phase1/peer.py", line 93, in run
+    await p.wait_for(lambda: all(sid in p.finished for sid in values) and 1 in p.finished and 3 in p.finished)
+  File "/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/scripts/phase1/peer.py", line 69, in wait_for
+    async with asyncio.timeout(25):
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/timeouts.py", line 115, in __aexit__
+    raise TimeoutError from exc_val
+TimeoutError
+DIRECT_ENGINE_PEER_RESULT: {"echo", 1}
+{"failure": "deadline", "bytes": {"1": 16384, "0": 206669, "3": 10, "4": 200809, "8": 205465, "12": 205877}, "fins": [1, 3], "termination": null, "termination_reason": null}
+Traceback (most recent call last):
+  File "/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/scripts/phase1/peer.py", line 72, in wait_for
+    await self.changed.wait()
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/locks.py", line 212, in wait
+    await fut
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/scripts/phase1/peer.py", line 159, in <module>
+    asyncio.run(run(args))
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/scripts/phase1/peer.py", line 93, in run
+    await p.wait_for(lambda: all(sid in p.finished for sid in values) and 1 in p.finished and 3 in p.finished)
+  File "/home/gao/Workspace/gsmlg-dev/abyss/.trees/udp-runtime/scripts/phase1/peer.py", line 69, in wait_for
+    async with asyncio.timeout(25):
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/gao/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/asyncio/timeouts.py", line 115, in __aexit__
+    raise TimeoutError from exc_val
+TimeoutError
+DIRECT_ENGINE_PEER_RESULT: {"echo", 1}
+DIRECT_ENGINE_SIMULTANEOUS_RESULTS: [1, 1, 0]

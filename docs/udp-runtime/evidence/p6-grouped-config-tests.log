@@ -1,0 +1,24 @@
+Compiling 5 files (.ex)
+Compiling 1 file (.ex)
+Generated abyss app
+Running ExUnit with seed: 963443, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+.......
+19:36:39.363 [error] GenServer #PID<0.315.0> terminating
+** (stop) {:writer_exit, :killed}
+Last message: {:EXIT, #PID<0.317.0>, :killed}
+State: %{module: Abyss.DispatcherTestCallback, monitors: %{}, send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.317.0>, generation: #Reference<0.314867344.4118544385.139846>, admission: #PID<0.316.0>, io_backend: :gen_udp}, writer: #PID<0.317.0>, admission: #PID<0.316.0>, generation: #Reference<0.314867344.4118544385.139846>, listener: nil, routes: %{}, callback_state: %{started: 0, send_fun: #Function<2.54173241/2 in Abyss.Dispatcher.init/1>}}
+.....................
+19:36:39.708 [info] The function passed as a handler with ID #Reference<0.314867344.4118544385.140416> is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+...........
+19:36:40.060 [error] GenServer #PID<0.602.0> terminating
+** (stop) {:runtime_exit, :killed}
+Last message: {:EXIT, #PID<0.604.0>, :killed}
+State: %{runtime: #PID<0.604.0>, mode: :running, handlers: %{}, dropped: 0, starter: #PID<0.603.0>, generation: #Reference<0.314867344.4118544389.140668>, transport: Abyss.RuntimeBlockingTransport, server_pid: #PID<0.600.0>, memberships: [], desired_key: {#PID<0.600.0>, "listener-1"}, dispatcher: nil, listener_id: "listener-1", listener_socket: #Port<0.31>, local_info: {{127, 0, 0, 1}, 40621}, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.RuntimeBlockingTransport, transport_options: [ip: {127, 0, 0, 1}], handler_module: nil, datagram_options: %{io_backend: :gen_udp, runtime_options: [send_timeout: 10], execution: :per_datagram, datagram_handler: Abyss.RuntimeTestHandler, route_key: nil, required_capabilities: [], required_metadata: []}, handler_options: [owner: #PID<0.599.0>], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 1, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, listener_span: %Abyss.Telemetry{span_name: :listener, telemetry_span_context: #Reference<0.314867344.4118544389.140682>, start_time: -576460749758239037, start_metadata: %{broadcast: false, handler: nil, server_pid: #PID<0.600.0>, listener_id: "listener-1", listener_socket: #Port<0.31>, local_info: {{127, 0, 0, 1}, 40621}, telemetry_span_context: #Reference<0.314867344.4118544389.140682>, sampled: true}}, runtime_send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.606.0>, generation: #Reference<0.314867344.4118544389.140668>, admission: #PID<0.605.0>, io_backend: :gen_udp}, native_select: nil, armed: true, reservation: nil, drain_waiter: nil, received: 1, active_high_water: 0, retained_high_water: 0}
+..............
+Finished in 1.5 seconds (0.6s async, 0.8s sync)
+53 tests, 0 failures

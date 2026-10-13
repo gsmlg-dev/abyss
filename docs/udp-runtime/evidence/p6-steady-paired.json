@@ -1,0 +1,75 @@
+{
+  "runtime": "Elixir 1.18.4 / OTP 27 / ERTS 15.2.7.4",
+  "schedulers": 8,
+  "workload": "legacy; 500 warmup + 3000 sequential 64-byte request/replies",
+  "samples": [
+    {
+      "label": "baseline",
+      "repetition": 1,
+      "log": "p6-steady-paired-baseline-1.log",
+      "throughput_per_second": 9655.864972384226,
+      "latency_median_us": 101.0,
+      "latency_p95_us": 140.0,
+      "latency_p99_us": 159.0
+    },
+    {
+      "label": "candidate",
+      "repetition": 1,
+      "log": "p6-steady-paired-candidate-1.log",
+      "throughput_per_second": 9193.598803606343,
+      "latency_median_us": 107.0,
+      "latency_p95_us": 147.0,
+      "latency_p99_us": 166.0
+    },
+    {
+      "label": "baseline",
+      "repetition": 2,
+      "log": "p6-steady-paired-baseline-2.log",
+      "throughput_per_second": 9834.35665277837,
+      "latency_median_us": 100.0,
+      "latency_p95_us": 138.0,
+      "latency_p99_us": 159.0
+    },
+    {
+      "label": "candidate",
+      "repetition": 2,
+      "log": "p6-steady-paired-candidate-2.log",
+      "throughput_per_second": 9048.081505118198,
+      "latency_median_us": 108.0,
+      "latency_p95_us": 153.0,
+      "latency_p99_us": 171.0
+    },
+    {
+      "label": "baseline",
+      "repetition": 3,
+      "log": "p6-steady-paired-baseline-3.log",
+      "throughput_per_second": 9855.939024590567,
+      "latency_median_us": 101.0,
+      "latency_p95_us": 136.0,
+      "latency_p99_us": 153.0
+    },
+    {
+      "label": "candidate",
+      "repetition": 3,
+      "log": "p6-steady-paired-candidate-3.log",
+      "throughput_per_second": 9599.385639319084,
+      "latency_median_us": 103.0,
+      "latency_p95_us": 136.0,
+      "latency_p99_us": 151.0
+    }
+  ],
+  "median_of_three": {
+    "baseline": {
+      "throughput_per_second": 9834.35665277837,
+      "latency_median_us": 101.0,
+      "latency_p95_us": 138.0,
+      "latency_p99_us": 159.0
+    },
+    "candidate": {
+      "throughput_per_second": 9193.598803606343,
+      "latency_median_us": 107.0,
+      "latency_p95_us": 147.0,
+      "latency_p99_us": 166.0
+    }
+  }
+}

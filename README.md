@@ -36,6 +36,14 @@ packet gets an execution process; `{:continue, state}` keeps that process alive
 without automatically routing the sender's next packet to it. Stateless handlers
 should finish with `{:close, state}`.
 
+## Datagram API
+
+This API is the unreleased 0.8 candidate on `codex/udp-runtime`. Publication is blocked by the existing QUIC consumer gate; see [acceptance](docs/udp-runtime/acceptance.md).
+
+Use `datagram_handler: Module` with `Abyss.DatagramHandler` for immutable datagrams and finite effects. Select `execution: :per_datagram | :endpoint | :keyed` independently of broadcast/multicast addressing. `Abyss.Endpoint` provides capabilities, send/reply receipts, memberships, pause/resume and deadline-based stop. See the runnable [datagram echo](example/datagram_echo.exs), [migration/backend matrix](docs/udp-runtime/migration.md) and [runtime contract](docs/udp-runtime/design.md).
+
+Ordinary UDP has no Rust/Cargo or QUIC dependency. DHCP native users must explicitly add the [unpublished optional package](packages/abyss_dhcp_socket/README.md); the old facade delegates when it is installed. Linux direct native sockets provide verified destination/interface metadata and strict original-socket replies on OTP 27/28.
+
 ## Quick Start
 
 ### Basic Echo Server
@@ -113,7 +121,7 @@ Starts an Abyss server with the given options.
 ```
 
 **Options:**
-- `handler_module` (required) - Module implementing `Abyss.Handler` behavior
+- `handler_module` - Legacy module implementing `Abyss.Handler`; select this, `datagram_handler`, or a dispatcher
 - `port` - UDP port to listen on (default: 4000)
 - `num_listeners` - Number of listener processes (default: 100)
 - `num_connections` - Max concurrent connections (default: 16_384)
@@ -122,7 +130,7 @@ Starts an Abyss server with the given options.
 - `shutdown_timeout` - Graceful shutdown timeout (default: 15_000ms)
 - `max_packet_size` - Maximum packet size in bytes (default: 8192)
 - `broadcast` - Enable broadcast mode (default: false)
-- `datagram_dispatcher` - Optional module implementing `Abyss.DatagramDispatcher` (unicast only)
+- `datagram_dispatcher` - Optional module implementing `Abyss.DatagramDispatcher` (broadcast mode is rejected; multicast with `broadcast: false` is supported)
 - `dispatcher_options` - Options passed to the dispatcher callback (default: `[]`)
 - `dispatcher_max_queue` - Maximum queued dispatcher sends (default: 128)
 - `dispatcher_max_queue_bytes` - Maximum queued dispatcher bytes (default: 1,048,576)

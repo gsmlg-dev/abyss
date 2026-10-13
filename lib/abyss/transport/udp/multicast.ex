@@ -31,7 +31,11 @@ defmodule Abyss.Transport.UDP.Multicast do
   def listen(port, options), do: open(port, options)
 
   def open(port, options) do
-    with {:ok, options} <- filtering_options(options),
+    with {:ok, backend} <- Core.effective_backend(options),
+         options = [
+           {:inet_backend, backend} | Enum.reject(options, &match?({:inet_backend, _}, &1))
+         ],
+         {:ok, options} <- filtering_options(options),
          {:ok, normalized} <- Core.normalize_options(@defaults, options),
          do: Core.open_socket(port, normalized)
   end
@@ -71,8 +75,6 @@ defmodule Abyss.Transport.UDP.Multicast do
         {:error, {:invalid_option, :strict_group_filter, value}}
     end
   end
-
-  defp filtering_options(options), do: {:error, {:invalid_options, options}}
 
   @doc "Canonicalize a group and its receiving interface; invalid selectors fail explicitly."
   def normalize_membership({group, selector}) do

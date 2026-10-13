@@ -1,0 +1,22 @@
+     Locking 12 packages to latest compatible versions
+   Compiling libc v0.2.186
+   Compiling socket2 v0.5.10
+   Compiling abyss_dhcp_arp_tests v0.0.0 (/tmp/abyss-dhcp-arp.QeUMvz)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.98s
+     Running unittests src/lib.rs (/tmp/abyss-dhcp-arp.QeUMvz/target/debug/deps/abyss_dhcp_arp_tests-92a3dac72002d271)
+
+running 5 tests
+test arp::tests::test_parse_reply_ignores_different_ip ... ok
+test arp::tests::test_parse_reply_rejects_short_frame ... ok
+test arp::tests::test_parse_reply_detects_conflict_from_request ... ok
+test arp::tests::test_parse_reply_detects_conflict ... ok
+test arp::tests::test_build_probe_layout ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests abyss_dhcp_arp_tests
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

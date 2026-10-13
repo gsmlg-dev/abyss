@@ -1,8 +1,8 @@
 defmodule Abyss.DhcpSocket.Native do
   @moduledoc """
-  Production DHCP socket implementation via Rust NIF.
+  Compatibility facade for the optional `abyss_dhcp_socket` package.
 
-  Loads the `dhcp_socket` Rust crate compiled by Rustler. Provides a
+  Install the optional package explicitly to use this feature. Provides a
   broadcast-capable UDP socket bound to the interface (`SO_BINDTODEVICE` on
   Linux, `IP_BOUND_IF` on FreeBSD) and raw ARP socket support for Duplicate
   Address Detection (RFC 5227).
@@ -24,22 +24,28 @@ defmodule Abyss.DhcpSocket.Native do
   owner process died.
   """
 
-  use Rustler,
-    otp_app: :abyss,
-    crate: "dhcp_socket"
+  @implementation AbyssDhcpSocket.Native
 
-  @spec open(String.t(), pid()) :: {:ok, reference()} | {:error, term()}
-  def open(_interface, _owner), do: :erlang.nif_error(:nif_not_loaded)
+  @spec open(String.t(), pid()) :: reference() | {:error, term()}
+  def open(interface, owner), do: invoke(:open, [interface, owner])
 
   @spec send_broadcast(reference(), iodata()) :: :ok | {:error, term()}
-  def send_broadcast(_socket, _packet), do: :erlang.nif_error(:nif_not_loaded)
+  def send_broadcast(socket, packet), do: invoke(:send_broadcast, [socket, packet])
 
   @spec send_unicast(reference(), :inet.ip4_address(), iodata()) :: :ok | {:error, term()}
-  def send_unicast(_socket, _dest_ip, _packet), do: :erlang.nif_error(:nif_not_loaded)
+  def send_unicast(socket, dest_ip, packet), do: invoke(:send_unicast, [socket, dest_ip, packet])
 
   @spec send_arp_probe(reference(), :inet.ip4_address()) :: :ok | {:error, term()}
-  def send_arp_probe(_socket, _target_ip), do: :erlang.nif_error(:nif_not_loaded)
+  def send_arp_probe(socket, target_ip), do: invoke(:send_arp_probe, [socket, target_ip])
 
-  @spec close(reference()) :: :ok
-  def close(_socket), do: :erlang.nif_error(:nif_not_loaded)
+  @spec close(reference()) :: :ok | {:error, term()}
+  def close(socket), do: invoke(:close, [socket])
+
+  defp invoke(function, arguments) do
+    case Code.ensure_loaded(@implementation) do
+      {:module, @implementation} -> apply(@implementation, function, arguments)
+      {:error, :nofile} -> {:error, {:missing_optional_dependency, :abyss_dhcp_socket}}
+      {:error, reason} -> {:error, {:optional_dependency_load_failed, :abyss_dhcp_socket, reason}}
+    end
+  end
 end

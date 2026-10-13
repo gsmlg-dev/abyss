@@ -46,7 +46,6 @@ defmodule Abyss.MixProject do
     [
       {:telemetry, "~> 1.0"},
       {:telemetry_metrics, "~> 1.0"},
-      {:rustler, "~> 0.34", runtime: false},
       {:mox, "~> 1.0", only: :test},
       {:ex_dns, path: "../ex_dns", only: [:dev, :test], runtime: false, optional: true},
       {:dhcp_ex, path: "../ex_dhcp", only: [:dev, :test], runtime: false, optional: true},
@@ -61,7 +60,6 @@ defmodule Abyss.MixProject do
     [
       {:telemetry, "~> 1.0"},
       {:telemetry_metrics, "~> 1.0"},
-      {:rustler, "~> 0.34", runtime: false},
       {:mox, "~> 1.0", only: :test},
       {:ex_dns, "~> 0.3", only: [:dev, :test], runtime: false, optional: true},
       {:dhcp_ex, "~> 0.3", only: [:dev, :test], runtime: false, optional: true},
@@ -95,8 +93,7 @@ defmodule Abyss.MixProject do
       licenses: ["MIT"],
       files:
         ~w(lib LICENSE mix.exs README.md docs/dispatcher.md docs/quic-service.md docs/udp-broadcast-multicast.md
-           native/dhcp_socket/src native/dhcp_socket/Cargo.toml
-           native/dhcp_socket/Cargo.lock native/dhcp_socket/.cargo),
+           docs/udp-runtime/design.md docs/udp-runtime/migration.md),
       links: %{
         Github: @source_url,
         Changelog: "https://hexdocs.pm/abyss/changelog.html"
@@ -111,7 +108,9 @@ defmodule Abyss.MixProject do
         "README.md",
         "docs/dispatcher.md",
         "docs/quic-service.md",
-        "docs/udp-broadcast-multicast.md"
+        "docs/udp-broadcast-multicast.md",
+        "docs/udp-runtime/design.md",
+        "docs/udp-runtime/migration.md"
       ],
       source_url: @source_url,
       source_ref: @version
