@@ -1,5 +1,17 @@
 # UDP runtime execution progress
 
+## Current status — read this first
+
+Implemented P0–P5; local P6 tests, examples, Linux matrix, optional packaging and controlled performance completed. Commit `e12045162438cb9df43bd2da868d27d27e75bca2` is pushed to `origin/codex/udp-runtime`; main remains baseline and package version remains 0.7.0. User input files are preserved/untracked.
+
+- G0–G7 PASS on declared Linux OTP27/28 environments. Final suites each 646 tests + 3 doctests, 0 failures, seed 953627.
+- G8 BLOCKED: unchanged concurrent QUIC baseline/candidate/direct-engine consumers fail `:ack_range_limit`; published 0.21.5 also fails. Upstream https://github.com/gsmlg-dev/http_fetch/issues/108 is OPEN Bug/internal request/severity blocker. No local workaround/lock upgrade.
+- G9 initial remote portable FAIL (unconfigured127.0.0.2macOS loopback peer, exactly3bind failures); minimal explicit fixture-owned CI alias setup/always cleanup repair assigned to p1. Remote matrix: regression https://github.com/gsmlg-dev/abyss/actions/runs/38395163655 (Linux OTP27/28 +macOS portable); wire/package https://github.com/gsmlg-dev/abyss/actions/runs/38395163332 (18 wire combinations + optional DHCP). Source SHA is e120451. Actual minimum Elixir claim remains explicitly unverified.
+- G10 BLOCKED solely on required upstream TODO's new Credo TagTODO finding:baseline83/current84; all other source findings/format/compile/Dialyzer/tests pass. Final QA/example logs and151-file source hash manifest checked.
+- Controlled paired legacy throughput medians 9834→9194/s (−6.5%), median latency 101→107us; new policies 3198/3546/3111/s, overhead reported. No whole-VM bound or throughput improvement claim.
+
+Exact next action: review p1 macOS-only loopback fixture workflow repair, scoped verify/commit/push, dispatch regression workflow against that source, collect final actual macOS result, reconcile acceptance.md and commit/push evidence. Then stop blocked release work until upstream 108 is fixed and dependency updated; rerun unchanged G8 consumers before bump/tag/publish 0.8.0. Optional DHCP package remains unpublished.
+
 ## Source and authorization
 
 - Baseline: `9b710e6480900e16e304f40e63623aff8c922e19`, main.
@@ -33,13 +45,14 @@ Legacy Abyss.start_link/child_spec/suspend/resume/stop/join/leave/memberships; c
 - [x] P4 direct socket metadata/strict egress/wire fixtures (18 OTP27/28 × backend × policy runs PASS)
 - [x] P5 optional DHCP extraction/clean consumers (OTP27/28 core no-Rust and optional 11 wire gates PASS)
 - [ ] P6 QA/matrices/consumers/docs/performance
-- [ ] Commit/push/release and published consumer verification
+- [x] Commit/push tested candidate (`e120451` on `codex/udp-runtime`)
+- [ ] Resolve upstream108, accept G8/G10, release0.8.0 and verify published consumer
 
 ## Evidence and reproduction
 
 Run in primary checkout: `devenv shell -- mix test --include integration --no-cover` and `devenv shell -- mix credo --strict`; raw baseline logs copied into `evidence/`. Strict Credo baseline has 15 warnings, 15 refactor findings, 48 readability findings, 5 design suggestions; unrelated cleanup is out of scope. Runtime identity in `evidence/baseline-runtime.log`. Root and examples lockfiles inspected; optional QUIC consumer versions remain locked.
 
-## Current work / exact next action
+## Historical work checkpoints
 
 Baseline suite PASS: 3 doctests, 573 tests, zero failures, exit 0. Strict Credo FAIL pre-existing, exit 30, 83 findings. Implement P1 regressions and contract design. Keep this document updated at every checkpoint; do not describe historical logs as new acceptance. All G0–G10 currently pending.
 
@@ -72,12 +85,17 @@ Checkpoint: P3 protected-work/lifecycle tests24 PASS; zero-input runtime death n
 - Actual runtime stress: all3 policies ×5epochs PASS, baseline/final processes116, bounded input8/7160bytes and egress4/2048bytes; offered1320 UDP/policy, admitted40, drops1280, direct180/rejected160, actual replies60. These are host-managed bounds and sampled high-water values.
 - **G8 / release BLOCKED:** unchanged simultaneous optional QUIC consumer fails on baseline and candidate; direct `Quic.listen` reproduces `:ack_range_limit`. Runtime tracing attributes it to `Quic.Recovery.note_received/3`, application packet2803, retained256 ranges/max256. Upstream package source `gsmlg-dev/http_fetch/apps/elixir_quic`. Agent p1 owns latest published consumer check, typed upstream Bug and runnable reproducer. No dependency workaround or changed consumer workload authorized.
 - Agent p2 owns bounded Writer-death diagnostics and removal of temporary test instrumentation. Root owns final QA/docs/controlled paired performance and branch commit/push. Release cannot proceed until genuine upstream resolution and mandatory unchanged consumers pass.
-- Exact next actions: finish diagnostics, freeze implementation, run final full QA and controlled paired measurements, record G0–G10 in acceptance.md, file/link upstream blocker/TODO, commit and push tested checkpoint. Preserve all user-supplied documents. Do not bump/publish0.8.0 while G8 unaccepted.
+- Exact next actions: finish diagnostics, freeze implementation, run final full QA and controlled paired measurements, record G0–G10 in acceptance.md, file/link upstream blocker/TODO, commit and push tested checkpoint. Preserve all user-supplied documents. Do not bump/publish 0.8.0 while G8 unaccepted.
 
 
-Checkpoint: upstream blocker is now filed/verified OPEN Bug/internal request as gsmlg-dev/http_fetch#108. Latest0.21.5 disposable unchanged workload also FAIL; direct runnable `scripts/phase1/ack_range_repro.exs` preserves original peer deadline and engine-only reproduction. Added required upstream TODO at engine ingress. No optional-consumer locks changed. Latest final-format/dev+test compile/Dialyzer/diff all PASS (`p6-final-qa.log`); Credo83/83/new0 (`p6-credo-frozen-comparison.log`). OTP27 frozen953627646+3 PASS. OTP28 same run exposed two test synchronization gaps, agent repairing barriers with unchanged loads/quotas/assertions, no production workaround. Serial3paired steady baseline/current medians9834/9194exchanges per second, latency101/107us; raw6logs and JSON preserved,6.5% throughput regression reported (older concurrent samples not comparisons). Root acceptance draft created; controlled new-policy samples/full reruns/branch CI remain.
+Checkpoint: upstream blocker is now filed/verified OPEN Bug/internal request as gsmlg-dev/http_fetch#108. Latest0.21.5 disposable unchanged workload also FAIL; direct runnable `scripts/phase1/ack_range_repro.exs` preserves original peer deadline and engine-only reproduction. Added required upstream TODO at engine ingress. No optional-consumer locks changed. Latest final-format/dev+test compile/Dialyzer/diff all PASS (`p6-final-qa.log`); Credo83/83/new0 (`p6-credo-frozen-comparison.log`). OTP27 frozen953627646+3 PASS. OTP28 same run exposed two test synchronization gaps, agent repairing barriers with unchanged loads/quotas/assertions, no production workaround. Serial3paired steady baseline/current medians 9834/9194exchanges per second, latency 101/107us; raw6logs and JSON preserved,6.5% throughput regression reported (older concurrent samples not comparisons). Root acceptance draft created; controlled new-policy samples/full reruns/branch CI remain.
 
 
 Selected-source checkpoint: final full OTP27/28 seed953627 each646tests+3doctests PASS (`p6-full-otp27-selected.log`, OTP28 equivalent). Two test-only synchronization repairs validated40checks each runtime, unchanged payloads/quotas/timeouts. Mandatory TODO at engine ingress adds one Credo TagTODO finding:baseline83/current84/new1; no suppression. G10 BLOCKED until upstream108/TODO resolved, while format/dev+test strictcompile/Dialyzer/diff PASS. Controlled new-policy3samples each PASS:per_datagram3198/s,endpoint3546/s,keyed3111/s, medians304/276/314us; material overhead versus legacy reported, no improvement claim. Initial fresh-VM benchmark mode parse failed before traffic because atom was not loaded; explicit finite policy map fixed script; all9samples now PASS. Acceptance.md/performance.md completed for local gates; next commit/push candidate and dispatch regression+wire workflows for actual macOS/remote selected-source evidence. Release still blocked; version unchanged0.7.0.
 
-Commit checkpoint: selected-source151file SHA256manifest verified; final examples and native IPv4/IPv6 strict reply smoke PASS. Raw evidence tool formatting preserved through scoped .gitattributes (source whitespace checks unchanged), staged diff check PASS. User inputs/deps/build/native artifacts excluded from staging. Preparing authorized branch commit/push; upstream108still OPEN and release BLOCKED.
+Commit checkpoint: selected-source151-file SHA256manifest verified; final examples and native IPv4/IPv6 strict reply smoke PASS. Raw evidence tool formatting preserved through scoped .gitattributes (source whitespace checks unchanged), staged diff check PASS. User inputs/deps/build/native artifacts excluded from staging. Preparing authorized branch commit/push; upstream108still OPEN and release BLOCKED.
+
+
+Remote checkpoint: network/package run38395163332 all19jobs PASS, regression run38395163655 Linux OTP27/28 PASS; macOS192tests/3wrong-IP bind failures because127.0.0.2not assigned. No assertion weakening/skips. p1 owns .github/workflows/udp-regressions.yml explicit disposable-runner loopbackalias setup/cleanup only. Root owns docs/remote evidence. G9FAILuntil actual rerun succeeds; release G8/G10still upstream-blocked.
+
+macOS fixture repair ready:16workflow lines, explicit lo0 owned alias setup/presence verification and always cleanup. YAML/shell/ownership failure simulations PASS, all original test commands/Linux steps unchanged; developer host interfaces untouched. Root committing/pushing repair and dispatching actual macOS matrix, no release dispatch.

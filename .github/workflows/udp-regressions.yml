@@ -41,6 +41,19 @@ jobs:
           key: udp-${{ runner.os }}-${{ runner.arch }}-otp${{ matrix.otp }}-elixir${{ matrix.elixir }}-${{ hashFiles('mix.lock') }}
       - name: Fetch locked dependencies
         run: mix deps.get
+      - name: Create macOS wrong-peer loopback fixture
+        if: runner.os == 'macOS'
+        id: macos_loopback_fixture
+        run: |
+          loopback_state="$(ifconfig lo0)"
+          if awk '$1 == "inet" && $2 == "127.0.0.2" { found = 1 } END { exit !found }' <<< "$loopback_state"; then
+            echo '::error::127.0.0.2 already exists on lo0; refusing to adopt a pre-existing alias'
+            exit 1
+          fi
+          sudo ifconfig lo0 inet 127.0.0.2 netmask 255.0.0.0 alias
+          echo 'created=true' >> "$GITHUB_OUTPUT"
+          loopback_state="$(ifconfig lo0)"
+          awk '$1 == "inet" && $2 == "127.0.0.2" { found = 1 } END { exit !found }' <<< "$loopback_state"
       - name: Portable handler, admission, client and option regressions
         run: |
           mix test \
@@ -63,6 +76,9 @@ jobs:
             test/abyss/transport/udp/options_regression_test.exs \
             test/abyss/transport/udp/core_test.exs \
             --cover --export-coverage udp-portable
+      - name: Remove owned macOS loopback fixture
+        if: always() && runner.os == 'macOS' && steps.macos_loopback_fixture.outputs.created == 'true'
+        run: sudo ifconfig lo0 inet 127.0.0.2 -alias
       - name: Linux multicast, packet integrity and host lifecycle regressions
         if: runner.os == 'Linux'
         run: |
