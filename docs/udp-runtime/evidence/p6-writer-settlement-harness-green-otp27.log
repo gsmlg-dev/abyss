@@ -1,0 +1,23 @@
+✨ devenv 2.2.2 is out of date. Please update to 2.4.0: https://devenv.sh/getting-started/#installation
+    _    _                   
+   / \  | |__  _   _ ___ ___ 
+  / _ \ | '_ \| | | / __/ __|
+ / ___ \| |_) | |_| \__ \__ \
+/_/   \_\_.__/ \__, |___/___/
+               |___/         
+Cover compiling modules ...
+Running ExUnit with seed: 449854, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+......
+20:52:50.792 [error] GenServer #PID<0.470.0> terminating
+** (stop) {:runtime_exit, :killed}
+Last message: {:EXIT, #PID<0.472.0>, :killed}
+State: %{runtime: #PID<0.472.0>, mode: :running, handlers: %{}, dropped: 0, starter: #PID<0.471.0>, generation: #Reference<0.657778725.2519728133.180522>, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.RuntimeBlockingTransport, transport_options: [ip: {127, 0, 0, 1}], handler_module: nil, datagram_options: %{io_backend: :gen_udp, datagram_handler: Abyss.RuntimeTestHandler, runtime_options: [send_timeout: 10], required_capabilities: [], required_metadata: [], route_key: nil, execution: :per_datagram}, handler_options: [owner: #PID<0.467.0>], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 1, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, server_pid: #PID<0.468.0>, listener_socket: #Port<0.27>, memberships: [], dispatcher: nil, transport: Abyss.RuntimeBlockingTransport, local_info: {{127, 0, 0, 1}, 49515}, reservation: nil, listener_span: %Abyss.Telemetry{span_name: :listener, telemetry_span_context: #Reference<0.657778725.2519728133.180533>, start_time: -576460749055090816, start_metadata: %{broadcast: false, handler: nil, server_pid: #PID<0.468.0>, listener_socket: #Port<0.27>, local_info: {{127, 0, 0, 1}, 49515}, listener_id: "listener-1", telemetry_span_context: #Reference<0.657778725.2519728133.180533>, sampled: true}}, retained_high_water: 0, received: 1, listener_id: "listener-1", runtime_send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.474.0>, generation: #Reference<0.657778725.2519728133.180522>, admission: #PID<0.473.0>, io_backend: :gen_udp}, native_select: nil, armed: true, desired_key: {#PID<0.468.0>, "listener-1"}, drain_waiter: nil, active_high_water: 0}
+................
+Finished in 1.9 seconds (0.00s async, 1.9s sync)
+22 tests, 0 failures
+
+Exporting cover results ...
+
+Run "mix test.coverage" once all exports complete

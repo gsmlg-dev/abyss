@@ -1,105 +1,109 @@
 {
+  "runtime": "Elixir1.18.4/OTP27/ERTS15.2.7.4",
+  "schedulers": 8,
+  "workload": "500warmup/3000sequential64-byte request/replies",
+  "source_manifest_sha256": "418b001f5b061c41e1d22d917b401a11922ff40f2738f454bf70f2bab9120e8f",
   "samples": [
     {
       "mode": "per_datagram",
       "repetition": 1,
       "log": "p6-steady-controlled-per_datagram-1.log",
-      "throughput_per_second": 3197.9021761724307,
-      "latency_median_us": 304.0,
-      "latency_p95_us": 424.0,
-      "latency_p99_us": 486.0
+      "throughput_per_second": 3392.5675629830166,
+      "latency_median_us": 285.0,
+      "latency_p95_us": 396.0,
+      "latency_p99_us": 453.0
     },
     {
       "mode": "per_datagram",
       "repetition": 2,
       "log": "p6-steady-controlled-per_datagram-2.log",
-      "throughput_per_second": 3299.4443735674913,
-      "latency_median_us": 292.0,
-      "latency_p95_us": 411.0,
-      "latency_p99_us": 471.0
+      "throughput_per_second": 3173.5016840715602,
+      "latency_median_us": 305.0,
+      "latency_p95_us": 429.0,
+      "latency_p99_us": 502.0
     },
     {
       "mode": "per_datagram",
       "repetition": 3,
       "log": "p6-steady-controlled-per_datagram-3.log",
-      "throughput_per_second": 2954.4977796949183,
-      "latency_median_us": 331.0,
-      "latency_p95_us": 464.0,
-      "latency_p99_us": 524.0
+      "throughput_per_second": 3317.4868046962342,
+      "latency_median_us": 294.0,
+      "latency_p95_us": 395.0,
+      "latency_p99_us": 447.0
     },
     {
       "mode": "endpoint",
       "repetition": 1,
       "log": "p6-steady-controlled-endpoint-1.log",
-      "throughput_per_second": 3697.276832370398,
-      "latency_median_us": 264.0,
-      "latency_p95_us": 364.0,
-      "latency_p99_us": 411.0
+      "throughput_per_second": 3602.83326808202,
+      "latency_median_us": 270.0,
+      "latency_p95_us": 378.0,
+      "latency_p99_us": 434.0
     },
     {
       "mode": "endpoint",
       "repetition": 2,
       "log": "p6-steady-controlled-endpoint-2.log",
-      "throughput_per_second": 3192.0123083994613,
-      "latency_median_us": 308.0,
-      "latency_p95_us": 423.0,
-      "latency_p99_us": 483.0
+      "throughput_per_second": 3634.0510584173708,
+      "latency_median_us": 270.0,
+      "latency_p95_us": 371.0,
+      "latency_p99_us": 423.0
     },
     {
       "mode": "endpoint",
       "repetition": 3,
       "log": "p6-steady-controlled-endpoint-3.log",
-      "throughput_per_second": 3545.8687673969184,
-      "latency_median_us": 276.0,
-      "latency_p95_us": 378.0,
-      "latency_p99_us": 436.0
+      "throughput_per_second": 3568.7817249825425,
+      "latency_median_us": 274.0,
+      "latency_p95_us": 382.0,
+      "latency_p99_us": 435.0
     },
     {
       "mode": "keyed",
       "repetition": 1,
       "log": "p6-steady-controlled-keyed-1.log",
-      "throughput_per_second": 2787.5211967757673,
-      "latency_median_us": 349.0,
-      "latency_p95_us": 487.0,
-      "latency_p99_us": 563.0
+      "throughput_per_second": 3480.246123005819,
+      "latency_median_us": 280.0,
+      "latency_p95_us": 377.0,
+      "latency_p99_us": 422.0
     },
     {
       "mode": "keyed",
       "repetition": 2,
       "log": "p6-steady-controlled-keyed-2.log",
-      "throughput_per_second": 3478.8739580772494,
-      "latency_median_us": 279.0,
-      "latency_p95_us": 376.0,
-      "latency_p99_us": 440.0
+      "throughput_per_second": 3526.44954708633,
+      "latency_median_us": 276.0,
+      "latency_p95_us": 368.0,
+      "latency_p99_us": 413.0
     },
     {
       "mode": "keyed",
       "repetition": 3,
       "log": "p6-steady-controlled-keyed-3.log",
-      "throughput_per_second": 3111.432856316105,
-      "latency_median_us": 314.0,
-      "latency_p95_us": 435.0,
-      "latency_p99_us": 497.0
+      "throughput_per_second": 3433.2249197197575,
+      "latency_median_us": 281.0,
+      "latency_p95_us": 392.0,
+      "latency_p99_us": 454.0
     }
   ],
   "median_of_three": {
     "per_datagram": {
-      "throughput_per_second": 3197.9021761724307,
-      "latency_median_us": 304.0,
-      "latency_p95_us": 424.0,
-      "latency_p99_us": 486.0
+      "throughput_per_second": 3317.4868046962342,
+      "latency_median_us": 294.0,
+      "latency_p95_us": 396.0,
+      "latency_p99_us": 453.0
     },
     "endpoint": {
-      "throughput_per_second": 3545.8687673969184,
-      "latency_median_us": 276.0,
+      "throughput_per_second": 3602.83326808202,
+      "latency_median_us": 270.0,
       "latency_p95_us": 378.0,
-      "latency_p99_us": 436.0
+      "latency_p99_us": 434.0
     },
     "keyed": {
-      "throughput_per_second": 3111.432856316105,
-      "latency_median_us": 314.0,
-      "latency_p95_us": 435.0,
-      "latency_p99_us": 497.0
+      "throughput_per_second": 3480.246123005819,
+      "latency_median_us": 280.0,
+      "latency_p95_us": 377.0,
+      "latency_p99_us": 422.0
     }
   }
 }

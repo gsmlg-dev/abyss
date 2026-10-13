@@ -1,0 +1,38 @@
+✨ devenv 2.2.2 is out of date. Please update to 2.4.0: https://devenv.sh/getting-started/#installation
+    _    _                   
+   / \  | |__  _   _ ___ ___ 
+  / _ \ | '_ \| | | / __/ __|
+ / ___ \| |_) | |_| \__ \__ \
+/_/   \_\_.__/ \__, |___/___/
+               |___/         
+Compiling 2 files (.ex)
+Generated abyss app
+Cover compiling modules ...
+Running ExUnit with seed: 449854, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+......
+20:50:44.881 [error] GenServer #PID<0.493.0> terminating
+** (stop) {:runtime_exit, :killed}
+Last message: {:EXIT, #PID<0.495.0>, :killed}
+State: %{runtime: #PID<0.495.0>, mode: :running, handlers: %{}, dropped: 0, starter: #PID<0.494.0>, generation: #Reference<0.2034115228.3055812611.235677>, transport: Abyss.RuntimeBlockingTransport, dispatcher: nil, memberships: [], server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.RuntimeBlockingTransport, transport_options: [ip: {127, 0, 0, 1}], handler_module: nil, datagram_options: %{io_backend: :gen_udp, runtime_options: [send_timeout: 10], datagram_handler: Abyss.RuntimeTestHandler, execution: :per_datagram, route_key: nil, required_capabilities: [], required_metadata: []}, handler_options: [owner: #PID<0.490.0>], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 1, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, server_pid: #PID<0.491.0>, listener_socket: #Port<0.41>, local_info: {{127, 0, 0, 1}, 59191}, reservation: nil, listener_span: %Abyss.Telemetry{span_name: :listener, telemetry_span_context: #Reference<0.2034115228.3055812611.235691>, start_time: -576460748563307331, start_metadata: %{broadcast: false, handler: nil, server_pid: #PID<0.491.0>, listener_socket: #Port<0.41>, local_info: {{127, 0, 0, 1}, 59191}, listener_id: "listener-1", telemetry_span_context: #Reference<0.2034115228.3055812611.235691>, sampled: true}}, retained_high_water: 0, received: 1, listener_id: "listener-1", runtime_send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.497.0>, generation: #Reference<0.2034115228.3055812611.235677>, admission: #PID<0.496.0>, io_backend: :gen_udp}, native_select: nil, armed: true, desired_key: {#PID<0.491.0>, "listener-1"}, drain_waiter: nil, active_high_water: 0}
+......
+
+  1) test completed effects retain credit through settlement despite queued watchdog expiry (Abyss.DatagramRuntimeTest)
+     test/abyss/datagram_runtime_test.exs:424
+     ** (ArgumentError) errors were found at the given arguments:
+
+       * 1st argument: process is not suspended or is not alive
+
+     code: true = :erlang.resume_process(worker)
+     stacktrace:
+       (erts 15.2.7.4) :erlang.resume_process(#PID<0.586.0>)
+       test/abyss/datagram_runtime_test.exs:478: (test)
+
+.........
+Finished in 2.0 seconds (0.00s async, 2.0s sync)
+22 tests, 1 failure
+
+Exporting cover results ...
+
+Run "mix test.coverage" once all exports complete

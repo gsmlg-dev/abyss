@@ -1,14 +1,15 @@
 {
   "baseline_sha": "9b710e6480900e16e304f40e63623aff8c922e19",
   "branch": "codex/udp-runtime",
-  "implementation_manifest_sha256": "c30c3ba9289814f6c88a86332022f58b224bb106508c29cbe615be174410b2c7",
+  "implementation_manifest_sha256": "418b001f5b061c41e1d22d917b401a11922ff40f2738f454bf70f2bab9120e8f",
   "files": 151,
   "version": "0.7.0; unreleased 0.8 candidate",
   "otp27": "Elixir1.18.4/OTP27/ERTS15.2.7.4",
   "otp28": "Elixir1.18.5/OTP28/ERTS16.4.0.5",
   "minimum": "declared Elixir~>1.13 unchanged and unverified; native OTP27 Linux minimum tested",
   "quic_consumer_locks": "unchanged0.17.0; disposable0.21.4/0.21.5 checks failed; no dependency upgrade",
-  "application_source_commit": "e12045162438cb9df43bd2da868d27d27e75bca2",
-  "followup_change": "owned macOS loopback CI fixture and test-only idle synchronization; lib/config/package/UDP wire sources unchanged from e120451",
-  "test_followup_parent": "e79ffac1cd8d9b8c995889175dfef8eb842f723b; uncommitted idle-test bytes attributed by manifest"
+  "followup_change": "owned macOS CI loopback fixture, test-only idle synchronization, and completed-effects watchdog retirement with actual-helperDOWN regression",
+  "test_followup_parent": "e79ffac1cd8d9b8c995889175dfef8eb842f723b; uncommitted idle-test bytes attributed by manifest",
+  "production_followup_parent": "dc33e3e2ab42244b3718e69f12faddf368dd1f06; uncommitted runtime/test bytes attributed by manifest",
+  "application_source_base_commit": "e12045162438cb9df43bd2da868d27d27e75bca2"
 }

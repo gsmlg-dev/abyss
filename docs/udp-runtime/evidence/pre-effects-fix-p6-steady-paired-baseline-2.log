@@ -1,0 +1,23 @@
+STEADY_PASS: %{
+  count: 3000,
+  mode: "legacy",
+  warmup: 500,
+  payload_bytes: 64,
+  offered: :sequential_request_response,
+  throughput_per_second: 9834.35665277837,
+  latency_median_us: 100,
+  latency_p95_us: 138,
+  latency_p99_us: 159,
+  elapsed_us: 305053,
+  processes_before: 116,
+  processes_after_traffic: 122,
+  owner_mailbox_end: 0,
+  kernel_drops: :unmeasured
+}
+    warning: @behaviour Abyss.DatagramHandler does not exist (in module Abyss.SteadyDatagram)
+    │
+ 11 │ defmodule Abyss.SteadyDatagram do
+    │ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    │
+    └─ .trees/udp-runtime/scripts/udp/steady.exs:11: Abyss.SteadyDatagram (module)
+

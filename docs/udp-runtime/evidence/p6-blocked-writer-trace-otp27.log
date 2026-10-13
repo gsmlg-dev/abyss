@@ -1,0 +1,230 @@
+✨ devenv 2.2.2 is out of date. Please update to 2.4.0: https://devenv.sh/getting-started/#installation
+    _    _                   
+   / \  | |__  _   _ ___ ___ 
+  / _ \ | '_ \| | | / __/ __|
+ / ___ \| |_) | |_| \__ \__ \
+/_/   \_\_.__/ \__, |___/___/
+               |___/         
+Cover compiling modules ...
+Running ExUnit with seed: 449854, max_cases: 16
+Excluding tags: [:test, {:integration, true}, {:slow, true}]
+Including tags: [:writer_diagnostic]
+
+DIAG_RUNTIME_STATE: {-576460749637,
+ %{
+   #Reference<0.2967886124.3859546114.85982> => %{
+     phase: :callback,
+     current: #Reference<0.2967886124.3859546114.85982>,
+     effect_pid: nil,
+     watchdog: #Reference<0.2967886124.3859546114.85989>,
+     effect_result: nil,
+     callback_settled: false
+   }
+ }, %{}}
+DIAG_RUNTIME_STATE: {-576460749633,
+ %{
+   #Reference<0.2967886124.3859546114.85982> => %{
+     phase: :effects,
+     current: #Reference<0.2967886124.3859546114.85982>,
+     effect_pid: #PID<0.330.0>,
+     watchdog: #Reference<0.2967886124.3859546114.86004>,
+     effect_result: nil,
+     callback_settled: false
+   }
+ }, %{}}
+DIAG_RUNTIME_STATE: {-576460749633,
+ %{
+   #Reference<0.2967886124.3859546114.85982> => %{
+     phase: :effects,
+     current: #Reference<0.2967886124.3859546114.85982>,
+     effect_pid: #PID<0.330.0>,
+     watchdog: #Reference<0.2967886124.3859546114.86004>,
+     effect_result: nil,
+     callback_settled: true
+   }
+ }, %{}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749637,
+ {:"$gen_call",
+  {#PID<0.320.0>, [:alias | #Reference<0.0.40963.2967886124.3859611650.85976>]},
+  {:admit,
+   %Abyss.Datagram{
+     payload: "blocked-send",
+     peer: %{port: 37801, addr: {...}, ...},
+     local_endpoint: {{...}, ...},
+     destination: nil,
+     ...
+   }}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749637,
+ {[:alias | #Reference<0.0.41219.2967886124.3859611650.85977>],
+  {:ok, #Reference<0.2967886124.3859546114.85980>}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749637, {:ack, #PID<0.329.0>, {:ok, #PID<0.329.0>}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749637,
+ {[:alias | #Reference<0.0.41219.2967886124.3859611650.85986>], :ok}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749637,
+ {:initialized, #Reference<0.2967886124.3859546114.85982>,
+  #Reference<0.2967886124.3859546114.85982>}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749637,
+ {:invocation_result, #Reference<0.2967886124.3859546114.85982>,
+  #Reference<0.2967886124.3859546114.85982>, {:ok, [reply: <<0, 0, ...>>]}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749637,
+ {:code_server,
+  {:missing,
+   ~c"/nix/store/26gj9wfvmxvidli508rcksg7ykwzqd2d-elixir-1.18.4/lib/elixir/bin/../lib/elixir/ebin/Elixir.Inspect.Integer.beam",
+   #Reference<0.2967886124.3859546114.85991>}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749636, {:code_server, {:module, Inspect.Integer}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749635,
+ {:code_server,
+  {:missing,
+   ~c"/nix/store/26gj9wfvmxvidli508rcksg7ykwzqd2d-elixir-1.18.4/lib/elixir/bin/../lib/elixir/ebin/Elixir.Inspect.Map.beam",
+   #Reference<0.2967886124.3859546114.85996>}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749634, {:code_server, {:module, Inspect.Map}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749633,
+ {:io_reply, #Reference<0.2967886124.3859546114.86001>, :ok}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749633,
+ {:invocation_settled, #Reference<0.2967886124.3859546114.85982>,
+  #Reference<0.2967886124.3859546114.85982>}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749633,
+ {[:alias | #Reference<0.0.41219.2967886124.3859611650.86002>],
+  {:ok, #PID<0.330.0>}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749633,
+ {:io_reply, #Reference<0.2967886124.3859546114.86006>, :ok}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749633,
+ {:io_reply, #Reference<0.2967886124.3859546115.86152>, :ok}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749622,
+ {:effects_result, #Reference<0.2967886124.3859546114.85982>,
+  #Reference<0.2967886124.3859546114.85982>,
+  [unknown: #Reference<0.2967886124.3859546116.86096>], nil}}
+DIAG_RUNTIME_STATE: {-576460749622,
+ %{
+   #Reference<0.2967886124.3859546114.85982> => %{
+     phase: :effects,
+     current: #Reference<0.2967886124.3859546114.85982>,
+     effect_pid: #PID<0.330.0>,
+     watchdog: #Reference<0.2967886124.3859546114.86004>,
+     effect_result: {[unknown: #Reference<0.2967886124.3859546116.86096>], nil},
+     callback_settled: true
+   }
+ }, %{}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749622, {:EXIT, #PID<0.330.0>, :normal}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749622,
+ {:DOWN, #Reference<0.2967886124.3859546114.86003>, :process, #PID<0.330.0>,
+  :normal}}
+DIAG_RUNTIME_STATE: {-576460749622,
+ %{
+   #Reference<0.2967886124.3859546114.85982> => %{
+     phase: :effects,
+     current: #Reference<0.2967886124.3859546114.85982>,
+     effect_pid: #PID<0.330.0>,
+     watchdog: #Reference<0.2967886124.3859546114.86004>,
+     effect_result: {[unknown: #Reference<0.2967886124.3859546116.86096>], nil},
+     callback_settled: true
+   }
+ }, %{}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749622,
+ {:io_reply, #Reference<0.2967886124.3859546116.86114>, :ok}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749622,
+ {:io_reply, #Reference<0.2967886124.3859546115.86202>, :ok}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749621,
+ {:code_server,
+  {:missing,
+   ~c"/nix/store/26gj9wfvmxvidli508rcksg7ykwzqd2d-elixir-1.18.4/lib/elixir/bin/../lib/elixir/ebin/Elixir.Enumerable.Map.beam",
+   #Reference<0.2967886124.3859546115.86203>}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749621, {:code_server, {:module, Enumerable.Map}}}
+DIAG_RUNTIME_STATE: {-576460749621,
+ %{
+   #Reference<0.2967886124.3859546114.85982> => %{
+     phase: :closing,
+     current: #Reference<0.2967886124.3859546114.85982>,
+     effect_pid: nil,
+     watchdog: #Reference<0.2967886124.3859546116.86133>,
+     effect_result: nil,
+     callback_settled: true
+   }
+ },
+ %{
+   #Reference<0.2967886124.3859546114.85982> => %{
+     at: -576460749621,
+     timer: #Reference<0.2967886124.3859546116.86132>,
+     outcomes: [unknown: #Reference<0.2967886124.3859546116.86096>]
+   }
+ }}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749621, {:EXIT, #PID<0.329.0>, {:shutdown, :normal}}}
+DIAG_RUNTIME_STATE: {-576460749621,
+ %{
+   #Reference<0.2967886124.3859546114.85982> => %{
+     phase: :closing,
+     current: #Reference<0.2967886124.3859546114.85982>,
+     effect_pid: nil,
+     watchdog: #Reference<0.2967886124.3859546116.86133>,
+     effect_result: nil,
+     callback_settled: true
+   }
+ },
+ %{
+   #Reference<0.2967886124.3859546114.85982> => %{
+     at: -576460749621,
+     timer: #Reference<0.2967886124.3859546116.86132>,
+     outcomes: [unknown: #Reference<0.2967886124.3859546116.86096>]
+   }
+ }}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749621,
+ {:DOWN, #Reference<0.2967886124.3859546114.85984>, :process, #PID<0.329.0>,
+  {:shutdown, :normal}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749621,
+ {:"$gen_call",
+  {#PID<0.320.0>, [:alias | #Reference<0.0.40963.2967886124.3859611650.86007>]},
+  :info}}
+DIAG_RUNTIME_STATE: {-576460749620, %{},
+ %{
+   #Reference<0.2967886124.3859546114.85982> => %{
+     at: -576460749621,
+     timer: #Reference<0.2967886124.3859546116.86132>,
+     outcomes: [unknown: #Reference<0.2967886124.3859546116.86096>]
+   }
+ }}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749621,
+ {:io_reply, #Reference<0.2967886124.3859546116.86135>, :ok}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749620,
+ {:io_reply, #Reference<0.2967886124.3859546116.86138>, :ok}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749620, :timeout}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749620,
+ {[:alias | #Reference<0.0.41219.2967886124.3859611652.86139>], :ok}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749620,
+ {:io_reply, #Reference<0.2967886124.3859546115.86221>, :ok}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749620,
+ {[:alias | #Reference<0.0.41219.2967886124.3859611652.86147>],
+  %{bytes: 4, entries: 1}}}
+DIAG_RUNTIME_STATE: {-576460749620, %{},
+ %{
+   #Reference<0.2967886124.3859546114.85982> => %{
+     at: -576460749621,
+     timer: #Reference<0.2967886124.3859546116.86132>,
+     outcomes: [
+       {#Reference<0.2967886124.3859546116.86096>, {:ok, -576460749619520}}
+     ]
+   }
+ }}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749620,
+ {:"$gen_call",
+  {#PID<0.320.0>, [:alias | #Reference<0.0.40963.2967886124.3859611650.86014>]},
+  :info}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749620,
+ {[:alias | #Reference<0.0.41219.2967886124.3859611651.86224>],
+  %{bytes: 4, entries: 1}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749620,
+ {:abyss_dispatcher_send, #Reference<0.2967886124.3859546114.85923>,
+  #Reference<0.2967886124.3859546116.86096>, {:ok, -576460749619520},
+  -576460749619519}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749620, {:"$gen_cast", {:drain, -576460749520}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749620,
+ {:io_reply, #Reference<0.2967886124.3859546116.86158>, :ok}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749620,
+ {[:alias | #Reference<0.0.41219.2967886124.3859611652.86162>],
+  %{bytes: 0, entries: 0}}}
+.
+Finished in 0.9 seconds (0.00s async, 0.9s sync)
+21 tests, 0 failures, 20 excluded
+
+Exporting cover results ...
+
+Export failed with reason: {:cant_open_file, ~c"cover//tmp/abyss-writer-diagnostic.coverdata", :enoent}

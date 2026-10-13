@@ -1,0 +1,33 @@
+✨ devenv 2.2.2 is out of date. Please update to 2.4.0: https://devenv.sh/getting-started/#installation
+    _    _                   
+   / \  | |__  _   _ ___ ___ 
+  / _ \ | '_ \| | | / __/ __|
+ / ___ \| |_) | |_| \__ \__ \
+/_/   \_\_.__/ \__, |___/___/
+               |___/         
+Cover compiling modules ...
+Running ExUnit with seed: 449854, max_cases: 16
+Excluding tags: [:test]
+Including tags: [location: {"test/abyss/datagram_runtime_test.exs", 424}]
+
+
+
+  1) test completed effects retain credit through settlement despite queued watchdog expiry (Abyss.DatagramRuntimeTest)
+     test/abyss/datagram_runtime_test.exs:424
+     Expected truthy, got false
+     code: assert Process.alive?(worker)
+     arguments:
+
+         # 1
+         #PID<0.328.0>
+
+     stacktrace:
+       test/abyss/datagram_runtime_test.exs:475: (test)
+
+
+Finished in 1.2 seconds (0.00s async, 1.2s sync)
+22 tests, 1 failure, 21 excluded
+
+Exporting cover results ...
+
+Run "mix test.coverage" once all exports complete

@@ -251,8 +251,11 @@ defmodule Abyss.DatagramRuntime do
 
   def handle_info({:work_expired, key, token}, state) do
     case state.workers[key] do
-      %{current: ^token} -> {:noreply, remove_worker(key, :callback_timeout, state)}
-      _ -> {:noreply, state}
+      %{current: ^token, watchdog: watchdog} when is_reference(watchdog) ->
+        {:noreply, remove_worker(key, :callback_timeout, state)}
+
+      _ ->
+        {:noreply, state}
     end
   end
 
@@ -603,12 +606,19 @@ defmodule Abyss.DatagramRuntime do
   defp effect_down(nil, _, state), do: state
 
   defp effect_down({key, worker}, reason, state) do
-    state = put_worker(state, key, %{worker | effect_pid: nil, effect_monitor: nil})
+    worker = %{worker | effect_pid: nil, effect_monitor: nil}
+    state = put_worker(state, key, worker)
 
     case {worker.phase, worker.effect_result, reason} do
-      {:closing, _, _} -> finish_closed(key, state)
-      {:effects, {_outcomes, _stop_reason}, :normal} -> finish_effects(key, state)
-      _ -> remove_worker(key, {:effect_down, reason}, state)
+      {:closing, _, _} ->
+        finish_closed(key, state)
+
+      {:effects, {_outcomes, _stop_reason}, :normal} ->
+        cancel(worker.watchdog)
+        finish_effects(key, put_worker(state, key, %{worker | watchdog: nil}))
+
+      _ ->
+        remove_worker(key, {:effect_down, reason}, state)
     end
   end
 

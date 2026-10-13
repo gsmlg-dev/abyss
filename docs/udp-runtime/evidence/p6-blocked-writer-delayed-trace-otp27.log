@@ -1,0 +1,243 @@
+✨ devenv 2.2.2 is out of date. Please update to 2.4.0: https://devenv.sh/getting-started/#installation
+    _    _                   
+   / \  | |__  _   _ ___ ___ 
+  / _ \ | '_ \| | | / __/ __|
+ / ___ \| |_) | |_| \__ \__ \
+/_/   \_\_.__/ \__, |___/___/
+               |___/         
+Cover compiling modules ...
+Running ExUnit with seed: 449854, max_cases: 16
+Excluding tags: [:test, {:integration, true}, {:slow, true}]
+Including tags: [:writer_diagnostic]
+
+DIAG_RUNTIME_STATE: {-576460749655,
+ %{
+   #Reference<0.2983448007.1981284357.242741> => %{
+     phase: :callback,
+     current: #Reference<0.2983448007.1981284357.242741>,
+     effect_pid: nil,
+     watchdog: #Reference<0.2983448007.1981284357.242748>,
+     effect_result: nil,
+     callback_settled: false
+   }
+ }, %{}}
+DIAG_WORKER_SETTLEMENT_HELD: {-576460749652, #PID<0.329.0>}
+DIAG_RUNTIME_STATE: {-576460749652,
+ %{
+   #Reference<0.2983448007.1981284357.242741> => %{
+     phase: :effects,
+     current: #Reference<0.2983448007.1981284357.242741>,
+     effect_pid: #PID<0.330.0>,
+     watchdog: #Reference<0.2983448007.1981284357.242774>,
+     effect_result: nil,
+     callback_settled: false
+   }
+ }, %{}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749655,
+ {:"$gen_call",
+  {#PID<0.320.0>, [:alias | #Reference<0.0.40963.2983448007.1981349893.242735>]},
+  {:admit,
+   %Abyss.Datagram{
+     payload: "blocked-send",
+     peer: %{port: 38920, addr: {...}, ...},
+     local_endpoint: {{...}, ...},
+     destination: nil,
+     ...
+   }}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749655,
+ {[:alias | #Reference<0.0.41219.2983448007.1981349893.242736>],
+  {:ok, #Reference<0.2983448007.1981284357.242739>}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749655, {:ack, #PID<0.329.0>, {:ok, #PID<0.329.0>}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749655,
+ {[:alias | #Reference<0.0.41219.2983448007.1981349893.242745>], :ok}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749655,
+ {:initialized, #Reference<0.2983448007.1981284357.242741>,
+  #Reference<0.2983448007.1981284357.242741>}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749655,
+ {:invocation_result, #Reference<0.2983448007.1981284357.242741>,
+  #Reference<0.2983448007.1981284357.242741>, {:ok, [reply: <<0, 0, ...>>]}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749655,
+ {:code_server,
+  {:missing,
+   ~c"/nix/store/26gj9wfvmxvidli508rcksg7ykwzqd2d-elixir-1.18.4/lib/elixir/bin/../lib/elixir/ebin/Elixir.Inspect.Integer.beam",
+   #Reference<0.2983448007.1981284357.242752>}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749654, {:code_server, {:module, Inspect.Integer}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749654,
+ {:code_server,
+  {:missing,
+   ~c"/nix/store/26gj9wfvmxvidli508rcksg7ykwzqd2d-elixir-1.18.4/lib/elixir/bin/../lib/elixir/ebin/Elixir.Inspect.Map.beam",
+   #Reference<0.2983448007.1981284357.242758>}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749653, {:code_server, {:module, Inspect.Map}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749653, {:code_server, {:module, Inspect.Reference}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749652,
+ {:io_reply, #Reference<0.2983448007.1981284357.242767>, :ok}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749652,
+ {:io_reply, #Reference<0.2983448007.1981284357.242770>, :ok}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749652,
+ {[:alias | #Reference<0.0.41219.2983448007.1981349893.242771>],
+  {:ok, #PID<0.330.0>}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749652,
+ {:io_reply, #Reference<0.2983448007.1981284357.242776>, :ok}}
+DIAG_RUNTIME_STATE: {-576460749641,
+ %{
+   #Reference<0.2983448007.1981284357.242741> => %{
+     phase: :effects,
+     current: #Reference<0.2983448007.1981284357.242741>,
+     effect_pid: #PID<0.330.0>,
+     watchdog: #Reference<0.2983448007.1981284357.242774>,
+     effect_result: {[unknown: #Reference<0.2983448007.1981284357.242777>], nil},
+     callback_settled: false
+   }
+ }, %{}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749641,
+ {:effects_result, #Reference<0.2983448007.1981284357.242741>,
+  #Reference<0.2983448007.1981284357.242741>,
+  [unknown: #Reference<0.2983448007.1981284357.242777>], nil}}
+DIAG_RUNTIME_STATE: {-576460749641,
+ %{
+   #Reference<0.2983448007.1981284357.242741> => %{
+     phase: :effects,
+     current: #Reference<0.2983448007.1981284357.242741>,
+     effect_pid: #PID<0.330.0>,
+     watchdog: #Reference<0.2983448007.1981284357.242774>,
+     effect_result: {[unknown: #Reference<0.2983448007.1981284357.242777>], nil},
+     callback_settled: false
+   }
+ }, %{}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749641, {:EXIT, #PID<0.330.0>, :normal}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749641,
+ {:DOWN, #Reference<0.2983448007.1981284357.242773>, :process, #PID<0.330.0>,
+  :normal}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749641,
+ {:io_reply, #Reference<0.2983448007.1981284357.242802>, :ok}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749641,
+ {:io_reply, #Reference<0.2983448007.1981284357.242807>, :ok}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749641,
+ {:code_server,
+  {:missing,
+   ~c"/nix/store/26gj9wfvmxvidli508rcksg7ykwzqd2d-elixir-1.18.4/lib/elixir/bin/../lib/elixir/ebin/Elixir.Enumerable.Map.beam",
+   #Reference<0.2983448007.1981284357.242818>}}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749640, {:code_server, {:module, Enumerable.Map}}}
+DIAG_RUNTIME_STATE: {-576460749640,
+ %{
+   #Reference<0.2983448007.1981284357.242741> => %{
+     phase: :effects,
+     current: #Reference<0.2983448007.1981284357.242741>,
+     effect_pid: nil,
+     watchdog: #Reference<0.2983448007.1981284357.242774>,
+     effect_result: {[unknown: #Reference<0.2983448007.1981284357.242777>], nil},
+     callback_settled: false
+   }
+ }, %{}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749640,
+ {:io_reply, #Reference<0.2983448007.1981284357.242828>, :ok}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749621,
+ {:work_expired, #Reference<0.2983448007.1981284357.242741>,
+  #Reference<0.2983448007.1981284357.242741>}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749621,
+ {#Reference<0.2983448007.1981284353.243135>, false}}
+DIAG_RUNTIME_STATE: {-576460749621,
+ %{
+   #Reference<0.2983448007.1981284357.242741> => %{
+     phase: :closing,
+     current: #Reference<0.2983448007.1981284357.242741>,
+     effect_pid: nil,
+     watchdog: #Reference<0.2983448007.1981284353.243136>,
+     effect_result: {[unknown: #Reference<0.2983448007.1981284357.242777>], nil},
+     callback_settled: false
+   }
+ }, %{}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749621, {:EXIT, #PID<0.329.0>, :killed}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749621,
+ {:DOWN, #Reference<0.2983448007.1981284357.242743>, :process, #PID<0.329.0>,
+  :killed}}
+DIAG_RUNTIME_STATE: {-576460749621,
+ %{
+   #Reference<0.2983448007.1981284357.242741> => %{
+     phase: :closing,
+     current: #Reference<0.2983448007.1981284357.242741>,
+     effect_pid: nil,
+     watchdog: #Reference<0.2983448007.1981284353.243136>,
+     effect_result: {[unknown: #Reference<0.2983448007.1981284357.242777>], nil},
+     callback_settled: false
+   }
+ }, %{}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749621,
+ {:io_reply, #Reference<0.2983448007.1981284353.243138>, :ok}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749621,
+ {:io_reply, #Reference<0.2983448007.1981284353.243140>, :ok}}
+DIAG_RUNTIME_STATE: {-576460749621, %{}, %{}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749621, :timeout}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749621,
+ {[:alias | #Reference<0.0.41219.2983448007.1981349889.243142>], :ok}}
+DIAG_RUNTIME_RECEIVE: {#PID<0.322.0>, -576460749621,
+ {:io_reply, #Reference<0.2983448007.1981284357.242850>, :ok}}
+DIAG_RUNTIME_STATE: {-576460748643, %{}, %{}}
+DIAG_RUNTIME_STATE: {-576460748637, %{}, %{}}
+DIAG_RUNTIME_STATE: {-576460748631, %{}, %{}}
+DIAG_RUNTIME_STATE: {-576460748625, %{}, %{}}
+DIAG_RUNTIME_STATE: {-576460748619, %{}, %{}}
+DIAG_RUNTIME_STATE: {-576460748613, %{}, %{}}
+DIAG_RUNTIME_STATE: {-576460748607, %{}, %{}}
+DIAG_RUNTIME_STATE: {-576460748601, %{}, %{}}
+DIAG_RUNTIME_STATE: {-576460748595, %{}, %{}}
+DIAG_RUNTIME_STATE: {-576460748589, %{}, %{}}
+DIAG_RUNTIME_STATE: {-576460748583, %{}, %{}}
+DIAG_RUNTIME_STATE: {-576460748577, %{}, %{}}
+DIAG_RUNTIME_STATE: {-576460748571, %{}, %{}}
+DIAG_RUNTIME_STATE: {-576460748565, %{}, %{}}
+DIAG_RUNTIME_STATE: {-576460748559, %{}, %{}}
+DIAG_RUNTIME_STATE: {-576460748553, %{}, %{}}
+DIAG_RUNTIME_STATE: {-576460748547, %{}, %{}}
+
+
+  1) test blocked writer retains output credit when invocation finishes and caller dies (Abyss.DatagramRuntimeTest)
+     /tmp/abyss-blocked-writer-diagnostic_test.exs:399
+     Assertion failed, no matching message after 1000ms
+     Showing 2 of 2 messages in the mailbox
+     code: assert_receive {:terminated, _, {:shutdown, :normal}, 1}
+     mailbox:
+       pattern: {:terminated, _, {:shutdown, :normal}, 1}
+       value:   {:initialized, #PID<0.329.0>,
+                 %{
+                   send: %Abyss.Dispatcher.SendCapability{
+                     writer: #PID<0.324.0>,
+                     generation: #Reference<0.2983448007.1981284357.242682>,
+                     admission: #PID<0.323.0>,
+                     io_backend: :gen_udp
+                   },
+                   generation: #Reference<0.2983448007.1981284357.242682>,
+                   endpoint_id: {#PID<0.318.0>, "listener-1"}
+                 }}
+
+       pattern: {:terminated, _, {:shutdown, :normal}, 1}
+       value:   {:invoked, #PID<0.329.0>,
+                 %Abyss.Datagram{
+                   payload: "blocked-send",
+                   peer: %{
+                     port: 38920,
+                     addr: {127, 0, 0, 1},
+                     family: :inet
+                   },
+                   local_endpoint: {{127, 0, 0, 1}, 38650},
+                   destination: nil,
+                   interface_index: nil,
+                   local_address: nil,
+                   hop_limit: nil,
+                   traffic_class: nil,
+                   endpoint_id: {#PID<0.318.0>, "listener-1"},
+                   generation: #Reference<0.2983448007.1981284357.242682>,
+                   received_at: -576460749654988,
+                   ancillary: [],
+                   flags: []
+                 }, 0}
+     stacktrace:
+       /tmp/abyss-blocked-writer-diagnostic_test.exs:441: (test)
+
+
+Finished in 2.0 seconds (0.00s async, 2.0s sync)
+21 tests, 1 failure, 20 excluded
+
+Exporting cover results ...
+
+Export failed with reason: {:cant_open_file, ~c"cover//tmp/abyss-writer-delayed-diagnostic.coverdata", :enoent}

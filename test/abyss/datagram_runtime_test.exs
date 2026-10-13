@@ -421,6 +421,86 @@ defmodule Abyss.DatagramRuntimeTest do
     assert :ok = Endpoint.stop(server, 100)
   end
 
+  test "completed effects retain credit through settlement despite queued watchdog expiry" do
+    owner = self()
+    :persistent_term.put({Abyss.RuntimeBlockingTransport, :owner}, owner)
+    on_exit(fn -> :persistent_term.erase({Abyss.RuntimeBlockingTransport, :owner}) end)
+
+    {server, client, port} =
+      endpoint(
+        transport_module: Abyss.RuntimeBlockingTransport,
+        runtime_options: [send_timeout: 10],
+        dispatcher_max_queue: 1
+      )
+
+    [listener] = server |> Abyss.Server.listener_pool_pid() |> Abyss.ListenerPool.listener_pids()
+    runtime = :sys.get_state(listener).runtime
+    :ok = packet(client, port, "block")
+    assert_receive {:invoked, worker, %{payload: "block"}, 0}
+    monitor = Process.monitor(worker)
+
+    :ok =
+      :sys.install(
+        runtime,
+        {fn held, event, _name ->
+           case event do
+             {:in, {:invocation_result, _, _, _}} when not held ->
+               true = :erlang.suspend_process(worker)
+               send(owner, {:settlement_held, worker})
+               true
+
+             {:in, {:DOWN, _, :process, helper, :normal}} when helper != worker ->
+               send(owner, {:effect_down_held, helper})
+               receive do: (:continue_effect_down -> held)
+
+             {:in, :continue_worker_settlement} ->
+               true = :erlang.resume_process(worker)
+               send(owner, {:worker_resumed, worker})
+               :done
+
+             _ ->
+               held
+           end
+         end, false}
+      )
+
+    :erlang.trace(runtime, true, [:receive])
+
+    try do
+      send(worker, :continue)
+      assert_receive {:settlement_held, ^worker}
+      assert_receive {:writer_blocked, writer}
+      assert_receive {:trace, ^runtime, :receive, {:effects_result, _, _, [{:unknown, ref}], nil}}
+      assert_receive {:effect_down_held, helper}
+      assert_receive {:trace, ^runtime, :receive, {:DOWN, _, :process, ^helper, :normal}}
+      assert_receive {:trace, ^runtime, :receive, {:work_expired, _, _}}
+      send(runtime, :continue_effect_down)
+
+      assert %{input_count: 1, key_count: 1, egress: %{entries: 1}} =
+               Abyss.DatagramRuntime.info(runtime)
+
+      assert Process.alive?(worker)
+      send(runtime, :continue_worker_settlement)
+      assert_receive {:worker_resumed, ^worker}
+      assert_receive {:terminated, ^worker, {:shutdown, :normal}, 1}, 1000
+      assert_receive {:DOWN, ^monitor, :process, ^worker, {:shutdown, :normal}}
+
+      assert_receive {:trace, ^runtime, :receive,
+                      {:DOWN, _, :process, ^worker, {:shutdown, :normal}}}
+
+      assert {:ok, %{send: capability, input_count: 0, egress: %{entries: 1}}} =
+               Endpoint.info(server)
+
+      send(writer, :continue)
+      assert {:ok, {_, ^port, <<1::32>>}} = response(client)
+      assert {:ok, _} = Endpoint.await(capability, ref, 1000)
+    after
+      send(runtime, :continue_effect_down)
+      send(runtime, :continue_worker_settlement)
+      :erlang.trace(runtime, false, [:receive])
+    end
+  end
+
   test "stop during accepted blocked egress uses original deadline" do
     :persistent_term.put({Abyss.RuntimeBlockingTransport, :owner}, self())
     on_exit(fn -> :persistent_term.erase({Abyss.RuntimeBlockingTransport, :owner}) end)

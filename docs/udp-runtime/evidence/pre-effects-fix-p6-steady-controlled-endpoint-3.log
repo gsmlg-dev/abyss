@@ -1,0 +1,16 @@
+STEADY_PASS: %{
+  count: 3000,
+  mode: "endpoint",
+  warmup: 500,
+  payload_bytes: 64,
+  offered: :sequential_request_response,
+  throughput_per_second: 3545.8687673969184,
+  latency_median_us: 276,
+  latency_p95_us: 378,
+  latency_p99_us: 436,
+  elapsed_us: 846055,
+  processes_before: 116,
+  processes_after_traffic: 126,
+  owner_mailbox_end: 0,
+  kernel_drops: :unmeasured
+}
