@@ -38,7 +38,7 @@ should finish with `{:close, state}`.
 
 ## Datagram API
 
-This API is the unreleased 0.8 candidate on `codex/udp-runtime`. Publication is blocked by the existing QUIC consumer gate; see [acceptance](docs/udp-runtime/acceptance.md).
+Abyss 0.8 adds this opt-in API. See [acceptance](docs/udp-runtime/acceptance.md) for source-linked validation and supported environments.
 
 Use `datagram_handler: Module` with `Abyss.DatagramHandler` for immutable datagrams and finite effects. Select `execution: :per_datagram | :endpoint | :keyed` independently of broadcast/multicast addressing. `Abyss.Endpoint` provides capabilities, send/reply receipts, memberships, pause/resume and deadline-based stop. See the runnable [datagram echo](example/datagram_echo.exs), [migration/backend matrix](docs/udp-runtime/migration.md) and [runtime contract](docs/udp-runtime/design.md).
 

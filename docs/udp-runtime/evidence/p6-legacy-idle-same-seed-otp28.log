@@ -1,0 +1,62 @@
+Cover compiling modules ...
+Running ExUnit with seed: 168761, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+.......
+Finished in 0.3 seconds (0.00s async, 0.3s sync)
+7 tests, 0 failures
+
+Generating cover results ...
+
+Percentage | Module
+-----------|--------------------------
+     0.00% | Abyss
+     0.00% | Abyss.Client
+     0.00% | Abyss.Connection
+     0.00% | Abyss.Datagram
+     0.00% | Abyss.DatagramActions
+     0.00% | Abyss.DatagramRuntime
+     0.00% | Abyss.DatagramWorker
+     0.00% | Abyss.DhcpSocket.Native
+     0.00% | Abyss.Dispatcher
+     0.00% | Abyss.Dispatcher.Admission
+     0.00% | Abyss.Dispatcher.Writer
+     0.00% | Abyss.Endpoint
+     0.00% | Abyss.ListenerPool
+     0.00% | Abyss.ListenerPoolScaler
+     0.00% | Abyss.ListenerStarter
+     0.00% | Abyss.Logger
+     0.00% | Abyss.QUIC
+     0.00% | Abyss.QUIC.Service
+     0.00% | Abyss.QUIC.SocketTransport
+     0.00% | Abyss.QUIC.Worker
+     0.00% | Abyss.Server
+     0.00% | Abyss.ShutdownListener
+     0.00% | Abyss.Transport.UDP
+     0.00% | Abyss.Transport.UDP.Broadcast
+     0.00% | Abyss.Transport.UDP.Core
+     0.00% | Abyss.Transport.UDP.Multicast
+     0.00% | Abyss.Transport.UDP.Native
+     0.00% | Abyss.Transport.UDP.Unicast
+     0.00% | Abyss.UDPAdmission
+     0.00% | Abyss.Utils
+     0.26% | Abyss.Listener
+     6.15% | Abyss.TableOwner
+    35.00% | Abyss.Telemetry
+    52.54% | Abyss.ServerConfig
+    73.33% | Abyss.Handler
+   100.00% | Abyss.Application
+   100.00% | Abyss.DatagramDispatcher
+   100.00% | Abyss.DatagramHandler
+   100.00% | Abyss.Dispatcher.SendCapability
+   100.00% | Abyss.QUIC.Handler
+   100.00% | Abyss.Transport
+-----------|--------------------------
+     6.73% | Total
+
+Coverage test failed, threshold not met:
+
+    Coverage:    6.73%
+    Threshold:  40.00%
+
+Generated HTML coverage results in "cover" directory

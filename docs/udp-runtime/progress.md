@@ -2,16 +2,16 @@
 
 ## Current status — read this first
 
-P0–P5 are implemented. The 0.8.0 release candidate now passes final local QA and fixed published QUIC consumers. Fresh archive packaging passed; final remote acceptance is next. No publication has started.
+P0–P6 implementation and G0–G10 acceptance PASS on9ecd90cae1e630478a41c54e2ca0c882750a045a. Final0.8.0 integration/release/publication verification is next.
 
-- G0–G8 local/independent acceptance PASS. Final OTP27/28 each648 tests+3 doctests,0 failures. Format, strict compile, Dialyzer0 errors/0 skips, examples, native IPv4/IPv6 replies and three-policy stress PASS. Implementation manifest: `4acbce68f6f111da1f1a47c7c78273ecbcbec8cea86096179380c62e1b423e89` (151 files).
-- G8's former blocker is resolved: upstream108 CLOSED, PR110 merged, exact published elixir_quic/ex_ssl0.21.6 pins/checksums and unchanged main/fresh independent workloads PASS. Required TODO removed; no workaround or workload/deadline change.
-- G9 final remote NOT RUN. Prior source's19-job wire/package matrix passed. Real-event fixture repairs pass both runtimes; final Linux/macOS regression and network runs must complete on the candidate commit.
-- G10 local QA PASS with baseline comparison. Strict Credo still exits30 on83 existing findings; current83/new0. Temporary observer removed, no suppression. All failed attempts/portable diagnostics retained.
-- Fresh0.8 archive consumers PASS, exit0 (`p6-release-candidate-package-otp27.log`): core without Rust/QUIC and optional11 actual DHCP/ARP gates. Optional DHCP package remains unpublished.
-- Legacy controlled throughput regression:6.9%; policy overhead and sampled resource limits are documented. No performance improvement or whole-VM/native reclamation claim.
+- OTP27/28 local full648tests+3doctests/0; format, strict compile, Dialyzer0errors/0skips, examples, native strict replies and three-policy stress PASS.
+- G8 resolved upstream108/PR110; published elixir_quic/ex_ssl0.21.6 unchanged consumers PASS. No workaround.
+- G9 regression38507071297 attempt2 all3Linux/macOSjobs PASS; network38507074883 all19jobs PASS. Attempt1 retained: unchanged legacy idle test300ms notification boundary. Retry changed no source/assertions. Owned macOS alias setup/cleanup PASS.
+- Fresh0.8 archive core no-Rust/no-QUIC and optional11 DHCP/ARP gates PASS. Optional DHCP package stays unpublished.
+- Strict Credo absolute FAIL/exit30, baseline83/current83/new0; no suppression. Legacy throughput regression6.9%. Minimum Elixir unverified; GenUDP socket scoped IPv6 unsupported.
+- Primary untracked initial11doc files preserved in `/tmp/abyss-primary-udp-runtime-preserved-20261014.tar.gz`, SHA256af877d78ec868f9816c465e52497509cb86dba33abff5f2438f09db1e1792aec; preserve original directory too before safe fast-forward.
 
-Exact next action: commit/push this candidate, dispatch both final remote matrices and collect actual outcomes. Accept G9 only after Linux/macOS results pass. Then integrate the accepted0.8.0 source, dispatch existing release workflow with matching ref/git-ref, create/verify GitHub release, verify Hex artifact and fresh published-only traffic, and prove local/remote/tag source parity. Preserve all user input files. No remaining production edits are planned.
+Exact next action: commit final docs/evidence only, fast-forward main safely, push accepted source, dispatch release workflow with ref main and exact same git-ref SHA (tag uses context.sha). After success create GitHub release and independently verify Hex checksums/source, fresh published-only actual traffic, local/remote/tag parity. User release authorization persists; no confirmation needed.
 
 ## Source and authorization
 
@@ -45,8 +45,8 @@ Legacy Abyss.start_link/child_spec/suspend/resume/stop/join/leave/memberships; c
 - [x] P3 three policies/bounded effects/lifecycle (protected helper/worker DOWN accounting and bounded stress PASS)
 - [x] P4 direct socket metadata/strict egress/wire fixtures (18 OTP27/28 × backend × policy runs PASS)
 - [x] P5 optional DHCP extraction/clean consumers (OTP27/28 core no-Rust and optional 11 wire gates PASS)
-- [ ] P6 QA/matrices/consumers/docs/performance
-- [x] Commit/push tested candidate (`e120451` on `codex/udp-runtime`)
+- [x] P6 QA/matrices/consumers/docs/performance
+- [x] Commit/push final tested candidate (`9ecd90cae1e630478a41c54e2ca0c882750a045a` on `codex/udp-runtime`)
 - [x] Resolve upstream108 and accept G8/G10 local baseline comparison
 - [ ] Release0.8.0 and verify published consumer
 
@@ -155,3 +155,11 @@ G8nowPASS: fixedpublished0.21.6originalcheck exit0 and freshoutsideindependentch
 Authorized0.8.0releasecandidateprepared in mix.exs/README/changelog; reversibleversionbump only, no tag/publication/mainmerge yet. Existingreleaseworkflow verified inputsrelease-version/git-ref; mustdispatchworkflowrefsameacceptedsource because tagusescontext.sha. Need finalallgates/sourcefreeze/matrices beforepublish, exactGitHub/Hex/publishedconsumerparityafter.
 
 Final0.8candidate frozen151-filemanifest4acbce68f6f111da1f1a47c7c78273ecbcbec8cea86096179380c62e1b423e89. No temporaryobserverremaining. OTP27strictformat/dev+testcompile/full648+3/Dialyzer0errors0skips/examples/nativeIPv4IPv6strictreply/3policy5epochactualstress/diffall exit0 (`p6-release-candidate-otp27-qa.log`). OTP28full648+3/0 exit0 (`p6-release-candidate-otp28-full.log`). StrictCredoexit30 baseline83/current83/new0 (`p6-release-candidate-credo-comparison.log`), requiredTODOgone/no suppression. G8fixed0.21.6 main/freshoutsideoriginalgatesPASS. Fresh0.8archiveconsumers session pending `p6-release-candidate-package-otp27.log`; agentfinishingfixtureevidencedocs only. Next candidatecommit/push, actual bothremotematrices; no releaseuntilG9accepted.
+
+
+## Final candidate remote checkpoint
+
+Fresh0.8 archive consumers PASS/exit0, core no-Rust/no-QUIC plus optional11 DHCP/ARP gates. Candidate9ecd90cae1e630478a41c54e2ca0c882750a045a committed/pushed, implementation151-file manifest verified. Final regression38507071297 and network/package38507074883 dispatched on that exact SHA. G9 remains NOT RUN pending genuine completion. Agent remote_acceptance owns only p6-final-remote raw logs/JSON; publication_verifier prepares fresh published-only checks. Root owns acceptance/progress/identity and release. Exact next action: collect matrix outcomes, accept G9 only on PASS, then safe integration and workflow release0.8.0.
+
+
+Final remote acceptance: unchanged-source attempt2 macOS194tests/0failures plus all Linux/coverage/backend/stress jobs PASS; network all19jobs PASS. Preserve failed attempt1 and diagnostic scoped coverage failure (7tests/0,6.73% below40 threshold); neither is silently relabeled. Final documentation corrects stale upstream-blocked prose and DHCP package path. Executable/test/workflow bytes unchanged from accepted9ecd90c.

@@ -1,6 +1,6 @@
 # Migrating to the UDP datagram API
 
-The unreleased Abyss 0.8 candidate on `codex/udp-runtime` adds an opt-in API. Publication is blocked by [upstream QUIC issue #108](https://github.com/gsmlg-dev/http_fetch/issues/108). Existing `Abyss.start_link(handler_module: Module, ...)`, custom `start_link/1` handlers, transport calls, memberships, dispatcher capabilities and optional QUIC services keep their contracts. Legacy `{:continue, state}` keeps the invocation process alive; it does not route later packets from that peer back to it. Legacy broadcast processing remains one-shot.
+Abyss 0.8 adds an opt-in API. Existing `Abyss.start_link(handler_module: Module, ...)`, custom `start_link/1` handlers, transport calls, memberships, dispatcher capabilities and optional QUIC services keep their contracts. Legacy `{:continue, state}` keeps the invocation process alive; it does not route later packets from that peer back to it. Legacy broadcast processing remains one-shot.
 
 ## A new consumer
 
@@ -90,12 +90,12 @@ Legacy dispatcher callback-owned input queues are not bounded by the new handler
 
 Ordinary core installation no longer compiles Rust or loads a native artifact. `Abyss.DhcpSocket.Native` is a pure-Elixir facade. Without the optional package its functions return `{:error, {:missing_optional_dependency, :abyss_dhcp_socket}}`.
 
-DHCP users must explicitly add `packages/abyss_dhcp_socket`; this is a dependency migration, not a zero-change upgrade. The independently buildable package is intentionally unpublished. For a repository dependency on this candidate branch (Mix supporting sparse Git dependencies):
+DHCP users must explicitly add `packages/abyss_dhcp_socket`; this is a dependency migration, not a zero-change upgrade. The independently buildable package is intentionally unpublished. For a repository dependency pinned to this release (Mix supporting sparse Git dependencies):
 
 ```elixir
 {:abyss_dhcp_socket,
  git: "https://github.com/gsmlg-dev/abyss.git",
- branch: "codex/udp-runtime",
+ tag: "0.8.0",
  sparse: "packages/abyss_dhcp_socket"}
 ```
 

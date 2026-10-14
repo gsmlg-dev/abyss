@@ -1,12 +1,12 @@
 # UDP runtime acceptance
 
-P0–P5 are implemented. The 0.8.0 candidate passes final local QA and the unchanged optional QUIC consumers. Final remote acceptance is pending; publication has not started.
+P0–P6 implementation and acceptance are complete on the tested 0.8.0 source. Final local QA, unchanged optional QUIC consumers, Linux/macOS regressions and19-job network/package matrix PASS. Publication verification is next.
 
 ## Source and environment
 
 Baseline: `9b710e6480900e16e304f40e63623aff8c922e19`, version 0.7.0. Candidate: `codex/udp-runtime`, version 0.8.0, in `.trees/udp-runtime`. The user authorized implementation, commits, push and next minor release. Original user documents are preserved and excluded from commits; sibling repositories and ambient LAN settings are untouched.
 
-The 151-file implementation manifest is `4acbce68f6f111da1f1a47c7c78273ecbcbec8cea86096179380c62e1b423e89` (`evidence/final-source-sha256.log`). `final-source-identity.json` records source commits and runtime identity. Linux tests use devenv Elixir1.18.4/OTP27/ERTS15.2.7.4 and system Elixir1.18.5/OTP28/ERTS16.4.0.5 with isolated builds. The declared Elixir `~>1.13` minimum is unchanged and explicitly unverified; native UDP's Linux/OTP27 minimum is tested. macOS supports the portable subset only.
+The tested151-file implementation manifest is `4acbce68f6f111da1f1a47c7c78273ecbcbec8cea86096179380c62e1b423e89`; final documentation-updated manifest is `4acbce68f6f111da1f1a47c7c78273ecbcbec8cea86096179380c62e1b423e89` (`evidence/final-source-sha256.log`). `final-source-identity.json` records source commits and runtime identity. Linux tests use devenv Elixir1.18.4/OTP27/ERTS15.2.7.4 and system Elixir1.18.5/OTP28/ERTS16.4.0.5 with isolated builds. The declared Elixir `~>1.13` minimum is unchanged and explicitly unverified; native UDP's Linux/OTP27 minimum is tested. macOS supports the portable subset only.
 
 ## G0–G10
 
@@ -18,12 +18,12 @@ Evidence paths below are relative to [evidence/](evidence/). Historical checkpoi
 | G1 Correctness | PASS | Discriminating peer/backend/idempotence RED logs and `p1-green-otp27.log`:226 scoped tests; five fresh BEAM backend resolutions per OTP27/28. Final full tests preserve wrong-peer and absolute-deadline assertions. |
 | G2 Public contracts | PASS | `p2-contracts.log`, real GenUDP examples and final full suites:Datagram/Handler/Endpoint consumers, unchanged legacy/custom handler behavior, empty packets and telemetry-independent metadata. |
 | G3 Execution/effects | PASS | Three public policies, explicit route ordering, bounded inputs/actions/receipts, protected helper/worker DOWN accounting, callback watchdogs and no replay. `p3-retained-work-tests.log`, final full suites and actual three-policy stress in `p6-release-candidate-otp27-qa.log`. |
-| G4 Receive metadata | PASS | Source4645a5ec network38404707197:18 OTP27/28×backend×policy runs, native21 independent-peer gates each; actual IPv4/IPv6 destinations, interface indices/scopes and truncation tests. `p6-remote-stop-wire-evidence.json` and raw logs. Relevant runtime/wire source is unchanged; final candidate matrix pending below. |
+| G4 Receive metadata | PASS | Final source9ecd90cae1e630478a41c54e2ca0c882750a045a network38507074883:18 OTP27/28×backend×policy runs, native21 independent-peer gates each; actual IPv4/IPv6 destinations, interface indices/scopes and truncation tests. `p6-final-remote-wire-evidence.json` and19 raw logs. |
 | G5 Egress | PASS | Same actual-wire matrix:original socket/source/interface/port and two link-local scopes. Inet15 gates; socket10 explicitly supported-subset gates with scoped IPv6 unavailable. Strict requirements reject rather than fall back. |
 | G6 Packaging | PASS | OTP27/28 archive-content core consumers without Rust/native/QUIC and explicitly installed optional NIF consumers,11 actual DHCP/ARP gates (`p5-final-consumers-otp27.log`, OTP28 counterpart). Fresh0.8 candidate archive verification PASS/exit0 (`p6-release-candidate-package-otp27.log`), including core no-Rust/no-QUIC and optional11 actual DHCP/ARP gates. Optional DHCP package remains unpublished. |
 | G7 Lifecycle/resources | PASS | Final OTP27/28 full648+3/0; covered runtime23/0 each and TableOwner1/0 each. Actual input/egress quotas, worker/helper/component DOWN, pause/resume/membership, generations, idle/callback/stop deadlines and five stress epochs per policy. No whole-VM or native reclamation claim from snapshots. |
 | G8 Existing consumers | PASS | Fixed published elixir_quic/ex_ssl0.21.6 exact pins and Hex checksums. `p6-quic-0216-check-final.log` and `p6-quic-0216-independent-final.log`, exit0:unchanged concurrent echoes/collector, Retry/control/lifecycle, fresh outside consumers, actual release echo/collector and UDP without QUIC. Upstream108 is closed; no local workaround. |
-| G9 Runtime/backend matrix | NOT RUN | Final candidate remote regression and network runs pending. Earlier Linux wire/package matrices passed; prior macOS failures and diagnostic results are retained. Minimum Elixir explicitly unverified; no macOS native claim. |
+| G9 Runtime/backend matrix | PASS | Exact source9ecd90c: regression38507071297 attempt2 all3 jobs PASS (Linux OTP27/28, macOS OTP28); network38507074883 all19jobs PASS. Attempt1 macOS unchanged legacy idle-expiry notification arrived at300ms boundary; retained separately. No test/code change on retry. Owned macOS loopback setup/cleanup PASS. Minimum Elixir explicitly unverified; no macOS native claim. |
 | G10 QA/handoff | PASS | Final OTP27/28 each648 tests+3 doctests/0 failures; format, dev/test warnings-as-errors compile, Dialyzer0 errors/0 skips, examples and native strict replies PASS. Strict Credo baseline83/current83/new0; absolute lint remains FAIL/exit30 on pre-existing findings. No suppression. Design/migration/P5 notes/performance/diagnostic generators and progress are included. |
 
 ## Final local verification
@@ -79,4 +79,8 @@ The baseline,0.21.4 and0.21.5 concurrent QUIC failures and direct `:ack_range_li
 
 ## Remote and publication
 
-Final remote outcomes and release evidence will be appended after actual completion. No tag, GitHub release or Hex publication is claimed here. The resumable next action is in [progress](progress.md). Earlier drafts and failed attempts remain under evidence with historical attribution.
+Final remote source: `9ecd90cae1e630478a41c54e2ca0c882750a045a`. Regression [38507071297](https://github.com/gsmlg-dev/abyss/actions/runs/38507071297), attempt2, all3jobs PASS. Network/package [38507074883](https://github.com/gsmlg-dev/abyss/actions/runs/38507074883), all19jobs PASS. Raw logs, parsed wire gates, complete API metadata and both regression attempts are retained under `p6-final-remote-*`. Final release preparation changes only documentation/evidence; executable/test/workflow sources remain identical to the accepted candidate.
+
+The extra local same-seed legacy diagnosis ran7tests/0failures, but its scoped6.73% coverage exits3 below the unchanged40% whole-project threshold (`p6-legacy-idle-same-seed-otp28.log`); it is diagnostic evidence, not coverage acceptance. Mandatory remote coverage gates passed.
+
+Release/tag/Hex and fresh published-only verification remain pending. Exact next action is in [progress](progress.md). Earlier drafts and failed attempts remain with historical attribution.

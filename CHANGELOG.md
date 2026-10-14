@@ -102,7 +102,7 @@ base_listeners = max(div(current_connections, 100), 1)
 
 ### Changed
 
-- DHCP/ARP Rust support moves to the explicitly installed `optional/abyss_dhcp_socket` package. The legacy facade remains; ordinary UDP builds without Rust or QUIC. The optional package is not published in this release.
+- DHCP/ARP Rust support moves to the explicitly installed `packages/abyss_dhcp_socket` package. The legacy facade remains; ordinary UDP builds without Rust or QUIC. The optional package is not published in this release.
 - Optional QUIC examples pin the fixed published `elixir_quic`/`ex_ssl` 0.21.6 and retain their concurrent workload and deadlines.
 
 ### Fixed

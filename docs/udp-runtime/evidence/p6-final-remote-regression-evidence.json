@@ -1,0 +1,108 @@
+{
+  "source_sha": "9ecd90cae1e630478a41c54e2ca0c882750a045a",
+  "run_id": 38507071297,
+  "run": "https://github.com/gsmlg-dev/abyss/actions/runs/38507071297",
+  "final_conclusion": "success",
+  "initial_conclusion": "failure",
+  "retry_note": "Only the failed macOS job was rerun on unchanged source. Initial failure remains retained; no deadlines or assertions changed between attempts.",
+  "jobs": [
+    {
+      "job": "macos-14 / OTP 28 / Elixir 1.18",
+      "job_id": 115667532319,
+      "conclusion": "success",
+      "log_attempt": 2,
+      "log": "p6-final-remote-attempt2-regression-macos.log",
+      "log_sha256": "64dfd6d7e3d4af53b7133956b982bd3b0dd7f80d4a8db0cccf579afd14c3495a",
+      "test_results": [
+        "194 tests, 0 failures, 3 excluded"
+      ],
+      "owned_macos_loopback_fixture_steps": [
+        {
+          "completedAt": "2026-10-14T03:38:32Z",
+          "conclusion": "success",
+          "name": "Create macOS wrong-peer loopback fixture",
+          "number": 6,
+          "startedAt": "2026-10-14T03:38:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T03:38:39Z",
+          "conclusion": "success",
+          "name": "Remove owned macOS loopback fixture",
+          "number": 8,
+          "startedAt": "2026-10-14T03:38:39Z",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "job": "ubuntu-latest / OTP 28 / Elixir 1.18",
+      "job_id": 115667533207,
+      "conclusion": "success",
+      "log_attempt": 1,
+      "log": "p6-final-remote-regression-otp28.log",
+      "log_sha256": "bf08e7df2bd913b8e71fd001329063192f84c434c712baa72613acd9fa94d786",
+      "test_results": [
+        "195 tests, 0 failures, 3 excluded",
+        "67 tests, 0 failures"
+      ],
+      "owned_macos_loopback_fixture_steps": [
+        {
+          "completedAt": "2026-10-14T03:36:07Z",
+          "conclusion": "skipped",
+          "name": "Create macOS wrong-peer loopback fixture",
+          "number": 6,
+          "startedAt": "2026-10-14T03:36:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T03:36:14Z",
+          "conclusion": "skipped",
+          "name": "Remove owned macOS loopback fixture",
+          "number": 8,
+          "startedAt": "2026-10-14T03:36:14Z",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "job": "ubuntu-latest / OTP 27 / Elixir 1.18",
+      "job_id": 115667533871,
+      "conclusion": "success",
+      "log_attempt": 1,
+      "log": "p6-final-remote-regression-otp27.log",
+      "log_sha256": "3d95643c4bed26e28c8fe46c44e708419c254ff008c30511d99fdabc3ad2bee8",
+      "test_results": [
+        "195 tests, 0 failures, 3 excluded",
+        "67 tests, 0 failures"
+      ],
+      "owned_macos_loopback_fixture_steps": [
+        {
+          "completedAt": "2026-10-14T03:36:11Z",
+          "conclusion": "skipped",
+          "name": "Create macOS wrong-peer loopback fixture",
+          "number": 6,
+          "startedAt": "2026-10-14T03:36:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T03:36:17Z",
+          "conclusion": "skipped",
+          "name": "Remove owned macOS loopback fixture",
+          "number": 8,
+          "startedAt": "2026-10-14T03:36:17Z",
+          "status": "completed"
+        }
+      ]
+    }
+  ],
+  "initial_macos_failure": {
+    "log": "p6-final-remote-attempt1-regression-macos.log",
+    "tests": "194 tests, 1 failure, 3 excluded",
+    "test": "Abyss.HandlerHardeningTest idle expiry survives repeated memory checks and status requests",
+    "location": "test/abyss/handler_hardening_test.exs:24/28",
+    "error": "Found message matching {:cleanup, :timeout, :preserved} after 300ms.",
+    "owned_alias_setup": "success",
+    "owned_alias_cleanup": "success"
+  }
+}
