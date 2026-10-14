@@ -11,7 +11,7 @@ Abyss is a supervised Elixir UDP service library. It provides socket ownership, 
 ```elixir
 def deps do
   [
-    {:abyss, "~> 0.8.0"}
+    {:abyss, "~> 0.8.1"}
   ]
 end
 ```

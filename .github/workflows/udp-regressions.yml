@@ -61,6 +61,10 @@ jobs:
             test/abyss/datagram_config_test.exs \
             test/abyss/endpoint_contract_test.exs \
             test/abyss/datagram_runtime_test.exs \
+            test/abyss/datagram_watchdog_test.exs \
+            test/abyss/datagram_lifetime_test.exs \
+            test/abyss/datagram_send_accounting_test.exs \
+            test/abyss/datagram_drop_accounting_test.exs \
             test/abyss/metadata_requirements_test.exs \
             test/abyss/udp_peer_validation_test.exs \
             test/abyss/udp_backend_resolution_test.exs \
@@ -84,6 +88,8 @@ jobs:
         run: |
           mix test \
             test/abyss/transport/native_test.exs \
+            test/abyss/datagram_native_send_accounting_test.exs \
+            test/abyss/datagram_native_drop_accounting_test.exs \
             test/abyss/client_regression_test.exs \
             test/abyss/transport/udp/multicast_regression_test.exs \
             test/abyss/transport/udp_test.exs \

@@ -2,7 +2,7 @@ defmodule Abyss.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/gsmlg-dev/abyss"
-  @version "0.8.0"
+  @version "0.8.1"
 
   def project do
     [

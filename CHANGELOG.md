@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.1] - 2026-10-14
+
+### Fixed
+
+- Isolate each init, callback, effects and cleanup watchdog arm so stale expiry
+  cannot terminate a later execution phase.
+- Preserve endpoint application state and managed timers for the socket
+  generation; keyed idle eviction remains finite and unchanged.
+- Record actual native ordinary/strict send outcomes once, including empty
+  datagrams, without counting admission rejection or receipt reads as sends.
+- Report non-overlapping ingress/runtime network drops in public endpoint
+  statistics, retain counts through drain, and track rejected internal events
+  separately. See `docs/udp-runtime/post-release-fixes.md` for evidence.
+
 ## [Unreleased]
 
 ### Added
