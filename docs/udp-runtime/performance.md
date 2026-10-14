@@ -4,7 +4,7 @@ These are controlled workload results and sampled process/mailbox observations. 
 
 ## Paired legacy steady workload
 
-Linux x86_64, devenv Elixir 1.18.4 / OTP27 / ERTS15.2.7.4, eight schedulers. Baseline is `9b710e6480900e16e304f40e63623aff8c922e19`; candidate implementation identity is recorded in `evidence/final-source-sha256.log`. The exact same `steady.exs` script runs against both checkouts, one listener, 64-byte payload, 500 warmup and 3000 sequential request/replies per sample. Compilation completes before samples. Three repetitions alternate baseline/candidate serially with no concurrent tests or builds. All six exchanges loops pass exact peer/port/payload assertions.
+Linux x86_64, devenv Elixir 1.18.4 / OTP27 / ERTS15.2.7.4, eight schedulers. Baseline is `9b710e6480900e16e304f40e63623aff8c922e19`; measured candidate identity is recorded in `evidence/source-4645a5ec-sha256.log` and the performance JSON. The final test-harness revision changes only the regression test; application and benchmark bytes remain identical. The exact same `steady.exs` script runs against both checkouts, one listener, 64-byte payload, 500 warmup and 3000 sequential request/replies per sample. Compilation completes before samples. Three repetitions alternate baseline/candidate serially with no concurrent tests or builds. All six exchanges loops pass exact peer/port/payload assertions.
 
 | Median of three samples | Baseline legacy | Candidate legacy |
 |---|---:|---:|

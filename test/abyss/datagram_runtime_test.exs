@@ -492,6 +492,21 @@ defmodule Abyss.DatagramRuntimeTest do
                send(owner, {:settlement_held, worker})
                true
 
+             {:noreply, %{workers: workers}} when held == true ->
+               [{key, %{phase: :effects, current: token, effect_pid: helper}}] =
+                 Map.to_list(workers)
+
+               send(owner, {:effects_queue_held, helper})
+
+               # Queue the actual expired timer after the actual helper DOWN,
+               # independently of how quickly the helper gets scheduled.
+               receive do
+                 {:work_expired, ^key, ^token} = expired ->
+                   receive do: (:continue_effect_queue -> send(self(), expired))
+               end
+
+               :effects_queued
+
              {:in, {:DOWN, _, :process, helper, :normal}} when helper != worker ->
                send(owner, {:effect_down_held, helper})
                receive do: (:continue_effect_down -> held)
@@ -512,11 +527,13 @@ defmodule Abyss.DatagramRuntimeTest do
     try do
       send(worker, :continue)
       assert_receive {:settlement_held, ^worker}
+      assert_receive {:effects_queue_held, helper}
       assert_receive {:writer_blocked, writer}
       assert_receive {:trace, ^runtime, :receive, {:effects_result, _, _, [{:unknown, ref}], nil}}
-      assert_receive {:effect_down_held, helper}
       assert_receive {:trace, ^runtime, :receive, {:DOWN, _, :process, ^helper, :normal}}
       assert_receive {:trace, ^runtime, :receive, {:work_expired, _, _}}
+      send(runtime, :continue_effect_queue)
+      assert_receive {:effect_down_held, ^helper}
       send(runtime, :continue_effect_down)
 
       assert %{input_count: 1, key_count: 1, egress: %{entries: 1}} =
@@ -538,6 +555,7 @@ defmodule Abyss.DatagramRuntimeTest do
       assert {:ok, {_, ^port, <<1::32>>}} = response(client)
       assert {:ok, _} = Endpoint.await(capability, ref, 1000)
     after
+      send(runtime, :continue_effect_queue)
       send(runtime, :continue_effect_down)
       send(runtime, :continue_worker_settlement)
       :erlang.trace(runtime, false, [:receive])

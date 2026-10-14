@@ -1,0 +1,75 @@
+Running ExUnit with seed: 953627, max_cases: 16
+Excluding tags: [:test]
+Including tags: [location: {"/tmp/abyss-watchdog-order-repro_test.exs", 468}]
+
+warning: redefining module Abyss.DatagramRuntime (current version loaded from /tmp/abyss-p6-otp28-final/lib/abyss/ebin/Elixir.Abyss.DatagramRuntime.beam)
+└─ nofile:1: Abyss.DatagramRuntime (module)
+
+WATCHDOG_EVENT: {-576460749711492,
+ {:in, {:invocation_result, #Reference<0.3013836963.378798082.150187>, ...}}}
+WATCHDOG_EVENT: {-576460749709715,
+ {:noreply, %{owner: #PID<0.217.0>, config: %Abyss.ServerConfig{...}, ...}}}
+WATCHDOG_EVENT: {-576460749696953,
+ {:in, {:effects_result, #Reference<0.3013836963.378798082.150187>, ...}}}
+WATCHDOG_EVENT: {-576460749635907,
+ {:noreply, %{owner: #PID<0.217.0>, config: %Abyss.ServerConfig{...}, ...}}}
+WATCHDOG_EVENT: {-576460749635725,
+ {:in, {:work_expired, #Reference<0.3013836963.378798082.150187>, ...}}}
+WATCHDOG_EVENT: {-576460749635650,
+ {:noreply, %{owner: #PID<0.217.0>, config: %Abyss.ServerConfig{...}, ...}}}
+WATCHDOG_EVENT: {-576460749635548, {:in, {:EXIT, #PID<0.226.0>, ...}}}
+WATCHDOG_EVENT: {-576460749635493,
+ {:noreply, %{owner: #PID<0.217.0>, config: %Abyss.ServerConfig{...}, ...}}}
+WATCHDOG_EVENT: {-576460749635419,
+ {:in, {:DOWN, #Reference<0.3013836963.378798082.150214>, ...}}}
+WATCHDOG_EVENT: {-576460749634216,
+ {:noreply, %{owner: #PID<0.217.0>, config: %Abyss.ServerConfig{...}, ...}}}
+WATCHDOG_EVENT: {-576460749634094, {:in, {:EXIT, #PID<0.225.0>, ...}}}
+WATCHDOG_EVENT: {-576460749634054,
+ {:noreply, %{owner: #PID<0.217.0>, config: %Abyss.ServerConfig{...}, ...}}}
+WATCHDOG_EVENT: {-576460749634008,
+ {:in, {:DOWN, #Reference<0.3013836963.378798082.150194>, ...}}}
+WATCHDOG_EVENT: {-576460749633934,
+ {:noreply, %{owner: #PID<0.217.0>, config: %Abyss.ServerConfig{...}, ...}}}
+WATCHDOG_EVENT: {-576460749633877, {:in, {:"$gen_call", {...}, ...}}}
+WATCHDOG_EVENT: {-576460749633820,
+ {:out,
+  %{
+    send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.221.0>, ...},
+    dropped: 0,
+    ...
+  }, {#PID<0.214.0>, ...}, %{...}}}
+WATCHDOG_EVENT: {-576460749633747, {:in, :continue_effect_down}}
+WATCHDOG_EVENT: {-576460749633717,
+ {:noreply, %{owner: #PID<0.217.0>, config: %Abyss.ServerConfig{...}, ...}}}
+WATCHDOG_EVENT: {-576460749633659, {:in, :continue_worker_settlement}}
+
+
+  1) test completed effects retain credit through settlement despite queued watchdog expiry (Abyss.DatagramRuntimeTest)
+     /tmp/abyss-watchdog-order-repro_test.exs:468
+     match (=) failed
+     code:  assert %{input_count: 1, key_count: 1, egress: %{entries: 1}} = Abyss.DatagramRuntime.info(runtime)
+     left:  %{input_count: 1, key_count: 1, egress: %{entries: 1}}
+     right: %{
+              send: %Abyss.Dispatcher.SendCapability{
+                writer: #PID<0.221.0>,
+                generation: #Reference<0.3013836963.378798082.150136>,
+                admission: #PID<0.220.0>,
+                io_backend: :gen_udp
+              },
+              dropped: 0,
+              retained_bytes: 0,
+              receipts: %{},
+              input_count: 0,
+              high_items: 1,
+              key_count: 0,
+              egress: %{bytes: 4, entries: 1},
+              high_bytes: 388,
+              timer_count: 0
+            }
+     stacktrace:
+       /tmp/abyss-watchdog-order-repro_test.exs:528: (test)
+
+
+Finished in 1.8 seconds (0.00s async, 1.8s sync)
+23 tests, 1 failure, 22 excluded

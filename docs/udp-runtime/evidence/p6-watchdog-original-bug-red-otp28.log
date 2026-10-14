@@ -1,0 +1,31 @@
+Cover compiling modules ...
+Running ExUnit with seed: 953627, max_cases: 16
+Excluding tags: [:test]
+Including tags: [location: {"/tmp/abyss-watchdog-original-bug_test.exs", 468}]
+
+warning: redefining module Abyss.DatagramRuntime
+└─ nofile:1: Abyss.DatagramRuntime (module)
+
+
+
+  1) test completed effects retain credit through settlement despite queued watchdog expiry (Abyss.DatagramRuntimeTest)
+     /tmp/abyss-watchdog-original-bug_test.exs:468
+     Expected truthy, got false
+     code: assert Process.alive?(worker)
+     arguments:
+
+         # 1
+         #PID<0.332.0>
+
+     stacktrace:
+       /tmp/abyss-watchdog-original-bug_test.exs:543: (test)
+
+
+Finished in 1.6 seconds (0.00s async, 1.6s sync)
+23 tests, 1 failure, 22 excluded
+
+Exporting cover results ...
+
+
+21:38:45.531 [warning] Module Abyss.DatagramRuntime: Failed to collect coverage information. Has it been reloaded or unloaded?
+Run "mix test.coverage" once all exports complete

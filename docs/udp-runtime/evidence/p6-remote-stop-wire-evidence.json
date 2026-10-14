@@ -1,0 +1,284 @@
+{
+  "source_sha": "4645a5ec68049b067c9530a3f1ee670fb557a775",
+  "run": "https://github.com/gsmlg-dev/abyss/actions/runs/38404707197",
+  "jobs": [
+    {
+      "job": "dhcp_optional",
+      "job_id": 115321173944,
+      "conclusion": "success",
+      "log": "p6-remote-stop-dhcp-optional.log",
+      "passes": [
+        {
+          "result": "PASS",
+          "backend": null,
+          "gates": 11,
+          "unsupported": []
+        }
+      ]
+    },
+    {
+      "job": "wire (28, native, keyed)",
+      "job_id": 115321174251,
+      "conclusion": "success",
+      "log": "p6-remote-stop-wire-28-native-keyed.log",
+      "passes": [
+        {
+          "result": "PASS",
+          "backend": "native",
+          "gates": 21,
+          "unsupported": []
+        }
+      ]
+    },
+    {
+      "job": "wire (28, socket, per_datagram)",
+      "job_id": 115321174323,
+      "conclusion": "success",
+      "log": "p6-remote-stop-wire-28-socket-per-datagram.log",
+      "passes": [
+        {
+          "result": "PASS_SUPPORTED_SUBSET",
+          "backend": "socket",
+          "gates": 10,
+          "unsupported": [
+            "ipv6_scoped_wire"
+          ]
+        }
+      ]
+    },
+    {
+      "job": "wire (28, socket, endpoint)",
+      "job_id": 115321174332,
+      "conclusion": "success",
+      "log": "p6-remote-stop-wire-28-socket-endpoint.log",
+      "passes": [
+        {
+          "result": "PASS_SUPPORTED_SUBSET",
+          "backend": "socket",
+          "gates": 10,
+          "unsupported": [
+            "ipv6_scoped_wire"
+          ]
+        }
+      ]
+    },
+    {
+      "job": "wire (27, socket, keyed)",
+      "job_id": 115321174570,
+      "conclusion": "success",
+      "log": "p6-remote-stop-wire-27-socket-keyed.log",
+      "passes": [
+        {
+          "result": "PASS_SUPPORTED_SUBSET",
+          "backend": "socket",
+          "gates": 10,
+          "unsupported": [
+            "ipv6_scoped_wire"
+          ]
+        }
+      ]
+    },
+    {
+      "job": "wire (27, socket, per_datagram)",
+      "job_id": 115321174609,
+      "conclusion": "success",
+      "log": "p6-remote-stop-wire-27-socket-per-datagram.log",
+      "passes": [
+        {
+          "result": "PASS_SUPPORTED_SUBSET",
+          "backend": "socket",
+          "gates": 10,
+          "unsupported": [
+            "ipv6_scoped_wire"
+          ]
+        }
+      ]
+    },
+    {
+      "job": "wire (27, native, endpoint)",
+      "job_id": 115321174730,
+      "conclusion": "success",
+      "log": "p6-remote-stop-wire-27-native-endpoint.log",
+      "passes": [
+        {
+          "result": "PASS",
+          "backend": "native",
+          "gates": 21,
+          "unsupported": []
+        }
+      ]
+    },
+    {
+      "job": "wire (27, socket, endpoint)",
+      "job_id": 115321174738,
+      "conclusion": "success",
+      "log": "p6-remote-stop-wire-27-socket-endpoint.log",
+      "passes": [
+        {
+          "result": "PASS_SUPPORTED_SUBSET",
+          "backend": "socket",
+          "gates": 10,
+          "unsupported": [
+            "ipv6_scoped_wire"
+          ]
+        }
+      ]
+    },
+    {
+      "job": "wire (28, native, per_datagram)",
+      "job_id": 115321174773,
+      "conclusion": "success",
+      "log": "p6-remote-stop-wire-28-native-per-datagram.log",
+      "passes": [
+        {
+          "result": "PASS",
+          "backend": "native",
+          "gates": 21,
+          "unsupported": []
+        }
+      ]
+    },
+    {
+      "job": "wire (28, socket, keyed)",
+      "job_id": 115321174785,
+      "conclusion": "success",
+      "log": "p6-remote-stop-wire-28-socket-keyed.log",
+      "passes": [
+        {
+          "result": "PASS_SUPPORTED_SUBSET",
+          "backend": "socket",
+          "gates": 10,
+          "unsupported": [
+            "ipv6_scoped_wire"
+          ]
+        }
+      ]
+    },
+    {
+      "job": "wire (28, inet, per_datagram)",
+      "job_id": 115321174855,
+      "conclusion": "success",
+      "log": "p6-remote-stop-wire-28-inet-per-datagram.log",
+      "passes": [
+        {
+          "result": "PASS",
+          "backend": "inet",
+          "gates": 15,
+          "unsupported": []
+        }
+      ]
+    },
+    {
+      "job": "wire (27, inet, per_datagram)",
+      "job_id": 115321174861,
+      "conclusion": "success",
+      "log": "p6-remote-stop-wire-27-inet-per-datagram.log",
+      "passes": [
+        {
+          "result": "PASS",
+          "backend": "inet",
+          "gates": 15,
+          "unsupported": []
+        }
+      ]
+    },
+    {
+      "job": "wire (27, inet, endpoint)",
+      "job_id": 115321174924,
+      "conclusion": "success",
+      "log": "p6-remote-stop-wire-27-inet-endpoint.log",
+      "passes": [
+        {
+          "result": "PASS",
+          "backend": "inet",
+          "gates": 15,
+          "unsupported": []
+        }
+      ]
+    },
+    {
+      "job": "wire (28, inet, keyed)",
+      "job_id": 115321174938,
+      "conclusion": "success",
+      "log": "p6-remote-stop-wire-28-inet-keyed.log",
+      "passes": [
+        {
+          "result": "PASS",
+          "backend": "inet",
+          "gates": 15,
+          "unsupported": []
+        }
+      ]
+    },
+    {
+      "job": "wire (27, inet, keyed)",
+      "job_id": 115321174956,
+      "conclusion": "success",
+      "log": "p6-remote-stop-wire-27-inet-keyed.log",
+      "passes": [
+        {
+          "result": "PASS",
+          "backend": "inet",
+          "gates": 15,
+          "unsupported": []
+        }
+      ]
+    },
+    {
+      "job": "wire (28, native, endpoint)",
+      "job_id": 115321174970,
+      "conclusion": "success",
+      "log": "p6-remote-stop-wire-28-native-endpoint.log",
+      "passes": [
+        {
+          "result": "PASS",
+          "backend": "native",
+          "gates": 21,
+          "unsupported": []
+        }
+      ]
+    },
+    {
+      "job": "wire (27, native, per_datagram)",
+      "job_id": 115321174998,
+      "conclusion": "success",
+      "log": "p6-remote-stop-wire-27-native-per-datagram.log",
+      "passes": [
+        {
+          "result": "PASS",
+          "backend": "native",
+          "gates": 21,
+          "unsupported": []
+        }
+      ]
+    },
+    {
+      "job": "wire (28, inet, endpoint)",
+      "job_id": 115321175011,
+      "conclusion": "success",
+      "log": "p6-remote-stop-wire-28-inet-endpoint.log",
+      "passes": [
+        {
+          "result": "PASS",
+          "backend": "inet",
+          "gates": 15,
+          "unsupported": []
+        }
+      ]
+    },
+    {
+      "job": "wire (27, native, keyed)",
+      "job_id": 115321175095,
+      "conclusion": "success",
+      "log": "p6-remote-stop-wire-27-native-keyed.log",
+      "passes": [
+        {
+          "result": "PASS",
+          "backend": "native",
+          "gates": 21,
+          "unsupported": []
+        }
+      ]
+    }
+  ]
+}
