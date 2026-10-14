@@ -1,0 +1,188 @@
+{
+  "conclusion": "success",
+  "databaseId": 38568588638,
+  "headSha": "71ecf7883c0aaf666406d24634ff5c022382029d",
+  "jobs": [
+    {
+      "completedAt": "2026-10-14T13:04:16Z",
+      "conclusion": "success",
+      "databaseId": 115867520754,
+      "name": "Run tests (Elixir 1.18, OTP 27)",
+      "startedAt": "2026-10-14T13:03:03Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-14T13:03:05Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-14T13:03:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:03:06Z",
+          "conclusion": "success",
+          "name": "Checkout",
+          "number": 2,
+          "startedAt": "2026-10-14T13:03:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:03:12Z",
+          "conclusion": "success",
+          "name": "Set up Elixir",
+          "number": 3,
+          "startedAt": "2026-10-14T13:03:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:03:13Z",
+          "conclusion": "success",
+          "name": "Install dependencies",
+          "number": 4,
+          "startedAt": "2026-10-14T13:03:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:03:14Z",
+          "conclusion": "success",
+          "name": "Check source code format",
+          "number": 5,
+          "startedAt": "2026-10-14T13:03:13Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:03:15Z",
+          "conclusion": "success",
+          "name": "Remove compiled application files",
+          "number": 6,
+          "startedAt": "2026-10-14T13:03:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:03:56Z",
+          "conclusion": "success",
+          "name": "Compile & lint dependencies",
+          "number": 7,
+          "startedAt": "2026-10-14T13:03:15Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:04:14Z",
+          "conclusion": "success",
+          "name": "Run tests",
+          "number": 8,
+          "startedAt": "2026-10-14T13:03:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:04:14Z",
+          "conclusion": "success",
+          "name": "Post Checkout",
+          "number": 16,
+          "startedAt": "2026-10-14T13:04:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:04:14Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 17,
+          "startedAt": "2026-10-14T13:04:14Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/gsmlg-dev/abyss/actions/runs/38568588638/job/115867520754",
+      "evidence_log": "release-workflow-job-115867520754.log",
+      "sha256": "354639c29d1f46fcbe64bb59e2a891fd4e22a9232eaf3dd778624cbc3df4ad50"
+    },
+    {
+      "completedAt": "2026-10-14T13:05:15Z",
+      "conclusion": "success",
+      "databaseId": 115868113442,
+      "name": "Publish release to hex.pm",
+      "startedAt": "2026-10-14T13:04:20Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-14T13:04:21Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-14T13:04:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:04:22Z",
+          "conclusion": "success",
+          "name": "\ud83d\uded1 Cancel Previous Runs",
+          "number": 2,
+          "startedAt": "2026-10-14T13:04:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:04:23Z",
+          "conclusion": "success",
+          "name": "\u2b07\ufe0f Checkout repo",
+          "number": 3,
+          "startedAt": "2026-10-14T13:04:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:04:28Z",
+          "conclusion": "success",
+          "name": "Set up Elixir",
+          "number": 4,
+          "startedAt": "2026-10-14T13:04:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:04:30Z",
+          "conclusion": "success",
+          "name": "Install Deps",
+          "number": 5,
+          "startedAt": "2026-10-14T13:04:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:05:12Z",
+          "conclusion": "success",
+          "name": "Publish to hex.pm",
+          "number": 6,
+          "startedAt": "2026-10-14T13:04:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:05:13Z",
+          "conclusion": "success",
+          "name": "Create Git Tag",
+          "number": 7,
+          "startedAt": "2026-10-14T13:05:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:05:13Z",
+          "conclusion": "success",
+          "name": "Post \u2b07\ufe0f Checkout repo",
+          "number": 14,
+          "startedAt": "2026-10-14T13:05:13Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:05:13Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 15,
+          "startedAt": "2026-10-14T13:05:13Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/gsmlg-dev/abyss/actions/runs/38568588638/job/115868113442",
+      "evidence_log": "release-workflow-job-115868113442.log",
+      "sha256": "82853fe7caf64a31d7a97072a2ab7c69fe100fa0aa52e539cede7b92dd7ce791"
+    }
+  ],
+  "name": "release",
+  "status": "completed",
+  "url": "https://github.com/gsmlg-dev/abyss/actions/runs/38568588638"
+}

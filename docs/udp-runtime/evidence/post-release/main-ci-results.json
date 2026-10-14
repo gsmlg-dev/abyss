@@ -1,0 +1,366 @@
+{
+  "conclusion": "failure",
+  "databaseId": 38568153779,
+  "headSha": "71ecf7883c0aaf666406d24634ff5c022382029d",
+  "jobs": [
+    {
+      "completedAt": "2026-10-14T13:00:37Z",
+      "conclusion": "success",
+      "databaseId": 115866064750,
+      "name": "Dialyzer",
+      "startedAt": "2026-10-14T12:59:54Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-14T12:59:55Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-14T12:59:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:59:56Z",
+          "conclusion": "success",
+          "name": "Checkout code",
+          "number": 2,
+          "startedAt": "2026-10-14T12:59:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:02Z",
+          "conclusion": "success",
+          "name": "Set up Elixir",
+          "number": 3,
+          "startedAt": "2026-10-14T12:59:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:03Z",
+          "conclusion": "success",
+          "name": "Restore dependencies cache",
+          "number": 4,
+          "startedAt": "2026-10-14T13:00:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:04Z",
+          "conclusion": "success",
+          "name": "Install dependencies",
+          "number": 5,
+          "startedAt": "2026-10-14T13:00:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:05Z",
+          "conclusion": "success",
+          "name": "Restore Dialyzer PLT cache",
+          "number": 6,
+          "startedAt": "2026-10-14T13:00:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:33Z",
+          "conclusion": "success",
+          "name": "Run Dialyzer",
+          "number": 7,
+          "startedAt": "2026-10-14T13:00:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:33Z",
+          "conclusion": "success",
+          "name": "Post Restore Dialyzer PLT cache",
+          "number": 12,
+          "startedAt": "2026-10-14T13:00:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:34Z",
+          "conclusion": "success",
+          "name": "Post Restore dependencies cache",
+          "number": 13,
+          "startedAt": "2026-10-14T13:00:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:34Z",
+          "conclusion": "success",
+          "name": "Post Checkout code",
+          "number": 14,
+          "startedAt": "2026-10-14T13:00:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:34Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 15,
+          "startedAt": "2026-10-14T13:00:34Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/gsmlg-dev/abyss/actions/runs/38568153779/job/115866064750",
+      "evidence_log": "main-ci-job-115866064750.log",
+      "sha256": "8c83ff93688fdee9fba3320484c4247880ae35f9728c5173f583c226a5eda9ec"
+    },
+    {
+      "completedAt": "2026-10-14T13:00:38Z",
+      "conclusion": "failure",
+      "databaseId": 115866064962,
+      "name": "Credo",
+      "startedAt": "2026-10-14T12:59:54Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-14T12:59:56Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-14T12:59:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:59:57Z",
+          "conclusion": "success",
+          "name": "Checkout code",
+          "number": 2,
+          "startedAt": "2026-10-14T12:59:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:03Z",
+          "conclusion": "success",
+          "name": "Set up Elixir",
+          "number": 3,
+          "startedAt": "2026-10-14T12:59:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:04Z",
+          "conclusion": "success",
+          "name": "Restore dependencies cache",
+          "number": 4,
+          "startedAt": "2026-10-14T13:00:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:05Z",
+          "conclusion": "success",
+          "name": "Install dependencies",
+          "number": 5,
+          "startedAt": "2026-10-14T13:00:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:36Z",
+          "conclusion": "failure",
+          "name": "Run Credo strict",
+          "number": 6,
+          "startedAt": "2026-10-14T13:00:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:36Z",
+          "conclusion": "skipped",
+          "name": "Post Restore dependencies cache",
+          "number": 11,
+          "startedAt": "2026-10-14T13:00:36Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:36Z",
+          "conclusion": "success",
+          "name": "Post Checkout code",
+          "number": 12,
+          "startedAt": "2026-10-14T13:00:36Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:36Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 13,
+          "startedAt": "2026-10-14T13:00:36Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/gsmlg-dev/abyss/actions/runs/38568153779/job/115866064962",
+      "evidence_log": "main-ci-job-115866064962.log",
+      "sha256": "3c40da86bb9b8c36796575d407a278287a87ff03e2c6aa4492cf2e29b6dab42a"
+    },
+    {
+      "completedAt": "2026-10-14T13:00:44Z",
+      "conclusion": "success",
+      "databaseId": 115866065097,
+      "name": "Compile",
+      "startedAt": "2026-10-14T12:59:54Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-14T12:59:56Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-14T12:59:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:59:57Z",
+          "conclusion": "success",
+          "name": "Checkout code",
+          "number": 2,
+          "startedAt": "2026-10-14T12:59:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:02Z",
+          "conclusion": "success",
+          "name": "Set up Elixir",
+          "number": 3,
+          "startedAt": "2026-10-14T12:59:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:03Z",
+          "conclusion": "success",
+          "name": "Restore dependencies cache",
+          "number": 4,
+          "startedAt": "2026-10-14T13:00:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:04Z",
+          "conclusion": "success",
+          "name": "Install dependencies",
+          "number": 5,
+          "startedAt": "2026-10-14T13:00:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:41Z",
+          "conclusion": "success",
+          "name": "Compile with warnings as errors",
+          "number": 6,
+          "startedAt": "2026-10-14T13:00:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:42Z",
+          "conclusion": "success",
+          "name": "Post Restore dependencies cache",
+          "number": 11,
+          "startedAt": "2026-10-14T13:00:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:42Z",
+          "conclusion": "success",
+          "name": "Post Checkout code",
+          "number": 12,
+          "startedAt": "2026-10-14T13:00:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:42Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 13,
+          "startedAt": "2026-10-14T13:00:42Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/gsmlg-dev/abyss/actions/runs/38568153779/job/115866065097",
+      "evidence_log": "main-ci-job-115866065097.log",
+      "sha256": "468e8277cc949976db730320c8a37932d251c7882d721449fc43fd7c4f72a71d"
+    },
+    {
+      "completedAt": "2026-10-14T13:00:11Z",
+      "conclusion": "success",
+      "databaseId": 115866065124,
+      "name": "Format Check",
+      "startedAt": "2026-10-14T12:59:54Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-14T12:59:56Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-14T12:59:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T12:59:58Z",
+          "conclusion": "success",
+          "name": "Checkout code",
+          "number": 2,
+          "startedAt": "2026-10-14T12:59:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:05Z",
+          "conclusion": "success",
+          "name": "Set up Elixir",
+          "number": 3,
+          "startedAt": "2026-10-14T12:59:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:06Z",
+          "conclusion": "success",
+          "name": "Restore dependencies cache",
+          "number": 4,
+          "startedAt": "2026-10-14T13:00:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:07Z",
+          "conclusion": "success",
+          "name": "Install dependencies",
+          "number": 5,
+          "startedAt": "2026-10-14T13:00:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:08Z",
+          "conclusion": "success",
+          "name": "Check code formatting",
+          "number": 6,
+          "startedAt": "2026-10-14T13:00:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:08Z",
+          "conclusion": "success",
+          "name": "Post Restore dependencies cache",
+          "number": 11,
+          "startedAt": "2026-10-14T13:00:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:09Z",
+          "conclusion": "success",
+          "name": "Post Checkout code",
+          "number": 12,
+          "startedAt": "2026-10-14T13:00:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-14T13:00:09Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 13,
+          "startedAt": "2026-10-14T13:00:09Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/gsmlg-dev/abyss/actions/runs/38568153779/job/115866065124",
+      "evidence_log": "main-ci-job-115866065124.log",
+      "sha256": "89094219f6416bf913bdbf45a2e23417b225ffcf93beea980e0f809040e0ccc9"
+    }
+  ],
+  "name": "CI",
+  "status": "completed",
+  "url": "https://github.com/gsmlg-dev/abyss/actions/runs/38568153779"
+}

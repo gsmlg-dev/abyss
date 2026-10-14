@@ -1,0 +1,787 @@
+Test	Set up job	﻿2026-10-14T13:00:15.6892951Z Current runner version: '2.337.0'
+Test	Set up job	2026-10-14T13:00:15.6920061Z ##[group]Runner Image Provisioner
+Test	Set up job	2026-10-14T13:00:15.6921010Z Hosted Compute Agent
+Test	Set up job	2026-10-14T13:00:15.6921931Z Version: 20261002.596
+Test	Set up job	2026-10-14T13:00:15.6922729Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+Test	Set up job	2026-10-14T13:00:15.6923523Z Build Date: 2026-10-02T22:28:27Z
+Test	Set up job	2026-10-14T13:00:15.6924321Z Worker ID: {d30297cf-3741-4539-9895-d9979ce51d2e}
+Test	Set up job	2026-10-14T13:00:15.6925074Z Region: westus
+Test	Set up job	2026-10-14T13:00:15.6925625Z Cloud: Azure
+Test	Set up job	2026-10-14T13:00:15.6926233Z ##[endgroup]
+Test	Set up job	2026-10-14T13:00:15.6927850Z ##[group]Operating System
+Test	Set up job	2026-10-14T13:00:15.6928498Z Ubuntu
+Test	Set up job	2026-10-14T13:00:15.6929145Z 24.04.5
+Test	Set up job	2026-10-14T13:00:15.6929689Z LTS
+Test	Set up job	2026-10-14T13:00:15.6930240Z ##[endgroup]
+Test	Set up job	2026-10-14T13:00:15.6930843Z ##[group]Runner Image
+Test	Set up job	2026-10-14T13:00:15.6931632Z Image: ubuntu-24.04
+Test	Set up job	2026-10-14T13:00:15.6932262Z Version: 20261004.327.1
+Test	Set up job	2026-10-14T13:00:15.6933458Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+Test	Set up job	2026-10-14T13:00:15.6935431Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+Test	Set up job	2026-10-14T13:00:15.6936459Z ##[endgroup]
+Test	Set up job	2026-10-14T13:00:15.6939914Z ##[group]GITHUB_TOKEN Permissions
+Test	Set up job	2026-10-14T13:00:15.6942447Z Actions: write
+Test	Set up job	2026-10-14T13:00:15.6943118Z ArtifactMetadata: write
+Test	Set up job	2026-10-14T13:00:15.6943746Z Attestations: write
+Test	Set up job	2026-10-14T13:00:15.6944378Z Checks: write
+Test	Set up job	2026-10-14T13:00:15.6944938Z CodeQuality: write
+Test	Set up job	2026-10-14T13:00:15.6945530Z Contents: write
+Test	Set up job	2026-10-14T13:00:15.6946153Z CopilotRequests: write
+Test	Set up job	2026-10-14T13:00:15.6946759Z Deployments: write
+Test	Set up job	2026-10-14T13:00:15.6947356Z Discussions: write
+Test	Set up job	2026-10-14T13:00:15.6947939Z Drives: write
+Test	Set up job	2026-10-14T13:00:15.6948524Z Issues: write
+Test	Set up job	2026-10-14T13:00:15.6949208Z Metadata: read
+Test	Set up job	2026-10-14T13:00:15.6949753Z Models: read
+Test	Set up job	2026-10-14T13:00:15.6950319Z Packages: write
+Test	Set up job	2026-10-14T13:00:15.6950888Z Pages: write
+Test	Set up job	2026-10-14T13:00:15.6951921Z PullRequests: write
+Test	Set up job	2026-10-14T13:00:15.6952608Z RepositoryProjects: write
+Test	Set up job	2026-10-14T13:00:15.6953259Z SecurityEvents: write
+Test	Set up job	2026-10-14T13:00:15.6953922Z Statuses: write
+Test	Set up job	2026-10-14T13:00:15.6954539Z VulnerabilityAlerts: read
+Test	Set up job	2026-10-14T13:00:15.6955149Z ##[endgroup]
+Test	Set up job	2026-10-14T13:00:15.6957269Z Secret source: Actions
+Test	Set up job	2026-10-14T13:00:15.6958338Z Cache mode: write
+Test	Set up job	2026-10-14T13:00:15.6959128Z Prepare workflow directory
+Test	Set up job	2026-10-14T13:00:15.7397119Z Prepare all required actions
+Test	Set up job	2026-10-14T13:00:15.7446659Z Getting action download info
+Test	Set up job	2026-10-14T13:00:16.1228172Z Download action repository 'actions/checkout@v5' (SHA:fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09)
+Test	Set up job	2026-10-14T13:00:16.2430361Z Download action repository 'erlef/setup-beam@v1' (SHA:54075bcc5e249e4758d363f27d099f55d843f124)
+Test	Set up job	2026-10-14T13:00:16.6695249Z Download action repository 'oven-sh/setup-bun@v2' (SHA:0c5077e51419868618aeaa5fe8019c62421857d6)
+Test	Set up job	2026-10-14T13:00:17.0326125Z Download action repository 'actions/cache@v4' (SHA:0057852bfaa89a56745cba8c7296529d2fc39830)
+Test	Set up job	2026-10-14T13:00:17.2375743Z Complete job name: Test
+Test	Initialize containers	﻿2026-10-14T13:00:17.2914882Z ##[group]Checking docker version
+Test	Initialize containers	2026-10-14T13:00:17.2927984Z ##[command]/usr/bin/docker version --format '{{.Server.APIVersion}}'
+Test	Initialize containers	2026-10-14T13:00:17.3767627Z '1.48'
+Test	Initialize containers	2026-10-14T13:00:17.3782824Z Docker daemon API version: '1.48'
+Test	Initialize containers	2026-10-14T13:00:17.3783753Z ##[command]/usr/bin/docker version --format '{{.Client.APIVersion}}'
+Test	Initialize containers	2026-10-14T13:00:17.3942424Z '1.48'
+Test	Initialize containers	2026-10-14T13:00:17.3956044Z Docker client API version: '1.48'
+Test	Initialize containers	2026-10-14T13:00:17.3962359Z ##[endgroup]
+Test	Initialize containers	2026-10-14T13:00:17.3965465Z ##[group]Clean up resources from previous jobs
+Test	Initialize containers	2026-10-14T13:00:17.3971541Z ##[command]/usr/bin/docker ps --all --quiet --no-trunc --filter "label=de5430"
+Test	Initialize containers	2026-10-14T13:00:17.4117637Z ##[command]/usr/bin/docker network prune --force --filter "label=de5430"
+Test	Initialize containers	2026-10-14T13:00:17.4263572Z ##[endgroup]
+Test	Initialize containers	2026-10-14T13:00:17.4264179Z ##[group]Create local container network
+Test	Initialize containers	2026-10-14T13:00:17.4274021Z ##[command]/usr/bin/docker network create --label de5430 github_network_5d2d918c1d094fd692c9333c44cd80eb
+Test	Initialize containers	2026-10-14T13:00:17.4768979Z 10c0b6c17d4c21cdb33619304fd5de73dcff020efb961896f9ed4e2034a88051
+Test	Initialize containers	2026-10-14T13:00:17.4790328Z ##[endgroup]
+Test	Initialize containers	2026-10-14T13:00:17.4814834Z ##[group]Starting mailhog service container
+Test	Initialize containers	2026-10-14T13:00:17.4836926Z ##[command]/usr/bin/docker pull mailhog/mailhog:latest
+Test	Initialize containers	2026-10-14T13:00:18.5039347Z latest: Pulling from mailhog/mailhog
+Test	Initialize containers	2026-10-14T13:00:18.5044067Z df20fa9351a1: Pulling fs layer
+Test	Initialize containers	2026-10-14T13:00:18.5045518Z ed8968b2872e: Pulling fs layer
+Test	Initialize containers	2026-10-14T13:00:18.5046378Z a92cc7c5fd73: Pulling fs layer
+Test	Initialize containers	2026-10-14T13:00:18.5047174Z f17c8f1adafb: Pulling fs layer
+Test	Initialize containers	2026-10-14T13:00:18.5047953Z 03954754c53a: Pulling fs layer
+Test	Initialize containers	2026-10-14T13:00:18.5048726Z 60493946972a: Pulling fs layer
+Test	Initialize containers	2026-10-14T13:00:18.5049506Z 368ee3bc1dbb: Pulling fs layer
+Test	Initialize containers	2026-10-14T13:00:18.5050260Z 03954754c53a: Waiting
+Test	Initialize containers	2026-10-14T13:00:18.5050940Z 60493946972a: Waiting
+Test	Initialize containers	2026-10-14T13:00:18.5052007Z 368ee3bc1dbb: Waiting
+Test	Initialize containers	2026-10-14T13:00:18.5052707Z f17c8f1adafb: Waiting
+Test	Initialize containers	2026-10-14T13:00:18.7703529Z df20fa9351a1: Verifying Checksum
+Test	Initialize containers	2026-10-14T13:00:18.7709846Z df20fa9351a1: Download complete
+Test	Initialize containers	2026-10-14T13:00:18.7927316Z ed8968b2872e: Verifying Checksum
+Test	Initialize containers	2026-10-14T13:00:18.7928825Z ed8968b2872e: Download complete
+Test	Initialize containers	2026-10-14T13:00:18.8026153Z a92cc7c5fd73: Download complete
+Test	Initialize containers	2026-10-14T13:00:18.8634446Z df20fa9351a1: Pull complete
+Test	Initialize containers	2026-10-14T13:00:18.9637852Z ed8968b2872e: Pull complete
+Test	Initialize containers	2026-10-14T13:00:18.9737835Z a92cc7c5fd73: Pull complete
+Test	Initialize containers	2026-10-14T13:00:19.0346386Z 03954754c53a: Verifying Checksum
+Test	Initialize containers	2026-10-14T13:00:19.0348452Z 03954754c53a: Download complete
+Test	Initialize containers	2026-10-14T13:00:19.0589336Z 60493946972a: Verifying Checksum
+Test	Initialize containers	2026-10-14T13:00:19.0591574Z 60493946972a: Download complete
+Test	Initialize containers	2026-10-14T13:00:19.2902737Z 368ee3bc1dbb: Verifying Checksum
+Test	Initialize containers	2026-10-14T13:00:19.2904462Z 368ee3bc1dbb: Download complete
+Test	Initialize containers	2026-10-14T13:00:19.4360308Z f17c8f1adafb: Verifying Checksum
+Test	Initialize containers	2026-10-14T13:00:19.4361694Z f17c8f1adafb: Download complete
+Test	Initialize containers	2026-10-14T13:00:23.9078718Z f17c8f1adafb: Pull complete
+Test	Initialize containers	2026-10-14T13:00:23.9168537Z 03954754c53a: Pull complete
+Test	Initialize containers	2026-10-14T13:00:24.1291637Z 60493946972a: Pull complete
+Test	Initialize containers	2026-10-14T13:00:24.1400914Z 368ee3bc1dbb: Pull complete
+Test	Initialize containers	2026-10-14T13:00:24.1433119Z Digest: sha256:8d76a3d4ffa32a3661311944007a415332c4bb855657f4f6c57996405c009bea
+Test	Initialize containers	2026-10-14T13:00:24.1447105Z Status: Downloaded newer image for mailhog/mailhog:latest
+Test	Initialize containers	2026-10-14T13:00:24.1454817Z docker.io/mailhog/mailhog:latest
+Test	Initialize containers	2026-10-14T13:00:24.1488754Z ##[command]/usr/bin/docker create --name ee349886c7e94319be5279aa0c0fed81_mailhogmailhoglatest_f6b8b0 --label de5430 --network github_network_5d2d918c1d094fd692c9333c44cd80eb --network-alias mailhog -p 1025:1025 -p 8025:8025  -e GITHUB_ACTIONS=true -e CI=true mailhog/mailhog:latest
+Test	Initialize containers	2026-10-14T13:00:24.1774221Z f2ab6ee80a3645358a7d22ed1c68e6283acd621e6220d291f7f099c83ef643e7
+Test	Initialize containers	2026-10-14T13:00:24.1799347Z ##[command]/usr/bin/docker start f2ab6ee80a3645358a7d22ed1c68e6283acd621e6220d291f7f099c83ef643e7
+Test	Initialize containers	2026-10-14T13:00:24.4068455Z f2ab6ee80a3645358a7d22ed1c68e6283acd621e6220d291f7f099c83ef643e7
+Test	Initialize containers	2026-10-14T13:00:24.4097136Z ##[command]/usr/bin/docker ps --all --filter id=f2ab6ee80a3645358a7d22ed1c68e6283acd621e6220d291f7f099c83ef643e7 --filter status=running --no-trunc --format "{{.ID}} {{.Status}}"
+Test	Initialize containers	2026-10-14T13:00:24.4214560Z f2ab6ee80a3645358a7d22ed1c68e6283acd621e6220d291f7f099c83ef643e7 Up Less than a second
+Test	Initialize containers	2026-10-14T13:00:24.4233263Z ##[command]/usr/bin/docker port f2ab6ee80a3645358a7d22ed1c68e6283acd621e6220d291f7f099c83ef643e7
+Test	Initialize containers	2026-10-14T13:00:24.4350902Z 1025/tcp -> 0.0.0.0:1025
+Test	Initialize containers	2026-10-14T13:00:24.4351986Z 1025/tcp -> [::]:1025
+Test	Initialize containers	2026-10-14T13:00:24.4352318Z 8025/tcp -> 0.0.0.0:8025
+Test	Initialize containers	2026-10-14T13:00:24.4352568Z 8025/tcp -> [::]:8025
+Test	Initialize containers	2026-10-14T13:00:24.4394758Z ##[endgroup]
+Test	Initialize containers	2026-10-14T13:00:24.4403107Z ##[group]Waiting for all services to be ready
+Test	Initialize containers	2026-10-14T13:00:24.4416675Z ##[command]/usr/bin/docker inspect --format="{{if .Config.Healthcheck}}{{print .State.Health.Status}}{{end}}" f2ab6ee80a3645358a7d22ed1c68e6283acd621e6220d291f7f099c83ef643e7
+Test	Initialize containers	2026-10-14T13:00:24.4546126Z mailhog service is healthy.
+Test	Initialize containers	2026-10-14T13:00:24.4547022Z ##[endgroup]
+Test	Checkout code	﻿2026-10-14T13:00:24.4921534Z ##[group]Run actions/checkout@v5
+Test	Checkout code	2026-10-14T13:00:24.4922158Z with:
+Test	Checkout code	2026-10-14T13:00:24.4922379Z   repository: gsmlg-dev/abyss
+Test	Checkout code	2026-10-14T13:00:24.4924625Z   token: ***
+Test	Checkout code	2026-10-14T13:00:24.4924850Z   ssh-strict: true
+Test	Checkout code	2026-10-14T13:00:24.4925075Z   ssh-user: git
+Test	Checkout code	2026-10-14T13:00:24.4925278Z   persist-credentials: true
+Test	Checkout code	2026-10-14T13:00:24.4925508Z   clean: true
+Test	Checkout code	2026-10-14T13:00:24.4925710Z   sparse-checkout-cone-mode: true
+Test	Checkout code	2026-10-14T13:00:24.4925969Z   fetch-depth: 1
+Test	Checkout code	2026-10-14T13:00:24.4926160Z   fetch-tags: false
+Test	Checkout code	2026-10-14T13:00:24.4926357Z   show-progress: true
+Test	Checkout code	2026-10-14T13:00:24.4926555Z   lfs: false
+Test	Checkout code	2026-10-14T13:00:24.4926734Z   submodules: false
+Test	Checkout code	2026-10-14T13:00:24.4926934Z   set-safe-directory: true
+Test	Checkout code	2026-10-14T13:00:24.4927174Z   allow-unsafe-pr-checkout: false
+Test	Checkout code	2026-10-14T13:00:24.4927622Z ##[endgroup]
+Test	Checkout code	2026-10-14T13:00:24.5950490Z Syncing repository: gsmlg-dev/abyss
+Test	Checkout code	2026-10-14T13:00:24.5952798Z ##[group]Getting Git version info
+Test	Checkout code	2026-10-14T13:00:24.5953472Z Working directory is '/home/runner/work/abyss/abyss'
+Test	Checkout code	2026-10-14T13:00:24.5954240Z [command]/usr/bin/git version
+Test	Checkout code	2026-10-14T13:00:24.6023601Z git version 2.55.0
+Test	Checkout code	2026-10-14T13:00:24.6046998Z ##[endgroup]
+Test	Checkout code	2026-10-14T13:00:24.6065042Z Temporarily overriding HOME='/home/runner/work/_temp/ed631716-691f-468e-a2a6-c6fe5bd65402' before making global git config changes
+Test	Checkout code	2026-10-14T13:00:24.6066908Z Adding repository directory to the temporary git global config as a safe directory
+Test	Checkout code	2026-10-14T13:00:24.6071473Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+Test	Checkout code	2026-10-14T13:00:24.6124275Z Deleting the contents of '/home/runner/work/abyss/abyss'
+Test	Checkout code	2026-10-14T13:00:24.6134431Z ##[group]Initializing the repository
+Test	Checkout code	2026-10-14T13:00:24.6135135Z [command]/usr/bin/git init /home/runner/work/abyss/abyss
+Test	Checkout code	2026-10-14T13:00:24.6243693Z hint: Using 'master' as the name for the initial branch. This default branch name
+Test	Checkout code	2026-10-14T13:00:24.6245189Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+Test	Checkout code	2026-10-14T13:00:24.6247665Z hint: to use in all of your new repositories, which will suppress this warning,
+Test	Checkout code	2026-10-14T13:00:24.6248861Z hint: call:
+Test	Checkout code	2026-10-14T13:00:24.6249563Z hint:
+Test	Checkout code	2026-10-14T13:00:24.6250144Z hint: 	git config --global init.defaultBranch <name>
+Test	Checkout code	2026-10-14T13:00:24.6250658Z hint:
+Test	Checkout code	2026-10-14T13:00:24.6251396Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+Test	Checkout code	2026-10-14T13:00:24.6252260Z hint: 'development'. The just-created branch can be renamed via this command:
+Test	Checkout code	2026-10-14T13:00:24.6252900Z hint:
+Test	Checkout code	2026-10-14T13:00:24.6253219Z hint: 	git branch -m <name>
+Test	Checkout code	2026-10-14T13:00:24.6253635Z hint:
+Test	Checkout code	2026-10-14T13:00:24.6254205Z hint: Disable this message with "git config set advice.defaultBranchName false"
+Test	Checkout code	2026-10-14T13:00:24.6255097Z Initialized empty Git repository in /home/runner/work/abyss/abyss/.git/
+Test	Checkout code	2026-10-14T13:00:24.6265666Z [command]/usr/bin/git remote add origin https://github.com/gsmlg-dev/abyss
+Test	Checkout code	2026-10-14T13:00:24.6316463Z ##[endgroup]
+Test	Checkout code	2026-10-14T13:00:24.6317261Z ##[group]Disabling automatic garbage collection
+Test	Checkout code	2026-10-14T13:00:24.6323496Z [command]/usr/bin/git config --local gc.auto 0
+Test	Checkout code	2026-10-14T13:00:24.6359838Z ##[endgroup]
+Test	Checkout code	2026-10-14T13:00:24.6360509Z ##[group]Setting up auth
+Test	Checkout code	2026-10-14T13:00:24.6372630Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Test	Checkout code	2026-10-14T13:00:24.6401683Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Test	Checkout code	2026-10-14T13:00:24.6769757Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Test	Checkout code	2026-10-14T13:00:24.6812580Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Test	Checkout code	2026-10-14T13:00:24.7043558Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Test	Checkout code	2026-10-14T13:00:24.7078593Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Test	Checkout code	2026-10-14T13:00:24.7325020Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Test	Checkout code	2026-10-14T13:00:24.7368002Z ##[endgroup]
+Test	Checkout code	2026-10-14T13:00:24.7368779Z ##[group]Fetching the repository
+Test	Checkout code	2026-10-14T13:00:24.7379062Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +71ecf7883c0aaf666406d24634ff5c022382029d:refs/remotes/origin/main
+Test	Checkout code	2026-10-14T13:00:25.5290978Z From https://github.com/gsmlg-dev/abyss
+Test	Checkout code	2026-10-14T13:00:25.5306185Z  * [new ref]         71ecf7883c0aaf666406d24634ff5c022382029d -> origin/main
+Test	Checkout code	2026-10-14T13:00:25.5308500Z ##[endgroup]
+Test	Checkout code	2026-10-14T13:00:25.5309069Z ##[group]Determining the checkout info
+Test	Checkout code	2026-10-14T13:00:25.5309505Z ##[endgroup]
+Test	Checkout code	2026-10-14T13:00:25.5309781Z [command]/usr/bin/git sparse-checkout disable
+Test	Checkout code	2026-10-14T13:00:25.5363190Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Test	Checkout code	2026-10-14T13:00:25.5396555Z ##[group]Checking out the ref
+Test	Checkout code	2026-10-14T13:00:25.5401566Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+Test	Checkout code	2026-10-14T13:00:25.6156331Z Switched to a new branch 'main'
+Test	Checkout code	2026-10-14T13:00:25.6160421Z branch 'main' set up to track 'origin/main'.
+Test	Checkout code	2026-10-14T13:00:25.6170135Z ##[endgroup]
+Test	Checkout code	2026-10-14T13:00:25.6215948Z [command]/usr/bin/git log -1 --format=%H
+Test	Checkout code	2026-10-14T13:00:25.6244022Z 71ecf7883c0aaf666406d24634ff5c022382029d
+Test	Set up Elixir	﻿2026-10-14T13:00:25.6474815Z ##[group]Run erlef/setup-beam@v1
+Test	Set up Elixir	2026-10-14T13:00:25.6475117Z with:
+Test	Set up Elixir	2026-10-14T13:00:25.6475317Z   elixir-version: 1.18
+Test	Set up Elixir	2026-10-14T13:00:25.6475541Z   otp-version: 28
+Test	Set up Elixir	2026-10-14T13:00:25.6477720Z   github-token: ***
+Test	Set up Elixir	2026-10-14T13:00:25.6477940Z   otp-architecture: 64
+Test	Set up Elixir	2026-10-14T13:00:25.6478150Z   install-hex: true
+Test	Set up Elixir	2026-10-14T13:00:25.6478359Z   install-rebar: true
+Test	Set up Elixir	2026-10-14T13:00:25.6478569Z   version-type: loose
+Test	Set up Elixir	2026-10-14T13:00:25.6478782Z   disable_problem_matchers: false
+Test	Set up Elixir	2026-10-14T13:00:25.6479057Z   hexpm-mirrors: https://builds.hex.pm
+Test	Set up Elixir	
+Test	Set up Elixir	2026-10-14T13:00:25.6479336Z ##[endgroup]
+Test	Set up Elixir	2026-10-14T13:00:25.8242057Z ##[group]Installing Erlang/OTP OTP-28.5.0.7 - built on amd64/ubuntu-24.04
+Test	Set up Elixir	2026-10-14T13:00:26.3609051Z [command]/usr/bin/tar zx --strip-components=1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/4188f9e2-c83b-42c7-93bd-8cd077333b3e -f /home/runner/work/_temp/2302171c-1d5d-40f1-8589-06c57ed6de73
+Test	Set up Elixir	2026-10-14T13:00:29.0976248Z [command]/home/runner/work/_temp/.setup-beam/otp/Install -minimal /home/runner/work/_temp/.setup-beam/otp
+Test	Set up Elixir	2026-10-14T13:00:29.1281910Z Installed Erlang/OTP version
+Test	Set up Elixir	2026-10-14T13:00:29.1299434Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -version
+Test	Set up Elixir	2026-10-14T13:00:29.1420390Z Erlang (SMP,ASYNC_THREADS) (BEAM) emulator version 16.4.0.6
+Test	Set up Elixir	2026-10-14T13:00:29.1455870Z ##[endgroup]
+Test	Set up Elixir	2026-10-14T13:00:29.1467741Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -noshell -eval io:format(erlang:system_info(otp_release)), halt().
+Test	Set up Elixir	2026-10-14T13:00:29.3257264Z 28::debug::Was not able to coerce latest with semver
+Test	Set up Elixir	2026-10-14T13:00:29.3274334Z Using Elixir 1.18.5 (built for Erlang/OTP 27)
+Test	Set up Elixir	2026-10-14T13:00:29.3275545Z ##[group]Installing Elixir v1.18.5-otp-27
+Test	Set up Elixir	2026-10-14T13:00:29.4134039Z [command]/usr/bin/unzip -o -q /home/runner/work/_temp/01e794fd-fb9b-4271-9983-d18102315f3c
+Test	Set up Elixir	2026-10-14T13:00:29.8500126Z Installed Elixir version
+Test	Set up Elixir	2026-10-14T13:00:29.8522923Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/elixir -v
+Test	Set up Elixir	2026-10-14T13:00:30.0976554Z Erlang/OTP 28 [erts-16.4.0.6] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:1] [jit:ns]
+Test	Set up Elixir	2026-10-14T13:00:30.0977378Z 
+Test	Set up Elixir	2026-10-14T13:00:30.1039760Z Elixir 1.18.5 (compiled with Erlang/OTP 27)
+Test	Set up Elixir	2026-10-14T13:00:30.1086511Z ##[endgroup]
+Test	Set up Elixir	2026-10-14T13:00:30.1088177Z ##[group]Running mix local.rebar,--force
+Test	Set up Elixir	2026-10-14T13:00:30.1098683Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.rebar --force
+Test	Set up Elixir	2026-10-14T13:00:30.8831321Z * creating /home/runner/.mix/elixir/1-18-otp-28/rebar3
+Test	Set up Elixir	2026-10-14T13:00:30.8908940Z ##[endgroup]
+Test	Set up Elixir	2026-10-14T13:00:30.8909782Z ##[group]Running mix local.hex,--force
+Test	Set up Elixir	2026-10-14T13:00:30.8926028Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.hex --force
+Test	Set up Elixir	2026-10-14T13:00:31.6665445Z * creating /home/runner/.mix/archives/hex-2.5.2
+Test	Set up Elixir	2026-10-14T13:00:31.6752494Z ##[endgroup]
+Test	Run oven-sh/setup-bun@v2	﻿2026-10-14T13:00:31.6956603Z ##[group]Run oven-sh/setup-bun@v2
+Test	Run oven-sh/setup-bun@v2	2026-10-14T13:00:31.6956904Z with:
+Test	Run oven-sh/setup-bun@v2	2026-10-14T13:00:31.6957101Z   bun-version: latest
+Test	Run oven-sh/setup-bun@v2	2026-10-14T13:00:31.6957318Z   no-cache: false
+Test	Run oven-sh/setup-bun@v2	2026-10-14T13:00:31.6959460Z   token: ***
+Test	Run oven-sh/setup-bun@v2	2026-10-14T13:00:31.6959654Z env:
+Test	Run oven-sh/setup-bun@v2	2026-10-14T13:00:31.6959912Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Test	Run oven-sh/setup-bun@v2	2026-10-14T13:00:31.6960340Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Test	Run oven-sh/setup-bun@v2	2026-10-14T13:00:31.6960684Z ##[endgroup]
+Test	Run oven-sh/setup-bun@v2	2026-10-14T13:00:32.2655566Z Downloading a new version of Bun: https://github.com/oven-sh/bun/releases/download/bun-v1.4.3/bun-linux-x64.zip
+Test	Run oven-sh/setup-bun@v2	2026-10-14T13:00:32.6142695Z [command]/usr/bin/unzip -o -q /home/runner/work/_temp/d4e6683d-4301-4745-a786-ff7166d55a4c.zip
+Test	Run oven-sh/setup-bun@v2	2026-10-14T13:00:33.3072992Z [command]/home/runner/.bun/bin/bun --revision
+Test	Run oven-sh/setup-bun@v2	2026-10-14T13:00:33.3129547Z 1.4.3+c6da4a4d3
+Test	Restore dependencies cache	﻿2026-10-14T13:00:33.5113605Z ##[group]Run actions/cache@v4
+Test	Restore dependencies cache	2026-10-14T13:00:33.5113906Z with:
+Test	Restore dependencies cache	2026-10-14T13:00:33.5114102Z   path: deps
+Test	Restore dependencies cache	_build
+Test	Restore dependencies cache	
+Test	Restore dependencies cache	2026-10-14T13:00:33.5114484Z   key: Linux-mix-23079aaa40567801449cba6ad1e1d3a6f676c52b016d9fbd47e7fa8498d0e3d2
+Test	Restore dependencies cache	2026-10-14T13:00:33.5114910Z   restore-keys: Linux-mix-
+Test	Restore dependencies cache	
+Test	Restore dependencies cache	2026-10-14T13:00:33.5115155Z   enableCrossOsArchive: false
+Test	Restore dependencies cache	2026-10-14T13:00:33.5115403Z   fail-on-cache-miss: false
+Test	Restore dependencies cache	2026-10-14T13:00:33.5115628Z   lookup-only: false
+Test	Restore dependencies cache	2026-10-14T13:00:33.5115829Z   save-always: false
+Test	Restore dependencies cache	2026-10-14T13:00:33.5116015Z env:
+Test	Restore dependencies cache	2026-10-14T13:00:33.5116265Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Test	Restore dependencies cache	2026-10-14T13:00:33.5116705Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Test	Restore dependencies cache	2026-10-14T13:00:33.5117059Z ##[endgroup]
+Test	Restore dependencies cache	2026-10-14T13:00:33.6245166Z (node:2866) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Test	Restore dependencies cache	2026-10-14T13:00:33.6246606Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Test	Restore dependencies cache	2026-10-14T13:00:33.8883555Z Cache hit for: Linux-mix-23079aaa40567801449cba6ad1e1d3a6f676c52b016d9fbd47e7fa8498d0e3d2
+Test	Restore dependencies cache	2026-10-14T13:00:33.8992960Z (node:2866) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Test	Restore dependencies cache	2026-10-14T13:00:34.9483442Z Received 1988151 of 1988151 (100.0%), 2.4 MBs/sec
+Test	Restore dependencies cache	2026-10-14T13:00:34.9484150Z Cache Size: ~2 MB (1988151 B)
+Test	Restore dependencies cache	2026-10-14T13:00:34.9518826Z [command]/usr/bin/tar -xf /home/runner/work/_temp/8741ff22-7754-4fa1-8f81-6dee19bbfeaf/cache.tzst -P -C /home/runner/work/abyss/abyss --use-compress-program unzstd
+Test	Restore dependencies cache	2026-10-14T13:00:34.9945755Z Cache restored successfully
+Test	Restore dependencies cache	2026-10-14T13:00:35.0024346Z Cache restored from key: Linux-mix-23079aaa40567801449cba6ad1e1d3a6f676c52b016d9fbd47e7fa8498d0e3d2
+Test	Install dependencies	﻿2026-10-14T13:00:35.0128034Z ##[group]Run mix deps.get
+Test	Install dependencies	2026-10-14T13:00:35.0128356Z ^[[36;1mmix deps.get^[[0m
+Test	Install dependencies	2026-10-14T13:00:35.0332571Z shell: /usr/bin/bash -e {0}
+Test	Install dependencies	2026-10-14T13:00:35.0332888Z env:
+Test	Install dependencies	2026-10-14T13:00:35.0333217Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Test	Install dependencies	2026-10-14T13:00:35.0333755Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Test	Install dependencies	2026-10-14T13:00:35.0334183Z ##[endgroup]
+Test	Install dependencies	2026-10-14T13:00:35.8212443Z Resolving Hex dependencies...
+Test	Install dependencies	2026-10-14T13:00:35.8813396Z Resolution completed in 0.057s
+Test	Install dependencies	2026-10-14T13:00:35.8904562Z Unchanged:
+Test	Install dependencies	2026-10-14T13:00:35.8905274Z   bunt 1.0.0
+Test	Install dependencies	2026-10-14T13:00:35.8915886Z   credo 1.7.19
+Test	Install dependencies	2026-10-14T13:00:35.8916299Z   dhcp_ex 0.5.0
+Test	Install dependencies	2026-10-14T13:00:35.8916654Z   dialyxir 1.4.8
+Test	Install dependencies	2026-10-14T13:00:35.8917424Z   earmark_parser 1.4.46
+Test	Install dependencies	2026-10-14T13:00:35.8917825Z   erlex 0.2.9
+Test	Install dependencies	2026-10-14T13:00:35.8918160Z   ex_dns 0.5.0
+Test	Install dependencies	2026-10-14T13:00:35.8918505Z   ex_doc 0.40.4
+Test	Install dependencies	2026-10-14T13:00:35.8918847Z   file_system 1.1.1
+Test	Install dependencies	2026-10-14T13:00:35.8919203Z   jason 1.4.5
+Test	Install dependencies	2026-10-14T13:00:35.8919589Z   machete 0.3.12
+Test	Install dependencies	2026-10-14T13:00:35.8919930Z   makeup 1.2.3
+Test	Install dependencies	2026-10-14T13:00:35.8920276Z   makeup_elixir 1.0.1
+Test	Install dependencies	2026-10-14T13:00:35.8920644Z   makeup_erlang 1.1.0
+Test	Install dependencies	2026-10-14T13:00:35.8921002Z   mime 2.0.7
+Test	Install dependencies	2026-10-14T13:00:35.8921521Z   mox 1.3.2
+Test	Install dependencies	2026-10-14T13:00:35.8921864Z   nimble_ownership 1.0.2
+Test	Install dependencies	2026-10-14T13:00:35.8922258Z   nimble_parsec 1.4.2
+Test	Install dependencies	2026-10-14T13:00:35.8922618Z   telemetry 1.4.2
+Test	Install dependencies	2026-10-14T13:00:35.8922971Z   telemetry_metrics 1.2.0
+Test	Install dependencies	2026-10-14T13:00:35.8923341Z   tesla 1.21.3
+Test	Install dependencies	2026-10-14T13:00:35.9350340Z All dependencies are up to date
+Test	Run tests	﻿2026-10-14T13:00:35.9497516Z ##[group]Run mix test
+Test	Run tests	2026-10-14T13:00:35.9497800Z ^[[36;1mmix test^[[0m
+Test	Run tests	2026-10-14T13:00:35.9560874Z shell: /usr/bin/bash -e {0}
+Test	Run tests	2026-10-14T13:00:35.9561356Z env:
+Test	Run tests	2026-10-14T13:00:35.9561636Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Test	Run tests	2026-10-14T13:00:35.9562082Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Test	Run tests	2026-10-14T13:00:35.9562442Z ##[endgroup]
+Test	Run tests	2026-10-14T13:00:36.5114369Z ==> earmark_parser
+Test	Run tests	2026-10-14T13:00:36.5115108Z Compiling 2 files (.xrl)
+Test	Run tests	2026-10-14T13:00:36.5384431Z Compiling 1 file (.yrl)
+Test	Run tests	2026-10-14T13:00:36.5681009Z Compiling 3 files (.erl)
+Test	Run tests	2026-10-14T13:00:36.7277992Z Compiling 32 files (.ex)
+Test	Run tests	2026-10-14T13:00:37.3428993Z Generated earmark_parser app
+Test	Run tests	2026-10-14T13:00:37.4148908Z ==> file_system
+Test	Run tests	2026-10-14T13:00:37.4149821Z Compiling 7 files (.ex)
+Test	Run tests	2026-10-14T13:00:37.5632463Z Generated file_system app
+Test	Run tests	2026-10-14T13:00:37.5881558Z ==> mime
+Test	Run tests	2026-10-14T13:00:37.5882459Z Compiling 1 file (.ex)
+Test	Run tests	2026-10-14T13:00:37.6752327Z Generated mime app
+Test	Run tests	2026-10-14T13:00:37.6886503Z ==> bunt
+Test	Run tests	2026-10-14T13:00:37.6886982Z Compiling 2 files (.ex)
+Test	Run tests	2026-10-14T13:00:38.0247659Z Generated bunt app
+Test	Run tests	2026-10-14T13:00:38.0401804Z ==> jason
+Test	Run tests	2026-10-14T13:00:38.0402340Z Compiling 10 files (.ex)
+Test	Run tests	2026-10-14T13:00:39.2414324Z Generated jason app
+Test	Run tests	2026-10-14T13:00:39.2640495Z ==> erlex
+Test	Run tests	2026-10-14T13:00:39.2641768Z Compiling 1 file (.xrl)
+Test	Run tests	2026-10-14T13:00:39.2759659Z Compiling 1 file (.yrl)
+Test	Run tests	2026-10-14T13:00:39.3301881Z Compiling 2 files (.erl)
+Test	Run tests	2026-10-14T13:00:39.7463724Z Compiling 2 files (.ex)
+Test	Run tests	2026-10-14T13:00:39.8841922Z Generated erlex app
+Test	Run tests	2026-10-14T13:00:39.8994502Z ==> machete
+Test	Run tests	2026-10-14T13:00:39.8995247Z Compiling 43 files (.ex)
+Test	Run tests	2026-10-14T13:00:40.5180814Z Generated machete app
+Test	Run tests	2026-10-14T13:00:40.5788155Z ==> nimble_parsec
+Test	Run tests	2026-10-14T13:00:40.5798508Z Compiling 4 files (.ex)
+Test	Run tests	2026-10-14T13:00:40.9147018Z Generated nimble_parsec app
+Test	Run tests	2026-10-14T13:00:40.9344763Z ==> makeup
+Test	Run tests	2026-10-14T13:00:40.9345315Z Compiling 15 files (.ex)
+Test	Run tests	2026-10-14T13:00:41.3018820Z Generated makeup app
+Test	Run tests	2026-10-14T13:00:41.3254038Z ==> makeup_elixir
+Test	Run tests	2026-10-14T13:00:41.3254535Z Compiling 6 files (.ex)
+Test	Run tests	2026-10-14T13:00:49.6265871Z Generated makeup_elixir app
+Test	Run tests	2026-10-14T13:00:49.6471366Z ==> makeup_erlang
+Test	Run tests	2026-10-14T13:00:49.6471860Z Compiling 4 files (.ex)
+Test	Run tests	2026-10-14T13:00:59.6998288Z Generated makeup_erlang app
+Test	Run tests	2026-10-14T13:00:59.7262878Z ==> ex_doc
+Test	Run tests	2026-10-14T13:00:59.7263554Z Compiling 30 files (.ex)
+Test	Run tests	2026-10-14T13:01:00.7374428Z Generated ex_doc app
+Test	Run tests	2026-10-14T13:01:01.0741481Z ==> abyss
+Test	Run tests	2026-10-14T13:01:01.0742779Z ===> Analyzing applications...
+Test	Run tests	2026-10-14T13:01:01.1142314Z ===> Compiling telemetry
+Test	Run tests	2026-10-14T13:01:01.3772560Z ==> telemetry_metrics
+Test	Run tests	2026-10-14T13:01:01.3773411Z Compiling 7 files (.ex)
+Test	Run tests	2026-10-14T13:01:01.4791355Z Generated telemetry_metrics app
+Test	Run tests	2026-10-14T13:01:01.5021803Z ==> dialyxir
+Test	Run tests	2026-10-14T13:01:01.5022734Z Compiling 70 files (.ex)
+Test	Run tests	2026-10-14T13:01:02.0729873Z Generated dialyxir app
+Test	Run tests	2026-10-14T13:01:02.1221021Z ==> dhcp_ex
+Test	Run tests	2026-10-14T13:01:02.1222392Z Compiling 12 files (.ex)
+Test	Run tests	2026-10-14T13:01:02.5706954Z Generated dhcp_ex app
+Test	Run tests	2026-10-14T13:01:02.6196155Z ==> credo
+Test	Run tests	2026-10-14T13:01:02.6197148Z Compiling 257 files (.ex)
+Test	Run tests	2026-10-14T13:01:07.8597135Z Generated credo app
+Test	Run tests	2026-10-14T13:01:07.9141382Z ==> nimble_ownership
+Test	Run tests	2026-10-14T13:01:07.9142591Z Compiling 2 files (.ex)
+Test	Run tests	2026-10-14T13:01:08.1502509Z Generated nimble_ownership app
+Test	Run tests	2026-10-14T13:01:08.2025708Z ==> mox
+Test	Run tests	2026-10-14T13:01:08.2026715Z Compiling 2 files (.ex)
+Test	Run tests	2026-10-14T13:01:08.3977531Z Generated mox app
+Test	Run tests	2026-10-14T13:01:08.4226073Z ==> tesla
+Test	Run tests	2026-10-14T13:01:08.4226547Z Compiling 57 files (.ex)
+Test	Run tests	2026-10-14T13:01:09.2284576Z Generated tesla app
+Test	Run tests	2026-10-14T13:01:09.2698614Z ==> ex_dns
+Test	Run tests	2026-10-14T13:01:09.2699556Z Compiling 71 files (.ex)
+Test	Run tests	2026-10-14T13:01:11.1610045Z Generated ex_dns app
+Test	Run tests	2026-10-14T13:01:11.2227020Z ==> abyss
+Test	Run tests	2026-10-14T13:01:11.2236846Z Compiling 40 files (.ex)
+Test	Run tests	2026-10-14T13:01:12.8982048Z Generated abyss app
+Test	Run tests	2026-10-14T13:01:13.1637637Z Cover compiling modules ...
+Test	Run tests	2026-10-14T13:01:14.3372368Z Running ExUnit with seed: 285988, max_cases: 8
+Test	Run tests	2026-10-14T13:01:14.3515246Z Excluding tags: [integration: true, slow: true]
+Test	Run tests	2026-10-14T13:01:14.3531597Z 
+Test	Run tests	2026-10-14T13:01:15.3685149Z ...............................................................
+Test	Run tests	2026-10-14T13:01:15.3732423Z 13:01:15.365 [info] The function passed as a handler with ID "test-handler" is a local function.
+Test	Run tests	2026-10-14T13:01:15.3764004Z This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+Test	Run tests	2026-10-14T13:01:15.3791570Z 
+Test	Run tests	2026-10-14T13:01:15.3822013Z https://hexdocs.pm/telemetry/telemetry.html#attach/4
+Test	Run tests	2026-10-14T13:01:15.4822967Z ....
+Test	Run tests	2026-10-14T13:01:15.4842424Z 13:01:15.470 [info] The function passed as a handler with ID "test-handler" is a local function.
+Test	Run tests	2026-10-14T13:01:15.4873156Z This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+Test	Run tests	2026-10-14T13:01:15.4901446Z 
+Test	Run tests	2026-10-14T13:01:15.4922148Z https://hexdocs.pm/telemetry/telemetry.html#attach/4
+Test	Run tests	2026-10-14T13:01:16.5439642Z ................................................................................................................................................................
+Test	Run tests	2026-10-14T13:01:16.5462934Z 13:01:16.543 [warning] Option :num_acceptors is deprecated. Use :num_listeners instead.
+Test	Run tests	2026-10-14T13:01:16.5487442Z .....
+Test	Run tests	2026-10-14T13:01:16.5488738Z 13:01:16.544 [warning] Option :num_acceptors is deprecated. Use :num_listeners instead.
+Test	Run tests	2026-10-14T13:01:23.3892745Z .............................................................................................................................................................................
+Test	Run tests	2026-10-14T13:01:23.3894316Z 13:01:23.388 [info] The function passed as a handler with ID :test_response_time_handler is a local function.
+Test	Run tests	2026-10-14T13:01:23.3897111Z This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+Test	Run tests	2026-10-14T13:01:23.3899075Z 
+Test	Run tests	2026-10-14T13:01:23.3899806Z https://hexdocs.pm/telemetry/telemetry.html#attach/4
+Test	Run tests	2026-10-14T13:01:23.6204233Z ...................................
+Test	Run tests	2026-10-14T13:01:23.6205339Z 13:01:23.617 [error] GenServer #PID<0.7752.0> terminating
+Test	Run tests	2026-10-14T13:01:23.6206487Z ** (stop) killed
+Test	Run tests	2026-10-14T13:01:23.6207372Z Last message: {:EXIT, #PID<0.7750.0>, :killed}
+Test	Run tests	2026-10-14T13:01:23.6209872Z State: %{owner: #PID<0.7750.0>, socket: #Port<0.508>, queue: {[], []}, max_bytes: 1048576, transport: Abyss.Transport.UDP, generation: #Reference<0.3442826873.3818127363.79444>, admission: #PID<0.7751.0>, max_queue: 128, owner_monitor: #Reference<0.3442826873.3818127363.79453>, owns_admission: false, queue_bytes: 0, sending: false}
+Test	Run tests	2026-10-14T13:01:23.6214178Z .
+Test	Run tests	2026-10-14T13:01:23.6214924Z 13:01:23.620 [error] GenServer #PID<0.7762.0> terminating
+Test	Run tests	2026-10-14T13:01:23.6216291Z ** (stop) killed
+Test	Run tests	2026-10-14T13:01:23.6217021Z Last message: {:EXIT, #PID<0.7760.0>, :killed}
+Test	Run tests	2026-10-14T13:01:23.6219545Z State: %{owner: #PID<0.7760.0>, socket: #Port<0.510>, queue: {[], []}, max_bytes: 1048576, transport: Abyss.Transport.UDP, generation: #Reference<0.3442826873.3818127362.70058>, admission: #PID<0.7761.0>, max_queue: 128, owner_monitor: #Reference<0.3442826873.3818127362.70067>, owns_admission: false, queue_bytes: 0, sending: false}
+Test	Run tests	2026-10-14T13:01:23.9720695Z ..........
+Test	Run tests	2026-10-14T13:01:23.9722260Z 13:01:23.971 [info] The function passed as a handler with ID "start-deadline-#PID<0.7934.0>" is a local function.
+Test	Run tests	2026-10-14T13:01:23.9725273Z This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+Test	Run tests	2026-10-14T13:01:23.9727410Z 
+Test	Run tests	2026-10-14T13:01:23.9727884Z https://hexdocs.pm/telemetry/telemetry.html#attach/4
+Test	Run tests	2026-10-14T13:01:24.1053342Z .
+Test	Run tests	2026-10-14T13:01:24.1054092Z 13:01:24.104 [error] GenServer #PID<0.7956.0> terminating
+Test	Run tests	2026-10-14T13:01:24.1054778Z ** (stop) killed
+Test	Run tests	2026-10-14T13:01:24.1055218Z Last message: {:EXIT, #PID<0.7954.0>, :killed}
+Test	Run tests	2026-10-14T13:01:24.1057659Z State: %{owner: #PID<0.7954.0>, socket: #Port<0.550>, queue: {[], []}, max_bytes: 1048576, transport: Abyss.QUIC.SocketTransport, generation: #Reference<0.3442826873.3818127363.79539>, admission: #PID<0.7955.0>, max_queue: 128, owner_monitor: #Reference<0.3442826873.3818127363.79549>, owns_admission: false, queue_bytes: 0, sending: false}
+Test	Run tests	2026-10-14T13:01:24.1066336Z ...
+Test	Run tests	2026-10-14T13:01:24.1066889Z 13:01:24.106 [error] GenServer #PID<0.7966.0> terminating
+Test	Run tests	2026-10-14T13:01:24.1067686Z ** (stop) {:host_component_down, :killed}
+Test	Run tests	2026-10-14T13:01:24.1068271Z Last message: {:EXIT, #PID<0.7968.0>, :killed}
+Test	Run tests	2026-10-14T13:01:24.1074625Z State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 43057}, port: 0, shutdown_timeout: 50, socket: #Port<0.551>, callbacks: %{#PID<0.7972.0> => {#Reference<0.3442826873.3818127361.85611>, #Reference<0.3442826873.3818127361.85615>}}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.3442826873.3818127361.85606> => %{id: #PID<0.7971.0>, generation: #Reference<0.3442826873.3818127361.85599>}}, writer: #PID<0.7968.0>, receiver: #PID<0.7970.0>, backend: Abyss.QUICServiceTest.Backend, alpn: ["test"], endpoint: #PID<0.7969.0>, generation: #Reference<0.3442826873.3818127361.85580>, admission: #PID<0.7967.0>, writer_timeout: 1000, callback_timeout: 5000, init_timeout: 5000, max_connections: 128, poll_interval: 10, event_batch: 32, writer_max_queue: 128, writer_max_bytes: 1048576, quic_options: [], worker_refs: %{#PID<0.7972.0> => #Reference<0.3442826873.3818127361.85606>}, _backend: Abyss.QUICServiceTest.Backend}}]]
+Test	Run tests	2026-10-14T13:01:24.1083178Z ...
+Test	Run tests	2026-10-14T13:01:24.1083765Z 13:01:24.107 [error] GenServer #PID<0.8007.0> terminating
+Test	Run tests	2026-10-14T13:01:24.1084433Z ** (RuntimeError) init crashed
+Test	Run tests	2026-10-14T13:01:24.1085108Z     test/abyss/quic_test.exs:16: Abyss.QUICServiceTest.Handler.init/3
+Test	Run tests	2026-10-14T13:01:24.1086132Z     (abyss 0.8.1) lib/abyss/quic/service.ex:453: anonymous fn/1 in Abyss.QUIC.Worker.handle_info/2
+Test	Run tests	2026-10-14T13:01:24.1087182Z     (abyss 0.8.1) lib/abyss/quic/service.ex:547: Abyss.QUIC.Worker.watched/3
+Test	Run tests	2026-10-14T13:01:24.1088042Z     (stdlib 7.3.0.3) gen_server.erl:2434: :gen_server.try_handle_info/3
+Test	Run tests	2026-10-14T13:01:24.1088843Z     (stdlib 7.3.0.3) gen_server.erl:2420: :gen_server.handle_msg/3
+Test	Run tests	2026-10-14T13:01:24.1089626Z     (stdlib 7.3.0.3) proc_lib.erl:333: :proc_lib.init_p_do_apply/3
+Test	Run tests	2026-10-14T13:01:24.1090281Z Last message: :attach
+Test	Run tests	2026-10-14T13:01:24.1091798Z State: [data: [{~c"State", %{owner: #PID<0.8001.0>, connection: %{id: #PID<0.8006.0>, generation: #Reference<0.3442826873.3818127361.85778>}, initialized: false}}]]
+Test	Run tests	2026-10-14T13:01:24.1092977Z .
+Test	Run tests	2026-10-14T13:01:24.1093481Z 13:01:24.108 [error] GenServer #PID<0.8019.0> terminating
+Test	Run tests	2026-10-14T13:01:24.1094192Z ** (stop) {:binding_failed, {:error, :refused}}
+Test	Run tests	2026-10-14T13:01:24.1095222Z Last message: :attach
+Test	Run tests	2026-10-14T13:01:24.1096446Z State: [data: [{~c"State", %{owner: #PID<0.8013.0>, connection: %{id: #PID<0.8018.0>, generation: #Reference<0.3442826873.3818127361.85856>}, initialized: false}}]]
+Test	Run tests	2026-10-14T13:01:24.1099758Z ..
+Test	Run tests	2026-10-14T13:01:24.1100596Z 13:01:24.109 [error] GenServer #PID<0.8039.0> terminating
+Test	Run tests	2026-10-14T13:01:24.1101509Z ** (stop) {:binding_failed, {:error, :init_failed}}
+Test	Run tests	2026-10-14T13:01:24.1102052Z Last message: :attach
+Test	Run tests	2026-10-14T13:01:24.1103050Z State: [data: [{~c"State", %{owner: #PID<0.8033.0>, connection: %{id: #PID<0.8038.0>, generation: #Reference<0.3442826873.3818127361.85966>}, initialized: false}}]]
+Test	Run tests	2026-10-14T13:01:24.1112446Z ..
+Test	Run tests	2026-10-14T13:01:24.1113105Z 13:01:24.110 [error] GenServer #PID<0.8046.0> terminating
+Test	Run tests	2026-10-14T13:01:24.1113751Z ** (stop) {:host_component_down, :killed}
+Test	Run tests	2026-10-14T13:01:24.1114539Z Last message: {:EXIT, #PID<0.8048.0>, :killed}
+Test	Run tests	2026-10-14T13:01:24.1119589Z State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 45230}, port: 0, shutdown_timeout: 50, socket: #Port<0.559>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.3442826873.3818127363.79604> => %{id: #PID<0.8051.0>, generation: #Reference<0.3442826873.3818127363.79597>}}, writer: #PID<0.8048.0>, receiver: #PID<0.8050.0>, backend: Abyss.QUICServiceTest.Backend, alpn: ["test"], endpoint: #PID<0.8049.0>, generation: #Reference<0.3442826873.3818127363.79582>, admission: #PID<0.8047.0>, writer_timeout: 1000, callback_timeout: 5000, init_timeout: 5000, max_connections: 128, poll_interval: 10, event_batch: 32, writer_max_queue: 128, writer_max_bytes: 1048576, quic_options: [], worker_refs: %{#PID<0.8052.0> => #Reference<0.3442826873.3818127363.79604>}, _backend: Abyss.QUICServiceTest.Backend}}]]
+Test	Run tests	2026-10-14T13:01:24.1124371Z 
+Test	Run tests	2026-10-14T13:01:24.1124703Z 13:01:24.111 [error] GenServer #PID<0.8054.0> terminating
+Test	Run tests	2026-10-14T13:01:24.1125300Z ** (stop) {:host_component_down, :killed}
+Test	Run tests	2026-10-14T13:01:24.1125813Z Last message: {:EXIT, #PID<0.8057.0>, :killed}
+Test	Run tests	2026-10-14T13:01:24.1129749Z State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 47046}, port: 0, shutdown_timeout: 50, socket: #Port<0.560>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.3442826873.3818127363.79643> => %{id: #PID<0.8059.0>, generation: #Reference<0.3442826873.3818127363.79636>}}, writer: #PID<0.8056.0>, receiver: #PID<0.8058.0>, backend: Abyss.QUICServiceTest.Backend, alpn: ["test"], endpoint: #PID<0.8057.0>, generation: #Reference<0.3442826873.3818127363.79621>, admission: #PID<0.8055.0>, writer_timeout: 1000, callback_timeout: 5000, init_timeout: 5000, max_connections: 128, poll_interval: 10, event_batch: 32, writer_max_queue: 128, writer_max_bytes: 1048576, quic_options: [], worker_refs: %{#PID<0.8060.0> => #Reference<0.3442826873.3818127363.79643>}, _backend: Abyss.QUICServiceTest.Backend}}]]
+Test	Run tests	2026-10-14T13:01:24.1135808Z 
+Test	Run tests	2026-10-14T13:01:24.1136165Z 13:01:24.111 [error] GenServer #PID<0.8062.0> terminating
+Test	Run tests	2026-10-14T13:01:24.1136838Z ** (stop) {:host_component_down, :killed}
+Test	Run tests	2026-10-14T13:01:24.1137383Z Last message: {:EXIT, #PID<0.8066.0>, :killed}
+Test	Run tests	2026-10-14T13:01:24.1142593Z State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 39730}, port: 0, shutdown_timeout: 50, socket: #Port<0.561>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.3442826873.3818127361.86038> => %{id: #PID<0.8067.0>, generation: #Reference<0.3442826873.3818127361.86031>}}, writer: #PID<0.8064.0>, receiver: #PID<0.8066.0>, backend: Abyss.QUICServiceTest.Backend, alpn: ["test"], endpoint: #PID<0.8065.0>, generation: #Reference<0.3442826873.3818127363.79664>, admission: #PID<0.8063.0>, writer_timeout: 1000, callback_timeout: 5000, init_timeout: 5000, max_connections: 128, poll_interval: 10, event_batch: 32, writer_max_queue: 128, writer_max_bytes: 1048576, quic_options: [], worker_refs: %{#PID<0.8068.0> => #Reference<0.3442826873.3818127361.86038>}, _backend: Abyss.QUICServiceTest.Backend}}]]
+Test	Run tests	2026-10-14T13:01:24.1638561Z ...
+Test	Run tests	2026-10-14T13:01:24.1639146Z 13:01:24.163 [error] GenServer #PID<0.8085.0> terminating
+Test	Run tests	2026-10-14T13:01:24.1639783Z ** (stop) {:binding_failed, false}
+Test	Run tests	2026-10-14T13:01:24.1640297Z Last message: :attach
+Test	Run tests	2026-10-14T13:01:24.1641775Z State: [data: [{~c"State", %{owner: #PID<0.8079.0>, connection: %{id: #PID<0.8084.0>, generation: #Reference<0.3442826873.3818127363.79737>}, initialized: false}}]]
+Test	Run tests	2026-10-14T13:01:24.4118896Z ..........
+Test	Run tests	2026-10-14T13:01:24.4120100Z 13:01:24.411 [info] The function passed as a handler with ID "scaler-test-#PID<0.8655.0>" is a local function.
+Test	Run tests	2026-10-14T13:01:24.4122333Z This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+Test	Run tests	2026-10-14T13:01:24.4123532Z 
+Test	Run tests	2026-10-14T13:01:24.4123789Z https://hexdocs.pm/telemetry/telemetry.html#attach/4
+Test	Run tests	2026-10-14T13:01:27.9685885Z .......................................................................................................
+Test	Run tests	2026-10-14T13:01:27.9687312Z 13:01:27.968 [info] The function passed as a handler with ID #Reference<0.3442826873.3818127362.74233> is a local function.
+Test	Run tests	2026-10-14T13:01:27.9689833Z This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+Test	Run tests	2026-10-14T13:01:27.9691218Z 
+Test	Run tests	2026-10-14T13:01:27.9691897Z https://hexdocs.pm/telemetry/telemetry.html#attach/4
+Test	Run tests	2026-10-14T13:01:28.0012192Z .......
+Test	Run tests	2026-10-14T13:01:28.0013036Z 13:01:28.000 [debug] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0013900Z .
+Test	Run tests	2026-10-14T13:01:28.0014601Z 13:01:28.001 [error] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0015199Z 
+Test	Run tests	2026-10-14T13:01:28.0015639Z 13:01:28.001 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0016172Z 
+Test	Run tests	2026-10-14T13:01:28.0016544Z 13:01:28.001 [debug] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0016890Z 
+Test	Run tests	2026-10-14T13:01:28.0017153Z 13:01:28.001 [debug] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0017619Z .
+Test	Run tests	2026-10-14T13:01:28.0018105Z 13:01:28.001 [error] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0018507Z .
+Test	Run tests	2026-10-14T13:01:28.0018852Z 13:01:28.001 [error] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0019258Z 
+Test	Run tests	2026-10-14T13:01:28.0019640Z 13:01:28.001 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0029393Z .
+Test	Run tests	2026-10-14T13:01:28.0029663Z 13:01:28.002 [debug] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0030538Z .
+Test	Run tests	2026-10-14T13:01:28.0030929Z 13:01:28.002 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0031704Z .
+Test	Run tests	2026-10-14T13:01:28.0032081Z 13:01:28.002 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0033675Z .
+Test	Run tests	2026-10-14T13:01:28.0034056Z 13:01:28.002 [debug] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0034493Z .
+Test	Run tests	2026-10-14T13:01:28.0035077Z 13:01:28.002 [debug] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0037704Z ......
+Test	Run tests	2026-10-14T13:01:28.0038172Z 13:01:28.003 [error] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0038766Z .
+Test	Run tests	2026-10-14T13:01:28.0039244Z 13:01:28.003 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0039759Z .
+Test	Run tests	2026-10-14T13:01:28.0040172Z 13:01:28.003 [debug] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0040606Z .
+Test	Run tests	2026-10-14T13:01:28.0042002Z 13:01:28.003 [error] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0044363Z ..
+Test	Run tests	2026-10-14T13:01:28.0044642Z 13:01:28.004 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0046219Z 
+Test	Run tests	2026-10-14T13:01:28.0046488Z 13:01:28.004 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0049523Z ..
+Test	Run tests	2026-10-14T13:01:28.0049773Z 13:01:28.004 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0054624Z 
+Test	Run tests	2026-10-14T13:01:28.0054929Z 13:01:28.005 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0055382Z .
+Test	Run tests	2026-10-14T13:01:28.0055758Z 13:01:28.005 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0056436Z 
+Test	Run tests	2026-10-14T13:01:28.0056653Z 13:01:28.005 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0059626Z .
+Test	Run tests	2026-10-14T13:01:28.0060021Z 13:01:28.005 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0061270Z 
+Test	Run tests	2026-10-14T13:01:28.0062182Z 13:01:28.005 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0064251Z .
+Test	Run tests	2026-10-14T13:01:28.0064637Z 13:01:28.006 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0070076Z 
+Test	Run tests	2026-10-14T13:01:28.0070403Z 13:01:28.006 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0070831Z .
+Test	Run tests	2026-10-14T13:01:28.0071400Z 13:01:28.006 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0071708Z 
+Test	Run tests	2026-10-14T13:01:28.0071930Z 13:01:28.006 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0184374Z .
+Test	Run tests	2026-10-14T13:01:28.0185092Z 13:01:28.018 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0185721Z 
+Test	Run tests	2026-10-14T13:01:28.0186244Z 13:01:28.018 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0188946Z .
+Test	Run tests	2026-10-14T13:01:28.0189538Z 13:01:28.018 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0190421Z 
+Test	Run tests	2026-10-14T13:01:28.0190742Z 13:01:28.018 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0194935Z ..
+Test	Run tests	2026-10-14T13:01:28.0195436Z 13:01:28.019 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0196723Z 
+Test	Run tests	2026-10-14T13:01:28.0197104Z 13:01:28.019 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0199454Z .
+Test	Run tests	2026-10-14T13:01:28.0200012Z 13:01:28.019 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0200741Z 
+Test	Run tests	2026-10-14T13:01:28.0201295Z 13:01:28.020 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0204255Z .
+Test	Run tests	2026-10-14T13:01:28.0204927Z 13:01:28.020 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0205924Z 
+Test	Run tests	2026-10-14T13:01:28.0206322Z 13:01:28.020 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0208561Z .
+Test	Run tests	2026-10-14T13:01:28.0209060Z 13:01:28.020 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0210325Z 
+Test	Run tests	2026-10-14T13:01:28.0210688Z 13:01:28.020 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:28.0215904Z ...
+Test	Run tests	2026-10-14T13:01:28.0216785Z 13:01:28.021 [info] The function passed as a handler with ID :integration_test_handler is a local function.
+Test	Run tests	2026-10-14T13:01:28.0218816Z This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+Test	Run tests	2026-10-14T13:01:28.0220305Z 
+Test	Run tests	2026-10-14T13:01:28.0220713Z https://hexdocs.pm/telemetry/telemetry.html#attach/4
+Test	Run tests	2026-10-14T13:01:30.3292333Z ........................................
+Test	Run tests	2026-10-14T13:01:30.3293021Z 13:01:30.328 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.3302118Z 
+Test	Run tests	2026-10-14T13:01:30.3302569Z 13:01:30.330 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.3313172Z 
+Test	Run tests	2026-10-14T13:01:30.3313814Z 13:01:30.331 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.3316732Z 
+Test	Run tests	2026-10-14T13:01:30.3317172Z 13:01:30.331 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.3321631Z .
+Test	Run tests	2026-10-14T13:01:30.3322202Z 13:01:30.331 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.3634581Z 
+Test	Run tests	2026-10-14T13:01:30.3635415Z 13:01:30.363 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.3641405Z .
+Test	Run tests	2026-10-14T13:01:30.3642069Z 13:01:30.363 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.3655664Z 
+Test	Run tests	2026-10-14T13:01:30.3656190Z 13:01:30.365 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.3660140Z .
+Test	Run tests	2026-10-14T13:01:30.3660586Z 13:01:30.365 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.3969296Z 
+Test	Run tests	2026-10-14T13:01:30.3973554Z 13:01:30.396 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.3981607Z ..
+Test	Run tests	2026-10-14T13:01:30.3982276Z 13:01:30.397 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.4497075Z 
+Test	Run tests	2026-10-14T13:01:30.4497938Z 13:01:30.449 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.4509053Z .
+Test	Run tests	2026-10-14T13:01:30.4510630Z 13:01:30.450 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.4575037Z 
+Test	Run tests	2026-10-14T13:01:30.4575717Z 13:01:30.457 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.4580545Z .
+Test	Run tests	2026-10-14T13:01:30.4581509Z 13:01:30.457 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.5387906Z 
+Test	Run tests	2026-10-14T13:01:30.5388640Z 13:01:30.538 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.5395419Z .
+Test	Run tests	2026-10-14T13:01:30.5395986Z 13:01:30.539 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.5928325Z 
+Test	Run tests	2026-10-14T13:01:30.5929059Z 13:01:30.592 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.5934098Z .
+Test	Run tests	2026-10-14T13:01:30.5934784Z 13:01:30.593 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.6154705Z 
+Test	Run tests	2026-10-14T13:01:30.6155161Z 13:01:30.615 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.6158610Z 
+Test	Run tests	2026-10-14T13:01:30.6159048Z 13:01:30.615 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.6374393Z 
+Test	Run tests	2026-10-14T13:01:30.6374961Z 13:01:30.637 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.6379909Z .
+Test	Run tests	2026-10-14T13:01:30.6380422Z 13:01:30.637 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.7015214Z 
+Test	Run tests	2026-10-14T13:01:30.7015924Z 13:01:30.701 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.7019832Z .
+Test	Run tests	2026-10-14T13:01:30.7020349Z 13:01:30.701 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.7154806Z 
+Test	Run tests	2026-10-14T13:01:30.7155512Z 13:01:30.715 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.7159687Z .
+Test	Run tests	2026-10-14T13:01:30.7160432Z 13:01:30.715 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.8426054Z 
+Test	Run tests	2026-10-14T13:01:30.8426684Z 13:01:30.842 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.8431580Z .
+Test	Run tests	2026-10-14T13:01:30.8432205Z 13:01:30.843 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.8563349Z 
+Test	Run tests	2026-10-14T13:01:30.8564425Z 13:01:30.856 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.8568432Z .
+Test	Run tests	2026-10-14T13:01:30.8569003Z 13:01:30.856 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.8577544Z 
+Test	Run tests	2026-10-14T13:01:30.8577866Z 13:01:30.857 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.8703179Z 
+Test	Run tests	2026-10-14T13:01:30.8703910Z 13:01:30.870 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.8707482Z .
+Test	Run tests	2026-10-14T13:01:30.8708120Z 13:01:30.870 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.9024458Z 
+Test	Run tests	2026-10-14T13:01:30.9025482Z 13:01:30.902 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.9030069Z .
+Test	Run tests	2026-10-14T13:01:30.9030562Z 13:01:30.902 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.9245712Z 
+Test	Run tests	2026-10-14T13:01:30.9246302Z 13:01:30.924 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.9467010Z 
+Test	Run tests	2026-10-14T13:01:30.9467746Z 13:01:30.946 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.9687374Z 
+Test	Run tests	2026-10-14T13:01:30.9688116Z 13:01:30.968 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.9907128Z 
+Test	Run tests	2026-10-14T13:01:30.9907678Z 13:01:30.990 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.9911241Z 
+Test	Run tests	2026-10-14T13:01:30.9911500Z 13:01:30.990 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.9912929Z 
+Test	Run tests	2026-10-14T13:01:30.9913152Z 13:01:30.991 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.9915674Z 
+Test	Run tests	2026-10-14T13:01:30.9915889Z 13:01:30.991 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:30.9921532Z .
+Test	Run tests	2026-10-14T13:01:30.9921954Z 13:01:30.991 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:31.0032815Z 
+Test	Run tests	2026-10-14T13:01:31.0033162Z 13:01:31.003 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:31.0037423Z .
+Test	Run tests	2026-10-14T13:01:31.0037866Z 13:01:31.003 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:31.0325324Z 
+Test	Run tests	2026-10-14T13:01:31.0326098Z 13:01:31.032 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:31.0329961Z .
+Test	Run tests	2026-10-14T13:01:31.0330745Z 13:01:31.032 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:31.0635171Z 
+Test	Run tests	2026-10-14T13:01:31.0635857Z 13:01:31.063 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:31.0637743Z 
+Test	Run tests	2026-10-14T13:01:31.0638148Z 13:01:31.063 [error] GenServer #PID<0.11770.0> terminating
+Test	Run tests	2026-10-14T13:01:31.0638921Z ** (stop) {:runtime_exit, :killed}
+Test	Run tests	2026-10-14T13:01:31.0639584Z Last message: {:EXIT, #PID<0.11772.0>, :killed}
+Test	Run tests	2026-10-14T13:01:31.0652679Z State: %{runtime: #PID<0.11772.0>, mode: :running, handlers: %{}, dropped: 0, starter: #PID<0.11771.0>, received: 1, transport: Abyss.RuntimeBlockingTransport, memberships: [], generation: #Reference<0.3442826873.3818127362.77022>, local_info: {{127, 0, 0, 1}, 60718}, runtime_drop_counters: %{dropped: 0, internal_events_rejected: %{timer: 0, send_outcomes: 0}}, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.RuntimeBlockingTransport, transport_options: [ip: {127, 0, 0, 1}], handler_module: nil, datagram_options: %{io_backend: :gen_udp, execution: :per_datagram, runtime_options: [send_timeout: 10], route_key: nil, datagram_handler: Abyss.RuntimeTestHandler, required_metadata: [], required_capabilities: []}, handler_options: [owner: #PID<0.11767.0>], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 1, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, listener_socket: #Port<0.992>, server_pid: #PID<0.11768.0>, desired_key: {#PID<0.11768.0>, "listener-1"}, dispatcher: nil, listener_id: "listener-1", listener_span: %Abyss.Telemetry{span_name: :listener, telemetry_span_context: #Reference<0.3442826873.3818127362.77040>, start_time: -576460696944982183, start_metadata: %{broadcast: false, handler: nil, telemetry_span_context: #Reference<0.3442826873.3818127362.77040>, local_info: {{127, 0, 0, 1}, 60718}, listener_socket: #Port<0.992>, server_pid: #PID<0.11768.0>, listener_id: "listener-1", sampled: true}}, runtime_counter_source: #PID<0.11772.0>, runtime_send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.11774.0>, generation: #Reference<0.3442826873.3818127362.77022>, admission: #PID<0.11773.0>, io_backend: :gen_udp}, native_select: nil, armed: true, reservation: nil, drain_waiter: nil, active_high_water: 0, retained_high_water: 0}
+Test	Run tests	2026-10-14T13:01:31.0667451Z .
+Test	Run tests	2026-10-14T13:01:31.0667851Z 13:01:31.064 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:31.0668155Z 
+Test	Run tests	2026-10-14T13:01:31.0668370Z 13:01:31.065 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:31.0668651Z 
+Test	Run tests	2026-10-14T13:01:31.0668862Z 13:01:31.065 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:31.0669145Z 
+Test	Run tests	2026-10-14T13:01:31.0669342Z 13:01:31.066 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:31.0672054Z 
+Test	Run tests	2026-10-14T13:01:31.0672335Z 13:01:31.066 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:31.0676086Z 
+Test	Run tests	2026-10-14T13:01:31.0676475Z 13:01:31.067 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:31.0677664Z 
+Test	Run tests	2026-10-14T13:01:31.0678001Z 13:01:31.067 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:31.0689469Z 
+Test	Run tests	2026-10-14T13:01:31.0689762Z 13:01:31.068 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:31.0694996Z 
+Test	Run tests	2026-10-14T13:01:31.0695402Z 13:01:31.069 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:31.0700624Z .
+Test	Run tests	2026-10-14T13:01:31.0701497Z 13:01:31.069 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:31.1009207Z 
+Test	Run tests	2026-10-14T13:01:31.1010000Z 13:01:31.100 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:31.1014948Z .
+Test	Run tests	2026-10-14T13:01:31.1015404Z 13:01:31.101 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:31.1715958Z 
+Test	Run tests	2026-10-14T13:01:31.1716725Z 13:01:31.171 [info] Telemetry event
+Test	Run tests	2026-10-14T13:01:31.1717657Z .
+Test	Run tests	2026-10-14T13:01:31.1718242Z Finished in 16.8 seconds (8.6s async, 8.2s sync)
+Test	Run tests	2026-10-14T13:01:31.1719218Z 3 doctests, 688 tests, 0 failures, 7 excluded
+Test	Run tests	2026-10-14T13:01:31.1722725Z 
+Test	Run tests	2026-10-14T13:01:31.1723351Z Generating cover results ...
+Test	Run tests	2026-10-14T13:01:31.1723937Z 
+Test	Run tests	2026-10-14T13:01:31.1908312Z Percentage | Module
+Test	Run tests	2026-10-14T13:01:31.1909459Z -----------|--------------------------
+Test	Run tests	2026-10-14T13:01:31.1910383Z      0.00% | Abyss.DhcpSocket.Native
+Test	Run tests	2026-10-14T13:01:31.1911434Z      0.00% | Abyss.QUIC.SocketTransport
+Test	Run tests	2026-10-14T13:01:31.1912283Z     21.74% | Abyss.QUIC
+Test	Run tests	2026-10-14T13:01:31.1912973Z     60.87% | Abyss.Connection
+Test	Run tests	2026-10-14T13:01:31.1913722Z     66.88% | Abyss.Transport.UDP.Native
+Test	Run tests	2026-10-14T13:01:31.1914511Z     75.76% | Abyss.DatagramWorker
+Test	Run tests	2026-10-14T13:01:31.1915252Z     76.00% | Abyss.Endpoint
+Test	Run tests	2026-10-14T13:01:31.1915958Z     76.92% | Abyss.UDPAdmission
+Test	Run tests	2026-10-14T13:01:31.1916713Z     78.72% | Abyss.Dispatcher.Writer
+Test	Run tests	2026-10-14T13:01:31.1917556Z     78.95% | Abyss.Transport.UDP.Unicast
+Test	Run tests	2026-10-14T13:01:31.1918391Z     80.00% | Abyss.Transport.UDP.Multicast
+Test	Run tests	2026-10-14T13:01:31.1919157Z     80.56% | Abyss.Datagram
+Test	Run tests	2026-10-14T13:01:31.1919861Z     81.89% | Abyss.Dispatcher.Admission
+Test	Run tests	2026-10-14T13:01:31.1920516Z     82.35% | Abyss.Transport.UDP.Broadcast
+Test	Run tests	2026-10-14T13:01:31.1921340Z     82.99% | Abyss.QUIC.Service
+Test	Run tests	2026-10-14T13:01:31.1921949Z     83.72% | Abyss.Dispatcher
+Test	Run tests	2026-10-14T13:01:31.1922479Z     85.00% | Abyss.Handler
+Test	Run tests	2026-10-14T13:01:31.1922861Z     85.42% | Abyss.Server
+Test	Run tests	2026-10-14T13:01:31.1923778Z     87.30% | Abyss.Transport.UDP.Core
+Test	Run tests	2026-10-14T13:01:31.1924206Z     87.50% | Abyss.ListenerPool
+Test	Run tests	2026-10-14T13:01:31.1924598Z     88.00% | Abyss.QUIC.Worker
+Test	Run tests	2026-10-14T13:01:31.1924972Z     90.00% | Abyss
+Test	Run tests	2026-10-14T13:01:31.1925325Z     90.00% | Abyss.Transport.UDP
+Test	Run tests	2026-10-14T13:01:31.1925721Z     90.10% | Abyss.Listener
+Test	Run tests	2026-10-14T13:01:31.1926088Z     90.28% | Abyss.Utils
+Test	Run tests	2026-10-14T13:01:31.1926460Z     90.48% | Abyss.DatagramActions
+Test	Run tests	2026-10-14T13:01:31.1926874Z     90.96% | Abyss.DatagramRuntime
+Test	Run tests	2026-10-14T13:01:31.1927262Z     91.41% | Abyss.Client
+Test	Run tests	2026-10-14T13:01:31.1927641Z     92.31% | Abyss.ListenerPoolScaler
+Test	Run tests	2026-10-14T13:01:31.1928050Z     92.31% | Abyss.TableOwner
+Test	Run tests	2026-10-14T13:01:31.1928435Z     93.33% | Abyss.ShutdownListener
+Test	Run tests	2026-10-14T13:01:31.1928844Z     96.05% | Abyss.ServerConfig
+Test	Run tests	2026-10-14T13:01:31.1929226Z     96.55% | Abyss.Telemetry
+Test	Run tests	2026-10-14T13:01:31.1929793Z    100.00% | Abyss.Application
+Test	Run tests	2026-10-14T13:01:31.1930184Z    100.00% | Abyss.DatagramDispatcher
+Test	Run tests	2026-10-14T13:01:31.1930599Z    100.00% | Abyss.DatagramHandler
+Test	Run tests	2026-10-14T13:01:31.1931028Z    100.00% | Abyss.Dispatcher.SendCapability
+Test	Run tests	2026-10-14T13:01:31.1931963Z    100.00% | Abyss.ListenerStarter
+Test	Run tests	2026-10-14T13:01:31.1932420Z    100.00% | Abyss.Logger
+Test	Run tests	2026-10-14T13:01:31.1932835Z    100.00% | Abyss.QUIC.Handler
+Test	Run tests	2026-10-14T13:01:31.1933117Z    100.00% | Abyss.Transport
+Test	Run tests	2026-10-14T13:01:31.1933424Z -----------|--------------------------
+Test	Run tests	2026-10-14T13:01:31.1933684Z     86.32% | Total
+Test	Run tests	2026-10-14T13:01:31.1933815Z 
+Test	Run tests	2026-10-14T13:01:31.2296721Z Generated HTML coverage results in "cover" directory
+Test	Post Restore dependencies cache	﻿2026-10-14T13:01:31.5879580Z Post job cleanup.
+Test	Post Restore dependencies cache	2026-10-14T13:01:31.6979255Z Cache hit occurred on the primary key Linux-mix-23079aaa40567801449cba6ad1e1d3a6f676c52b016d9fbd47e7fa8498d0e3d2, not saving cache.
+Test	Post Restore dependencies cache	2026-10-14T13:01:31.6982246Z (node:3018) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Test	Post Restore dependencies cache	2026-10-14T13:01:31.6983772Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Test	Post Run oven-sh/setup-bun@v2	﻿2026-10-14T13:01:31.7094378Z Post job cleanup.
+Test	Post Checkout code	﻿2026-10-14T13:01:31.8886451Z Post job cleanup.
+Test	Post Checkout code	2026-10-14T13:01:31.9824104Z [command]/usr/bin/git version
+Test	Post Checkout code	2026-10-14T13:01:31.9870043Z git version 2.55.0
+Test	Post Checkout code	2026-10-14T13:01:31.9914953Z Temporarily overriding HOME='/home/runner/work/_temp/bed3f54e-f112-4e72-b092-472eb62b1a6a' before making global git config changes
+Test	Post Checkout code	2026-10-14T13:01:31.9916588Z Adding repository directory to the temporary git global config as a safe directory
+Test	Post Checkout code	2026-10-14T13:01:31.9920561Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+Test	Post Checkout code	2026-10-14T13:01:31.9964028Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Test	Post Checkout code	2026-10-14T13:01:32.0001879Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Test	Post Checkout code	2026-10-14T13:01:32.0267501Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Test	Post Checkout code	2026-10-14T13:01:32.0298955Z http.https://github.com/.extraheader
+Test	Post Checkout code	2026-10-14T13:01:32.0322648Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+Test	Post Checkout code	2026-10-14T13:01:32.0360140Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Test	Post Checkout code	2026-10-14T13:01:32.0640988Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Test	Post Checkout code	2026-10-14T13:01:32.0679020Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Test	Stop containers	﻿2026-10-14T13:01:32.1052640Z Print service container logs: ee349886c7e94319be5279aa0c0fed81_mailhogmailhoglatest_f6b8b0
+Test	Stop containers	2026-10-14T13:01:32.1057314Z ##[command]/usr/bin/docker logs --details f2ab6ee80a3645358a7d22ed1c68e6283acd621e6220d291f7f099c83ef643e7
+Test	Stop containers	2026-10-14T13:01:32.1184478Z  2026/10/14 13:00:24 Using in-memory storage
+Test	Stop containers	2026-10-14T13:01:32.1184888Z  [HTTP] Binding to address: 0.0.0.0:8025
+Test	Stop containers	2026-10-14T13:01:32.1185196Z  Creating API v1 with WebPath: 
+Test	Stop containers	2026-10-14T13:01:32.1185464Z  Creating API v2 with WebPath: 
+Test	Stop containers	2026-10-14T13:01:32.1185711Z  [APIv1] KEEPALIVE /api/v1/events
+Test	Stop containers	2026-10-14T13:01:32.1186034Z  2026/10/14 13:00:24 [SMTP] Binding to address: 0.0.0.0:1025
+Test	Stop containers	2026-10-14T13:01:32.1186438Z  2026/10/14 13:00:24 Serving under http://0.0.0.0:8025/
+Test	Stop containers	2026-10-14T13:01:32.1205643Z Stop and remove container: ee349886c7e94319be5279aa0c0fed81_mailhogmailhoglatest_f6b8b0
+Test	Stop containers	2026-10-14T13:01:32.1210623Z ##[command]/usr/bin/docker rm --force f2ab6ee80a3645358a7d22ed1c68e6283acd621e6220d291f7f099c83ef643e7
+Test	Stop containers	2026-10-14T13:01:32.2808273Z f2ab6ee80a3645358a7d22ed1c68e6283acd621e6220d291f7f099c83ef643e7
+Test	Stop containers	2026-10-14T13:01:32.2835416Z Remove container network: github_network_5d2d918c1d094fd692c9333c44cd80eb
+Test	Stop containers	2026-10-14T13:01:32.2839735Z ##[command]/usr/bin/docker network rm github_network_5d2d918c1d094fd692c9333c44cd80eb
+Test	Stop containers	2026-10-14T13:01:32.3767225Z github_network_5d2d918c1d094fd692c9333c44cd80eb
+Test	Complete job	﻿2026-10-14T13:01:32.3841990Z Cleaning up orphan processes
+Test	Complete job	2026-10-14T13:01:32.4157866Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/cache@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

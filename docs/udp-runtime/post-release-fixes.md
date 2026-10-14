@@ -1,6 +1,10 @@
 # Abyss 0.8.1 post-release hardening
 
-R1–R4 and final local/remote acceptance pass. Integration and publication are pending; this document does not yet claim release success.
+R1–R4 PASS. Abyss **0.8.1** is committed, pushed and published through the existing release workflow. Independent GitHub/Hex archive checks and a fresh published-only consumer PASS.
+
+Release tag/source: `71ecf7883c0aaf666406d24634ff5c022382029d`; validated executable/test candidate: `cd7f26822e366d65e3f168246020cd41ee7b7f3f`. The acceptance commit advances only nonpackaged evidence and reports. [Source parity](evidence/post-release/release-source-parity.json) proves identical executable, tests, workflows, locks and every packaged source/document byte. A final evidence-only handoff may advance main; the tag remains immutable and its byte parity is checked separately.
+
+[GitHub release](https://github.com/gsmlg-dev/abyss/releases/tag/0.8.1) · [Hex package](https://hex.pm/packages/abyss/0.8.1) · [Release workflow](https://github.com/gsmlg-dev/abyss/actions/runs/38568588638) · [Independent publication proof](evidence/post-release/published-verification.json)
 
 The input is Agent Note `27a599ba-c246-4263-92e9-77b80ef5605c`, revision 2, read in full and retained verbatim in [agent-note](evidence/post-release/agent-note.md). Baseline is actual checkout `cd65c84073c66de460ab883206414cf8ce0154bf`, preserving its documentation reorganization. Worktree `.trees/post-release-hardening`, branch `codex/post-release-hardening`; primary's three untracked user input Markdown files and all lockfiles remain preserved. Historical [0.8.0 acceptance](../archive/udp-runtime/acceptance.md) is unchanged and is not evidence for this patch.
 
@@ -47,7 +51,7 @@ git diff --check
 | Performance comparison | MEASURED:6serial samples per source/mode in both paired orders. Median throughput vs actualbaseline:legacy−5.09%, per_datagram−3.26%, endpoint−4.32%, keyed−8.14%. `final-performance-comparison.json` and48raw sample logs |
 | Final remote regression matrix | PASS3/3 atcd7f268:Linux27/28 andmacOS28. [run38567015353](https://github.com/gsmlg-dev/abyss/actions/runs/38567015353), `final-regressions-results.json` andall3joblogs |
 | Final remote wire/package matrix | PASS19/19 atcd7f268. [run38567021087](https://github.com/gsmlg-dev/abyss/actions/runs/38567021087), `final-network-results.json` andall19joblogs. Initial matrix38565997724 also19/19 |
-| Publication | NOT RUN |
+| Publication | PASS: release38568588638 bothjobs; tag0.8.1 at71ecf78; non-draftGitHubrelease, Hexchecksums/dependencies, all46packagedfiles matchtag/GitHubarchive/installeddependency; freshHex-only18endpoints/54actualexchanges, noRust/QUIC. `published-verification.json`, `published-verifier.log` |
 
 The initial macOS fixture assumed a 65,536-byte IPv6 send must fail with `:emsgsize`; Darwin actually completed it locally. The final fixture suspends only its owning listener and closes its real registered socket, then requires public send/await to return `:closed`, exactly one six-byte error event, and unchanged isolated success counts. No failure assertion, family/backend/sample coverage or production deadline was weakened. Its exact-final-byte RED remains discriminating.
 
@@ -57,6 +61,19 @@ The initial19-job wire matrix verifies independent peers in fixture-owned namesp
 
 ## Delivery
 
-R1 `babc1d1`, R2 `d9c01b1`, R3 `c1aff38`, watchdog lint `960c40a`, R4 `7574a4a`, version preparation `997e680`, portable fixture repair `cd7f268`. Version0.8.1 was confirmed available after live GitHub/Hex checks. Final OTP28 integration after the fixture repair also passes688tests+3doctests/0 (`final-otp28-integration-final-results.json`). Executable candidatecd7f268 has passed final required local andremote gates; mainCI/release/tag/package checks remain pending. Follow [progress](progress.md) for the exact resumable next action.
+R1 `babc1d1`, R2 `d9c01b1`, R3 `c1aff38`, watchdog lint `960c40a`, R4 `7574a4a`, version preparation `997e680`, portable fixture repair `cd7f268`. Version0.8.1 was confirmed available after live GitHub/Hex checks. Final OTP28 integration after the fixture repair also passes688tests+3doctests/0 (`final-otp28-integration-final-results.json`). Executable candidatecd7f268 has passed final required local andremote gates; Main source71ecf7883c0aaf666406d24634ff5c022382029d also passesTest38568153767 (688tests+3doctests/0,7defaultintegration exclusions), Compile/Format/Dialyzer inCI38568153779, regression38568153900(3/3), andwire38568153777(19/19). CI is absoluteFAIL only for83baselineCredo findings, zero introduced. Release38568588638 succeeded at71ecf78, with688tests+3doctests/0 and7defaultintegration exclusions in itsOTP27testjob. Tag/package independentverification passed; finalfullintegration separately includesintegration without thoseexclusions. Follow [progress](progress.md) for the exact resumable next action.
 
 Performance measurements retain both initial and reverse sample orders. First-order legacy throughput fell9.96%, reverse-order0.91%; the combined median remains5.09% below baseline. Other policies' combined declines are3.26–8.14%, with increased sampled tail latency. These are reported limitations, not a claim of unchanged production performance. The maintenance prompt requires measurement against current source and supplies no new performance threshold. No unrelated optimization or threshold change was made. Resource results certify only sampled host-managed bounds and observed completion; kernel drops and whole-VM/native reclamation remain unmeasured.
+
+## Publication evidence and final handoff
+
+The workflow ref and checkout SHA both resolve to71ecf7883c0aaf666406d24634ff5c022382029d; its version rewrites are no-ops. Bothrelease jobs succeed. GitHub release is non-draft/non-prerelease. The verifier checks outerHex checksum, innerarchive checksum, exact dependency requirements, all46packaged file bytes against tag, GitHub source archive and fresh installed dependency. The fresh registry/dependency/build consumer has no Rust executables, DHCP native artifacts or QUIC/TLS dependencies and completes54realUDP exchanges through18endpoints: legacy/all3policies, inet/socket, IPv4/IPv6, empty/binary/text and native strict replies. Optional DHCP remains unpublished.
+
+Reproduce publication verification from the repository'sOTP27devenv shell:
+
+```sh
+python3 docs/udp-runtime/evidence/post-release/published_verifier.py \
+  --version 0.8.1 --expected-sha 71ecf7883c0aaf666406d24634ff5c022382029d
+```
+
+Raw source-linked logs and exitcodes for allmain/release jobs remain in `main-*-results.json`, `release-workflow-results.json` and correspondingjoblogs. Final scope contains no unrelated code/lock changes; the three original untracked user Markdown inputs remain preserved. There is no remaining implementation or publication blocker. Existing strict-lint failure, the original Writer timing failure and measured throughput cost are explicitly retained limitations.
