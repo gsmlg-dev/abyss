@@ -254,16 +254,7 @@ defmodule Abyss.DatagramRuntime do
         phase: ^phase,
         watchdog: %{identity: ^identity, phase: ^phase, deadline: deadline}
       } ->
-        if now() >= deadline do
-          if phase == :closing do
-            Process.exit(pid, :kill)
-            {:noreply, state}
-          else
-            {:noreply, remove_worker(key, :callback_timeout, state)}
-          end
-        else
-          {:noreply, state}
-        end
+        {:noreply, expire_watchdog(key, pid, phase, deadline, state)}
 
       _ ->
         {:noreply, state}
@@ -405,12 +396,7 @@ defmodule Abyss.DatagramRuntime do
       %{current: nil} = worker ->
         case :queue.out(worker.queue) do
           {{:value, token}, queue} ->
-            timeout =
-              if worker.initialized,
-                do: state.limits.callback_timeout,
-                else: state.limits.init_timeout
-
-            phase = if worker.initialized, do: :callback, else: :init
+            {phase, timeout} = invocation_phase(worker, state.limits)
             worker = arm_watchdog(worker, key, token, phase, timeout, state)
             :ok = UDPAdmission.protect(state.inputs[token].slot, worker.pid)
             _ = GenServer.cast(worker.pid, {:invoke, token, state.inputs[token].event})
@@ -842,6 +828,25 @@ defmodule Abyss.DatagramRuntime do
     error -> {:error, {:exception, error}}
   catch
     kind, reason -> {:error, {kind, reason}}
+  end
+
+  defp invocation_phase(%{initialized: true}, limits),
+    do: {:callback, limits.callback_timeout}
+
+  defp invocation_phase(_worker, limits), do: {:init, limits.init_timeout}
+
+  defp expire_watchdog(key, pid, phase, deadline, state) do
+    cond do
+      now() < deadline ->
+        state
+
+      phase == :closing ->
+        Process.exit(pid, :kill)
+        state
+
+      true ->
+        remove_worker(key, :callback_timeout, state)
+    end
   end
 
   defp arm_watchdog(worker, key, token, phase, timeout, state) do

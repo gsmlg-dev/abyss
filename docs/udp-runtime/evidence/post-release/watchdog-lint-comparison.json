@@ -1,0 +1,17 @@
+{
+  "source_parent": "c1aff38",
+  "runtime_sha256": "7203ef26f73df84e94d854a144d16d24a20c0a668ca5c5d06f9774f316ddc75a",
+  "change": "Small watchdog expiry and invocation-phase helpers remove introduced nesting without altering deadlines, identity matching or credit barriers",
+  "test_command": "mix test --no-cover test/abyss/datagram_watchdog_test.exs test/abyss/datagram_runtime_test.exs test/abyss/dispatcher_test.exs test/abyss/datagram_lifetime_test.exs test/abyss/datagram_send_accounting_test.exs test/abyss/datagram_native_send_accounting_test.exs test/abyss/transport/native_test.exs test/abyss/telemetry_endpoint_test.exs",
+  "otp28_environment": "CI=true ERL_FLAGS='+S 8:8' MIX_BUILD_PATH=/tmp/abyss-post-hardening-otp28",
+  "otp27_environment": "primary devenv shell; CI=true ERL_FLAGS='+S 8:8' MIX_BUILD_PATH=/tmp/abyss-post-hardening-otp27",
+  "otp27_test_exit": 0,
+  "otp28_test_exit": 0,
+  "results": "79 interacting tests, zero failures each; endpoint_contract_test.exs not included in this scoped lint-refactor run",
+  "credo_command": "mix credo --strict --format json",
+  "credo_exit": 30,
+  "baseline_issues": 83,
+  "current_issues": 83,
+  "introduced_issues": [],
+  "removed_issues": []
+}
