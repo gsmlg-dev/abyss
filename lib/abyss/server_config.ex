@@ -2,7 +2,9 @@ defmodule Abyss.ServerConfig do
   @moduledoc """
   Encapsulates the configuration of a Abyss server instance
 
-  This is used internally by `Abyss.Handler`
+  This is used internally by `Abyss.Handler`. Datagram `runtime_options` have
+  finite bounds; `idle_timeout` controls only keyed worker eviction. Endpoint
+  application state persists through ordinary idleness within its generation.
   """
 
   require Logger

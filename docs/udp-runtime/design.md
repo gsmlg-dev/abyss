@@ -80,7 +80,7 @@ termination from running. Cleanup itself has a watchdog.
 | Policy | Application state and ordering |
 |---|---|
 | `:per_datagram` (default) | One initialization, datagram callback, and cleanup per admitted packet |
-| `:endpoint` | One worker serializes the endpoint's datagrams and managed events |
+| `:endpoint` | One lazily initialized state serializes datagrams and managed events for the current endpoint generation |
 | `:keyed` | Explicit `route_key` selects an opaque application key; each key has one serialized worker |
 
 Keyed routing accepts a unary function or `{module, function}`. It runs serially
@@ -89,10 +89,17 @@ processes. Keys have finite serialized-size and count limits. Different active
 keys can execute concurrently. The runtime neither parses protocols nor creates
 implicit peer sessions, and local serialization does not guarantee wire order.
 
-Both persistent policies retire idle workers after `idle_timeout`; later work
-initializes fresh state. Status inspection and stale timers do not extend idle
-life. Failed invocations and queued work retired with a failed worker are not
-replayed.
+Only `:keyed` retires idle workers after the finite `idle_timeout`; later work
+initializes fresh state. Pending managed timers do not pin an idle key, and
+eviction cancels its timers. Status inspection and stale timers do not extend
+key lifetime.
+
+Endpoint state and managed timers survive ordinary inactivity and pause/resume
+within one generation. Retaining state does not retain completed input or send
+credit. Stop, generation replacement, an application stop/error, or genuine
+callback failure can retire state. This is not durable storage or recovery of
+unreturned callback state. Failed invocations and queued work retired with a
+failed worker are not replayed.
 
 ## Bounds and watchdogs
 
@@ -109,7 +116,11 @@ policies. Application state and arbitrary messages sent to application workers
 remain the application's responsibility; these quotas are not a whole-VM
 memory guarantee.
 
-Watchdogs run in the coordinator, separately from application callbacks.
+Watchdogs run in the coordinator, separately from application callbacks. Each
+init, callback, effects and cleanup arm has its own identity, phase and absolute
+monotonic deadline. Expiry must match the worker, invocation and generation as
+well as that arm; cancelling a timer alone does not invalidate an already
+emitted message.
 Completed effects retire their watchdog only after a terminal result and the
 helper's actual normal `DOWN`. Input credit stays reserved until worker
 settlement or protected work retirement. `TableOwner` monitors descendants so

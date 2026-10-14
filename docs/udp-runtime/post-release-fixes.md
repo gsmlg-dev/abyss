@@ -7,7 +7,7 @@ Baseline `cd65c84073c66de460ab883206414cf8ce0154bf`; worktree `.trees/post-relea
 | Finding | Verification/result | Evidence |
 |---|---|---|
 | R1 stale cross-phase watchdog | PASS: isolated final-harness RED4tests/2 intended failures; fixed scoped46/0 each OTP27/28 | `evidence/post-release/r1-*` |
-| R2 endpoint idle eviction | NOT RUN | Pending |
+| R2 endpoint idle eviction | PASS: final RED 4 tests / 2 intended failures; fixed combined 50/0 each OTP27/28 | `evidence/post-release/r2-*` |
 | R3 missing native send telemetry | NOT RUN | Pending |
 | R4 public drop omission/overlap | NOT RUN | Pending |
 
@@ -21,3 +21,5 @@ Baseline resource gate PASS, exit0 (`baseline-runtime-stress-otp27.log`): all3po
 
 
 R1 checkpoint: final actual-timer cross-phase regressions fail oldcd65c84 independently (4tests/2 intended stale init/callback kills, isolated `.trees/r1-red-baseline`, exit2). Fixed source preserves active init/callback/effects and bounded cleanup; stale invocation/key/generation arms harmless. OTP27/28 each46tests/0, exit0. Source hashes/commands in `r1-source-identity.json`; raw final RED/green logs retained. Other timer classes audited, no demonstrated analogous identity reuse changed. R1 ownership returned; next R2 endpoint lifetime.
+
+R2 checkpoint: isolated `babc1d1` fails final lifetime regressions (4 tests, 2 intended failures, exit 2). Fixed OTP27/28 each pass 50 interacting tests, exit 0. Endpoint state and its timer survive inactivity and pause/resume with zero completed input/egress credit; actual stop/replacement cancels old timers. Keyed eviction/status stability, obsolete-timer isolation and existing maximum-key limits remain tested. Production change is a three-line endpoint empty-queue guard. Commands/hashes in `r2-source-identity.json`. Next: R3 native local-send instrumentation and discriminating accounting regressions.

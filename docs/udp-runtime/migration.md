@@ -45,7 +45,7 @@ anything other than `1`, enabling dynamic listeners, or combining
 | Execution | Use when |
 |---|---|
 | `:per_datagram` (default) | Each packet is independent; initialize and clean up for each admitted input |
-| `:endpoint` | One application state should serialize datagrams and managed events |
+| `:endpoint` | One application state should serialize datagrams and managed events throughout a socket generation |
 | `:keyed` | Application-selected keys need independent serialized states |
 
 For keyed execution, supply `route_key: fn datagram -> application_key end` or
@@ -55,10 +55,17 @@ create implicit peer sessions. Routing has a separate watchdog; different
 active keys can progress concurrently, and same-key work is locally serialized.
 This does not imply wire ordering or delivery.
 
-Persistent workers, including the endpoint worker, expire after `idle_timeout`.
-The next packet initializes fresh state. Store durable application data outside
-the worker when it must survive idle expiry, callback failure, or socket
-restart. Legacy `{:continue, state}` keeps its invocation process alive; it
+Since the post-0.8.0 hardening patch, `:endpoint` state is initialized lazily and
+persists through ordinary inactivity and pause/resume in the same generation.
+`idle_timeout` governs only keyed eviction. This corrects 0.8.0, where endpoint
+idleness could silently reset state and cancel long-delay timers.
+
+Keyed workers still expire after `idle_timeout`; the next packet initializes
+fresh state. Pending timers do not pin an idle key and are cancelled on
+eviction. Endpoint stop/replacement, explicit handler stop/error, or callback
+failure can retire state. Store durable data outside workers when it must
+survive these events; failed callbacks do not recover unreturned state.
+Legacy `{:continue, state}` keeps its invocation process alive; it
 does not route subsequent peer packets back to that process. Legacy broadcast
 processing remains one-shot.
 
@@ -88,7 +95,7 @@ Top-level datagram options are:
 | `max_actions` | 32 |
 | `init_timeout`, `callback_timeout`, `route_timeout` | 1,000 ms |
 | `terminate_timeout`, `send_timeout` | 100 ms |
-| `idle_timeout` | 60,000 ms |
+| `idle_timeout` (keyed eviction only) | 60,000 ms |
 
 `num_connections` remains the shared service input ceiling (default 16,384).
 The endpoint's `max_queue` and worker's `max_key_queue` count in-flight work as

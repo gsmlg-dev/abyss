@@ -11,6 +11,11 @@ defmodule Abyss.DatagramHandler do
   actions are not atomic and local send completion does not prove delivery.
   Strict replies require real source/interface metadata and a capable backend.
   Optional managed events are serialized with datagrams for persistent policies.
+  `:endpoint` state is initialized lazily and persists across inactivity and
+  pause/resume within its generation. `idle_timeout` evicts only `:keyed` state;
+  pending timers do not pin idle keys. Stop, generation replacement, explicit
+  stop/error or callback failure can retire state and cancel its timers. This
+  lifetime does not provide durable storage or recover unreturned state.
   `terminate/2` receives the last returned application state; a killed callback
   cannot return its unfinished state.
   """

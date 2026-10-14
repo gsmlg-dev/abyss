@@ -51,7 +51,7 @@ From another terminal:
 printf 'hello' | nc -4 -u -w1 127.0.0.1 1234
 ```
 
-Choose `:per_datagram` (the default) for a fresh state per input, `:endpoint` for serialized endpoint state, or `:keyed` with an explicit `route_key` for application-defined state partitions. Broadcast and multicast addressing are independent of execution policy. Persistent state is subject to idle expiry and configured bounds.
+Choose `:per_datagram` (the default) for a fresh state per input, `:endpoint` for serialized endpoint state, or `:keyed` with an explicit `route_key` for application-defined state partitions. Broadcast and multicast addressing are independent of execution policy. Endpoint state persists for its socket generation; keyed state is subject to idle expiry. Both retain configured work limits.
 
 A reply action uses the original endpoint socket. Send admission and local completion are distinct; neither establishes peer receipt. See [migration and backend capabilities](docs/udp-runtime/migration.md) and the [runtime contract](docs/udp-runtime/design.md).
 

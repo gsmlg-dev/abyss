@@ -1,0 +1,43 @@
+Compiling 3 files (.ex)
+Generated abyss app
+Running ExUnit with seed: 823250, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+.
+
+  1) test endpoint preserves state beyond keyed idle interval without retaining completed credit (Abyss.DatagramLifetimeTest)
+     test/abyss/datagram_lifetime_test.exs:103
+     match (=) failed
+     The following variables were pinned:
+       port = 41931
+       count = 2
+     code:  assert {:ok, {_, ^port, <<^count::32>>}} = :gen_udp.recv(client, 0, 1000)
+     left:  {:ok, {_, ^port, <<^count::32>>}}
+     right: {:ok, {{127, 0, 0, 1}, 41931, <<0, 0, 0, 1>>}}
+     stacktrace:
+       test/abyss/datagram_lifetime_test.exs:64: Abyss.DatagramLifetimeTest.response/3
+       test/abyss/datagram_lifetime_test.exs:116: (test)
+
+.
+
+  2) test endpoint timer survives inactivity and pause while resume preserves accumulated state (Abyss.DatagramLifetimeTest)
+     test/abyss/datagram_lifetime_test.exs:125
+     Assertion failed, no matching message after 1000ms
+     The following variables were pinned:
+       worker = #PID<0.335.0>
+       generation = #Reference<0.724169367.586940419.81682>
+     Showing 2 of 2 messages in the mailbox
+     code: assert_receive {:lifetime_timer, ^worker, ^generation, 2}
+     mailbox:
+       pattern: {:lifetime_timer, ^worker, ^generation, 2}
+       value:   {:lifetime_datagram, #PID<0.335.0>, "timer", 1}
+
+       pattern: {:lifetime_timer, ^worker, ^generation, 2}
+       value:   {:lifetime_terminated, #PID<0.335.0>,
+                 {:shutdown, :idle_timeout}}
+     stacktrace:
+       test/abyss/datagram_lifetime_test.exs:137: (test)
+
+
+Finished in 1.9 seconds (0.00s async, 1.9s sync)
+4 tests, 2 failures

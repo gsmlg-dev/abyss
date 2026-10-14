@@ -421,6 +421,9 @@ defmodule Abyss.DatagramRuntime do
                 current: token
             })
 
+          {:empty, _} when state.config.datagram_options.execution == :endpoint ->
+            state
+
           {:empty, _} ->
             idle_token = make_ref()
 

@@ -1,0 +1,26 @@
+{
+  "task": "R2",
+  "baseline": "babc1d1ee24d962abf9570393d8fb75329cd72a9",
+  "worktree": "/home/gao/Workspace/gsmlg-dev/abyss/.trees/post-release-hardening",
+  "branch": "codex/post-release-hardening",
+  "source_sha256": {
+    "lib/abyss/datagram_runtime.ex": "743902faf7301d23a834a7e8cf522e259caaca99c7e1853ef64502ddca106949",
+    "test/abyss/datagram_lifetime_test.exs": "945b39a28f0098468deda0af10bd481d8cee3c287705f98e76c28cbd6dcb3d4b"
+  },
+  "isolated_red_worktree": "/home/gao/Workspace/gsmlg-dev/abyss/.trees/r2-red-baseline",
+  "isolated_red_runtime_sha256": "d6228eb037a48c4368ed9f6c6ae6352b555359fcd4f6899bb7294171128c0af5",
+  "isolated_red_test_sha256": "945b39a28f0098468deda0af10bd481d8cee3c287705f98e76c28cbd6dcb3d4b",
+  "red_exit": 2,
+  "red_results": "4 tests; 2 intended failures: public UDP count resets to1 instead of2, endpoint managed timer cancelled by idle_timeout",
+  "otp27_green_exit": 0,
+  "otp28_green_exit": 0,
+  "green_results": "50 tests, 0 failures per runtime (4 lifetime + 4 watchdog + 23 runtime + 19 dispatcher)",
+  "green_command": "mix test --no-cover test/abyss/datagram_watchdog_test.exs test/abyss/datagram_runtime_test.exs test/abyss/dispatcher_test.exs test/abyss/datagram_lifetime_test.exs",
+  "otp28_environment": "CI=true ERL_FLAGS='+S 8:8' MIX_BUILD_PATH=/tmp/abyss-post-hardening-otp28",
+  "otp27_environment": "devenv shell -- bash -c 'cd .trees/post-release-hardening; CI=true MIX_BUILD_PATH=/tmp/abyss-post-hardening-otp27 <green_command>'",
+  "sol_repair_rounds": 0,
+  "received_astra_repair_counter": null,
+  "commands_finished": true,
+  "production_change": "Only endpoint empty queue avoids idle arm; keyed idle timer path unchanged",
+  "remaining_risks": "Final combined R1-R4 integration and remote portable macOS gates are parent-owned, not completed by this assignment"
+}

@@ -57,7 +57,7 @@ The runtime coordinator tracks input items/bytes, workers, routing helpers, time
 | Policy | State lifetime and ordering |
 | --- | --- |
 | `:per_datagram` | Initialize, process and terminate for each admitted datagram |
-| `:endpoint` | One serialized state, subject to idle expiry |
+| `:endpoint` | One lazily initialized serialized state for the current socket generation |
 | `:keyed` | Application-defined route key; same-key work serialized, different keys may progress concurrently |
 
 Routing, initialization, callbacks, termination and effects have configured deadlines. Persistent workers can receive timer and send-result events. Managed events also consume input quota and can be dropped under overload. Local serialization does not imply UDP delivery or wire ordering. See the [runtime contract](udp-runtime/design.md) for the precise actions and bounds.
