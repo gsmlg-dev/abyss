@@ -16,6 +16,13 @@ defmodule Abyss.Telemetry do
   rejection, waits and repeated receipt reads do not count as sends. Local
   completion is not evidence of peer delivery.
 
+  `datagrams_dropped` and `bytes_dropped` count definitive network-input
+  rejection, with observed payload bytes. Rejected managed events use fixed
+  `timer_events_rejected` and `send_outcome_events_rejected` counters instead.
+  Public endpoint drop counters retain the current generation through drain;
+  telemetry retains the logical-server lifetime across generations. Callback
+  failure, send failure, teardown discard and unknown kernel loss are separate.
+
   - `connections_active`: Number of currently active connections
   - `connections_total`: Total number of connections since server start
   - `accepts_total`: Total number of accepted connections
@@ -81,7 +88,11 @@ defmodule Abyss.Telemetry do
 
   - `[:abyss, :datagram, :send]` - actual instrumented local send result
     (measurements: payload `bytes`; metadata: `server_id`, `result`, `socket`).
-
+  - `[:abyss, :datagram, :dropped]` - definitive network-input rejection
+    (measurements: observed payload `bytes`; metadata: `server_id`, `reason`).
+  - `[:abyss, :datagram, :event_rejected]` - rejected timer/send-outcome event
+    (measurements: serialized event `bytes`; metadata: `server_id`, `event_type`,
+    `reason`).
 
   - `[:abyss, :metrics, :response_time]` - emitted for every tracked
     response (measurements: `response_time` in ms; metadata: `handler`)
@@ -233,6 +244,25 @@ defmodule Abyss.Telemetry do
   end
 
   @doc false
+  def track_event_rejected(scope, type, reason, bytes) when type in [:timer, :send_outcomes] do
+    counter =
+      case type do
+        :timer -> :timer_events_rejected
+        :send_outcomes -> :send_outcome_events_rejected
+      end
+
+    _ = bump(get_metrics_table(), scope, counter)
+
+    :telemetry.execute([:abyss, :datagram, :event_rejected], %{bytes: bytes}, %{
+      server_id: scope,
+      event_type: type,
+      reason: reason
+    })
+
+    :ok
+  end
+
+  @doc false
   def track_work_finished(scope, reason) do
     completed? =
       reason in [:normal, :shutdown, {:shutdown, :local_closed}, {:shutdown, :broadcast}]
@@ -366,6 +396,8 @@ defmodule Abyss.Telemetry do
       :responses_total,
       :datagrams_received,
       :datagrams_dropped,
+      :timer_events_rejected,
+      :send_outcome_events_rejected,
       :bytes_received,
       :bytes_dropped,
       :bytes_sent,

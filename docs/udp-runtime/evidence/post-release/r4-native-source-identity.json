@@ -1,0 +1,51 @@
+{
+  "task": "R4 native payload-truncation regression",
+  "assignment": "direct test-only parallel subtask",
+  "baseline": "960c40aabdae0c308b0fae95b8c46643dee2b623",
+  "worktree": "/home/gao/Workspace/gsmlg-dev/abyss/.trees/post-release-hardening",
+  "branch": "codex/post-release-hardening",
+  "source_sha256": {
+    "test/abyss/datagram_native_drop_accounting_test.exs": "1190f5d9338baf9585d6d7236cdb5b8d0437ebb18bcbce8eca8d85f24c4a556d",
+    "lib/abyss/listener.ex": "daabd8aa70616987ed1289d6af1de26e3bd1afcb0081db59d6cf303136ef1f04",
+    "lib/abyss/datagram_runtime.ex": "b0404ad7a23ea3a20c4baeb513a9f1602afe3971d59885950805f7a80f83f2a5",
+    "lib/abyss/telemetry.ex": "6b514eca787065bbb6ecef48f863c2840df5c172af5759832182e428e4633d30",
+    "lib/abyss/transport/udp/native.ex": "e87cb0ef1bcf4fa80485f89bed298677d5cd8aeaa9aa4dd9112c19c5414d54bf"
+  },
+  "isolated_red_worktree": "/home/gao/Workspace/gsmlg-dev/abyss/.trees/r4-native-red-baseline",
+  "isolated_red_test_sha256": "1190f5d9338baf9585d6d7236cdb5b8d0437ebb18bcbce8eca8d85f24c4a556d",
+  "isolated_red_listener_sha256": "4e42024299498428cf8532e3e85999df08b33ebfe89984369680c1a961ab9e86",
+  "red_exit": 2,
+  "red_results": "2 tests, 2 failures. Kernel :trunc + actual2byte iov assertions pass; oldsource dropped event reports0 bytes instead of2. Both sampling0/1.",
+  "otp27_green_exit": 0,
+  "otp28_green_exit": 0,
+  "green_results": "2 tests, 0 failures each runtime. Public info/status received1 dropped1 ingress1 runtime0; metrics received/dropped1 and received/dropped bytes2.",
+  "command": "mix test --no-cover test/abyss/datagram_native_drop_accounting_test.exs",
+  "otp28_environment": "CI=true ERL_FLAGS='+S 8:8' MIX_BUILD_PATH=/tmp/abyss-post-hardening-r4-native-otp28",
+  "otp27_environment": "devenv shell -- bash -c 'cd .trees/post-release-hardening; CI=true ERL_FLAGS=\"+S 8:8\" MIX_BUILD_PATH=/tmp/abyss-post-hardening-r4-native-otp27 <command>'",
+  "build_isolation": "Separate per-runtime build paths seeded with inactive compiled dependency cache. Mix test retained ordinary source freshness validation: OTP28 recompiled40 application files; OTP27 used current cached application artifacts. Actual regression fails baseline behavior. Isolated RED uses a separate baseline worktree/build.",
+  "fixture_fidelity": [
+    "Public native startup, public pause and resume.",
+    "Existing pending receive cancellation executes in the original socket owner via controlled test-only sys.replace_state.",
+    "Only listener test-adapter arm reduces recvmsg payload buffer to2; control buffer remains4096.",
+    "Socket, owner and generation unchanged; no fabricated receive or datagram; startup configuration unchanged.",
+    "Real localhost gen_udp packet payload truncated -> actual kernel :trunc and iov tr measured2.",
+    "Production Native arm buffer65535 unchanged.",
+    "Synchronous drop event followed by public info/status provides completed rejection barrier."
+  ],
+  "changed_files_owned": [
+    "test/abyss/datagram_native_drop_accounting_test.exs",
+    "docs/udp-runtime/evidence/post-release/r4-native-*"
+  ],
+  "production_changes": "Accounting worker-owned; no production edits by this agent",
+  "sol_repair_rounds": 1,
+  "received_astra_repair_counter": null,
+  "commands_finished": true,
+  "limitations": "Linux-specific genuine native receive test; macOS skipped. Parent owns combined integration/workflow/release.",
+  "red_log": "r4-native-red-final-otp28.log",
+  "otp27_green_log": "r4-native-green-final-otp27.log",
+  "otp28_green_log": "r4-native-green-final-otp28.log",
+  "source_scope": "Final stable stopped-window snapshot extension and runtime helper cleanup included in source hashes and both final native greens.",
+  "lint_repair": "Introduced native-test AliasUsage fixed with Native alias/Native.cancel; no suppression. Pre-stopped-window strict analysis analyzed91files and reported83existing findings/exit30; parent owns final combined normalized comparison.",
+  "lint_log": "r4-native-credo-final.log",
+  "repair_evidence": "One successful lint-only alias repair; no native fixture or production implementation repair failure."
+}

@@ -1,0 +1,15 @@
+
+20:32:38.782 [info] The function passed as a handler with ID :r4_stopped_diagnosis is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+%{
+  before: %{
+    mode: :running,
+    dropped: 1,
+    drop_counts: %{runtime: 1, ingress: 0},
+    received: 1
+  },
+  after_drain: %{mode: :stopped, dropped: 0, received: 1},
+  logical_drops: 1
+}

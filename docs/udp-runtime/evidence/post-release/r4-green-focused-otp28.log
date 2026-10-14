@@ -1,0 +1,15 @@
+Compiling 4 files (.ex)
+     warning: clauses with the same name and arity (number of arguments) should be grouped together, "def handle_call/3" was previously defined (lib/abyss/listener.ex:367)
+     │
+ 395 │   def handle_call(:listener_info, _from, state), do: {:reply, state.local_info, state}
+     │       ~
+     │
+     └─ lib/abyss/listener.ex:395:7
+
+Generated abyss app
+Running ExUnit with seed: 281092, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+..............
+Finished in 0.6 seconds (0.00s async, 0.6s sync)
+14 tests, 0 failures

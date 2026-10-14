@@ -163,6 +163,24 @@ replies) now share actual local-outcome counters and send events. Native sends
 were missing that instrumentation in 0.8.0. Wait timeouts, receipt reads and
 pre-send validation/admission rejection do not add send counts.
 
+## Inspect drops
+
+The post-0.8.0 hardening patch corrects public drop totals: deferred routing,
+key and queue rejection remains visible, and synchronous rejection counts once.
+`Endpoint.info/1` and `status/1` expose current-generation `received`, `dropped`
+and `drop_counts: %{ingress: count, runtime: count}`. `dropped` is their sum.
+`internal_events_rejected: %{timer: count, send_outcomes: count}` records
+managed-event overload separately from network loss.
+
+Network-drop byte telemetry uses payload length, excluding serialized metadata.
+Internal rejection has its own counters/event and retains serialized event bytes.
+Callback failure, socket-send failure, teardown discard and unknown kernel queue
+loss are separate from these network admission drops. Counts survive graceful
+and forced drain while that generation remains inspectable. Public counters reset on
+generation replacement; telemetry retains logical-server lifetime. Compare
+matching interval deltas and see [operations](../operations.md) for event names.
+Legacy listener statistics keep their prior contract.
+
 ## Pause, stop, and socket replacement
 
 `Endpoint.pause/1` stops admission of received datagrams while accepted work,

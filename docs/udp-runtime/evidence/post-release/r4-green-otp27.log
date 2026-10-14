@@ -1,0 +1,46 @@
+✨ devenv 2.2.2 is out of date. Please update to 2.4.0: https://devenv.sh/getting-started/#installation
+    _    _                   
+   / \  | |__  _   _ ___ ___ 
+  / _ \ | '_ \| | | / __/ __|
+ / ___ \| |_) | |_| \__ \__ \
+/_/   \_\_.__/ \__, |___/___/
+               |___/         
+Compiling 6 files (.ex)
+Generated abyss app
+Running ExUnit with seed: 174037, max_cases: 16
+Excluding tags: [slow: true]
+Including tags: [:integration]
+
+........
+20:27:59.498 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.
+20:27:59.624 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.....
+20:27:59.726 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.............................
+20:28:00.790 [info] The function passed as a handler with ID :test_response_time_handler is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.........................................................
+20:28:03.482 [info] The function passed as a handler with ID :integration_test_handler is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.................................
+20:28:05.770 [error] GenServer #PID<0.1762.0> terminating
+** (stop) {:runtime_exit, :killed}
+Last message: {:EXIT, #PID<0.1764.0>, :killed}
+State: %{runtime: #PID<0.1764.0>, mode: :running, handlers: %{}, dropped: 0, starter: #PID<0.1763.0>, memberships: [], generation: #Reference<0.2952930736.2469920772.104438>, transport: Abyss.RuntimeBlockingTransport, desired_key: {#PID<0.1760.0>, "listener-1"}, dispatcher: nil, server_pid: #PID<0.1760.0>, listener_id: "listener-1", listener_socket: #Port<0.167>, local_info: {{127, 0, 0, 1}, 39846}, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.RuntimeBlockingTransport, transport_options: [ip: {127, 0, 0, 1}], handler_module: nil, datagram_options: %{io_backend: :gen_udp, runtime_options: [send_timeout: 10], execution: :per_datagram, route_key: nil, datagram_handler: Abyss.RuntimeTestHandler, required_capabilities: [], required_metadata: []}, handler_options: [owner: #PID<0.1759.0>], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 1, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, listener_span: %Abyss.Telemetry{span_name: :listener, telemetry_span_context: #Reference<0.2952930736.2469920772.104452>, start_time: -576460744321841897, start_metadata: %{broadcast: false, handler: nil, server_pid: #PID<0.1760.0>, listener_id: "listener-1", listener_socket: #Port<0.167>, local_info: {{127, 0, 0, 1}, 39846}, telemetry_span_context: #Reference<0.2952930736.2469920772.104452>, sampled: true}}, runtime_send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.1766.0>, generation: #Reference<0.2952930736.2469920772.104438>, admission: #PID<0.1765.0>, io_backend: :gen_udp}, native_select: nil, armed: true, reservation: nil, drain_waiter: nil, received: 1, active_high_water: 0, retained_high_water: 0}
+..........
+Finished in 7.0 seconds (1.5s async, 5.5s sync)
+143 tests, 0 failures

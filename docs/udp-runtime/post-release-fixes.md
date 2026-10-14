@@ -9,7 +9,7 @@ Baseline `cd65c84073c66de460ab883206414cf8ce0154bf`; worktree `.trees/post-relea
 | R1 stale cross-phase watchdog | PASS: isolated final-harness RED4tests/2 intended failures; fixed scoped46/0 each OTP27/28 | `evidence/post-release/r1-*` |
 | R2 endpoint idle eviction | PASS: final RED 4 tests / 2 intended failures; fixed combined 50/0 each OTP27/28 | `evidence/post-release/r2-*` |
 | R3 missing native send telemetry | PASS: final RED 15 tests / 5 intended failures; fixed combined 84/0 each OTP27/28 | `evidence/post-release/r3-*` |
-| R4 public drop omission/overlap | NOT RUN | Pending |
+| R4 public drop omission/overlap | PASS: portable RED 14/14 intended failures; native RED 2/2; stopped-window extension RED; final combined 144/0 OTP27/28, native 2/0 each | `evidence/post-release/r4-*` |
 
 Reproduction inputs and raw evidence live in [post-release evidence](evidence/post-release/); resumable ownership and next steps are in [progress](progress.md).
 
@@ -27,3 +27,7 @@ R2 checkpoint: isolated `babc1d1` fails final lifetime regressions (4 tests, 2 i
 R3 checkpoint: isolated `d9c01b1` final-byte RED gives 15 tests / 5 intended failures, exit 2 (four native missing events after actual receive, one false GenUDP validation error). Fixed OTP27/28 each pass 84 interacting tests, exit 0. Actual IPv4/IPv6, all three backends, sampling 0/1, empty/strict sends, both transmitting same-handler endpoints, socket errors and delayed completion agree with receipts and counters. Portable failure uses a real 65,536-byte UDP send (`:emsgsize`); Linux native port-zero error is `:einval`. No Writer change. Commands/hashes in `r3-source-identity.json`. Credo retains 83 baseline findings plus two introduced R1 runtime nesting findings, which parent will fix before R4.
 
 Watchdog lint checkpoint: R3 committed `c1aff38`; two introduced R1 nesting findings resolved using small expiry/phase helpers with unchanged arm identity, deadlines and cleanup barriers. OTP27/28 scoped interacting suites pass 79/0 (exit 0; exact command excludes the five unchanged endpoint-contract tests from R3's 84-test command). Strict Credo is absolute FAIL/exit 30 with exactly the same 83 baseline issue signatures; delta PASS, zero new or removed findings (`watchdog-lint-comparison.json`). Next: ordered R4 public drop accounting.
+
+R4 acceptance: fixed-cardinality network counters count definitive ingress or runtime rejection once; rejected timer/outcome events have separate counters and telemetry. Real traffic covers key/item/byte/route/global/validation/pause limits, two endpoints, reset scope, native kernel truncation and sampling 0/1. Absolute runtime snapshots are sent before rejection telemetry, guarded by runtime PID/generation, and retained through normal or deadline-forced drain; no listener increment duplicates a runtime rejection. Native truncation reports observed bytes only. Final stopped-window regression fails the pre-extension candidate on lost runtime count. Commands, source hashes and all failed attempts are retained in `r4-*` evidence.
+
+Patch preparation: GitHub/Hex latest version rechecked as 0.8.0; 0.8.1 selected. Combined final validation and publication remain pending. Absolute strict Credo is still FAIL with 83 baseline findings; acceptance requires zero introduced findings, with the normalized comparison retained.

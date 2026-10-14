@@ -1,0 +1,502 @@
+Running ExUnit with seed: 818144, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+
+
+  1) test per-key item rejection releases the rejected input once while retaining active work (Abyss.DatagramDropAccountingTest)
+     test/abyss/datagram_drop_accounting_test.exs:106
+     Assertion failed, no matching message after 1000ms
+     The following variables were pinned:
+       server = #PID<0.201.0>
+       bytes = 6
+     Showing 1 of 1 message in the mailbox
+     code: assert_receive {:drop_decision, [:abyss, :datagram, :dropped], ^server, %{bytes: ^bytes}, metadata}
+     mailbox:
+       pattern: {:drop_decision, [:abyss, :datagram, :dropped], ^server, %{bytes: ^bytes}, metadata}
+       value:   {:drop_decision, [:abyss, :datagram, :dropped], #PID<0.201.0>,
+                 %{bytes: 389},
+                 %{
+                   reason: :key_queue_limit,
+                   server_id: #PID<0.201.0>
+                 }}
+     stacktrace:
+       test/abyss/datagram_drop_accounting_test.exs:65: Abyss.DatagramDropAccountingTest.assert_drop/3
+       test/abyss/datagram_drop_accounting_test.exs:117: (test)
+
+
+
+  2) test same-handler endpoints isolate drops and status reads do not change statistics (Abyss.DatagramDropAccountingTest)
+     test/abyss/datagram_drop_accounting_test.exs:303
+     Assertion failed, no matching message after 1000ms
+     The following variables were pinned:
+       server = #PID<0.216.0>
+       bytes = 7
+     Showing 1 of 1 message in the mailbox
+     code: assert_receive {:drop_decision, [:abyss, :datagram, :dropped], ^server, %{bytes: ^bytes}, metadata}
+     mailbox:
+       pattern: {:drop_decision, [:abyss, :datagram, :dropped], ^server, %{bytes: ^bytes}, metadata}
+       value:   {:drop_decision, [:abyss, :datagram, :dropped], #PID<0.216.0>,
+                 %{bytes: 390},
+                 %{
+                   reason: :key_queue_bytes_limit,
+                   server_id: #PID<0.216.0>
+                 }}
+     stacktrace:
+       test/abyss/datagram_drop_accounting_test.exs:65: Abyss.DatagramDropAccountingTest.assert_drop/3
+       test/abyss/datagram_drop_accounting_test.exs:307: (test)
+
+
+
+  3) test blocked route expiry and failed routing are definitive deferred rejections (Abyss.DatagramDropAccountingTest)
+     test/abyss/datagram_drop_accounting_test.exs:168
+     Assertion failed, no matching message after 1000ms
+     The following variables were pinned:
+       server = #PID<0.238.0>
+       bytes = 5
+     Showing 2 of 2 messages in the mailbox
+     code: assert_receive {:drop_decision, [:abyss, :datagram, :dropped], ^server, %{bytes: ^bytes}, metadata}
+     mailbox:
+       pattern: {:drop_decision, [:abyss, :datagram, :dropped], ^server, %{bytes: ^bytes}, metadata}
+       value:   {:DOWN, #Reference<0.1563477260.1395654659.17357>, :process,
+                 #PID<0.248.0>, :killed}
+
+       pattern: {:drop_decision, [:abyss, :datagram, :dropped], ^server, %{bytes: ^bytes}, metadata}
+       value:   {:drop_decision, [:abyss, :datagram, :dropped], #PID<0.238.0>,
+                 %{bytes: 388},
+                 %{
+                   reason: :route_timeout,
+                   server_id: #PID<0.238.0>
+                 }}
+     stacktrace:
+       test/abyss/datagram_drop_accounting_test.exs:65: Abyss.DatagramDropAccountingTest.assert_drop/3
+       test/abyss/datagram_drop_accounting_test.exs:190: anonymous fn/2 in Abyss.DatagramDropAccountingTest."test blocked route expiry and failed routing are definitive deferred rejections"/1
+       (elixir 1.18.5) lib/enum.ex:1714: Enum."-map/2-lists^map/1-1-"/2
+       test/abyss/datagram_drop_accounting_test.exs:171: (test)
+
+
+
+  4) test synchronous global item and byte admission rejection appears exactly once (Abyss.DatagramDropAccountingTest)
+     test/abyss/datagram_drop_accounting_test.exs:201
+     Assertion failed, no matching message after 1000ms
+     The following variables were pinned:
+       server = #PID<0.251.0>
+       bytes = 256
+     Showing 1 of 1 message in the mailbox
+     code: assert_receive {:drop_decision, [:abyss, :datagram, :dropped], ^server, %{bytes: ^bytes}, metadata}
+     mailbox:
+       pattern: {:drop_decision, [:abyss, :datagram, :dropped], ^server, %{bytes: ^bytes}, metadata}
+       value:   {:drop_decision, [:abyss, :datagram, :dropped], #PID<0.251.0>,
+                 %{bytes: 639},
+                 %{
+                   reason: :input_limit,
+                   server_id: #PID<0.251.0>
+                 }}
+     stacktrace:
+       test/abyss/datagram_drop_accounting_test.exs:65: Abyss.DatagramDropAccountingTest.assert_drop/3
+       test/abyss/datagram_drop_accounting_test.exs:210: anonymous fn/2 in Abyss.DatagramDropAccountingTest."test synchronous global item and byte admission rejection appears exactly once"/1
+       (elixir 1.18.5) lib/enum.ex:2546: Enum."-reduce/3-lists^foldl/2-0-"/3
+       test/abyss/datagram_drop_accounting_test.exs:202: (test)
+
+
+
+  5) test runtime draining rejection has authoritative accounting even before listener barrier (Abyss.DatagramDropAccountingTest)
+     test/abyss/datagram_drop_accounting_test.exs:373
+     Assertion failed, no matching message after 1000ms
+     The following variables were pinned:
+       server = #PID<0.267.0>
+       bytes = 8
+     The process mailbox is empty.
+     code: assert_receive {:drop_decision, [:abyss, :datagram, :dropped], ^server, %{bytes: ^bytes}, metadata}
+     stacktrace:
+       test/abyss/datagram_drop_accounting_test.exs:65: Abyss.DatagramDropAccountingTest.assert_drop/3
+       test/abyss/datagram_drop_accounting_test.exs:382: (test)
+
+
+
+  6) test packet size, required metadata and paused ingress rejection have disjoint ingress accounting (Abyss.DatagramDropAccountingTest)
+     test/abyss/datagram_drop_accounting_test.exs:232
+     ** (KeyError) key :drop_counts not found in: %{
+       send: %Abyss.Dispatcher.SendCapability{
+         writer: #PID<0.290.0>,
+         generation: #Reference<0.1563477260.1395654660.17742>,
+         admission: #PID<0.289.0>,
+         io_backend: :gen_udp
+       },
+       mode: :running,
+       dropped: 1,
+       generation: #Reference<0.1563477260.1395654660.17742>,
+       endpoint_id: {#PID<0.284.0>, "listener-1"},
+       local_endpoint: {{127, 0, 0, 1}, 40328},
+       capabilities: %{
+         driver: :inet,
+         runtime: %{otp: ~c"28", erts: ~c"16.4.0.5"},
+         family: :inet,
+         local_address: %{
+           enabled: false,
+           reason: :gen_udp_metadata_unavailable,
+           supported: false
+         },
+         destination: %{
+           enabled: false,
+           reason: :gen_udp_metadata_unavailable,
+           supported: false
+         },
+         adapter: :gen_udp,
+         interface_index: %{
+           enabled: false,
+           reason: :gen_udp_metadata_unavailable,
+           supported: false
+         },
+         memberships: %{enabled: true, reason: nil, supported: true},
+         platform: {:unix, :linux},
+         scoped_send: %{
+           enabled: false,
+           reason: :family_unsupported,
+           supported: false
+         },
+         source_control: %{
+           enabled: false,
+           reason: :gen_udp_metadata_unavailable,
+           supported: false
+         },
+         strict_group_filter: %{enabled: false, reason: :disabled, supported: true},
+         strict_interface_filter: %{
+           enabled: false,
+           reason: :gen_udp_metadata_unavailable,
+           supported: false
+         }
+       },
+       received: 1,
+       retained_bytes: 0,
+       input_count: 0,
+       key_count: 0,
+       timer_count: 0,
+       high_bytes: 0,
+       high_items: 0,
+       receipts: %{},
+       egress: %{bytes: 0, entries: 0}
+     }
+     code: for kind <- [:size, :metadata, :paused] do
+     stacktrace:
+       test/abyss/datagram_drop_accounting_test.exs:76: Abyss.DatagramDropAccountingTest.assert_totals/4
+       test/abyss/datagram_drop_accounting_test.exs:253: anonymous fn/2 in Abyss.DatagramDropAccountingTest."test packet size, required metadata and paused ingress rejection have disjoint ingress accounting"/1
+       (elixir 1.18.5) lib/enum.ex:2546: Enum."-reduce/3-lists^foldl/2-0-"/3
+       test/abyss/datagram_drop_accounting_test.exs:233: (test)
+
+
+
+  7) test generation replacement resets public counts while logical-server telemetry persists (Abyss.DatagramDropAccountingTest)
+     test/abyss/datagram_drop_accounting_test.exs:319
+     Assertion failed, no matching message after 1000ms
+     The following variables were pinned:
+       server = #PID<0.299.0>
+       bytes = 3
+     Showing 1 of 1 message in the mailbox
+     code: assert_receive {:drop_decision, [:abyss, :datagram, :dropped], ^server, %{bytes: ^bytes}, metadata}
+     mailbox:
+       pattern: {:drop_decision, [:abyss, :datagram, :dropped], ^server, %{bytes: ^bytes}, metadata}
+       value:   {:drop_decision, [:abyss, :datagram, :dropped], #PID<0.299.0>,
+                 %{bytes: 386},
+                 %{
+                   reason: :key_queue_bytes_limit,
+                   server_id: #PID<0.299.0>
+                 }}
+     stacktrace:
+       test/abyss/datagram_drop_accounting_test.exs:65: Abyss.DatagramDropAccountingTest.assert_drop/3
+       test/abyss/datagram_drop_accounting_test.exs:322: (test)
+
+
+
+  8) test over-large opaque routing key is one deferred network drop (Abyss.DatagramDropAccountingTest)
+     test/abyss/datagram_drop_accounting_test.exs:153
+     Assertion failed, no matching message after 1000ms
+     The following variables were pinned:
+       server = #PID<0.315.0>
+       bytes = 3
+     Showing 1 of 1 message in the mailbox
+     code: assert_receive {:drop_decision, [:abyss, :datagram, :dropped], ^server, %{bytes: ^bytes}, metadata}
+     mailbox:
+       pattern: {:drop_decision, [:abyss, :datagram, :dropped], ^server, %{bytes: ^bytes}, metadata}
+       value:   {:drop_decision, [:abyss, :datagram, :dropped], #PID<0.315.0>,
+                 %{bytes: 386},
+                 %{
+                   reason: :key_size_limit,
+                   server_id: #PID<0.315.0>
+                 }}
+     stacktrace:
+       test/abyss/datagram_drop_accounting_test.exs:65: Abyss.DatagramDropAccountingTest.assert_drop/3
+       test/abyss/datagram_drop_accounting_test.exs:162: (test)
+
+
+
+  9) test genuine native truncated receive counts one ingress rejection using only observed bytes (Abyss.DatagramDropAccountingTest)
+     test/abyss/datagram_drop_accounting_test.exs:387
+     Assertion failed, no matching message after 1000ms
+     The following variables were pinned:
+       server = #PID<0.328.0>
+       bytes = 2
+     Showing 1 of 1 message in the mailbox
+     code: assert_receive {:drop_decision, [:abyss, :datagram, :dropped], ^server, %{bytes: ^bytes}, metadata}
+     mailbox:
+       pattern: {:drop_decision, [:abyss, :datagram, :dropped], ^server, %{bytes: ^bytes}, metadata}
+       value:   {:drop_decision, [:abyss, :datagram, :dropped], #PID<0.328.0>,
+                 %{bytes: 0},
+                 %{
+                   reason: :payload_truncated,
+                   server_id: #PID<0.328.0>
+                 }}
+     stacktrace:
+       test/abyss/datagram_drop_accounting_test.exs:65: Abyss.DatagramDropAccountingTest.assert_drop/3
+       test/abyss/datagram_drop_accounting_test.exs:403: (test)
+
+
+
+ 10) test actual managed timer admission rejection is internal event loss, not a network drop (Abyss.DatagramDropAccountingTest)
+     test/abyss/datagram_drop_accounting_test.exs:258
+     Assertion failed, no matching message after 1000ms
+     The following variables were pinned:
+       server = #PID<0.340.0>
+     Showing 1 of 1 message in the mailbox
+     code: assert_receive {:drop_decision, [:abyss, :datagram, :event_rejected], ^server, %{bytes: bytes},
+            %{event_type: :timer, reason: :input_bytes_limit}}
+     mailbox:
+       pattern: {:drop_decision, [:abyss, :datagram, :event_rejected], ^server, %{bytes: bytes},
+                 %{event_type: :timer, reason: :input_bytes_limit}}
+       value:   {:drop_decision, [:abyss, :datagram, :dropped], #PID<0.340.0>,
+                 %{bytes: 2076},
+                 %{
+                   reason: :input_bytes_limit,
+                   server_id: #PID<0.340.0>
+                 }}
+     stacktrace:
+       test/abyss/datagram_drop_accounting_test.exs:263: (test)
+
+
+
+ 11) test shared service admission exhaustion rejects one network input without duplicate counters (Abyss.DatagramDropAccountingTest)
+     test/abyss/datagram_drop_accounting_test.exs:218
+     Assertion failed, no matching message after 1000ms
+     The following variables were pinned:
+       server = #PID<0.354.0>
+       bytes = 8
+     Showing 1 of 1 message in the mailbox
+     code: assert_receive {:drop_decision, [:abyss, :datagram, :dropped], ^server, %{bytes: ^bytes}, metadata}
+     mailbox:
+       pattern: {:drop_decision, [:abyss, :datagram, :dropped], ^server, %{bytes: ^bytes}, metadata}
+       value:   {:drop_decision, [:abyss, :datagram, :dropped], #PID<0.354.0>,
+                 %{bytes: 391},
+                 %{
+                   reason: :handler_limit,
+                   server_id: #PID<0.354.0>
+                 }}
+     stacktrace:
+       test/abyss/datagram_drop_accounting_test.exs:65: Abyss.DatagramDropAccountingTest.assert_drop/3
+       test/abyss/datagram_drop_accounting_test.exs:222: (test)
+
+
+
+ 12) test callback failure, local send failure and teardown-discarded queue are not admission drops (Abyss.DatagramDropAccountingTest)
+     test/abyss/datagram_drop_accounting_test.exs:346
+     ** (KeyError) key :drop_counts not found in: %{
+       send: %Abyss.Dispatcher.SendCapability{
+         writer: #PID<0.372.0>,
+         generation: #Reference<0.1563477260.1395654659.18139>,
+         admission: #PID<0.371.0>,
+         io_backend: :gen_udp
+       },
+       mode: :running,
+       dropped: 0,
+       generation: #Reference<0.1563477260.1395654659.18139>,
+       endpoint_id: {#PID<0.366.0>, "listener-1"},
+       local_endpoint: {{127, 0, 0, 1}, 35796},
+       capabilities: %{
+         driver: :inet,
+         runtime: %{otp: ~c"28", erts: ~c"16.4.0.5"},
+         family: :inet,
+         local_address: %{
+           enabled: false,
+           reason: :gen_udp_metadata_unavailable,
+           supported: false
+         },
+         destination: %{
+           enabled: false,
+           reason: :gen_udp_metadata_unavailable,
+           supported: false
+         },
+         adapter: :gen_udp,
+         interface_index: %{
+           enabled: false,
+           reason: :gen_udp_metadata_unavailable,
+           supported: false
+         },
+         memberships: %{enabled: true, reason: nil, supported: true},
+         platform: {:unix, :linux},
+         scoped_send: %{
+           enabled: false,
+           reason: :family_unsupported,
+           supported: false
+         },
+         source_control: %{
+           enabled: false,
+           reason: :gen_udp_metadata_unavailable,
+           supported: false
+         },
+         strict_group_filter: %{enabled: false, reason: :disabled, supported: true},
+         strict_interface_filter: %{
+           enabled: false,
+           reason: :gen_udp_metadata_unavailable,
+           supported: false
+         }
+       },
+       received: 1,
+       retained_bytes: 0,
+       input_count: 0,
+       key_count: 0,
+       timer_count: 0,
+       high_bytes: 387,
+       high_items: 1,
+       receipts: %{},
+       egress: %{bytes: 0, entries: 0}
+     }
+     code: for payload <- ["fail", "failed-send", "block-fail"] do
+     stacktrace:
+       test/abyss/datagram_drop_accounting_test.exs:76: Abyss.DatagramDropAccountingTest.assert_totals/4
+       test/abyss/datagram_drop_accounting_test.exs:363: anonymous fn/2 in Abyss.DatagramDropAccountingTest."test callback failure, local send failure and teardown-discarded queue are not admission drops"/1
+       (elixir 1.18.5) lib/enum.ex:2546: Enum."-reduce/3-lists^foldl/2-0-"/3
+       test/abyss/datagram_drop_accounting_test.exs:347: (test)
+
+
+
+ 13) test send-outcome deferred byte rejection is internal event loss after actual sends (Abyss.DatagramDropAccountingTest)
+     test/abyss/datagram_drop_accounting_test.exs:278
+     Assertion failed, no matching message after 1000ms
+     The following variables were pinned:
+       server = #PID<0.379.0>
+     Showing 1 of 1 message in the mailbox
+     code: assert_receive {:drop_decision, [:abyss, :datagram, :event_rejected], ^server, %{bytes: bytes},
+            %{event_type: :send_outcomes, reason: :key_queue_bytes_limit}}
+     mailbox:
+       pattern: {:drop_decision, [:abyss, :datagram, :event_rejected], ^server, %{bytes: bytes},
+                 %{event_type: :send_outcomes, reason: :key_queue_bytes_limit}}
+       value:   {:drop_decision, [:abyss, :datagram, :dropped], #PID<0.379.0>,
+                 %{bytes: 1756},
+                 %{
+                   reason: :key_queue_bytes_limit,
+                   server_id: #PID<0.379.0>
+                 }}
+     stacktrace:
+       test/abyss/datagram_drop_accounting_test.exs:284: (test)
+
+
+
+ 14) test per-key single and aggregate byte limits account only network payload bytes (Abyss.DatagramDropAccountingTest)
+     test/abyss/datagram_drop_accounting_test.exs:124
+     Assertion failed, no matching message after 1000ms
+     The following variables were pinned:
+       server = #PID<0.393.0>
+       bytes = 256
+     Showing 1 of 1 message in the mailbox
+     code: assert_receive {:drop_decision, [:abyss, :datagram, :dropped], ^server, %{bytes: ^bytes}, metadata}
+     mailbox:
+       pattern: {:drop_decision, [:abyss, :datagram, :dropped], ^server, %{bytes: ^bytes}, metadata}
+       value:   {:drop_decision, [:abyss, :datagram, :dropped], #PID<0.393.0>,
+                 %{bytes: 639},
+                 %{
+                   reason: :key_queue_bytes_limit,
+                   server_id: #PID<0.393.0>
+                 }}
+     stacktrace:
+       test/abyss/datagram_drop_accounting_test.exs:65: Abyss.DatagramDropAccountingTest.assert_drop/3
+       test/abyss/datagram_drop_accounting_test.exs:145: anonymous fn/2 in Abyss.DatagramDropAccountingTest."test per-key single and aggregate byte limits account only network payload bytes"/1
+       (elixir 1.18.5) lib/enum.ex:2546: Enum."-reduce/3-lists^foldl/2-0-"/3
+       test/abyss/datagram_drop_accounting_test.exs:125: (test)
+
+
+
+ 15) test deferred key count rejection remains visible after successful initial admission (Abyss.DatagramDropAccountingTest)
+     test/abyss/datagram_drop_accounting_test.exs:86
+     match (=) failed
+     code:  assert {:ok, %{dropped: 1}} = Endpoint.status(server)
+     left:  {:ok, %{dropped: 1}}
+     right: {:ok,
+             %{
+               send: %Abyss.Dispatcher.SendCapability{
+                 writer: #PID<0.412.0>,
+                 generation: #Reference<0.1563477260.1395654660.18466>,
+                 admission: #PID<0.411.0>,
+                 io_backend: :gen_udp
+               },
+               mode: :running,
+               dropped: 0,
+               generation: #Reference<0.1563477260.1395654660.18466>,
+               endpoint_id: {#PID<0.406.0>, "listener-1"},
+               local_endpoint: {{127, 0, 0, 1}, 36281},
+               capabilities: %{
+                 driver: :inet,
+                 runtime: %{otp: ~c"28", erts: ~c"16.4.0.5"},
+                 family: :inet,
+                 local_address: %{
+                   enabled: false,
+                   reason: :gen_udp_metadata_unavailable,
+                   supported: false
+                 },
+                 destination: %{
+                   enabled: false,
+                   reason: :gen_udp_metadata_unavailable,
+                   supported: false
+                 },
+                 adapter: :gen_udp,
+                 interface_index: %{
+                   enabled: false,
+                   reason: :gen_udp_metadata_unavailable,
+                   supported: false
+                 },
+                 memberships: %{
+                   enabled: true,
+                   reason: nil,
+                   supported: true
+                 },
+                 platform: {:unix, :linux},
+                 scoped_send: %{
+                   enabled: false,
+                   reason: :family_unsupported,
+                   supported: false
+                 },
+                 source_control: %{
+                   enabled: false,
+                   reason: :gen_udp_metadata_unavailable,
+                   supported: false
+                 },
+                 strict_group_filter: %{
+                   enabled: false,
+                   reason: :disabled,
+                   supported: true
+                 },
+                 strict_interface_filter: %{
+                   enabled: false,
+                   reason: :gen_udp_metadata_unavailable,
+                   supported: false
+                 }
+               },
+               received: 2,
+               retained_bytes: 0,
+               input_count: 0,
+               key_count: 1,
+               timer_count: 0,
+               high_bytes: 389,
+               high_items: 1,
+               receipts: %{
+                 #Reference<0.1563477260.1395654659.18380> => %{
+                   at: -576460738872,
+                   timer: #Reference<0.1563477260.1395654659.18401>,
+                   outcomes: []
+                 }
+               },
+               egress: %{bytes: 0, entries: 0}
+             }}
+     stacktrace:
+       test/abyss/datagram_drop_accounting_test.exs:99: (test)
+
+
+Finished in 12.5 seconds (0.00s async, 12.5s sync)
+15 tests, 15 failures

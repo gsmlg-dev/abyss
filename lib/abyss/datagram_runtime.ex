@@ -57,6 +57,7 @@ defmodule Abyss.DatagramRuntime do
          high_bytes: 0,
          high_items: 0,
          dropped: 0,
+         internal_events_rejected: %{timer: 0, send_outcomes: 0},
          route_queue: :queue.new(),
          routing: nil,
          timers: %{},
@@ -79,6 +80,7 @@ defmodule Abyss.DatagramRuntime do
       key_count: map_size(state.workers),
       timer_count: map_size(state.timers),
       dropped: state.dropped,
+      internal_events_rejected: state.internal_events_rejected,
       high_bytes: state.high_bytes,
       high_items: state.high_items,
       egress: egress,
@@ -88,9 +90,9 @@ defmodule Abyss.DatagramRuntime do
     {:reply, info, state}
   end
 
-  def handle_call({:admit, _datagram}, _from, %{draining: deadline} = state)
+  def handle_call({:admit, datagram}, _from, %{draining: deadline} = state)
       when not is_nil(deadline),
-      do: {:reply, {:error, :draining}, state}
+      do: {:reply, {:error, :draining}, dropped(state, :draining, {:datagram, datagram})}
 
   def handle_call({:admit, datagram}, _from, state) do
     case reserve({:datagram, datagram}, state) do
@@ -104,7 +106,7 @@ defmodule Abyss.DatagramRuntime do
     limit = min(state.limits.max_queue, state.config.num_connections)
 
     if map_size(state.inputs) >= limit do
-      {:error, :input_limit, dropped(state, :input_limit, bytes)}
+      {:error, :input_limit, dropped(state, :input_limit, event)}
     else
       reserve_input(event, bytes, state)
     end
@@ -134,7 +136,7 @@ defmodule Abyss.DatagramRuntime do
         {:ok, token, state}
 
       {:error, reason} ->
-        {:error, reason, dropped(state, reason, bytes)}
+        {:error, reason, dropped(state, reason, event)}
     end
   end
 
@@ -763,11 +765,33 @@ defmodule Abyss.DatagramRuntime do
   defp release_worker_input(worker, _, _), do: worker
 
   defp reject(token, reason, state),
-    do: release(token, dropped(state, reason, state.inputs[token].bytes))
+    do: release(token, dropped(state, reason, state.inputs[token].event))
 
-  defp dropped(state, reason, bytes) do
-    Abyss.Telemetry.track_datagram_dropped(state.server, reason, bytes)
-    %{state | dropped: state.dropped + 1}
+  defp dropped(state, reason, {:datagram, datagram}) do
+    state = %{state | dropped: state.dropped + 1}
+    publish_drop_counters(state)
+    Abyss.Telemetry.track_datagram_dropped(state.server, reason, byte_size(datagram.payload))
+    state
+  end
+
+  defp dropped(state, reason, {:event, {:timer, _, _} = event}),
+    do: event_rejected(state, :timer, reason, event)
+
+  defp dropped(state, reason, {:event, {:send_outcomes, _, _, _} = event}),
+    do: event_rejected(state, :send_outcomes, reason, event)
+
+  defp event_rejected(state, type, reason, event) do
+    counters = Map.update!(state.internal_events_rejected, type, &(&1 + 1))
+    state = %{state | internal_events_rejected: counters}
+    publish_drop_counters(state)
+    Abyss.Telemetry.track_event_rejected(state.server, type, reason, :erlang.external_size(event))
+    state
+  end
+
+  defp publish_drop_counters(state) do
+    counters = Map.take(state, [:dropped, :internal_events_rejected])
+    _ = send(state.owner, {:runtime_drop_counters, self(), state.context.generation, counters})
+    :ok
   end
 
   defp record_receipts(state, token, outcomes) do

@@ -1,0 +1,46 @@
+Compiling 39 files (.ex)
+Generated abyss app
+Running ExUnit with seed: 684746, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+
+
+  1) test actual native payload truncation records observed bytes and one ingress drop at sampling 0.0 (Abyss.DatagramNativeDropAccountingTest)
+     test/abyss/datagram_native_drop_accounting_test.exs:59
+     Assertion failed, no matching message after 1000ms
+     The following variables were pinned:
+       endpoint = #PID<0.485.0>
+     Showing 1 of 1 message in the mailbox
+     code: assert_receive {:native_truncation_drop, %{bytes: 2}, %{server_id: ^endpoint, reason: :payload_truncated}}
+     mailbox:
+       pattern: {:native_truncation_drop, %{bytes: 2}, %{server_id: ^endpoint, reason: :payload_truncated}}
+       value:   {:native_truncation_drop, %{bytes: 0},
+                 %{
+                   reason: :payload_truncated,
+                   server_id: #PID<0.485.0>
+                 }}
+     stacktrace:
+       test/abyss/datagram_native_drop_accounting_test.exs:113: (test)
+
+
+
+  2) test actual native payload truncation records observed bytes and one ingress drop at sampling 1.0 (Abyss.DatagramNativeDropAccountingTest)
+     test/abyss/datagram_native_drop_accounting_test.exs:59
+     Assertion failed, no matching message after 1000ms
+     The following variables were pinned:
+       endpoint = #PID<0.497.0>
+     Showing 1 of 1 message in the mailbox
+     code: assert_receive {:native_truncation_drop, %{bytes: 2}, %{server_id: ^endpoint, reason: :payload_truncated}}
+     mailbox:
+       pattern: {:native_truncation_drop, %{bytes: 2}, %{server_id: ^endpoint, reason: :payload_truncated}}
+       value:   {:native_truncation_drop, %{bytes: 0},
+                 %{
+                   reason: :payload_truncated,
+                   server_id: #PID<0.497.0>
+                 }}
+     stacktrace:
+       test/abyss/datagram_native_drop_accounting_test.exs:113: (test)
+
+
+Finished in 2.2 seconds (0.00s async, 2.2s sync)
+2 tests, 2 failures

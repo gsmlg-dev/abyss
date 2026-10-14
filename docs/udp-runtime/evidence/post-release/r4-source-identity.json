@@ -1,0 +1,55 @@
+{
+  "task": "R4",
+  "assignment": "direct",
+  "baseline": "960c40aabdae0c308b0fae95b8c46643dee2b623",
+  "worktree": "/home/gao/Workspace/gsmlg-dev/abyss/.trees/post-release-hardening",
+  "branch": "codex/post-release-hardening",
+  "source_sha256": {
+    "lib/abyss/datagram_runtime.ex": "b0404ad7a23ea3a20c4baeb513a9f1602afe3971d59885950805f7a80f83f2a5",
+    "lib/abyss/listener.ex": "daabd8aa70616987ed1289d6af1de26e3bd1afcb0081db59d6cf303136ef1f04",
+    "lib/abyss/telemetry.ex": "5224da94291128de5f839adfb98e76a795c04381105b6d5b9e83dbaa34bc3860",
+    "test/abyss/datagram_drop_accounting_test.exs": "5d713fcc9112bdde56ce546d403e774a75f719faa1b658f0c815c5894afdba08",
+    "test/support/datagram_drop_accounting_fixture.ex": "242942651200eed2ff85cf72ac5aaf291a8ddc576c77dc57816fb33d295e1cf7"
+  },
+  "baseline_source_sha256": {
+    "lib/abyss/datagram_runtime.ex": "7203ef26f73df84e94d854a144d16d24a20c0a668ca5c5d06f9774f316ddc75a",
+    "lib/abyss/listener.ex": "4e42024299498428cf8532e3e85999df08b33ebfe89984369680c1a961ab9e86",
+    "lib/abyss/telemetry.ex": "6bc36fff90ad15868c2a91a4a4e173f8c905c56ef6b7016eb45757471b99654e"
+  },
+  "primary_red_command": "mix test --no-cover test/abyss/datagram_drop_accounting_test.exs",
+  "primary_red_exit": 2,
+  "primary_red_results": "14 original portable regressions;14 intended failures against unchanged960c40a production. Public key_limit drop hidden0 vs1 BEFORE byte check; runtime network bytes incorrectly serialized; timer/outcomes recorded as datagrams; additive categories absent; runtime draining unrecorded. No test bodies from these14 changed after primaryRED; appended15th stopped-window regression separately.",
+  "primary_red_log": "r4-red-portable-otp28.log",
+  "stopped_red_command": "mix test --only stopped_window --no-cover test/abyss/datagram_drop_accounting_test.exs",
+  "stopped_red_exit": 2,
+  "stopped_red_results": "15tests,1intended failure,14excluded against R4 pre-extension source; known network/timer rejections then normal drain public dropped0 instead1; source hashes r4-pre-stopped-fix-sha256.json",
+  "stopped_red_log": "r4-stopped-window-red-otp28.log",
+  "green_command": "mix test --include integration --no-cover test/abyss/datagram_drop_accounting_test.exs test/abyss/datagram_watchdog_test.exs test/abyss/datagram_lifetime_test.exs test/abyss/datagram_runtime_test.exs test/abyss/dispatcher_test.exs test/abyss/datagram_send_accounting_test.exs test/abyss/datagram_native_send_accounting_test.exs test/abyss/telemetry_endpoint_test.exs test/abyss/telemetry_test.exs test/abyss/telemetry_metrics_test.exs test/abyss/telemetry_integration_test.exs test/abyss/udp_admission_test.exs test/abyss/connection_admission_test.exs test/abyss/listener_test.exs test/abyss/listener_comprehensive_test.exs test/abyss/endpoint_contract_test.exs",
+  "otp28_environment": "CI=true ERL_FLAGS=\"+S 8:8\" MIX_BUILD_PATH=/tmp/abyss-post-hardening-otp28",
+  "otp27_environment": "devenv shell -- bash -c 'cd .trees/post-release-hardening; CI=true ERL_FLAGS=\"+S 8:8\" MIX_BUILD_PATH=/tmp/abyss-post-hardening-otp27 <green_command>'",
+  "otp27_green_exit": 0,
+  "otp28_green_exit": 0,
+  "green_results": "144 tests,0failures each runtime; includes15portableR4 tests and unchanged selectedintegration",
+  "green_logs": [
+    "r4-green-final-complete-otp27.log",
+    "r4-green-final-complete-otp28.log"
+  ],
+  "strict_test_compile_otp28_exit": 0,
+  "format_check_exit": 0,
+  "diff_check_exit": 0,
+  "credo": {
+    "baseline": 83,
+    "current": 83,
+    "introduced": [],
+    "exit": 30
+  },
+  "native_coverage": "Separate native owner final2tests/0 at sampling0/1 eachOTP27/28, finalbyte baselineRED2/2; see r4-native-source-identity.json. Fixture reduces only owned receive buffer and observes actual kerneltruncation.",
+  "snapshot_retention": "One fixed absolute map published before rejection telemetry. Listener validates original runtimePID+generation, retains source identity after runtimenil, and never increments mirrored runtime counts. Original stop deadline unchanged; normal and forced20ms drain preserve stats; obsoletePID/generation snapshots ignored.",
+  "preserved_boundaries": "Ingress/runtime/internal counter decisions separated; runtime byte reservations still serialized and release-once settlement/watchdog helpers unchanged; no dynamic metric keys; legacy listener statistics unchanged.",
+  "sol_repair_rounds": 2,
+  "repair_evidence": "Round1 success: helper placement warning moved to existing private section, strictcompile0; round2 success: evidenced stopped-window omission retained through guarded absolute snapshot,144tests0 both27/28. AgreedTDDRED14 failures were initial implementation evidence, not repair failure.",
+  "received_astra_repair_counter": null,
+  "commands_finished": true,
+  "remaining_risks": "Parent owns final full integration, macOS/native matrix, performance/resource comparison, commit and publication. No local required regression blocker remains.",
+  "source_identity_note": "Parent owns concurrent public moduledoc and release version preparation; final full integration/source freeze remains parent-owned. R4 runtime/listener/accounting behavior stable across final27/28 commands."
+}

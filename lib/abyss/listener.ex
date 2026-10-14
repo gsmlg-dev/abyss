@@ -196,6 +196,11 @@ defmodule Abyss.Listener do
          local_info: local,
          dispatcher: dispatcher,
          runtime: runtime,
+         runtime_counter_source: runtime,
+         runtime_drop_counters: %{
+           dropped: 0,
+           internal_events_rejected: %{timer: 0, send_outcomes: 0}
+         },
          runtime_send:
            if(is_pid(runtime), do: Abyss.DatagramRuntime.info(runtime).send, else: nil),
          generation: generation,
@@ -258,13 +263,25 @@ defmodule Abyss.Listener do
     }
 
     case state.transport.datagram(message, context) do
-      {:ok, datagram} -> receive_datagram(datagram, state)
-      {:error, reason} -> rearm(drop(state, reason, 0))
+      {:ok, datagram} ->
+        receive_datagram(datagram, state)
+
+      {:error, reason} ->
+        bytes = IO.iodata_length(message.iov)
+        Abyss.Telemetry.track_datagram_received(state.server_pid, bytes)
+        state = %{state | received: state.received + 1}
+        rearm(drop(state, reason, bytes))
     end
   end
 
   def handle_info({:runtime_drained, runtime}, %{runtime: runtime, mode: :draining} = state),
     do: complete_drain(%{state | runtime: nil})
+
+  def handle_info(
+        {:runtime_drop_counters, runtime, generation, counters},
+        %{runtime_counter_source: runtime, generation: generation} = state
+      ),
+      do: {:noreply, %{state | runtime_drop_counters: counters}}
 
   def handle_info({:EXIT, runtime, reason}, %{runtime: runtime, mode: :draining} = state)
       when reason in [:normal, :killed],
@@ -359,8 +376,9 @@ defmodule Abyss.Listener do
 
   @impl true
   def handle_call(:endpoint_info, _from, state) do
-    runtime = if is_pid(state.runtime), do: Abyss.DatagramRuntime.info(state.runtime), else: %{}
+    runtime = endpoint_runtime_info(state)
     capabilities = capabilities(state)
+    drops = endpoint_drops(state, runtime)
 
     info =
       Map.merge(runtime, %{
@@ -369,9 +387,9 @@ defmodule Abyss.Listener do
         generation: state.generation,
         capabilities: capabilities,
         mode: state.mode,
-        received: state.received,
-        dropped: state.dropped
+        received: state.received
       })
+      |> Map.merge(drops)
 
     {:reply, {:ok, info}, state}
   end
@@ -496,6 +514,25 @@ defmodule Abyss.Listener do
       else: :ok
   end
 
+  defp endpoint_runtime_info(%{runtime: runtime}) when is_pid(runtime),
+    do: Abyss.DatagramRuntime.info(runtime)
+
+  defp endpoint_runtime_info(%{runtime_counter_source: runtime, runtime_drop_counters: counters})
+       when is_pid(runtime),
+       do: counters
+
+  defp endpoint_runtime_info(_state), do: %{}
+
+  defp endpoint_drops(%{runtime_counter_source: runtime, dropped: ingress}, info)
+       when is_pid(runtime) do
+    %{
+      dropped: ingress + info.dropped,
+      drop_counts: %{ingress: ingress, runtime: info.dropped}
+    }
+  end
+
+  defp endpoint_drops(state, _info), do: %{dropped: state.dropped}
+
   defp receive_datagram(datagram, state) do
     bytes = byte_size(datagram.payload)
     Abyss.Telemetry.track_datagram_received(state.server_pid, bytes)
@@ -524,7 +561,7 @@ defmodule Abyss.Listener do
       [] ->
         case Abyss.DatagramRuntime.admit(state.runtime, datagram) do
           :ok -> rearm(state)
-          {:error, _} -> rearm(%{state | dropped: state.dropped + 1})
+          {:error, _} -> rearm(state)
         end
 
       fields ->

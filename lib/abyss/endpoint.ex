@@ -26,7 +26,17 @@ defmodule Abyss.Endpoint do
   @doc "Stop with one overall drain deadline; accepted outcomes can remain unknown."
   def stop(server, timeout \\ 15_000), do: Abyss.stop(server, timeout)
 
-  @doc "Inspect the single existing socket owner without creating a second owner."
+  @doc """
+  Inspect the single existing socket owner without creating a second owner.
+
+  For the datagram API, `received` and `dropped` count current-generation
+  network inputs. `dropped` sums `drop_counts.ingress` and `drop_counts.runtime`;
+  internal timer/send-outcome rejection is separate in `internal_events_rejected`.
+  Counts persist while the same generation remains inspectable after drain.
+  Generation replacement resets these counts; logical-server telemetry retains
+  its existing lifetime. Callback/send failure, teardown discard and unknown
+  kernel loss are outside the network admission-drop total.
+  """
   def info(server) do
     case Abyss.Server.listener_pool_pid(server) do
       nil -> {:error, :not_running}

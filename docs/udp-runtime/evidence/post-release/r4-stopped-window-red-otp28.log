@@ -1,0 +1,21 @@
+Running ExUnit with seed: 278627, max_cases: 16
+Excluding tags: [:test, {:integration, true}, {:slow, true}]
+Including tags: [:stopped_window]
+
+
+
+  1) test normal and deadline-forced drain retain known counters through the stopped generation (Abyss.DatagramDropAccountingTest)
+     test/abyss/datagram_drop_accounting_test.exs:387
+     Assertion with == failed
+     code:  assert info.dropped == ingress + runtime
+     left:  0
+     right: 1
+     stacktrace:
+       test/abyss/datagram_drop_accounting_test.exs:75: Abyss.DatagramDropAccountingTest.assert_totals/4
+       test/abyss/datagram_drop_accounting_test.exs:435: anonymous fn/2 in Abyss.DatagramDropAccountingTest."test normal and deadline-forced drain retain known counters through the stopped generation"/1
+       (elixir 1.18.5) lib/enum.ex:2546: Enum."-reduce/3-lists^foldl/2-0-"/3
+       test/abyss/datagram_drop_accounting_test.exs:388: (test)
+
+
+Finished in 0.4 seconds (0.00s async, 0.4s sync)
+15 tests, 1 failure, 14 excluded

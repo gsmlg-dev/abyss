@@ -1,0 +1,42 @@
+Running ExUnit with seed: 84609, max_cases: 16
+Excluding tags: [slow: true]
+Including tags: [:integration]
+
+
+20:38:27.342 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+........
+20:38:27.497 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+......
+20:38:27.598 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.......................................
+20:38:29.898 [info] The function passed as a handler with ID :integration_test_handler is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+...............................
+20:38:32.964 [info] The function passed as a handler with ID :test_response_time_handler is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+............................................
+20:38:33.725 [error] GenServer #PID<0.1572.0> terminating
+** (stop) {:runtime_exit, :killed}
+Last message: {:EXIT, #PID<0.1574.0>, :killed}
+State: %{runtime: #PID<0.1574.0>, mode: :running, handlers: %{}, dropped: 0, starter: #PID<0.1573.0>, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.RuntimeBlockingTransport, transport_options: [ip: {127, 0, 0, 1}], handler_module: nil, datagram_options: %{io_backend: :gen_udp, required_metadata: [], datagram_handler: Abyss.RuntimeTestHandler, required_capabilities: [], execution: :per_datagram, runtime_options: [send_timeout: 10], route_key: nil}, handler_options: [owner: #PID<0.1569.0>], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 1, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, server_pid: #PID<0.1570.0>, listener_id: "listener-1", generation: #Reference<0.1415154417.3545759749.73682>, local_info: {{127, 0, 0, 1}, 54621}, armed: true, reservation: nil, transport: Abyss.RuntimeBlockingTransport, listener_socket: #Port<0.142>, native_select: nil, drain_waiter: nil, dispatcher: nil, runtime_counter_source: #PID<0.1574.0>, runtime_drop_counters: %{dropped: 0, internal_events_rejected: %{timer: 0, send_outcomes: 0}}, runtime_send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.1576.0>, generation: #Reference<0.1415154417.3545759749.73682>, admission: #PID<0.1575.0>, io_backend: :gen_udp}, memberships: [], desired_key: {#PID<0.1570.0>, "listener-1"}, received: 1, active_high_water: 0, retained_high_water: 0, listener_span: %Abyss.Telemetry{span_name: :listener, telemetry_span_context: #Reference<0.1415154417.3545759745.72654>, start_time: -576460744811426116, start_metadata: %{broadcast: false, handler: nil, server_pid: #PID<0.1570.0>, listener_id: "listener-1", local_info: {{127, 0, 0, 1}, 54621}, listener_socket: #Port<0.142>, sampled: true, telemetry_span_context: #Reference<0.1415154417.3545759745.72654>}}}
+..............
+20:38:34.404 [error] GenServer #PID<0.1868.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.1866.0>, :killed}
+State: %{owner: #PID<0.1866.0>, config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.Transport.UDP, transport_options: [ip: {127, 0, 0, 1}], handler_module: nil, datagram_options: %{io_backend: :gen_udp, required_metadata: [], datagram_handler: Abyss.RuntimeTestHandler, required_capabilities: [], execution: :endpoint, runtime_options: [], route_key: nil}, handler_options: [owner: #PID<0.1863.0>], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 1, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, context: %{send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.1870.0>, generation: #Reference<0.1415154417.3545759745.72956>, admission: #PID<0.1869.0>, io_backend: :gen_udp}, generation: #Reference<0.1415154417.3545759745.72956>, endpoint_id: {#PID<0.1864.0>, "listener-1"}}, bytes: 0, dropped: 0, workers: %{}, server: #PID<0.1864.0>, writer: #PID<0.1870.0>, admission: #PID<0.1869.0>, draining: nil, internal_events_rejected: %{timer: 0, send_outcomes: 0}, timers: %{}, limits: %{send_timeout: 100, max_queue: 128, idle_timeout: 60000, init_timeout: 1000, callback_timeout: 1000, max_keys: 128, max_key_queue: 32, max_key_queue_bytes: 262144, max_key_bytes: 1024, route_timeout: 1000, max_queue_bytes: 1048576, terminate_timeout: 100, max_timers: 128, max_actions: 32, max_action_bytes: 1048576}, receipts: %{}, high_items: 0, routing: nil, inputs: %{}, high_bytes: 0, poll: nil, drain_timer: nil, route_queue: {[], []}}
+..
+Finished in 7.2 seconds (1.5s async, 5.7s sync)
+144 tests, 0 failures

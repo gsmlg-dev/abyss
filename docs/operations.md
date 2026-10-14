@@ -13,6 +13,22 @@ metrics = Abyss.Telemetry.get_metrics(endpoint)
 
 `info` includes logical identity, socket generation, local endpoint, capabilities and mode. A datagram runtime also exposes input count, retained input bytes, key/timer counts, high-water values, receipts and egress admission state. These describe current host-managed work; they are not an application-memory budget or a kernel drop counter.
 
+For the datagram API, `received` and `dropped` describe the current socket
+generation. `dropped` is the sum of the non-overlapping `drop_counts.ingress`
+and `drop_counts.runtime` fields. Ingress covers packet validation and pause;
+runtime covers input admission and deferred route/key/queue rejection. Each
+known network input is counted once at its definitive rejection. Repeated
+inspection does not change these counters. They remain available while the same
+generation is inspectable after graceful or forced drain. Generation replacement
+resets them.
+
+`internal_events_rejected` reports separate `timer` and `send_outcomes` counts.
+Their rejection does not represent another lost network datagram. Callback
+failure, transport-send failure and intentionally discarded queued work during
+teardown are not additional network admission drops. Unknown kernel queue
+loss is not included. For a truncated native packet, only the observed payload
+bytes are available; the original full length is not inferred.
+
 The endpoint facade requires one receive owner. Legacy fixed-port unicast pools can have several; inspect individual listeners with `Abyss.Listener.listener_info_cached/1` for cached local addresses rather than assuming a single endpoint.
 
 ## Metrics and events
@@ -22,7 +38,8 @@ Counters are scoped by the logical server PID. `Abyss.Telemetry.get_metrics()` a
 | Counter | Meaning |
 | --- | --- |
 | `datagrams_received`, `bytes_received` | Inputs observed by Abyss reception |
-| `datagrams_dropped`, `bytes_dropped` | Explicit library drops; runtime accounting can include serialized event metadata |
+| `datagrams_dropped`, `bytes_dropped` | Definitively rejected network inputs and observed payload bytes; logical-server lifetime |
+| `timer_events_rejected`, `send_outcome_events_rejected` | Rejected managed events; separate from network drops |
 | `accepts_total`, `connections_total`, `connections_active` | Validated admission and active work accounting |
 | `responses_total`, `bytes_sent` | Successful instrumented local socket sends and payload bytes; an empty datagram counts as one send |
 | `send_errors_total` | Definite failed socket-send attempts |
@@ -43,7 +60,8 @@ peer delivery.
 ```elixir
 :telemetry.attach_many(
   "abyss-datagrams",
-  [[:abyss, :datagram, :dropped], [:abyss, :datagram, :send]],
+  [[:abyss, :datagram, :dropped], [:abyss, :datagram, :send],
+   [:abyss, :datagram, :event_rejected]],
   fn event, measurements, metadata, _config ->
     IO.inspect({event, measurements, metadata})
   end,
@@ -54,7 +72,14 @@ peer delivery.
 :telemetry.detach("abyss-datagrams")
 ```
 
-Drop metadata contains `server_id` and `reason`; send metadata contains `server_id` and `result`. Measurements include `bytes`. Listener and legacy connection spans are documented in `Abyss.Telemetry`. Connection spans are sampled by `connection_telemetry_sample_rate` (default 0.05); admission/send counters are not controlled by that sampling setting. Avoid unbounded peer or route-key labels in external metric storage.
+Drop metadata contains `server_id` and `reason`; send metadata contains
+`server_id` and `result`. Network drop/send measurements use payload `bytes`.
+`event_rejected` metadata contains `server_id`, `event_type` and `reason`; its
+`bytes` measure the serialized internal event for admission accounting. Fixed
+counter names keep cardinality bounded; route keys, peers and exception values
+are not permanent metric keys. Compare public generation counters with
+telemetry deltas for the same observed interval, since telemetry retains its
+logical-server lifetime across generations. Listener and legacy connection spans are documented in `Abyss.Telemetry`. Connection spans are sampled by `connection_telemetry_sample_rate` (default 0.05); admission/send counters are not controlled by that sampling setting. Avoid unbounded peer or route-key labels in external metric storage.
 
 `Abyss.Logger.attach_logger(:info)` attaches the built-in structured logger. Choose the level and event collection appropriate for the service.
 
@@ -82,7 +107,7 @@ mix docs --warnings-as-errors
 mix format --check-formatted mix.exs
 
 # Datagram contracts and runtime lifecycle
-mix test --no-cover test/abyss/datagram_test.exs test/abyss/datagram_config_test.exs test/abyss/endpoint_contract_test.exs test/abyss/datagram_runtime_test.exs
+mix test --no-cover test/abyss/datagram_test.exs test/abyss/datagram_config_test.exs test/abyss/endpoint_contract_test.exs test/abyss/datagram_runtime_test.exs test/abyss/datagram_watchdog_test.exs test/abyss/datagram_lifetime_test.exs test/abyss/datagram_send_accounting_test.exs test/abyss/datagram_drop_accounting_test.exs
 
 # Legacy host, admission and memberships
 mix test --no-cover test/abyss/udp_host_hardening_test.exs test/abyss/udp_admission_test.exs test/abyss/udp_membership_host_test.exs

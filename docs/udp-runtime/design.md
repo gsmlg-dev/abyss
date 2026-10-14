@@ -108,7 +108,8 @@ accounting includes serialized datagram/event metadata. `num_connections` is the
 shared service item ceiling; `runtime_options` supplies endpoint and worker
 item/byte limits, key limits, timer limits, and deadlines. Overload drops new
 work before allocating a rejected packet's worker. Timer and outcome events
-also use input credit and can be dropped under overload.
+also use input credit and can be rejected under overload. Their rejections
+are counted separately from network datagram loss.
 
 Action count and total payload bytes are bounded. Managed timer token/value
 size and delay are validated, and timers are available only for persistent
@@ -170,6 +171,27 @@ The endpoint separately retains action outcome receipts, including outcomes
 from workers that have exited, and exposes them through `Endpoint.info/1`.
 Persistent handlers can receive outcomes through `handle_event/2`; receipt
 inspection remains useful when an outcome event is dropped.
+
+## Drop accounting
+
+For the datagram API, public `Endpoint.info/1` and `status/1` report current
+generation `received` and known network `dropped` counts. `drop_counts` exposes
+non-overlapping `ingress` and `runtime` components whose sum is `dropped`.
+Ingress validation/pause, runtime input admission and deferred route/key/queue
+rejection each count a network input once at the definitive decision. An
+admitted packet awaiting completion is not a drop.
+
+`internal_events_rejected` separates `timer` and `send_outcomes` rejection.
+Callback failure, socket-send failure and queued work discarded during teardown
+do not enter the network admission-drop total. Unknown kernel receive loss is
+not measurable here. Network drop bytes are observed payload bytes; internal
+event rejection bytes remain serialized admission bytes.
+
+Generation replacement resets public counts. Telemetry retains logical-server
+lifetime until service deletion; compare matching interval deltas. Fixed counter
+names avoid metric cardinality based on arbitrary keys or peers. Legacy listener
+statistics retain their existing contracts. See [operations](../operations.md)
+for counters and events.
 
 ## Pause, drain, and restart
 
