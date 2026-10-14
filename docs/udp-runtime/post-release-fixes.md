@@ -77,3 +77,5 @@ python3 docs/udp-runtime/evidence/post-release/published_verifier.py \
 ```
 
 Raw source-linked logs and exitcodes for allmain/release jobs remain in `main-*-results.json`, `release-workflow-results.json` and correspondingjoblogs. Final scope contains no unrelated code/lock changes; the three original untracked user Markdown inputs remain preserved. There is no remaining implementation or publication blocker. Existing strict-lint failure, the original Writer timing failure and measured throughput cost are explicitly retained limitations.
+
+The final publication receipt handoff0f3a2cd202e4e0738f54576c811278ea0c475814 is pushed to bothmain and`codex/post-release-hardening`, with the immutabletag still71ecf78. [Completion audit](evidence/post-release/completion-audit.json) proves distributed/package/source/test/workflow/lock parity and source-linked job evidence; the following audit-record commit contains only nonpackaged evidence. Re-run `python3 docs/udp-runtime/evidence/post-release/completion_audit.py` to check currentrefs without mutations. There is no uncommitted implementation or remaining publication work.

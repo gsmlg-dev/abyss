@@ -1,0 +1,29 @@
+{
+  "result": "PASS",
+  "handoff_verified_sha": "0f3a2cd202e4e0738f54576c811278ea0c475814",
+  "release_tag": "0.8.1",
+  "immutable_release_sha": "71ecf7883c0aaf666406d24634ff5c022382029d",
+  "remote_refs": {
+    "refs/heads/codex/post-release-hardening": "0f3a2cd202e4e0738f54576c811278ea0c475814",
+    "refs/heads/main": "0f3a2cd202e4e0738f54576c811278ea0c475814",
+    "refs/tags/0.8.1": "71ecf7883c0aaf666406d24634ff5c022382029d"
+  },
+  "published_files_checked": 46,
+  "existing_lockfiles_unchanged": [
+    "devenv.lock",
+    "docs/archive/udp-runtime/evidence/p6-published-consumer-mix.lock",
+    "examples/quic_collect/mix.lock",
+    "examples/quic_echo/mix.lock",
+    "examples/udp_echo/mix.lock",
+    "mix.lock",
+    "packages/abyss_dhcp_socket/mix.lock",
+    "packages/abyss_dhcp_socket/native/dhcp_socket/Cargo.lock"
+  ],
+  "code_test_script_workflow_parity": "PASS",
+  "source_linked_success_jobs_checked": 47,
+  "credo": "83 baseline, zero introduced; absolute FAIL",
+  "full_integration": "688 tests + 3 doctests / 0 each final runtime",
+  "publication": "54 actual exchanges,18 endpoints,checksum/source parity PASS",
+  "unrelated_user_files": "three originals remain preserved",
+  "remaining_required_work": "NONE"
+}
