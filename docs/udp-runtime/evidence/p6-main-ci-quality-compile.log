@@ -1,0 +1,313 @@
+Compile	Set up job	﻿2026-10-14T03:40:54.1352582Z Current runner version: '2.337.0'
+Compile	Set up job	2026-10-14T03:40:54.1380923Z ##[group]Runner Image Provisioner
+Compile	Set up job	2026-10-14T03:40:54.1381994Z Hosted Compute Agent
+Compile	Set up job	2026-10-14T03:40:54.1382623Z Version: 20261002.596
+Compile	Set up job	2026-10-14T03:40:54.1383274Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+Compile	Set up job	2026-10-14T03:40:54.1384071Z Build Date: 2026-10-02T22:28:27Z
+Compile	Set up job	2026-10-14T03:40:54.1384828Z Worker ID: {2ea60839-7fa2-40cf-ae6e-54c1ae0512b4}
+Compile	Set up job	2026-10-14T03:40:54.1385599Z Region: westus
+Compile	Set up job	2026-10-14T03:40:54.1386277Z Cloud: Azure
+Compile	Set up job	2026-10-14T03:40:54.1386821Z ##[endgroup]
+Compile	Set up job	2026-10-14T03:40:54.1388830Z ##[group]Operating System
+Compile	Set up job	2026-10-14T03:40:54.1389595Z Ubuntu
+Compile	Set up job	2026-10-14T03:40:54.1390107Z 24.04.5
+Compile	Set up job	2026-10-14T03:40:54.1390702Z LTS
+Compile	Set up job	2026-10-14T03:40:54.1391231Z ##[endgroup]
+Compile	Set up job	2026-10-14T03:40:54.1391831Z ##[group]Runner Image
+Compile	Set up job	2026-10-14T03:40:54.1392511Z Image: ubuntu-24.04
+Compile	Set up job	2026-10-14T03:40:54.1393107Z Version: 20261004.327.1
+Compile	Set up job	2026-10-14T03:40:54.1394217Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+Compile	Set up job	2026-10-14T03:40:54.1396020Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+Compile	Set up job	2026-10-14T03:40:54.1397389Z ##[endgroup]
+Compile	Set up job	2026-10-14T03:40:54.1400571Z ##[group]GITHUB_TOKEN Permissions
+Compile	Set up job	2026-10-14T03:40:54.1402802Z Actions: write
+Compile	Set up job	2026-10-14T03:40:54.1403430Z ArtifactMetadata: write
+Compile	Set up job	2026-10-14T03:40:54.1404164Z Attestations: write
+Compile	Set up job	2026-10-14T03:40:54.1404783Z Checks: write
+Compile	Set up job	2026-10-14T03:40:54.1405380Z CodeQuality: write
+Compile	Set up job	2026-10-14T03:40:54.1405970Z Contents: write
+Compile	Set up job	2026-10-14T03:40:54.1406591Z CopilotRequests: write
+Compile	Set up job	2026-10-14T03:40:54.1407613Z Deployments: write
+Compile	Set up job	2026-10-14T03:40:54.1408250Z Discussions: write
+Compile	Set up job	2026-10-14T03:40:54.1408896Z Drives: write
+Compile	Set up job	2026-10-14T03:40:54.1409466Z Issues: write
+Compile	Set up job	2026-10-14T03:40:54.1410141Z Metadata: read
+Compile	Set up job	2026-10-14T03:40:54.1410810Z Models: read
+Compile	Set up job	2026-10-14T03:40:54.1411388Z Packages: write
+Compile	Set up job	2026-10-14T03:40:54.1411929Z Pages: write
+Compile	Set up job	2026-10-14T03:40:54.1412538Z PullRequests: write
+Compile	Set up job	2026-10-14T03:40:54.1413127Z RepositoryProjects: write
+Compile	Set up job	2026-10-14T03:40:54.1413882Z SecurityEvents: write
+Compile	Set up job	2026-10-14T03:40:54.1414461Z Statuses: write
+Compile	Set up job	2026-10-14T03:40:54.1415019Z VulnerabilityAlerts: read
+Compile	Set up job	2026-10-14T03:40:54.1415684Z ##[endgroup]
+Compile	Set up job	2026-10-14T03:40:54.1418224Z Secret source: Actions
+Compile	Set up job	2026-10-14T03:40:54.1419339Z Cache mode: write
+Compile	Set up job	2026-10-14T03:40:54.1420065Z Prepare workflow directory
+Compile	Set up job	2026-10-14T03:40:54.1772033Z Prepare all required actions
+Compile	Set up job	2026-10-14T03:40:54.1824392Z Getting action download info
+Compile	Set up job	2026-10-14T03:40:54.5494998Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+Compile	Set up job	2026-10-14T03:40:54.6404995Z Download action repository 'erlef/setup-beam@v1' (SHA:54075bcc5e249e4758d363f27d099f55d843f124)
+Compile	Set up job	2026-10-14T03:40:55.0526190Z Download action repository 'actions/cache@v4' (SHA:0057852bfaa89a56745cba8c7296529d2fc39830)
+Compile	Set up job	2026-10-14T03:40:55.3068736Z Complete job name: Compile
+Compile	Checkout code	﻿2026-10-14T03:40:55.3894429Z ##[group]Run actions/checkout@v4
+Compile	Checkout code	2026-10-14T03:40:55.3895473Z with:
+Compile	Checkout code	2026-10-14T03:40:55.3896056Z   repository: gsmlg-dev/abyss
+Compile	Checkout code	2026-10-14T03:40:55.3900425Z   token: ***
+Compile	Checkout code	2026-10-14T03:40:55.3900946Z   ssh-strict: true
+Compile	Checkout code	2026-10-14T03:40:55.3901441Z   ssh-user: git
+Compile	Checkout code	2026-10-14T03:40:55.3901947Z   persist-credentials: true
+Compile	Checkout code	2026-10-14T03:40:55.3902496Z   clean: true
+Compile	Checkout code	2026-10-14T03:40:55.3903006Z   sparse-checkout-cone-mode: true
+Compile	Checkout code	2026-10-14T03:40:55.3903593Z   fetch-depth: 1
+Compile	Checkout code	2026-10-14T03:40:55.3904084Z   fetch-tags: false
+Compile	Checkout code	2026-10-14T03:40:55.3904583Z   show-progress: true
+Compile	Checkout code	2026-10-14T03:40:55.3905092Z   lfs: false
+Compile	Checkout code	2026-10-14T03:40:55.3905576Z   submodules: false
+Compile	Checkout code	2026-10-14T03:40:55.3906088Z   set-safe-directory: true
+Compile	Checkout code	2026-10-14T03:40:55.3906655Z   allow-unsafe-pr-checkout: false
+Compile	Checkout code	2026-10-14T03:40:55.3907704Z ##[endgroup]
+Compile	Checkout code	2026-10-14T03:40:55.4936735Z Syncing repository: gsmlg-dev/abyss
+Compile	Checkout code	2026-10-14T03:40:55.4939983Z ##[group]Getting Git version info
+Compile	Checkout code	2026-10-14T03:40:55.4941209Z Working directory is '/home/runner/work/abyss/abyss'
+Compile	Checkout code	2026-10-14T03:40:55.4943336Z [command]/usr/bin/git version
+Compile	Checkout code	2026-10-14T03:40:55.5014012Z git version 2.55.0
+Compile	Checkout code	2026-10-14T03:40:55.5036230Z ##[endgroup]
+Compile	Checkout code	2026-10-14T03:40:55.5054786Z Temporarily overriding HOME='/home/runner/work/_temp/3ac4a4d2-3f72-42e8-b27c-77f93b5286f7' before making global git config changes
+Compile	Checkout code	2026-10-14T03:40:55.5058092Z Adding repository directory to the temporary git global config as a safe directory
+Compile	Checkout code	2026-10-14T03:40:55.5061407Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+Compile	Checkout code	2026-10-14T03:40:55.5122080Z Deleting the contents of '/home/runner/work/abyss/abyss'
+Compile	Checkout code	2026-10-14T03:40:55.5128292Z ##[group]Initializing the repository
+Compile	Checkout code	2026-10-14T03:40:55.5133007Z [command]/usr/bin/git init /home/runner/work/abyss/abyss
+Compile	Checkout code	2026-10-14T03:40:55.5245935Z hint: Using 'master' as the name for the initial branch. This default branch name
+Compile	Checkout code	2026-10-14T03:40:55.5250272Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+Compile	Checkout code	2026-10-14T03:40:55.5254142Z hint: to use in all of your new repositories, which will suppress this warning,
+Compile	Checkout code	2026-10-14T03:40:55.5256401Z hint: call:
+Compile	Checkout code	2026-10-14T03:40:55.5257695Z hint:
+Compile	Checkout code	2026-10-14T03:40:55.5258899Z hint: 	git config --global init.defaultBranch <name>
+Compile	Checkout code	2026-10-14T03:40:55.5260241Z hint:
+Compile	Checkout code	2026-10-14T03:40:55.5261497Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+Compile	Checkout code	2026-10-14T03:40:55.5263428Z hint: 'development'. The just-created branch can be renamed via this command:
+Compile	Checkout code	2026-10-14T03:40:55.5265080Z hint:
+Compile	Checkout code	2026-10-14T03:40:55.5266058Z hint: 	git branch -m <name>
+Compile	Checkout code	2026-10-14T03:40:55.5267404Z hint:
+Compile	Checkout code	2026-10-14T03:40:55.5268793Z hint: Disable this message with "git config set advice.defaultBranchName false"
+Compile	Checkout code	2026-10-14T03:40:55.5270961Z Initialized empty Git repository in /home/runner/work/abyss/abyss/.git/
+Compile	Checkout code	2026-10-14T03:40:55.5274945Z [command]/usr/bin/git remote add origin https://github.com/gsmlg-dev/abyss
+Compile	Checkout code	2026-10-14T03:40:55.5319287Z ##[endgroup]
+Compile	Checkout code	2026-10-14T03:40:55.5320873Z ##[group]Disabling automatic garbage collection
+Compile	Checkout code	2026-10-14T03:40:55.5323724Z [command]/usr/bin/git config --local gc.auto 0
+Compile	Checkout code	2026-10-14T03:40:55.5358608Z ##[endgroup]
+Compile	Checkout code	2026-10-14T03:40:55.5360217Z ##[group]Setting up auth
+Compile	Checkout code	2026-10-14T03:40:55.5366437Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Compile	Checkout code	2026-10-14T03:40:55.5400735Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Compile	Checkout code	2026-10-14T03:40:55.5779406Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Compile	Checkout code	2026-10-14T03:40:55.5822485Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Compile	Checkout code	2026-10-14T03:40:55.6105400Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Compile	Checkout code	2026-10-14T03:40:55.6145308Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Compile	Checkout code	2026-10-14T03:40:55.6377583Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Compile	Checkout code	2026-10-14T03:40:55.6421193Z ##[endgroup]
+Compile	Checkout code	2026-10-14T03:40:55.6422725Z ##[group]Fetching the repository
+Compile	Checkout code	2026-10-14T03:40:55.6431846Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +7d3a29f4206457669afa60a762a78eb7b90d2690:refs/remotes/origin/main
+Compile	Checkout code	2026-10-14T03:40:56.1452628Z From https://github.com/gsmlg-dev/abyss
+Compile	Checkout code	2026-10-14T03:40:56.1454307Z  * [new ref]         7d3a29f4206457669afa60a762a78eb7b90d2690 -> origin/main
+Compile	Checkout code	2026-10-14T03:40:56.1459113Z ##[endgroup]
+Compile	Checkout code	2026-10-14T03:40:56.1460834Z ##[group]Determining the checkout info
+Compile	Checkout code	2026-10-14T03:40:56.1462502Z ##[endgroup]
+Compile	Checkout code	2026-10-14T03:40:56.1466532Z [command]/usr/bin/git sparse-checkout disable
+Compile	Checkout code	2026-10-14T03:40:56.1518643Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Compile	Checkout code	2026-10-14T03:40:56.1553382Z ##[group]Checking out the ref
+Compile	Checkout code	2026-10-14T03:40:56.1559394Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+Compile	Checkout code	2026-10-14T03:40:56.2087223Z Switched to a new branch 'main'
+Compile	Checkout code	2026-10-14T03:40:56.2097696Z branch 'main' set up to track 'origin/main'.
+Compile	Checkout code	2026-10-14T03:40:56.2103696Z ##[endgroup]
+Compile	Checkout code	2026-10-14T03:40:56.2158575Z [command]/usr/bin/git log -1 --format=%H
+Compile	Checkout code	2026-10-14T03:40:56.2192198Z 7d3a29f4206457669afa60a762a78eb7b90d2690
+Compile	Set up Elixir	﻿2026-10-14T03:40:56.2700294Z ##[group]Run erlef/setup-beam@v1
+Compile	Set up Elixir	2026-10-14T03:40:56.2701559Z with:
+Compile	Set up Elixir	2026-10-14T03:40:56.2702461Z   elixir-version: 1.18
+Compile	Set up Elixir	2026-10-14T03:40:56.2703498Z   otp-version: 28
+Compile	Set up Elixir	2026-10-14T03:40:56.2713926Z   github-token: ***
+Compile	Set up Elixir	2026-10-14T03:40:56.2714966Z   otp-architecture: 64
+Compile	Set up Elixir	2026-10-14T03:40:56.2716005Z   install-hex: true
+Compile	Set up Elixir	2026-10-14T03:40:56.2717140Z   install-rebar: true
+Compile	Set up Elixir	2026-10-14T03:40:56.2718163Z   version-type: loose
+Compile	Set up Elixir	2026-10-14T03:40:56.2719216Z   disable_problem_matchers: false
+Compile	Set up Elixir	2026-10-14T03:40:56.2720488Z   hexpm-mirrors: https://builds.hex.pm
+Compile	Set up Elixir	
+Compile	Set up Elixir	2026-10-14T03:40:56.2721736Z ##[endgroup]
+Compile	Set up Elixir	2026-10-14T03:40:56.5498844Z ##[group]Installing Erlang/OTP OTP-28.5.0.7 - built on amd64/ubuntu-24.04
+Compile	Set up Elixir	2026-10-14T03:40:57.0083292Z [command]/usr/bin/tar zx --strip-components=1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/0a697448-0d7e-48d6-b035-e0c8cecc1c29 -f /home/runner/work/_temp/7a051ac7-c7a2-4adc-8252-54802b898f28
+Compile	Set up Elixir	2026-10-14T03:40:59.8511994Z [command]/home/runner/work/_temp/.setup-beam/otp/Install -minimal /home/runner/work/_temp/.setup-beam/otp
+Compile	Set up Elixir	2026-10-14T03:40:59.8827801Z Installed Erlang/OTP version
+Compile	Set up Elixir	2026-10-14T03:40:59.8847246Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -version
+Compile	Set up Elixir	2026-10-14T03:40:59.8986436Z Erlang (SMP,ASYNC_THREADS) (BEAM) emulator version 16.4.0.6
+Compile	Set up Elixir	2026-10-14T03:40:59.9029236Z ##[endgroup]
+Compile	Set up Elixir	2026-10-14T03:40:59.9030618Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -noshell -eval io:format(erlang:system_info(otp_release)), halt().
+Compile	Set up Elixir	2026-10-14T03:41:00.1355140Z 28::debug::Was not able to coerce latest with semver
+Compile	Set up Elixir	2026-10-14T03:41:00.1372990Z Using Elixir 1.18.5 (built for Erlang/OTP 27)
+Compile	Set up Elixir	2026-10-14T03:41:00.1374078Z ##[group]Installing Elixir v1.18.5-otp-27
+Compile	Set up Elixir	2026-10-14T03:41:00.5152449Z [command]/usr/bin/unzip -o -q /home/runner/work/_temp/f6fe82e3-d740-48c6-b405-8010b1aa63df
+Compile	Set up Elixir	2026-10-14T03:41:00.9932409Z Installed Elixir version
+Compile	Set up Elixir	2026-10-14T03:41:00.9957544Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/elixir -v
+Compile	Set up Elixir	2026-10-14T03:41:01.2250779Z Erlang/OTP 28 [erts-16.4.0.6] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:1] [jit:ns]
+Compile	Set up Elixir	2026-10-14T03:41:01.2251506Z 
+Compile	Set up Elixir	2026-10-14T03:41:01.2305220Z Elixir 1.18.5 (compiled with Erlang/OTP 27)
+Compile	Set up Elixir	2026-10-14T03:41:01.2390892Z ##[endgroup]
+Compile	Set up Elixir	2026-10-14T03:41:01.2392018Z ##[group]Running mix local.rebar,--force
+Compile	Set up Elixir	2026-10-14T03:41:01.2399629Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.rebar --force
+Compile	Set up Elixir	2026-10-14T03:41:02.2656102Z * creating /home/runner/.mix/elixir/1-18-otp-28/rebar3
+Compile	Set up Elixir	2026-10-14T03:41:02.2725641Z ##[endgroup]
+Compile	Set up Elixir	2026-10-14T03:41:02.2726508Z ##[group]Running mix local.hex,--force
+Compile	Set up Elixir	2026-10-14T03:41:02.2741820Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.hex --force
+Compile	Set up Elixir	2026-10-14T03:41:03.2669336Z * creating /home/runner/.mix/archives/hex-2.5.2
+Compile	Set up Elixir	2026-10-14T03:41:03.2755734Z ##[endgroup]
+Compile	Restore dependencies cache	﻿2026-10-14T03:41:03.4318333Z ##[group]Run actions/cache@v4
+Compile	Restore dependencies cache	2026-10-14T03:41:03.4318672Z with:
+Compile	Restore dependencies cache	2026-10-14T03:41:03.4318906Z   path: deps
+Compile	Restore dependencies cache	_build
+Compile	Restore dependencies cache	
+Compile	Restore dependencies cache	2026-10-14T03:41:03.4319335Z   key: Linux-mix-23079aaa40567801449cba6ad1e1d3a6f676c52b016d9fbd47e7fa8498d0e3d2
+Compile	Restore dependencies cache	2026-10-14T03:41:03.4319832Z   restore-keys: Linux-mix-
+Compile	Restore dependencies cache	2026-10-14T03:41:03.4320139Z   enableCrossOsArchive: false
+Compile	Restore dependencies cache	2026-10-14T03:41:03.4320426Z   fail-on-cache-miss: false
+Compile	Restore dependencies cache	2026-10-14T03:41:03.4320716Z   lookup-only: false
+Compile	Restore dependencies cache	2026-10-14T03:41:03.4320951Z   save-always: false
+Compile	Restore dependencies cache	2026-10-14T03:41:03.4321171Z env:
+Compile	Restore dependencies cache	2026-10-14T03:41:03.4321456Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Compile	Restore dependencies cache	2026-10-14T03:41:03.4321939Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Compile	Restore dependencies cache	2026-10-14T03:41:03.4322552Z ##[endgroup]
+Compile	Restore dependencies cache	2026-10-14T03:41:03.5393526Z (node:2491) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Compile	Restore dependencies cache	2026-10-14T03:41:03.5394577Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Compile	Restore dependencies cache	2026-10-14T03:41:03.7846716Z Cache hit for: Linux-mix-23079aaa40567801449cba6ad1e1d3a6f676c52b016d9fbd47e7fa8498d0e3d2
+Compile	Restore dependencies cache	2026-10-14T03:41:03.7954455Z (node:2491) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Compile	Restore dependencies cache	2026-10-14T03:41:04.7843363Z Received 1988151 of 1988151 (100.0%), 2.6 MBs/sec
+Compile	Restore dependencies cache	2026-10-14T03:41:04.7844173Z Cache Size: ~2 MB (1988151 B)
+Compile	Restore dependencies cache	2026-10-14T03:41:04.7878055Z [command]/usr/bin/tar -xf /home/runner/work/_temp/de86f515-2a85-405b-b0cc-9485f76e1476/cache.tzst -P -C /home/runner/work/abyss/abyss --use-compress-program unzstd
+Compile	Restore dependencies cache	2026-10-14T03:41:04.8385636Z Cache restored successfully
+Compile	Restore dependencies cache	2026-10-14T03:41:04.8490887Z Cache restored from key: Linux-mix-23079aaa40567801449cba6ad1e1d3a6f676c52b016d9fbd47e7fa8498d0e3d2
+Compile	Install dependencies	﻿2026-10-14T03:41:04.8602491Z ##[group]Run mix deps.get
+Compile	Install dependencies	2026-10-14T03:41:04.8603012Z ^[[36;1mmix deps.get^[[0m
+Compile	Install dependencies	2026-10-14T03:41:05.5596116Z shell: /usr/bin/bash -e {0}
+Compile	Install dependencies	2026-10-14T03:41:05.5596509Z env:
+Compile	Install dependencies	2026-10-14T03:41:05.5597070Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Compile	Install dependencies	2026-10-14T03:41:05.5597681Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Compile	Install dependencies	2026-10-14T03:41:05.5598161Z ##[endgroup]
+Compile	Install dependencies	2026-10-14T03:41:06.5171991Z Resolving Hex dependencies...
+Compile	Install dependencies	2026-10-14T03:41:06.5744473Z Resolution completed in 0.054s
+Compile	Install dependencies	2026-10-14T03:41:06.5817666Z Unchanged:
+Compile	Install dependencies	2026-10-14T03:41:06.5818625Z   bunt 1.0.0
+Compile	Install dependencies	2026-10-14T03:41:06.5835221Z   credo 1.7.19
+Compile	Install dependencies	2026-10-14T03:41:06.5839605Z   dhcp_ex 0.5.0
+Compile	Install dependencies	2026-10-14T03:41:06.5840471Z   dialyxir 1.4.8
+Compile	Install dependencies	2026-10-14T03:41:06.5841520Z   earmark_parser 1.4.46
+Compile	Install dependencies	2026-10-14T03:41:06.5842365Z   erlex 0.2.9
+Compile	Install dependencies	2026-10-14T03:41:06.5842706Z   ex_dns 0.5.0
+Compile	Install dependencies	2026-10-14T03:41:06.5843032Z   ex_doc 0.40.4
+Compile	Install dependencies	2026-10-14T03:41:06.5843367Z   file_system 1.1.1
+Compile	Install dependencies	2026-10-14T03:41:06.5843721Z   jason 1.4.5
+Compile	Install dependencies	2026-10-14T03:41:06.5844117Z   machete 0.3.12
+Compile	Install dependencies	2026-10-14T03:41:06.5844462Z   makeup 1.2.3
+Compile	Install dependencies	2026-10-14T03:41:06.5844806Z   makeup_elixir 1.0.1
+Compile	Install dependencies	2026-10-14T03:41:06.5845270Z   makeup_erlang 1.1.0
+Compile	Install dependencies	2026-10-14T03:41:06.5849019Z   mime 2.0.7
+Compile	Install dependencies	2026-10-14T03:41:06.5849797Z   mox 1.3.2
+Compile	Install dependencies	2026-10-14T03:41:06.5850386Z   nimble_ownership 1.0.2
+Compile	Install dependencies	2026-10-14T03:41:06.5850829Z   nimble_parsec 1.4.2
+Compile	Install dependencies	2026-10-14T03:41:06.5851236Z   telemetry 1.4.2
+Compile	Install dependencies	2026-10-14T03:41:06.5851710Z   telemetry_metrics 1.2.0
+Compile	Install dependencies	2026-10-14T03:41:06.5852108Z   tesla 1.21.3
+Compile	Install dependencies	2026-10-14T03:41:06.6046035Z All dependencies are up to date
+Compile	Compile with warnings as errors	﻿2026-10-14T03:41:06.6198664Z ##[group]Run mix compile --warnings-as-errors
+Compile	Compile with warnings as errors	2026-10-14T03:41:06.6199102Z ^[[36;1mmix compile --warnings-as-errors^[[0m
+Compile	Compile with warnings as errors	2026-10-14T03:41:06.6262729Z shell: /usr/bin/bash -e {0}
+Compile	Compile with warnings as errors	2026-10-14T03:41:06.6263015Z env:
+Compile	Compile with warnings as errors	2026-10-14T03:41:06.6263309Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Compile	Compile with warnings as errors	2026-10-14T03:41:06.6263786Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Compile	Compile with warnings as errors	2026-10-14T03:41:06.6264177Z ##[endgroup]
+Compile	Compile with warnings as errors	2026-10-14T03:41:07.2034275Z ==> earmark_parser
+Compile	Compile with warnings as errors	2026-10-14T03:41:07.2035318Z Compiling 2 files (.xrl)
+Compile	Compile with warnings as errors	2026-10-14T03:41:07.2324741Z Compiling 1 file (.yrl)
+Compile	Compile with warnings as errors	2026-10-14T03:41:07.2653055Z Compiling 3 files (.erl)
+Compile	Compile with warnings as errors	2026-10-14T03:41:07.4495415Z Compiling 32 files (.ex)
+Compile	Compile with warnings as errors	2026-10-14T03:41:08.1507110Z Generated earmark_parser app
+Compile	Compile with warnings as errors	2026-10-14T03:41:08.2259531Z ==> file_system
+Compile	Compile with warnings as errors	2026-10-14T03:41:08.2260077Z Compiling 7 files (.ex)
+Compile	Compile with warnings as errors	2026-10-14T03:41:08.3819770Z Generated file_system app
+Compile	Compile with warnings as errors	2026-10-14T03:41:08.4085669Z ==> mime
+Compile	Compile with warnings as errors	2026-10-14T03:41:08.4086786Z Compiling 1 file (.ex)
+Compile	Compile with warnings as errors	2026-10-14T03:41:08.5017633Z Generated mime app
+Compile	Compile with warnings as errors	2026-10-14T03:41:08.5179702Z ==> bunt
+Compile	Compile with warnings as errors	2026-10-14T03:41:08.5180187Z Compiling 2 files (.ex)
+Compile	Compile with warnings as errors	2026-10-14T03:41:08.8674377Z Generated bunt app
+Compile	Compile with warnings as errors	2026-10-14T03:41:08.8832652Z ==> jason
+Compile	Compile with warnings as errors	2026-10-14T03:41:08.8833339Z Compiling 10 files (.ex)
+Compile	Compile with warnings as errors	2026-10-14T03:41:10.1538088Z Generated jason app
+Compile	Compile with warnings as errors	2026-10-14T03:41:10.1773048Z ==> erlex
+Compile	Compile with warnings as errors	2026-10-14T03:41:10.1773850Z Compiling 1 file (.xrl)
+Compile	Compile with warnings as errors	2026-10-14T03:41:10.1897165Z Compiling 1 file (.yrl)
+Compile	Compile with warnings as errors	2026-10-14T03:41:10.2491440Z Compiling 2 files (.erl)
+Compile	Compile with warnings as errors	2026-10-14T03:41:10.6702777Z Compiling 2 files (.ex)
+Compile	Compile with warnings as errors	2026-10-14T03:41:10.8290178Z Generated erlex app
+Compile	Compile with warnings as errors	2026-10-14T03:41:10.8461919Z ==> machete
+Compile	Compile with warnings as errors	2026-10-14T03:41:10.8462750Z Compiling 43 files (.ex)
+Compile	Compile with warnings as errors	2026-10-14T03:41:11.6754673Z Generated machete app
+Compile	Compile with warnings as errors	2026-10-14T03:41:11.7494256Z ==> nimble_parsec
+Compile	Compile with warnings as errors	2026-10-14T03:41:11.7495174Z Compiling 4 files (.ex)
+Compile	Compile with warnings as errors	2026-10-14T03:41:12.2034587Z Generated nimble_parsec app
+Compile	Compile with warnings as errors	2026-10-14T03:41:12.2272267Z ==> makeup
+Compile	Compile with warnings as errors	2026-10-14T03:41:12.2304268Z Compiling 15 files (.ex)
+Compile	Compile with warnings as errors	2026-10-14T03:41:12.7485678Z Generated makeup app
+Compile	Compile with warnings as errors	2026-10-14T03:41:12.7721515Z ==> makeup_elixir
+Compile	Compile with warnings as errors	2026-10-14T03:41:12.7722156Z Compiling 6 files (.ex)
+Compile	Compile with warnings as errors	2026-10-14T03:41:21.1498828Z Generated makeup_elixir app
+Compile	Compile with warnings as errors	2026-10-14T03:41:21.1704657Z ==> makeup_erlang
+Compile	Compile with warnings as errors	2026-10-14T03:41:21.1705230Z Compiling 4 files (.ex)
+Compile	Compile with warnings as errors	2026-10-14T03:41:31.4302405Z Generated makeup_erlang app
+Compile	Compile with warnings as errors	2026-10-14T03:41:31.4587973Z ==> ex_doc
+Compile	Compile with warnings as errors	2026-10-14T03:41:31.4588750Z Compiling 30 files (.ex)
+Compile	Compile with warnings as errors	2026-10-14T03:41:32.5232868Z Generated ex_doc app
+Compile	Compile with warnings as errors	2026-10-14T03:41:32.8763136Z ==> abyss
+Compile	Compile with warnings as errors	2026-10-14T03:41:32.8763745Z ===> Analyzing applications...
+Compile	Compile with warnings as errors	2026-10-14T03:41:32.9308396Z ===> Compiling telemetry
+Compile	Compile with warnings as errors	2026-10-14T03:41:33.1738262Z ==> telemetry_metrics
+Compile	Compile with warnings as errors	2026-10-14T03:41:33.1739417Z Compiling 7 files (.ex)
+Compile	Compile with warnings as errors	2026-10-14T03:41:33.2797989Z Generated telemetry_metrics app
+Compile	Compile with warnings as errors	2026-10-14T03:41:33.3049961Z ==> tesla
+Compile	Compile with warnings as errors	2026-10-14T03:41:33.3050839Z Compiling 57 files (.ex)
+Compile	Compile with warnings as errors	2026-10-14T03:41:34.0643098Z Generated tesla app
+Compile	Compile with warnings as errors	2026-10-14T03:41:34.1180216Z ==> ex_dns
+Compile	Compile with warnings as errors	2026-10-14T03:41:34.1181635Z Compiling 71 files (.ex)
+Compile	Compile with warnings as errors	2026-10-14T03:41:35.9614797Z Generated ex_dns app
+Compile	Compile with warnings as errors	2026-10-14T03:41:36.0262512Z ==> dialyxir
+Compile	Compile with warnings as errors	2026-10-14T03:41:36.0264113Z Compiling 70 files (.ex)
+Compile	Compile with warnings as errors	2026-10-14T03:41:36.8388800Z Generated dialyxir app
+Compile	Compile with warnings as errors	2026-10-14T03:41:36.8890834Z ==> dhcp_ex
+Compile	Compile with warnings as errors	2026-10-14T03:41:36.8891923Z Compiling 12 files (.ex)
+Compile	Compile with warnings as errors	2026-10-14T03:41:37.3594865Z Generated dhcp_ex app
+Compile	Compile with warnings as errors	2026-10-14T03:41:37.4053354Z ==> credo
+Compile	Compile with warnings as errors	2026-10-14T03:41:37.4054155Z Compiling 257 files (.ex)
+Compile	Compile with warnings as errors	2026-10-14T03:41:42.9913319Z Generated credo app
+Compile	Compile with warnings as errors	2026-10-14T03:41:43.0548284Z ==> abyss
+Compile	Compile with warnings as errors	2026-10-14T03:41:43.0549608Z Compiling 35 files (.ex)
+Compile	Compile with warnings as errors	2026-10-14T03:41:44.7457798Z Generated abyss app
+Compile	Post Restore dependencies cache	﻿2026-10-14T03:41:45.3001904Z Post job cleanup.
+Compile	Post Restore dependencies cache	2026-10-14T03:41:45.4194759Z Cache hit occurred on the primary key Linux-mix-23079aaa40567801449cba6ad1e1d3a6f676c52b016d9fbd47e7fa8498d0e3d2, not saving cache.
+Compile	Post Restore dependencies cache	2026-10-14T03:41:45.4196729Z (node:2664) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Compile	Post Restore dependencies cache	2026-10-14T03:41:45.4198278Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Compile	Post Checkout code	﻿2026-10-14T03:41:45.4334387Z Post job cleanup.
+Compile	Post Checkout code	2026-10-14T03:41:45.5339728Z [command]/usr/bin/git version
+Compile	Post Checkout code	2026-10-14T03:41:45.5386387Z git version 2.55.0
+Compile	Post Checkout code	2026-10-14T03:41:45.5432968Z Temporarily overriding HOME='/home/runner/work/_temp/c2dab6a0-912e-42ef-8bcf-4bb3fcefbdab' before making global git config changes
+Compile	Post Checkout code	2026-10-14T03:41:45.5434484Z Adding repository directory to the temporary git global config as a safe directory
+Compile	Post Checkout code	2026-10-14T03:41:45.5440085Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+Compile	Post Checkout code	2026-10-14T03:41:45.5485074Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Compile	Post Checkout code	2026-10-14T03:41:45.5527545Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Compile	Post Checkout code	2026-10-14T03:41:45.5808800Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Compile	Post Checkout code	2026-10-14T03:41:45.5846336Z http.https://github.com/.extraheader
+Compile	Post Checkout code	2026-10-14T03:41:45.5860479Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+Compile	Post Checkout code	2026-10-14T03:41:45.5905003Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Compile	Post Checkout code	2026-10-14T03:41:45.6186709Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Compile	Post Checkout code	2026-10-14T03:41:45.6265098Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Compile	Complete job	﻿2026-10-14T03:41:45.6701148Z Cleaning up orphan processes
+Compile	Complete job	2026-10-14T03:41:45.7093343Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/cache@v4, actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

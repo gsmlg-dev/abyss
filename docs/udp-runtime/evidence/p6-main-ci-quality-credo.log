@@ -1,0 +1,498 @@
+Credo	Set up job	﻿2026-10-14T03:40:54.0183715Z Current runner version: '2.337.0'
+Credo	Set up job	2026-10-14T03:40:54.0208989Z ##[group]Runner Image Provisioner
+Credo	Set up job	2026-10-14T03:40:54.0209941Z Hosted Compute Agent
+Credo	Set up job	2026-10-14T03:40:54.0210570Z Version: 20261002.596
+Credo	Set up job	2026-10-14T03:40:54.0211209Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+Credo	Set up job	2026-10-14T03:40:54.0212049Z Build Date: 2026-10-02T22:28:27Z
+Credo	Set up job	2026-10-14T03:40:54.0212748Z Worker ID: {a3ce850d-318c-436b-8d21-18fd4658c7c6}
+Credo	Set up job	2026-10-14T03:40:54.0213456Z Region: westus3
+Credo	Set up job	2026-10-14T03:40:54.0214112Z Cloud: Azure
+Credo	Set up job	2026-10-14T03:40:54.0214656Z ##[endgroup]
+Credo	Set up job	2026-10-14T03:40:54.0216608Z ##[group]Operating System
+Credo	Set up job	2026-10-14T03:40:54.0217288Z Ubuntu
+Credo	Set up job	2026-10-14T03:40:54.0217803Z 24.04.5
+Credo	Set up job	2026-10-14T03:40:54.0218392Z LTS
+Credo	Set up job	2026-10-14T03:40:54.0218914Z ##[endgroup]
+Credo	Set up job	2026-10-14T03:40:54.0219527Z ##[group]Runner Image
+Credo	Set up job	2026-10-14T03:40:54.0220150Z Image: ubuntu-24.04
+Credo	Set up job	2026-10-14T03:40:54.0220754Z Version: 20261004.327.1
+Credo	Set up job	2026-10-14T03:40:54.0221907Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+Credo	Set up job	2026-10-14T03:40:54.0223662Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+Credo	Set up job	2026-10-14T03:40:54.0224863Z ##[endgroup]
+Credo	Set up job	2026-10-14T03:40:54.0228019Z ##[group]GITHUB_TOKEN Permissions
+Credo	Set up job	2026-10-14T03:40:54.0230153Z Actions: write
+Credo	Set up job	2026-10-14T03:40:54.0230810Z ArtifactMetadata: write
+Credo	Set up job	2026-10-14T03:40:54.0231541Z Attestations: write
+Credo	Set up job	2026-10-14T03:40:54.0232122Z Checks: write
+Credo	Set up job	2026-10-14T03:40:54.0232710Z CodeQuality: write
+Credo	Set up job	2026-10-14T03:40:54.0233382Z Contents: write
+Credo	Set up job	2026-10-14T03:40:54.0233971Z CopilotRequests: write
+Credo	Set up job	2026-10-14T03:40:54.0234629Z Deployments: write
+Credo	Set up job	2026-10-14T03:40:54.0235434Z Discussions: write
+Credo	Set up job	2026-10-14T03:40:54.0236056Z Drives: write
+Credo	Set up job	2026-10-14T03:40:54.0236634Z Issues: write
+Credo	Set up job	2026-10-14T03:40:54.0237302Z Metadata: read
+Credo	Set up job	2026-10-14T03:40:54.0237911Z Models: read
+Credo	Set up job	2026-10-14T03:40:54.0238462Z Packages: write
+Credo	Set up job	2026-10-14T03:40:54.0239096Z Pages: write
+Credo	Set up job	2026-10-14T03:40:54.0239669Z PullRequests: write
+Credo	Set up job	2026-10-14T03:40:54.0240291Z RepositoryProjects: write
+Credo	Set up job	2026-10-14T03:40:54.0240984Z SecurityEvents: write
+Credo	Set up job	2026-10-14T03:40:54.0241568Z Statuses: write
+Credo	Set up job	2026-10-14T03:40:54.0242154Z VulnerabilityAlerts: read
+Credo	Set up job	2026-10-14T03:40:54.0242825Z ##[endgroup]
+Credo	Set up job	2026-10-14T03:40:54.0245279Z Secret source: Actions
+Credo	Set up job	2026-10-14T03:40:54.0246409Z Cache mode: write
+Credo	Set up job	2026-10-14T03:40:54.0247114Z Prepare workflow directory
+Credo	Set up job	2026-10-14T03:40:54.0638853Z Prepare all required actions
+Credo	Set up job	2026-10-14T03:40:54.0686529Z Getting action download info
+Credo	Set up job	2026-10-14T03:40:54.3896905Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+Credo	Set up job	2026-10-14T03:40:54.4795199Z Download action repository 'erlef/setup-beam@v1' (SHA:54075bcc5e249e4758d363f27d099f55d843f124)
+Credo	Set up job	2026-10-14T03:40:55.1227735Z Download action repository 'actions/cache@v4' (SHA:0057852bfaa89a56745cba8c7296529d2fc39830)
+Credo	Set up job	2026-10-14T03:40:55.3202306Z Complete job name: Credo
+Credo	Checkout code	﻿2026-10-14T03:40:55.3984053Z ##[group]Run actions/checkout@v4
+Credo	Checkout code	2026-10-14T03:40:55.3985247Z with:
+Credo	Checkout code	2026-10-14T03:40:55.3985792Z   repository: gsmlg-dev/abyss
+Credo	Checkout code	2026-10-14T03:40:55.3989629Z   token: ***
+Credo	Checkout code	2026-10-14T03:40:55.3990117Z   ssh-strict: true
+Credo	Checkout code	2026-10-14T03:40:55.3990649Z   ssh-user: git
+Credo	Checkout code	2026-10-14T03:40:55.3991149Z   persist-credentials: true
+Credo	Checkout code	2026-10-14T03:40:55.3991684Z   clean: true
+Credo	Checkout code	2026-10-14T03:40:55.3992182Z   sparse-checkout-cone-mode: true
+Credo	Checkout code	2026-10-14T03:40:55.3992757Z   fetch-depth: 1
+Credo	Checkout code	2026-10-14T03:40:55.3993245Z   fetch-tags: false
+Credo	Checkout code	2026-10-14T03:40:55.3993744Z   show-progress: true
+Credo	Checkout code	2026-10-14T03:40:55.3994241Z   lfs: false
+Credo	Checkout code	2026-10-14T03:40:55.3994926Z   submodules: false
+Credo	Checkout code	2026-10-14T03:40:55.3995447Z   set-safe-directory: true
+Credo	Checkout code	2026-10-14T03:40:55.3996005Z   allow-unsafe-pr-checkout: false
+Credo	Checkout code	2026-10-14T03:40:55.3996880Z ##[endgroup]
+Credo	Checkout code	2026-10-14T03:40:55.4997733Z Syncing repository: gsmlg-dev/abyss
+Credo	Checkout code	2026-10-14T03:40:55.5000495Z ##[group]Getting Git version info
+Credo	Checkout code	2026-10-14T03:40:55.5001688Z Working directory is '/home/runner/work/abyss/abyss'
+Credo	Checkout code	2026-10-14T03:40:55.5003486Z [command]/usr/bin/git version
+Credo	Checkout code	2026-10-14T03:40:55.5067780Z git version 2.55.0
+Credo	Checkout code	2026-10-14T03:40:55.5089958Z ##[endgroup]
+Credo	Checkout code	2026-10-14T03:40:55.5105060Z Temporarily overriding HOME='/home/runner/work/_temp/7155207b-f51e-49d8-85c8-4405bbe17b6c' before making global git config changes
+Credo	Checkout code	2026-10-14T03:40:55.5110588Z Adding repository directory to the temporary git global config as a safe directory
+Credo	Checkout code	2026-10-14T03:40:55.5113436Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+Credo	Checkout code	2026-10-14T03:40:55.5164331Z Deleting the contents of '/home/runner/work/abyss/abyss'
+Credo	Checkout code	2026-10-14T03:40:55.5169793Z ##[group]Initializing the repository
+Credo	Checkout code	2026-10-14T03:40:55.5174492Z [command]/usr/bin/git init /home/runner/work/abyss/abyss
+Credo	Checkout code	2026-10-14T03:40:55.5295106Z hint: Using 'master' as the name for the initial branch. This default branch name
+Credo	Checkout code	2026-10-14T03:40:55.5296381Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+Credo	Checkout code	2026-10-14T03:40:55.5297445Z hint: to use in all of your new repositories, which will suppress this warning,
+Credo	Checkout code	2026-10-14T03:40:55.5298256Z hint: call:
+Credo	Checkout code	2026-10-14T03:40:55.5298712Z hint:
+Credo	Checkout code	2026-10-14T03:40:55.5299294Z hint: 	git config --global init.defaultBranch <name>
+Credo	Checkout code	2026-10-14T03:40:55.5299958Z hint:
+Credo	Checkout code	2026-10-14T03:40:55.5300601Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+Credo	Checkout code	2026-10-14T03:40:55.5301602Z hint: 'development'. The just-created branch can be renamed via this command:
+Credo	Checkout code	2026-10-14T03:40:55.5302402Z hint:
+Credo	Checkout code	2026-10-14T03:40:55.5302866Z hint: 	git branch -m <name>
+Credo	Checkout code	2026-10-14T03:40:55.5303395Z hint:
+Credo	Checkout code	2026-10-14T03:40:55.5304100Z hint: Disable this message with "git config set advice.defaultBranchName false"
+Credo	Checkout code	2026-10-14T03:40:55.5310405Z Initialized empty Git repository in /home/runner/work/abyss/abyss/.git/
+Credo	Checkout code	2026-10-14T03:40:55.5322848Z [command]/usr/bin/git remote add origin https://github.com/gsmlg-dev/abyss
+Credo	Checkout code	2026-10-14T03:40:55.5379240Z ##[endgroup]
+Credo	Checkout code	2026-10-14T03:40:55.5380640Z ##[group]Disabling automatic garbage collection
+Credo	Checkout code	2026-10-14T03:40:55.5384183Z [command]/usr/bin/git config --local gc.auto 0
+Credo	Checkout code	2026-10-14T03:40:55.5419901Z ##[endgroup]
+Credo	Checkout code	2026-10-14T03:40:55.5423095Z ##[group]Setting up auth
+Credo	Checkout code	2026-10-14T03:40:55.5433860Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Credo	Checkout code	2026-10-14T03:40:55.5466040Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Credo	Checkout code	2026-10-14T03:40:55.5854402Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Credo	Checkout code	2026-10-14T03:40:55.5893976Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Credo	Checkout code	2026-10-14T03:40:55.6116715Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Credo	Checkout code	2026-10-14T03:40:55.6152316Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Credo	Checkout code	2026-10-14T03:40:55.6375837Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Credo	Checkout code	2026-10-14T03:40:55.6417309Z ##[endgroup]
+Credo	Checkout code	2026-10-14T03:40:55.6418351Z ##[group]Fetching the repository
+Credo	Checkout code	2026-10-14T03:40:55.6427075Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +7d3a29f4206457669afa60a762a78eb7b90d2690:refs/remotes/origin/main
+Credo	Checkout code	2026-10-14T03:40:56.4699948Z From https://github.com/gsmlg-dev/abyss
+Credo	Checkout code	2026-10-14T03:40:56.4701594Z  * [new ref]         7d3a29f4206457669afa60a762a78eb7b90d2690 -> origin/main
+Credo	Checkout code	2026-10-14T03:40:56.4706163Z ##[endgroup]
+Credo	Checkout code	2026-10-14T03:40:56.4708313Z ##[group]Determining the checkout info
+Credo	Checkout code	2026-10-14T03:40:56.4710820Z ##[endgroup]
+Credo	Checkout code	2026-10-14T03:40:56.4713831Z [command]/usr/bin/git sparse-checkout disable
+Credo	Checkout code	2026-10-14T03:40:56.4769121Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Credo	Checkout code	2026-10-14T03:40:56.4802054Z ##[group]Checking out the ref
+Credo	Checkout code	2026-10-14T03:40:56.4812509Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+Credo	Checkout code	2026-10-14T03:40:56.5333811Z Switched to a new branch 'main'
+Credo	Checkout code	2026-10-14T03:40:56.5339942Z branch 'main' set up to track 'origin/main'.
+Credo	Checkout code	2026-10-14T03:40:56.5350482Z ##[endgroup]
+Credo	Checkout code	2026-10-14T03:40:56.5395931Z [command]/usr/bin/git log -1 --format=%H
+Credo	Checkout code	2026-10-14T03:40:56.5423102Z 7d3a29f4206457669afa60a762a78eb7b90d2690
+Credo	Set up Elixir	﻿2026-10-14T03:40:56.5868881Z ##[group]Run erlef/setup-beam@v1
+Credo	Set up Elixir	2026-10-14T03:40:56.5870106Z with:
+Credo	Set up Elixir	2026-10-14T03:40:56.5870994Z   elixir-version: 1.18
+Credo	Set up Elixir	2026-10-14T03:40:56.5872009Z   otp-version: 28
+Credo	Set up Elixir	2026-10-14T03:40:56.5881989Z   github-token: ***
+Credo	Set up Elixir	2026-10-14T03:40:56.5883009Z   otp-architecture: 64
+Credo	Set up Elixir	2026-10-14T03:40:56.5884041Z   install-hex: true
+Credo	Set up Elixir	2026-10-14T03:40:56.5885168Z   install-rebar: true
+Credo	Set up Elixir	2026-10-14T03:40:56.5886192Z   version-type: loose
+Credo	Set up Elixir	2026-10-14T03:40:56.5887242Z   disable_problem_matchers: false
+Credo	Set up Elixir	2026-10-14T03:40:56.5888487Z   hexpm-mirrors: https://builds.hex.pm
+Credo	Set up Elixir	
+Credo	Set up Elixir	2026-10-14T03:40:56.5889786Z ##[endgroup]
+Credo	Set up Elixir	2026-10-14T03:40:56.8359208Z ##[group]Installing Erlang/OTP OTP-28.5.0.7 - built on amd64/ubuntu-24.04
+Credo	Set up Elixir	2026-10-14T03:40:57.3359596Z [command]/usr/bin/tar zx --strip-components=1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/0a6edc17-609d-4c4b-8922-a94055954e37 -f /home/runner/work/_temp/72f8a574-7e53-48d4-a498-56736d8e4b3e
+Credo	Set up Elixir	2026-10-14T03:41:00.2368240Z [command]/home/runner/work/_temp/.setup-beam/otp/Install -minimal /home/runner/work/_temp/.setup-beam/otp
+Credo	Set up Elixir	2026-10-14T03:41:00.2677890Z Installed Erlang/OTP version
+Credo	Set up Elixir	2026-10-14T03:41:00.2691319Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -version
+Credo	Set up Elixir	2026-10-14T03:41:00.2813601Z Erlang (SMP,ASYNC_THREADS) (BEAM) emulator version 16.4.0.6
+Credo	Set up Elixir	2026-10-14T03:41:00.2864225Z ##[endgroup]
+Credo	Set up Elixir	2026-10-14T03:41:00.2871832Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -noshell -eval io:format(erlang:system_info(otp_release)), halt().
+Credo	Set up Elixir	2026-10-14T03:41:00.4894658Z 28::debug::Was not able to coerce latest with semver
+Credo	Set up Elixir	2026-10-14T03:41:00.4912578Z Using Elixir 1.18.5 (built for Erlang/OTP 27)
+Credo	Set up Elixir	2026-10-14T03:41:00.4913806Z ##[group]Installing Elixir v1.18.5-otp-27
+Credo	Set up Elixir	2026-10-14T03:41:00.6593035Z [command]/usr/bin/unzip -o -q /home/runner/work/_temp/7c42b4ce-465b-431b-abd5-d5954bde563f
+Credo	Set up Elixir	2026-10-14T03:41:01.1189728Z Installed Elixir version
+Credo	Set up Elixir	2026-10-14T03:41:01.1206492Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/elixir -v
+Credo	Set up Elixir	2026-10-14T03:41:01.3654522Z Erlang/OTP 28 [erts-16.4.0.6] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:1] [jit:ns]
+Credo	Set up Elixir	2026-10-14T03:41:01.3655542Z 
+Credo	Set up Elixir	2026-10-14T03:41:01.3707963Z Elixir 1.18.5 (compiled with Erlang/OTP 27)
+Credo	Set up Elixir	2026-10-14T03:41:01.3767685Z ##[endgroup]
+Credo	Set up Elixir	2026-10-14T03:41:01.3768424Z ##[group]Running mix local.rebar,--force
+Credo	Set up Elixir	2026-10-14T03:41:01.3793656Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.rebar --force
+Credo	Set up Elixir	2026-10-14T03:41:02.2932033Z * creating /home/runner/.mix/elixir/1-18-otp-28/rebar3
+Credo	Set up Elixir	2026-10-14T03:41:02.2997982Z ##[endgroup]
+Credo	Set up Elixir	2026-10-14T03:41:02.2999005Z ##[group]Running mix local.hex,--force
+Credo	Set up Elixir	2026-10-14T03:41:02.3015897Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.hex --force
+Credo	Set up Elixir	2026-10-14T03:41:03.2065758Z * creating /home/runner/.mix/archives/hex-2.5.2
+Credo	Set up Elixir	2026-10-14T03:41:03.2185649Z ##[endgroup]
+Credo	Restore dependencies cache	﻿2026-10-14T03:41:03.3847049Z ##[group]Run actions/cache@v4
+Credo	Restore dependencies cache	2026-10-14T03:41:03.3847348Z with:
+Credo	Restore dependencies cache	2026-10-14T03:41:03.3847553Z   path: deps
+Credo	Restore dependencies cache	_build
+Credo	Restore dependencies cache	
+Credo	Restore dependencies cache	2026-10-14T03:41:03.3847937Z   key: Linux-mix-23079aaa40567801449cba6ad1e1d3a6f676c52b016d9fbd47e7fa8498d0e3d2
+Credo	Restore dependencies cache	2026-10-14T03:41:03.3848395Z   restore-keys: Linux-mix-
+Credo	Restore dependencies cache	2026-10-14T03:41:03.3848687Z   enableCrossOsArchive: false
+Credo	Restore dependencies cache	2026-10-14T03:41:03.3848944Z   fail-on-cache-miss: false
+Credo	Restore dependencies cache	2026-10-14T03:41:03.3849203Z   lookup-only: false
+Credo	Restore dependencies cache	2026-10-14T03:41:03.3849420Z   save-always: false
+Credo	Restore dependencies cache	2026-10-14T03:41:03.3849618Z env:
+Credo	Restore dependencies cache	2026-10-14T03:41:03.3849880Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Credo	Restore dependencies cache	2026-10-14T03:41:03.3850313Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Credo	Restore dependencies cache	2026-10-14T03:41:03.3850930Z ##[endgroup]
+Credo	Restore dependencies cache	2026-10-14T03:41:03.4963527Z (node:2496) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Credo	Restore dependencies cache	2026-10-14T03:41:03.4965112Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Credo	Restore dependencies cache	2026-10-14T03:41:03.7648198Z Cache hit for: Linux-mix-23079aaa40567801449cba6ad1e1d3a6f676c52b016d9fbd47e7fa8498d0e3d2
+Credo	Restore dependencies cache	2026-10-14T03:41:03.7766184Z (node:2496) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Credo	Restore dependencies cache	2026-10-14T03:41:04.5324379Z Received 1988151 of 1988151 (100.0%), 3.4 MBs/sec
+Credo	Restore dependencies cache	2026-10-14T03:41:04.5325325Z Cache Size: ~2 MB (1988151 B)
+Credo	Restore dependencies cache	2026-10-14T03:41:04.5359840Z [command]/usr/bin/tar -xf /home/runner/work/_temp/84c51a97-d70e-44b6-81bf-e9121c4460e3/cache.tzst -P -C /home/runner/work/abyss/abyss --use-compress-program unzstd
+Credo	Restore dependencies cache	2026-10-14T03:41:04.5875840Z Cache restored successfully
+Credo	Restore dependencies cache	2026-10-14T03:41:04.5954829Z Cache restored from key: Linux-mix-23079aaa40567801449cba6ad1e1d3a6f676c52b016d9fbd47e7fa8498d0e3d2
+Credo	Install dependencies	﻿2026-10-14T03:41:04.6071931Z ##[group]Run mix deps.get
+Credo	Install dependencies	2026-10-14T03:41:04.6072277Z ^[[36;1mmix deps.get^[[0m
+Credo	Install dependencies	2026-10-14T03:41:04.6360726Z shell: /usr/bin/bash -e {0}
+Credo	Install dependencies	2026-10-14T03:41:04.6361047Z env:
+Credo	Install dependencies	2026-10-14T03:41:04.6361407Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Credo	Install dependencies	2026-10-14T03:41:04.6361952Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Credo	Install dependencies	2026-10-14T03:41:04.6362396Z ##[endgroup]
+Credo	Install dependencies	2026-10-14T03:41:05.6218054Z Resolving Hex dependencies...
+Credo	Install dependencies	2026-10-14T03:41:05.6948213Z Resolution completed in 0.07s
+Credo	Install dependencies	2026-10-14T03:41:05.7016541Z Unchanged:
+Credo	Install dependencies	2026-10-14T03:41:05.7017189Z   bunt 1.0.0
+Credo	Install dependencies	2026-10-14T03:41:05.7031395Z   credo 1.7.19
+Credo	Install dependencies	2026-10-14T03:41:05.7032104Z   dhcp_ex 0.5.0
+Credo	Install dependencies	2026-10-14T03:41:05.7032861Z   dialyxir 1.4.8
+Credo	Install dependencies	2026-10-14T03:41:05.7033826Z   earmark_parser 1.4.46
+Credo	Install dependencies	2026-10-14T03:41:05.7035112Z   erlex 0.2.9
+Credo	Install dependencies	2026-10-14T03:41:05.7035944Z   ex_dns 0.5.0
+Credo	Install dependencies	2026-10-14T03:41:05.7036625Z   ex_doc 0.40.4
+Credo	Install dependencies	2026-10-14T03:41:05.7038348Z   file_system 1.1.1
+Credo	Install dependencies	2026-10-14T03:41:05.7039056Z   jason 1.4.5
+Credo	Install dependencies	2026-10-14T03:41:05.7039918Z   machete 0.3.12
+Credo	Install dependencies	2026-10-14T03:41:05.7040614Z   makeup 1.2.3
+Credo	Install dependencies	2026-10-14T03:41:05.7041791Z   makeup_elixir 1.0.1
+Credo	Install dependencies	2026-10-14T03:41:05.7042225Z   makeup_erlang 1.1.0
+Credo	Install dependencies	2026-10-14T03:41:05.7043576Z   mime 2.0.7
+Credo	Install dependencies	2026-10-14T03:41:05.7044306Z   mox 1.3.2
+Credo	Install dependencies	2026-10-14T03:41:05.7046850Z   nimble_ownership 1.0.2
+Credo	Install dependencies	2026-10-14T03:41:05.7048302Z   nimble_parsec 1.4.2
+Credo	Install dependencies	2026-10-14T03:41:05.7049529Z   telemetry 1.4.2
+Credo	Install dependencies	2026-10-14T03:41:05.7053452Z   telemetry_metrics 1.2.0
+Credo	Install dependencies	2026-10-14T03:41:05.7054966Z   tesla 1.21.3
+Credo	Install dependencies	2026-10-14T03:41:05.7280758Z All dependencies are up to date
+Credo	Run Credo strict	﻿2026-10-14T03:41:05.7716103Z ##[group]Run mix credo --strict
+Credo	Run Credo strict	2026-10-14T03:41:05.7716470Z ^[[36;1mmix credo --strict^[[0m
+Credo	Run Credo strict	2026-10-14T03:41:05.7778753Z shell: /usr/bin/bash -e {0}
+Credo	Run Credo strict	2026-10-14T03:41:05.7779018Z env:
+Credo	Run Credo strict	2026-10-14T03:41:05.7779332Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Credo	Run Credo strict	2026-10-14T03:41:05.7779808Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Credo	Run Credo strict	2026-10-14T03:41:05.7780186Z ##[endgroup]
+Credo	Run Credo strict	2026-10-14T03:41:06.3699815Z ==> earmark_parser
+Credo	Run Credo strict	2026-10-14T03:41:06.3700802Z Compiling 2 files (.xrl)
+Credo	Run Credo strict	2026-10-14T03:41:06.3967638Z Compiling 1 file (.yrl)
+Credo	Run Credo strict	2026-10-14T03:41:06.4285548Z Compiling 3 files (.erl)
+Credo	Run Credo strict	2026-10-14T03:41:06.6220280Z Compiling 32 files (.ex)
+Credo	Run Credo strict	2026-10-14T03:41:07.2543727Z Generated earmark_parser app
+Credo	Run Credo strict	2026-10-14T03:41:07.3325414Z ==> file_system
+Credo	Run Credo strict	2026-10-14T03:41:07.3326036Z Compiling 7 files (.ex)
+Credo	Run Credo strict	2026-10-14T03:41:07.4939258Z Generated file_system app
+Credo	Run Credo strict	2026-10-14T03:41:07.5181727Z ==> mime
+Credo	Run Credo strict	2026-10-14T03:41:07.5182880Z Compiling 1 file (.ex)
+Credo	Run Credo strict	2026-10-14T03:41:07.6069686Z Generated mime app
+Credo	Run Credo strict	2026-10-14T03:41:07.6214553Z ==> bunt
+Credo	Run Credo strict	2026-10-14T03:41:07.6215250Z Compiling 2 files (.ex)
+Credo	Run Credo strict	2026-10-14T03:41:07.9510848Z Generated bunt app
+Credo	Run Credo strict	2026-10-14T03:41:07.9666356Z ==> jason
+Credo	Run Credo strict	2026-10-14T03:41:07.9666925Z Compiling 10 files (.ex)
+Credo	Run Credo strict	2026-10-14T03:41:09.1479663Z Generated jason app
+Credo	Run Credo strict	2026-10-14T03:41:09.1696708Z ==> erlex
+Credo	Run Credo strict	2026-10-14T03:41:09.1697801Z Compiling 1 file (.xrl)
+Credo	Run Credo strict	2026-10-14T03:41:09.1847197Z Compiling 1 file (.yrl)
+Credo	Run Credo strict	2026-10-14T03:41:09.2399688Z Compiling 2 files (.erl)
+Credo	Run Credo strict	2026-10-14T03:41:09.6383748Z Compiling 2 files (.ex)
+Credo	Run Credo strict	2026-10-14T03:41:09.7831122Z Generated erlex app
+Credo	Run Credo strict	2026-10-14T03:41:09.7980540Z ==> machete
+Credo	Run Credo strict	2026-10-14T03:41:09.7981540Z Compiling 43 files (.ex)
+Credo	Run Credo strict	2026-10-14T03:41:10.4202859Z Generated machete app
+Credo	Run Credo strict	2026-10-14T03:41:10.4762360Z ==> nimble_parsec
+Credo	Run Credo strict	2026-10-14T03:41:10.4763518Z Compiling 4 files (.ex)
+Credo	Run Credo strict	2026-10-14T03:41:10.8066753Z Generated nimble_parsec app
+Credo	Run Credo strict	2026-10-14T03:41:10.8266272Z ==> makeup
+Credo	Run Credo strict	2026-10-14T03:41:10.8267162Z Compiling 15 files (.ex)
+Credo	Run Credo strict	2026-10-14T03:41:11.1882671Z Generated makeup app
+Credo	Run Credo strict	2026-10-14T03:41:11.2090309Z ==> makeup_elixir
+Credo	Run Credo strict	2026-10-14T03:41:11.2091472Z Compiling 6 files (.ex)
+Credo	Run Credo strict	2026-10-14T03:41:19.2042205Z Generated makeup_elixir app
+Credo	Run Credo strict	2026-10-14T03:41:19.2231517Z ==> makeup_erlang
+Credo	Run Credo strict	2026-10-14T03:41:19.2232162Z Compiling 4 files (.ex)
+Credo	Run Credo strict	2026-10-14T03:41:28.9861158Z Generated makeup_erlang app
+Credo	Run Credo strict	2026-10-14T03:41:29.0135607Z ==> ex_doc
+Credo	Run Credo strict	2026-10-14T03:41:29.0136151Z Compiling 30 files (.ex)
+Credo	Run Credo strict	2026-10-14T03:41:30.0631530Z Generated ex_doc app
+Credo	Run Credo strict	2026-10-14T03:41:30.4008435Z ==> abyss
+Credo	Run Credo strict	2026-10-14T03:41:30.4009387Z ===> Analyzing applications...
+Credo	Run Credo strict	2026-10-14T03:41:30.4389237Z ===> Compiling telemetry
+Credo	Run Credo strict	2026-10-14T03:41:30.7096602Z ==> telemetry_metrics
+Credo	Run Credo strict	2026-10-14T03:41:30.7097147Z Compiling 7 files (.ex)
+Credo	Run Credo strict	2026-10-14T03:41:30.8181618Z Generated telemetry_metrics app
+Credo	Run Credo strict	2026-10-14T03:41:30.8419319Z ==> tesla
+Credo	Run Credo strict	2026-10-14T03:41:30.8419946Z Compiling 57 files (.ex)
+Credo	Run Credo strict	2026-10-14T03:41:31.5967536Z Generated tesla app
+Credo	Run Credo strict	2026-10-14T03:41:31.6403165Z ==> ex_dns
+Credo	Run Credo strict	2026-10-14T03:41:31.6404381Z Compiling 71 files (.ex)
+Credo	Run Credo strict	2026-10-14T03:41:33.4441004Z Generated ex_dns app
+Credo	Run Credo strict	2026-10-14T03:41:33.5075951Z ==> dialyxir
+Credo	Run Credo strict	2026-10-14T03:41:33.5077834Z Compiling 70 files (.ex)
+Credo	Run Credo strict	2026-10-14T03:41:34.2653420Z Generated dialyxir app
+Credo	Run Credo strict	2026-10-14T03:41:34.3077930Z ==> dhcp_ex
+Credo	Run Credo strict	2026-10-14T03:41:34.3079073Z Compiling 12 files (.ex)
+Credo	Run Credo strict	2026-10-14T03:41:34.7774983Z Generated dhcp_ex app
+Credo	Run Credo strict	2026-10-14T03:41:34.8167228Z ==> credo
+Credo	Run Credo strict	2026-10-14T03:41:34.8167929Z Compiling 257 files (.ex)
+Credo	Run Credo strict	2026-10-14T03:41:40.2890358Z Generated credo app
+Credo	Run Credo strict	2026-10-14T03:41:40.4533993Z Checking 83 source files (this might take a while) ...
+Credo	Run Credo strict	2026-10-14T03:41:42.7045320Z 
+Credo	Run Credo strict	2026-10-14T03:41:42.7046293Z   Software Design                                                               
+Credo	Run Credo strict	2026-10-14T03:41:42.7047199Z ┃ 
+Credo	Run Credo strict	2026-10-14T03:41:42.7056371Z ┃ [D] ↘ Nested modules could be aliased at the top of the invoking module.
+Credo	Run Credo strict	2026-10-14T03:41:42.7087568Z ##[warning]┃       test/support/test_helper.ex:46:12 #(Abyss.TestHelper.send_and_receive)
+Credo	Run Credo strict	2026-10-14T03:41:42.7098795Z ┃ [D] ↘ Nested modules could be aliased at the top of the invoking module.
+Credo	Run Credo strict	2026-10-14T03:41:42.7101046Z ##[warning]┃       test/support/test_helper.ex:44:17 #(Abyss.TestHelper.send_and_receive)
+Credo	Run Credo strict	2026-10-14T03:41:42.7102861Z ┃ [D] ↘ Nested modules could be aliased at the top of the invoking module.
+Credo	Run Credo strict	2026-10-14T03:41:42.7104599Z ##[warning]┃       lib/abyss/quic/service.ex:145:13 #(Abyss.QUIC.Service.accept_one)
+Credo	Run Credo strict	2026-10-14T03:41:42.7106962Z ┃ [D] ↘ Nested modules could be aliased at the top of the invoking module.
+Credo	Run Credo strict	2026-10-14T03:41:42.7108475Z ##[warning]┃       test/support/test_helper.ex:37:5 #(Abyss.TestHelper.create_test_client)
+Credo	Run Credo strict	2026-10-14T03:41:42.7110164Z ┃ [D] ↘ Nested modules could be aliased at the top of the invoking module.
+Credo	Run Credo strict	2026-10-14T03:41:42.7111620Z ##[warning]┃       test/support/test_handler.ex:28:5 #(Abyss.TestEchoHandler.handle_data)
+Credo	Run Credo strict	2026-10-14T03:41:42.7112824Z 
+Credo	Run Credo strict	2026-10-14T03:41:42.7113140Z   Code Readability                                                              
+Credo	Run Credo strict	2026-10-14T03:41:42.7113763Z ┃ 
+Credo	Run Credo strict	2026-10-14T03:41:42.7114430Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+Credo	Run Credo strict	2026-10-14T03:41:42.7116118Z ##[warning]┃       test/support/test_transport.ex:56:25 #(Abyss.TestTransport.recv)
+Credo	Run Credo strict	2026-10-14T03:41:42.7118302Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+Credo	Run Credo strict	2026-10-14T03:41:42.7119805Z ##[warning]┃       test/support/test_transport.ex:87:28 #(Abyss.TestTransport.peername)
+Credo	Run Credo strict	2026-10-14T03:41:42.7121536Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_535
+Credo	Run Credo strict	2026-10-14T03:41:42.7123065Z ##[warning]┃       lib/abyss/quic/service.ex:419:50 #(Abyss.QUIC.Service.valid_ip?)
+Credo	Run Credo strict	2026-10-14T03:41:42.7124975Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_535
+Credo	Run Credo strict	2026-10-14T03:41:42.7126419Z ##[warning]┃       lib/abyss/quic/service.ex:338:60 #(Abyss.QUIC.Service.validate)
+Credo	Run Credo strict	2026-10-14T03:41:42.7128111Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+Credo	Run Credo strict	2026-10-14T03:41:42.7129555Z ##[warning]┃       test/abyss/handler_test.exs:532:72 #(Abyss.HandlerTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7131207Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+Credo	Run Credo strict	2026-10-14T03:41:42.7132526Z ##[warning]┃       test/abyss/handler_test.exs:508:72 #(Abyss.HandlerTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7134181Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+Credo	Run Credo strict	2026-10-14T03:41:42.7136060Z ##[warning]┃       test/abyss/handler_test.exs:482:72 #(Abyss.HandlerTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7137747Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+Credo	Run Credo strict	2026-10-14T03:41:42.7139020Z ##[warning]┃       test/abyss/handler_test.exs:295:74 #(Abyss.HandlerTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7140651Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+Credo	Run Credo strict	2026-10-14T03:41:42.7141588Z ##[warning]┃       test/abyss/handler_test.exs:272:72 #(Abyss.HandlerTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7142681Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+Credo	Run Credo strict	2026-10-14T03:41:42.7143522Z ##[warning]┃       test/abyss/handler_test.exs:246:72 #(Abyss.HandlerTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7144553Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+Credo	Run Credo strict	2026-10-14T03:41:42.7146207Z ##[warning]┃       test/abyss/handler_test.exs:220:72 #(Abyss.HandlerTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7147321Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+Credo	Run Credo strict	2026-10-14T03:41:42.7148141Z ##[warning]┃       test/abyss/handler_test.exs:195:72 #(Abyss.HandlerTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7149112Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_535
+Credo	Run Credo strict	2026-10-14T03:41:42.7149852Z ##[warning]┃       lib/abyss/utils.ex:51:85 #(Abyss.Utils)
+Credo	Run Credo strict	2026-10-14T03:41:42.7150787Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_535
+Credo	Run Credo strict	2026-10-14T03:41:42.7151510Z ##[warning]┃       lib/abyss/utils.ex:51:75 #(Abyss.Utils)
+Credo	Run Credo strict	2026-10-14T03:41:42.7152440Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_535
+Credo	Run Credo strict	2026-10-14T03:41:42.7153165Z ##[warning]┃       lib/abyss/utils.ex:51:65 #(Abyss.Utils)
+Credo	Run Credo strict	2026-10-14T03:41:42.7154347Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_535
+Credo	Run Credo strict	2026-10-14T03:41:42.7155305Z ##[warning]┃       lib/abyss/utils.ex:51:55 #(Abyss.Utils)
+Credo	Run Credo strict	2026-10-14T03:41:42.7156325Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_535
+Credo	Run Credo strict	2026-10-14T03:41:42.7157068Z ##[warning]┃       lib/abyss/utils.ex:51:45 #(Abyss.Utils)
+Credo	Run Credo strict	2026-10-14T03:41:42.7157987Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_535
+Credo	Run Credo strict	2026-10-14T03:41:42.7158737Z ##[warning]┃       lib/abyss/utils.ex:51:35 #(Abyss.Utils)
+Credo	Run Credo strict	2026-10-14T03:41:42.7159677Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_535
+Credo	Run Credo strict	2026-10-14T03:41:42.7160430Z ##[warning]┃       lib/abyss/utils.ex:51:25 #(Abyss.Utils)
+Credo	Run Credo strict	2026-10-14T03:41:42.7161375Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_535
+Credo	Run Credo strict	2026-10-14T03:41:42.7162117Z ##[warning]┃       lib/abyss/utils.ex:51:15 #(Abyss.Utils)
+Credo	Run Credo strict	2026-10-14T03:41:42.7163036Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 10_000
+Credo	Run Credo strict	2026-10-14T03:41:42.7163767Z ##[warning]┃       test/abyss_test.exs:66:28 #(AbyssTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7165205Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+Credo	Run Credo strict	2026-10-14T03:41:42.7166243Z ##[warning]┃       test/abyss/transport_udp_comprehensive_test.exs:186:33 #(Abyss.Transport.UDPComprehensiveTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7167430Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+Credo	Run Credo strict	2026-10-14T03:41:42.7168414Z ##[warning]┃       test/abyss/transport_udp_comprehensive_test.exs:176:33 #(Abyss.Transport.UDPComprehensiveTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7169573Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 16_384
+Credo	Run Credo strict	2026-10-14T03:41:42.7170514Z ##[warning]┃       test/abyss/transport/udp_test.exs:114:48 #(Abyss.Transport.UDPTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7171569Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_536
+Credo	Run Credo strict	2026-10-14T03:41:42.7172563Z ##[warning]┃       test/abyss/transport/udp/unicast_test.exs:453:52 #(Abyss.Transport.UDP.UnicastTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7173700Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 59_999
+Credo	Run Credo strict	2026-10-14T03:41:42.7174881Z ##[warning]┃       test/abyss/transport/udp/unicast_test.exs:386:51 #(Abyss.Transport.UDP.UnicastTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7176068Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 32_768
+Credo	Run Credo strict	2026-10-14T03:41:42.7177013Z ##[warning]┃       test/abyss/transport/udp/unicast_test.exs:118:56 #(Abyss.Transport.UDP.UnicastTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7178082Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 32_768
+Credo	Run Credo strict	2026-10-14T03:41:42.7178976Z ##[warning]┃       test/abyss/transport/udp/core_test.exs:152:46 #(Abyss.Transport.UDP.CoreTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7180127Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 32_768
+Credo	Run Credo strict	2026-10-14T03:41:42.7181077Z ##[warning]┃       test/abyss/transport/udp/core_test.exs:145:17 #(Abyss.Transport.UDP.CoreTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7182218Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_536
+Credo	Run Credo strict	2026-10-14T03:41:42.7183143Z ##[warning]┃       test/abyss/transport/udp/core_test.exs:138:17 #(Abyss.Transport.UDP.CoreTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7184237Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 65_536
+Credo	Run Credo strict	2026-10-14T03:41:42.7185359Z ##[warning]┃       test/abyss/transport/udp/broadcast_test.exs:474:54 #(Abyss.Transport.UDP.BroadcastTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7186499Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 10_000
+Credo	Run Credo strict	2026-10-14T03:41:42.7187390Z ##[warning]┃       test/abyss/server_config_test.exs:205:63 #(Abyss.ServerConfigTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7188431Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 10_000.0
+Credo	Run Credo strict	2026-10-14T03:41:42.7189268Z ##[warning]┃       test/abyss/server_config_test.exs:197:66 #(Abyss.ServerConfigTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7190289Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 10_000
+Credo	Run Credo strict	2026-10-14T03:41:42.7191347Z ##[warning]┃       test/abyss/server_config_test.exs:163:61 #(Abyss.ServerConfigTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7192368Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 99_999
+Credo	Run Credo strict	2026-10-14T03:41:42.7193204Z ##[warning]┃       test/abyss/server_config_test.exs:86:20 #(Abyss.ServerConfigTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7194212Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+Credo	Run Credo strict	2026-10-14T03:41:42.7196858Z ##[warning]┃       test/abyss/connection_test.exs:114:35 #(Abyss.ConnectionTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7198051Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+Credo	Run Credo strict	2026-10-14T03:41:42.7198938Z ##[warning]┃       test/abyss/connection_test.exs:75:35 #(Abyss.ConnectionTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7199964Z ┃ [R] ↗ Numbers larger than 9999 should be written with underscores: 12_345
+Credo	Run Credo strict	2026-10-14T03:41:42.7200781Z ##[warning]┃       test/abyss/connection_test.exs:39:35 #(Abyss.ConnectionTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7201674Z ┃ [R] → Modules should have a @moduledoc tag.
+Credo	Run Credo strict	2026-10-14T03:41:42.7202384Z ##[warning]┃       lib/abyss/datagram_dispatcher.ex:401:13 #(Abyss.Dispatcher.Writer)
+Credo	Run Credo strict	2026-10-14T03:41:42.7203308Z ┃ [R] → Modules should have a @moduledoc tag.
+Credo	Run Credo strict	2026-10-14T03:41:42.7204254Z ##[warning]┃       lib/abyss/datagram_dispatcher.ex:40:13 #(Abyss.Dispatcher.SendCapability)
+Credo	Run Credo strict	2026-10-14T03:41:42.7205562Z ┃ [R] ↘ Prefer using an implicit `try` rather than explicit `try`.
+Credo	Run Credo strict	2026-10-14T03:41:42.7206395Z ##[warning]┃       lib/abyss/datagram_dispatcher.ex:565:5 #(Abyss.Dispatcher.dispatch)
+Credo	Run Credo strict	2026-10-14T03:41:42.7207395Z ┃ [R] ↘ Prefer using an implicit `try` rather than explicit `try`.
+Credo	Run Credo strict	2026-10-14T03:41:42.7208216Z ##[warning]┃       lib/abyss/datagram_dispatcher.ex:373:7 #(Abyss.Dispatcher.Admission.call)
+Credo	Run Credo strict	2026-10-14T03:41:42.7209229Z ┃ [R] ↘ Prefer using an implicit `try` rather than explicit `try`.
+Credo	Run Credo strict	2026-10-14T03:41:42.7209976Z ##[warning]┃       lib/abyss/server.ex:126:5 #(Abyss.Server.find_child_pid)
+Credo	Run Credo strict	2026-10-14T03:41:42.7210909Z ┃ [R] ↘ Prefer using an implicit `try` rather than explicit `try`.
+Credo	Run Credo strict	2026-10-14T03:41:42.7211642Z ##[warning]┃       lib/abyss/server.ex:73:5 #(Abyss.Server.suspend)
+Credo	Run Credo strict	2026-10-14T03:41:42.7212557Z ┃ [R] ↘ Prefer using an implicit `try` rather than explicit `try`.
+Credo	Run Credo strict	2026-10-14T03:41:42.7213273Z ##[warning]┃       lib/abyss/server.ex:49:5 #(Abyss.Server.resume)
+Credo	Run Credo strict	2026-10-14T03:41:42.7214164Z ┃ [R] ↘ Prefer using an implicit `try` rather than explicit `try`.
+Credo	Run Credo strict	2026-10-14T03:41:42.7215110Z ##[warning]┃       lib/abyss/listener_pool.ex:49:5 #(Abyss.ListenerPool.listener_pids)
+Credo	Run Credo strict	2026-10-14T03:41:42.7216128Z ┃ [R] ↘ Prefer using an implicit `try` rather than explicit `try`.
+Credo	Run Credo strict	2026-10-14T03:41:42.7216937Z ##[warning]┃       lib/abyss/datagram_dispatcher.ex:803:5 #(Abyss.Dispatcher.stop_child)
+Credo	Run Credo strict	2026-10-14T03:41:42.7217990Z ┃ [R] ↘ The alias `Abyss.Dispatcher.Writer` is not alphabetically ordered among 
+Credo	Run Credo strict	2026-10-14T03:41:42.7218453Z ┃       its group.
+Credo	Run Credo strict	2026-10-14T03:41:42.7218808Z ┃       lib/abyss/quic/service.ex:4:38 #(Abyss.QUIC.Service)
+Credo	Run Credo strict	2026-10-14T03:41:42.7219082Z 
+Credo	Run Credo strict	2026-10-14T03:41:42.7219301Z   Refactoring opportunities                                                     
+Credo	Run Credo strict	2026-10-14T03:41:42.7219716Z ┃ 
+Credo	Run Credo strict	2026-10-14T03:41:42.7219974Z ┃ [F] ↗ Avoid long quote blocks.
+Credo	Run Credo strict	2026-10-14T03:41:42.7220617Z ##[warning]┃       lib/abyss/handler.ex:160:5 #(Abyss.Handler.genserver_impl)
+Credo	Run Credo strict	2026-10-14T03:41:42.7221625Z ┃ [F] → Function is too complex (cyclomatic complexity is 27, max is 9).
+Credo	Run Credo strict	2026-10-14T03:41:42.7222512Z ##[warning]┃       lib/abyss/quic/service.ex:263:8 #(Abyss.QUIC.Service.validate)
+Credo	Run Credo strict	2026-10-14T03:41:42.7223497Z ┃ [F] → Function body is nested too deep (max depth is 2, was 5).
+Credo	Run Credo strict	2026-10-14T03:41:42.7224279Z ##[warning]┃       lib/abyss/quic/service.ex:482:18 #(Abyss.QUIC.Worker.handle_info)
+Credo	Run Credo strict	2026-10-14T03:41:42.7225435Z ┃ [F] → Function body is nested too deep (max depth is 2, was 3).
+Credo	Run Credo strict	2026-10-14T03:41:42.7226214Z ##[warning]┃       lib/abyss/quic/service.ex:505:11 #(Abyss.QUIC.Worker.handle_info)
+Credo	Run Credo strict	2026-10-14T03:41:42.7227197Z ┃ [F] → Function body is nested too deep (max depth is 2, was 3).
+Credo	Run Credo strict	2026-10-14T03:41:42.7228135Z ##[warning]┃       lib/abyss/quic/service.ex:56:12 #(Abyss.QUIC.Service.init)
+Credo	Run Credo strict	2026-10-14T03:41:42.7229095Z ┃ [F] → Function body is nested too deep (max depth is 2, was 3).
+Credo	Run Credo strict	2026-10-14T03:41:42.7229961Z ##[warning]┃       lib/abyss/datagram_dispatcher.ex:290:41 #(Abyss.Dispatcher.Admission.handle_info)
+Credo	Run Credo strict	2026-10-14T03:41:42.7231039Z ┃ [F] ↘ Avoid `apply/2` and `apply/3` when the number of arguments is known.
+Credo	Run Credo strict	2026-10-14T03:41:42.7231875Z ##[warning]┃       lib/abyss/quic/service.ex:212:14 #(Abyss.QUIC.Service.receive_loop)
+Credo	Run Credo strict	2026-10-14T03:41:42.7232884Z ┃ [F] ↘ Avoid `apply/2` and `apply/3` when the number of arguments is known.
+Credo	Run Credo strict	2026-10-14T03:41:42.7233707Z ##[warning]┃       lib/abyss/quic/service.ex:518:5 #(Abyss.QUIC.Worker.handle_info)
+Credo	Run Credo strict	2026-10-14T03:41:42.7234862Z ┃ [F] ↘ Avoid `apply/2` and `apply/3` when the number of arguments is known.
+Credo	Run Credo strict	2026-10-14T03:41:42.7235714Z ##[warning]┃       lib/abyss/quic/service.ex:474:12 #(Abyss.QUIC.Worker.handle_info)
+Credo	Run Credo strict	2026-10-14T03:41:42.7236746Z ┃ [F] ↘ Avoid `apply/2` and `apply/3` when the number of arguments is known.
+Credo	Run Credo strict	2026-10-14T03:41:42.7237557Z ##[warning]┃       lib/abyss/quic/service.ex:460:11 #(Abyss.QUIC.Worker.handle_info)
+Credo	Run Credo strict	2026-10-14T03:41:42.7238756Z ┃ [F] ↘ Avoid `apply/2` and `apply/3` when the number of arguments is known.
+Credo	Run Credo strict	2026-10-14T03:41:42.7239715Z ##[warning]┃       lib/abyss/quic/service.ex:450:31 #(Abyss.QUIC.Worker.handle_info)
+Credo	Run Credo strict	2026-10-14T03:41:42.7240733Z ┃ [F] ↘ Avoid `apply/2` and `apply/3` when the number of arguments is known.
+Credo	Run Credo strict	2026-10-14T03:41:42.7241557Z ##[warning]┃       lib/abyss/quic/service.ex:445:14 #(Abyss.QUIC.Worker.handle_info)
+Credo	Run Credo strict	2026-10-14T03:41:42.7242732Z ┃ [F] ↘ Avoid `apply/2` and `apply/3` when the number of arguments is known.
+Credo	Run Credo strict	2026-10-14T03:41:42.7243851Z ##[warning]┃       lib/abyss/quic/service.ex:403:10 #(Abyss.QUIC.Service.validate_credentials)
+Credo	Run Credo strict	2026-10-14T03:41:42.7245507Z ┃ [F] ↘ Avoid `apply/2` and `apply/3` when the number of arguments is known.
+Credo	Run Credo strict	2026-10-14T03:41:42.7246692Z ##[warning]┃       lib/abyss/quic/service.ex:206:5 #(Abyss.QUIC.Service.start_endpoint)
+Credo	Run Credo strict	2026-10-14T03:41:42.7248042Z ┃ [F] ↘ Avoid `apply/2` and `apply/3` when the number of arguments is known.
+Credo	Run Credo strict	2026-10-14T03:41:42.7249057Z ##[warning]┃       lib/abyss/quic/service.ex:141:10 #(Abyss.QUIC.Service.accept_one)
+Credo	Run Credo strict	2026-10-14T03:41:42.7310987Z 
+Credo	Run Credo strict	2026-10-14T03:41:42.7311372Z   Warnings - please take a look                                                 
+Credo	Run Credo strict	2026-10-14T03:41:42.7312106Z ┃ 
+Credo	Run Credo strict	2026-10-14T03:41:42.7312745Z ┃ [W] ↗ Logger metadata key event, metadata, measurements not found in Logger 
+Credo	Run Credo strict	2026-10-14T03:41:42.7313227Z ┃       config.
+Credo	Run Credo strict	2026-10-14T03:41:42.7313588Z ┃       lib/abyss/logger.ex:146:29 #(Abyss.Logger.log_trace)
+Credo	Run Credo strict	2026-10-14T03:41:42.7314122Z ┃ [W] ↗ Logger metadata key event, metadata, measurements not found in Logger 
+Credo	Run Credo strict	2026-10-14T03:41:42.7314571Z ┃       config.
+Credo	Run Credo strict	2026-10-14T03:41:42.7315225Z ┃       lib/abyss/logger.ex:131:29 #(Abyss.Logger.log_debug)
+Credo	Run Credo strict	2026-10-14T03:41:42.7315773Z ┃ [W] ↗ Logger metadata key event, metadata, measurements not found in Logger 
+Credo	Run Credo strict	2026-10-14T03:41:42.7316241Z ┃       config.
+Credo	Run Credo strict	2026-10-14T03:41:42.7316579Z ┃       lib/abyss/logger.ex:116:28 #(Abyss.Logger.log_info)
+Credo	Run Credo strict	2026-10-14T03:41:42.7318900Z ┃ [W] ↗ Logger metadata key event, metadata, measurements not found in Logger 
+Credo	Run Credo strict	2026-10-14T03:41:42.7319391Z ┃       config.
+Credo	Run Credo strict	2026-10-14T03:41:42.7319736Z ┃       lib/abyss/logger.ex:101:29 #(Abyss.Logger.log_error)
+Credo	Run Credo strict	2026-10-14T03:41:42.7320264Z ┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+Credo	Run Credo strict	2026-10-14T03:41:42.7321176Z ##[warning]┃       test/abyss_test.exs:110:14 #(AbyssTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7322309Z ┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+Credo	Run Credo strict	2026-10-14T03:41:42.7323157Z ##[warning]┃       test/abyss/utils_test.exs:193:14 #(Abyss.UtilsTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7324168Z ┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+Credo	Run Credo strict	2026-10-14T03:41:42.7325465Z ##[warning]┃       test/abyss/utils_test.exs:169:14 #(Abyss.UtilsTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7327278Z ┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+Credo	Run Credo strict	2026-10-14T03:41:42.7328145Z ##[warning]┃       test/abyss/utils_test.exs:151:14 #(Abyss.UtilsTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7329150Z ┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+Credo	Run Credo strict	2026-10-14T03:41:42.7329938Z ##[warning]┃       test/abyss/utils_test.exs:144:14 #(Abyss.UtilsTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7330896Z ┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+Credo	Run Credo strict	2026-10-14T03:41:42.7331670Z ##[warning]┃       test/abyss/utils_test.exs:111:14 #(Abyss.UtilsTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7332615Z ┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+Credo	Run Credo strict	2026-10-14T03:41:42.7333391Z ##[warning]┃       test/abyss/utils_test.exs:77:14 #(Abyss.UtilsTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7334413Z ┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+Credo	Run Credo strict	2026-10-14T03:41:42.7335569Z ##[warning]┃       test/abyss/utils_test.exs:44:14 #(Abyss.UtilsTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7336578Z ┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+Credo	Run Credo strict	2026-10-14T03:41:42.7337365Z ##[warning]┃       test/abyss/utils_test.exs:36:14 #(Abyss.UtilsTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7338635Z ┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+Credo	Run Credo strict	2026-10-14T03:41:42.7339455Z ##[warning]┃       test/abyss/utils_test.exs:18:14 #(Abyss.UtilsTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7340423Z ┃ [W] ↗ Using `length/1` is expensive, prefer comparing against an empty list.
+Credo	Run Credo strict	2026-10-14T03:41:42.7341283Z ##[warning]┃       test/abyss/listener_pool_test.exs:52:14 #(Abyss.ListenerPoolTest)
+Credo	Run Credo strict	2026-10-14T03:41:42.7342035Z 
+Credo	Run Credo strict	2026-10-14T03:41:42.7342295Z Please report incorrect results: https://github.com/rrrene/credo/issues
+Credo	Run Credo strict	2026-10-14T03:41:42.7342602Z 
+Credo	Run Credo strict	2026-10-14T03:41:42.7342837Z Analysis took 2.3 seconds (0.1s to load, 2.2s running 69 checks on 83 files)
+Credo	Run Credo strict	2026-10-14T03:41:42.7343542Z 1224 mods/funs, found 15 warnings, 15 refactoring opportunities, 48 code readability issues, 5 software design suggestions.
+Credo	Run Credo strict	2026-10-14T03:41:42.7344030Z 
+Credo	Run Credo strict	2026-10-14T03:41:42.7344257Z Use `mix credo explain` to explain issues, `mix credo --help` for options.
+Credo	Run Credo strict	2026-10-14T03:41:42.7439365Z ##[error]Process completed with exit code 30.
+Credo	Post Checkout code	﻿2026-10-14T03:41:42.7556251Z Post job cleanup.
+Credo	Post Checkout code	2026-10-14T03:41:42.8430983Z [command]/usr/bin/git version
+Credo	Post Checkout code	2026-10-14T03:41:42.8473879Z git version 2.55.0
+Credo	Post Checkout code	2026-10-14T03:41:42.8513925Z Temporarily overriding HOME='/home/runner/work/_temp/c8860eb8-2ba7-4dba-93a7-22ab26f45f42' before making global git config changes
+Credo	Post Checkout code	2026-10-14T03:41:42.8515494Z Adding repository directory to the temporary git global config as a safe directory
+Credo	Post Checkout code	2026-10-14T03:41:42.8520028Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+Credo	Post Checkout code	2026-10-14T03:41:42.8559175Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Credo	Post Checkout code	2026-10-14T03:41:42.8594164Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Credo	Post Checkout code	2026-10-14T03:41:42.8840841Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Credo	Post Checkout code	2026-10-14T03:41:42.8871275Z http.https://github.com/.extraheader
+Credo	Post Checkout code	2026-10-14T03:41:42.8886550Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+Credo	Post Checkout code	2026-10-14T03:41:42.8927463Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Credo	Post Checkout code	2026-10-14T03:41:42.9177711Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Credo	Post Checkout code	2026-10-14T03:41:42.9217298Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Credo	Complete job	﻿2026-10-14T03:41:42.9620697Z Cleaning up orphan processes
+Credo	Complete job	2026-10-14T03:41:43.0003702Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/cache@v4, actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

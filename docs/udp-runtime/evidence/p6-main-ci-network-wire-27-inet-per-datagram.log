@@ -1,0 +1,392 @@
+wire (27, inet, per_datagram)	Set up job	﻿2026-10-14T03:41:56.1037145Z Current runner version: '2.337.0'
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1058680Z ##[group]Runner Image Provisioner
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1059458Z Hosted Compute Agent
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1059955Z Version: 20261002.596
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1060469Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1061109Z Build Date: 2026-10-02T22:28:27Z
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1061694Z Worker ID: {1589e244-2fc9-42ff-be82-4be774a60b32}
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1062253Z Region: westus3
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1062768Z Cloud: Azure
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1063246Z ##[endgroup]
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1064418Z ##[group]Operating System
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1064996Z Ubuntu
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1065419Z 24.04.5
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1066137Z LTS
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1066560Z ##[endgroup]
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1067035Z ##[group]Runner Image
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1067576Z Image: ubuntu-24.04
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1068048Z Version: 20261004.327.1
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1068945Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1070355Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1071172Z ##[endgroup]
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1073635Z ##[group]GITHUB_TOKEN Permissions
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1075355Z Actions: write
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1075975Z ArtifactMetadata: write
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1076594Z Attestations: write
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1077061Z Checks: write
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1077539Z CodeQuality: write
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1078020Z Contents: write
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1078477Z CopilotRequests: write
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1079055Z Deployments: write
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1079520Z Discussions: write
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1079996Z Drives: write
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1080453Z Issues: write
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1080960Z Metadata: read
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1081472Z Models: read
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1081909Z Packages: write
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1082344Z Pages: write
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1082880Z PullRequests: write
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1083380Z RepositoryProjects: write
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1083956Z SecurityEvents: write
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1084451Z Statuses: write
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1084913Z VulnerabilityAlerts: read
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1085451Z ##[endgroup]
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1087404Z Secret source: Actions
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1088299Z Cache mode: write
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1088860Z Prepare workflow directory
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1508141Z Prepare all required actions
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.1547005Z Getting action download info
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.4361381Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:56.5289628Z Download action repository 'erlef/setup-beam@v1' (SHA:54075bcc5e249e4758d363f27d099f55d843f124)
+wire (27, inet, per_datagram)	Set up job	2026-10-14T03:41:57.2647197Z Complete job name: wire (27, inet, per_datagram)
+wire (27, inet, per_datagram)	Run actions/checkout@v4	﻿2026-10-14T03:41:57.3227210Z ##[group]Run actions/checkout@v4
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3227953Z with:
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3228337Z   repository: gsmlg-dev/abyss
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3231652Z   token: ***
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3232066Z   ssh-strict: true
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3232457Z   ssh-user: git
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3232840Z   persist-credentials: true
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3233265Z   clean: true
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3233654Z   sparse-checkout-cone-mode: true
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3234105Z   fetch-depth: 1
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3234474Z   fetch-tags: false
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3234858Z   show-progress: true
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3235244Z   lfs: false
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3235610Z   submodules: false
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3236211Z   set-safe-directory: true
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3236648Z   allow-unsafe-pr-checkout: false
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3237272Z env:
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3237615Z   CI: true
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3237970Z   MIX_ENV: dev
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3238344Z   ABYSS_UDP_BACKEND: inet
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3238759Z   ABYSS_UDP_API: datagram
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3239234Z   ABYSS_UDP_EXECUTION: per_datagram
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.3239694Z ##[endgroup]
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4048736Z Syncing repository: gsmlg-dev/abyss
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4051421Z ##[group]Getting Git version info
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4052270Z Working directory is '/home/runner/work/abyss/abyss'
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4053134Z [command]/usr/bin/git version
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4085140Z git version 2.55.0
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4102649Z ##[endgroup]
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4115178Z Temporarily overriding HOME='/home/runner/work/_temp/bfc12c2b-1f16-43d0-b19f-3fa89a8b91af' before making global git config changes
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4117190Z Adding repository directory to the temporary git global config as a safe directory
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4120735Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4165413Z Deleting the contents of '/home/runner/work/abyss/abyss'
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4169954Z ##[group]Initializing the repository
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4174155Z [command]/usr/bin/git init /home/runner/work/abyss/abyss
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4242624Z hint: Using 'master' as the name for the initial branch. This default branch name
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4244517Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4246032Z hint: to use in all of your new repositories, which will suppress this warning,
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4247142Z hint: call:
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4247721Z hint:
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4248446Z hint: 	git config --global init.defaultBranch <name>
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4249355Z hint:
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4250180Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4251500Z hint: 'development'. The just-created branch can be renamed via this command:
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4252537Z hint:
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4253121Z hint: 	git branch -m <name>
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4253801Z hint:
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4254697Z hint: Disable this message with "git config set advice.defaultBranchName false"
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4256096Z Initialized empty Git repository in /home/runner/work/abyss/abyss/.git/
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4259780Z [command]/usr/bin/git remote add origin https://github.com/gsmlg-dev/abyss
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4300592Z ##[endgroup]
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4301864Z ##[group]Disabling automatic garbage collection
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4303683Z [command]/usr/bin/git config --local gc.auto 0
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4337100Z ##[endgroup]
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4338889Z ##[group]Setting up auth
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4344169Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4372611Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4690183Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4727869Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4928707Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.4960253Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.5152118Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.5189334Z ##[endgroup]
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.5190175Z ##[group]Fetching the repository
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:57.5198894Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +7d3a29f4206457669afa60a762a78eb7b90d2690:refs/remotes/origin/main
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:58.3619716Z From https://github.com/gsmlg-dev/abyss
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:58.3621351Z  * [new ref]         7d3a29f4206457669afa60a762a78eb7b90d2690 -> origin/main
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:58.3625958Z ##[endgroup]
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:58.3627390Z ##[group]Determining the checkout info
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:58.3628970Z ##[endgroup]
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:58.3630890Z [command]/usr/bin/git sparse-checkout disable
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:58.3675088Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:58.3703537Z ##[group]Checking out the ref
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:58.3714380Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:58.4125642Z Switched to a new branch 'main'
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:58.4134520Z branch 'main' set up to track 'origin/main'.
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:58.4139893Z ##[endgroup]
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:58.4184540Z [command]/usr/bin/git log -1 --format=%H
+wire (27, inet, per_datagram)	Run actions/checkout@v4	2026-10-14T03:41:58.4210502Z 7d3a29f4206457669afa60a762a78eb7b90d2690
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	﻿2026-10-14T03:41:58.4496741Z ##[group]Run erlef/setup-beam@v1
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:41:58.4497678Z with:
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:41:58.4498348Z   elixir-version: 1.18
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:41:58.4499109Z   otp-version: 27
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:41:58.4506201Z   github-token: ***
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:41:58.4506944Z   otp-architecture: 64
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:41:58.4507698Z   install-hex: true
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:41:58.4508432Z   install-rebar: true
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:41:58.4509163Z   version-type: loose
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:41:58.4509932Z   disable_problem_matchers: false
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:41:58.4510850Z   hexpm-mirrors: https://builds.hex.pm
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:41:58.4511745Z env:
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:41:58.4512367Z   CI: true
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:41:58.4513003Z   MIX_ENV: dev
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:41:58.4513690Z   ABYSS_UDP_BACKEND: inet
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:41:58.4514466Z   ABYSS_UDP_API: datagram
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:41:58.4515257Z   ABYSS_UDP_EXECUTION: per_datagram
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:41:58.4516183Z ##[endgroup]
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:41:58.6542561Z ##[group]Installing Erlang/OTP OTP-27.3.4.18 - built on amd64/ubuntu-24.04
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:41:58.9724445Z [command]/usr/bin/tar zx --strip-components=1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/32e419bc-f815-408a-81d9-6e9d0985072e -f /home/runner/work/_temp/914a4899-18c9-4cf4-a4f6-633d97408f56
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:06.7768956Z [command]/home/runner/work/_temp/.setup-beam/otp/Install -minimal /home/runner/work/_temp/.setup-beam/otp
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:06.8053963Z Installed Erlang/OTP version
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:06.8054428Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -version
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:06.8156134Z Erlang (SMP,ASYNC_THREADS) (BEAM) emulator version 15.2.7.13
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:06.8191129Z ##[endgroup]
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:06.8200429Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -noshell -eval io:format(erlang:system_info(otp_release)), halt().
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:07.0026259Z 27::debug::Was not able to coerce latest with semver
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:07.0039521Z Using Elixir 1.18.5 (built for Erlang/OTP 27)
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:07.0040423Z ##[group]Installing Elixir v1.18.5-otp-27
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:07.1626833Z [command]/usr/bin/unzip -o -q /home/runner/work/_temp/45d64db4-d139-41fe-aa21-db040856d286
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:07.6313927Z Installed Elixir version
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:07.6328964Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/elixir -v
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:07.7977348Z Erlang/OTP 27 [erts-15.2.7.13] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:1] [jit:ns]
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:07.7977990Z 
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:07.8021612Z Elixir 1.18.5 (compiled with Erlang/OTP 27)
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:07.8080180Z ##[endgroup]
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:07.8080771Z ##[group]Running mix local.rebar,--force
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:07.8086894Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.rebar --force
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:08.4802836Z * creating /home/runner/.mix/elixir/1-18-otp-27/rebar3
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:08.4866342Z ##[endgroup]
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:08.4866743Z ##[group]Running mix local.hex,--force
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:08.4879563Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.hex --force
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:09.1896818Z * creating /home/runner/.mix/archives/hex-2.5.2
+wire (27, inet, per_datagram)	Run erlef/setup-beam@v1	2026-10-14T03:42:09.1967457Z ##[endgroup]
+wire (27, inet, per_datagram)	Install fixture tooling	﻿2026-10-14T03:42:09.2138315Z ##[group]Run sudo apt-get update && sudo apt-get install -y iproute2 util-linux python3
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.2138871Z ^[[36;1msudo apt-get update && sudo apt-get install -y iproute2 util-linux python3^[[0m
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.2377981Z shell: /usr/bin/bash -e {0}
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.2378292Z env:
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.2378456Z   CI: true
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.2378636Z   MIX_ENV: dev
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.2378817Z   ABYSS_UDP_BACKEND: inet
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.2379041Z   ABYSS_UDP_API: datagram
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.2379250Z   ABYSS_UDP_EXECUTION: per_datagram
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.2379529Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.2379880Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.2380160Z ##[endgroup]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.3135099Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.3374918Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.3392524Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.3412340Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.3478811Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.3491658Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.4369489Z Get:7 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1397 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.4476960Z Get:8 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [308 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.4493496Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1702 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.4561720Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [342 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.4578985Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1805 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.4647659Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [411 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.4667858Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [50.7 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.4675254Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse Translation-en [14.0 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.4834249Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [748 B]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.5348688Z Get:16 https://packages.microsoft.com/ubuntu/24.04/prod noble/main all Packages [640 B]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.5406901Z Get:17 https://packages.microsoft.com/ubuntu/24.04/prod noble/main armhf Packages [12.4 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.5438883Z Get:18 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [576 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.5536865Z Get:19 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [518 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.5904917Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1145 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.6398899Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [230 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.6412229Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1221 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.6462624Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [246 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.6493316Z Get:24 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1713 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.6543378Z Get:25 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [392 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.6561620Z Get:26 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [45.4 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:09.6567840Z Get:27 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse Translation-en [12.1 kB]
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:16.7205224Z Fetched 12.5 MB in 1s (12.0 MB/s)
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:17.4365017Z Reading package lists...
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:17.4635301Z Reading package lists...
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:17.6716445Z Building dependency tree...
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:17.6722956Z Reading state information...
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:17.8351467Z iproute2 is already the newest version (6.1.0-1ubuntu6.4).
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:17.8352457Z util-linux is already the newest version (2.39.3-9ubuntu6.6).
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:17.8352955Z python3 is already the newest version (3.12.3-0ubuntu2.1).
+wire (27, inet, per_datagram)	Install fixture tooling	2026-10-14T03:42:17.8353444Z 0 upgraded, 0 newly installed, 0 to remove and 31 not upgraded.
+wire (27, inet, per_datagram)	Compile the locked service	﻿2026-10-14T03:42:17.8400921Z ##[group]Run mix deps.get && mix compile --warnings-as-errors
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:17.8401286Z ^[[36;1mmix deps.get && mix compile --warnings-as-errors^[[0m
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:17.8457035Z shell: /usr/bin/bash -e {0}
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:17.8457244Z env:
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:17.8457398Z   CI: true
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:17.8457557Z   MIX_ENV: dev
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:17.8457725Z   ABYSS_UDP_BACKEND: inet
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:17.8457915Z   ABYSS_UDP_API: datagram
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:17.8458114Z   ABYSS_UDP_EXECUTION: per_datagram
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:17.8458392Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:17.8458730Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:17.8459015Z ##[endgroup]
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.5590852Z Resolving Hex dependencies...
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6028915Z Resolution completed in 0.041s
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6075728Z Unchanged:
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6076417Z   bunt 1.0.0
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6087188Z   credo 1.7.19
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6088121Z   dhcp_ex 0.5.0
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6088763Z   dialyxir 1.4.8
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6089236Z   earmark_parser 1.4.46
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6089699Z   erlex 0.2.9
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6095282Z   ex_dns 0.5.0
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6096007Z   ex_doc 0.40.4
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6096361Z   file_system 1.1.1
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6096613Z   jason 1.4.5
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6096854Z   machete 0.3.12
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6111600Z   makeup 1.2.3
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6113494Z   makeup_elixir 1.0.1
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6113803Z   makeup_erlang 1.1.0
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6114092Z   mime 2.0.7
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6114331Z   mox 1.3.2
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6114809Z   nimble_ownership 1.0.2
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6116581Z   nimble_parsec 1.4.2
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6131507Z   telemetry 1.4.2
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6131816Z   telemetry_metrics 1.2.0
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6141309Z   tesla 1.21.3
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6180140Z * Getting telemetry (Hex package)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6640716Z * Getting telemetry_metrics (Hex package)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6712874Z * Getting mox (Hex package)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.6769296Z * Getting ex_dns (Hex package)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.7701180Z * Getting dhcp_ex (Hex package)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.7761963Z * Getting machete (Hex package)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.7924000Z * Getting ex_doc (Hex package)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.8188359Z * Getting dialyxir (Hex package)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.8327603Z * Getting credo (Hex package)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.8790070Z * Getting bunt (Hex package)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.8818134Z * Getting file_system (Hex package)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.8862535Z * Getting jason (Hex package)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.8901802Z * Getting erlex (Hex package)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.8933344Z * Getting earmark_parser (Hex package)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.9016757Z * Getting makeup_elixir (Hex package)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.9058475Z * Getting makeup_erlang (Hex package)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.9091723Z * Getting makeup (Hex package)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.9146265Z * Getting nimble_parsec (Hex package)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.9180034Z * Getting tesla (Hex package)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.9307090Z * Getting mime (Hex package)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:18.9330485Z * Getting nimble_ownership (Hex package)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:19.4203028Z ==> earmark_parser
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:19.4203492Z Compiling 2 files (.xrl)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:19.4405056Z Compiling 1 file (.yrl)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:19.4645362Z Compiling 3 files (.erl)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:19.5840875Z Compiling 32 files (.ex)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:20.1299157Z Generated earmark_parser app
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:20.2370003Z ==> file_system
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:20.2371747Z Compiling 7 files (.ex)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:20.4043482Z Generated file_system app
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:20.4429670Z ==> mime
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:20.4430339Z Compiling 1 file (.ex)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:20.5170733Z Generated mime app
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:20.5311363Z ==> nimble_parsec
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:20.5311719Z Compiling 4 files (.ex)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:20.8036607Z Generated nimble_parsec app
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:20.8140187Z ==> bunt
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:20.8140526Z Compiling 2 files (.ex)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:21.0998639Z Generated bunt app
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:21.3562754Z ==> abyss
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:21.3564406Z ===> Analyzing applications...
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:21.3829513Z ===> Compiling telemetry
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:21.5591151Z ==> telemetry_metrics
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:21.5591489Z Compiling 7 files (.ex)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:21.6508615Z Generated telemetry_metrics app
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:21.6717921Z ==> jason
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:21.6718709Z Compiling 10 files (.ex)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:22.7246421Z Generated jason app
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:22.7999539Z ==> tesla
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:22.8000356Z Compiling 57 files (.ex)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:23.5540993Z Generated tesla app
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:23.6314697Z ==> ex_dns
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:23.6315149Z Compiling 71 files (.ex)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:25.3253542Z Generated ex_dns app
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:25.4276402Z ==> dhcp_ex
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:25.4277108Z Compiling 12 files (.ex)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:25.9510811Z Generated dhcp_ex app
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:26.0869518Z ==> credo
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:26.0869913Z Compiling 257 files (.ex)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:30.4115504Z Generated credo app
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:30.5304517Z ==> makeup
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:30.5305573Z Compiling 15 files (.ex)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:31.0956289Z Generated makeup app
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:31.2265737Z ==> makeup_elixir
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:31.2266291Z Compiling 6 files (.ex)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:38.4736676Z Generated makeup_elixir app
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:38.4906352Z ==> makeup_erlang
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:38.4906740Z Compiling 4 files (.ex)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:47.8314303Z Generated makeup_erlang app
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:47.8576774Z ==> ex_doc
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:47.8577207Z Compiling 30 files (.ex)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:48.7346480Z Generated ex_doc app
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:48.7981324Z ==> erlex
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:48.7981727Z Compiling 1 file (.xrl)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:48.8088920Z Compiling 1 file (.yrl)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:48.8541484Z Compiling 2 files (.erl)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:49.1596583Z Compiling 2 files (.ex)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:49.2805998Z Generated erlex app
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:49.2967167Z ==> dialyxir
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:49.2967536Z Compiling 70 files (.ex)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:49.7849087Z Generated dialyxir app
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:49.8590012Z ==> machete
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:49.8590949Z Compiling 43 files (.ex)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:50.5013511Z Generated machete app
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:50.5817508Z ==> abyss
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:50.5818472Z Compiling 35 files (.ex)
+wire (27, inet, per_datagram)	Compile the locked service	2026-10-14T03:42:51.7546118Z Generated abyss app
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	﻿2026-10-14T03:42:51.9909311Z ##[group]Run python3 scripts/udp/network_fixture.py
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:51.9909643Z ^[[36;1mpython3 scripts/udp/network_fixture.py^[[0m
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:51.9965479Z shell: /usr/bin/bash -e {0}
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:51.9965696Z env:
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:51.9966080Z   CI: true
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:51.9966239Z   MIX_ENV: dev
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:51.9966424Z   ABYSS_UDP_BACKEND: inet
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:51.9966612Z   ABYSS_UDP_API: datagram
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:51.9966803Z   ABYSS_UDP_EXECUTION: per_datagram
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:51.9967085Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:51.9967427Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:51.9967695Z ##[endgroup]
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:53.1620015Z WIRE RUNTIME %{otp: "27", elixir: "1.18.5", erts: "15.2.7.13", backend: "inet"}
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:53.1621043Z {"os": "linux", "kernel": "6.17.0-1022-azure", "offered_load": "sequential barrier-qualified low-rate probes", "seed": "unique epoch per run", "payloads": "empty and unique short epoch datagrams"}
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:53.4708749Z PASS broadcast_limited_bidirectional_two_receivers
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:53.7732894Z PASS broadcast_directed_bidirectional_two_receivers
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:53.9742841Z PASS ipv4_strict_group_filter_foreign_socket_membership
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:54.5791450Z PASS ipv4_two_groups_bidirectional_two_subscribers
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:55.0861972Z PASS ipv4_leave_rejoin_idempotent_epoch_barriers
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:55.6923708Z PASS ipv4_two_interfaces_membership_egress_isolation
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:55.6931054Z PASS ipv4_ttl_or_hoplimit_wire_ancillary
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:55.8462286Z PASS ipv4_loopback_local_vs_remote_delivery
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:56.4510908Z PASS ipv6_two_groups_bidirectional_two_subscribers
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:56.9552252Z PASS ipv6_leave_rejoin_idempotent_epoch_barriers
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:57.5609066Z PASS ipv6_two_interfaces_membership_egress_isolation
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:57.5617505Z PASS ipv6_ttl_or_hoplimit_wire_ancillary
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:57.7144513Z PASS ipv6_loopback_local_vs_remote_delivery
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:57.7148696Z PASS empty_datagram_original_listener_reply_port
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:57.7159836Z PASS distinct_datagrams_preserve_boundaries
+wire (27, inet, per_datagram)	Verify independent UDP peers in isolated namespaces	2026-10-14T03:42:57.7338800Z {"result": "PASS", "backend": "inet", "gates": ["broadcast_limited_bidirectional_two_receivers", "broadcast_directed_bidirectional_two_receivers", "ipv4_strict_group_filter_foreign_socket_membership", "ipv4_two_groups_bidirectional_two_subscribers", "ipv4_leave_rejoin_idempotent_epoch_barriers", "ipv4_two_interfaces_membership_egress_isolation", "ipv4_ttl_or_hoplimit_wire_ancillary", "ipv4_loopback_local_vs_remote_delivery", "ipv6_two_groups_bidirectional_two_subscribers", "ipv6_leave_rejoin_idempotent_epoch_barriers", "ipv6_two_interfaces_membership_egress_isolation", "ipv6_ttl_or_hoplimit_wire_ancillary", "ipv6_loopback_local_vs_remote_delivery", "empty_datagram_original_listener_reply_port", "distinct_datagrams_preserve_boundaries"], "payload_sizes": [0, 6, 42, 46, 49, 50, 51, 52, 55, 56, 57, 62, 63], "unsupported": [], "topology": "3 endpoint namespaces, 2 isolated bridged subnets"}
+wire (27, inet, per_datagram)	Post Run actions/checkout@v4	﻿2026-10-14T03:42:57.8009647Z Post job cleanup.
+wire (27, inet, per_datagram)	Post Run actions/checkout@v4	2026-10-14T03:42:57.8709435Z [command]/usr/bin/git version
+wire (27, inet, per_datagram)	Post Run actions/checkout@v4	2026-10-14T03:42:57.8747651Z git version 2.55.0
+wire (27, inet, per_datagram)	Post Run actions/checkout@v4	2026-10-14T03:42:57.8780170Z Temporarily overriding HOME='/home/runner/work/_temp/0752d9a5-e528-4acd-b63a-4ca93527655d' before making global git config changes
+wire (27, inet, per_datagram)	Post Run actions/checkout@v4	2026-10-14T03:42:57.8781123Z Adding repository directory to the temporary git global config as a safe directory
+wire (27, inet, per_datagram)	Post Run actions/checkout@v4	2026-10-14T03:42:57.8785033Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+wire (27, inet, per_datagram)	Post Run actions/checkout@v4	2026-10-14T03:42:57.8818334Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+wire (27, inet, per_datagram)	Post Run actions/checkout@v4	2026-10-14T03:42:57.8846512Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+wire (27, inet, per_datagram)	Post Run actions/checkout@v4	2026-10-14T03:42:57.9075622Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+wire (27, inet, per_datagram)	Post Run actions/checkout@v4	2026-10-14T03:42:57.9099422Z http.https://github.com/.extraheader
+wire (27, inet, per_datagram)	Post Run actions/checkout@v4	2026-10-14T03:42:57.9109244Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+wire (27, inet, per_datagram)	Post Run actions/checkout@v4	2026-10-14T03:42:57.9139898Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+wire (27, inet, per_datagram)	Post Run actions/checkout@v4	2026-10-14T03:42:57.9349772Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+wire (27, inet, per_datagram)	Post Run actions/checkout@v4	2026-10-14T03:42:57.9400296Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+wire (27, inet, per_datagram)	Complete job	﻿2026-10-14T03:42:57.9711962Z Cleaning up orphan processes
+wire (27, inet, per_datagram)	Complete job	2026-10-14T03:42:58.0012740Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

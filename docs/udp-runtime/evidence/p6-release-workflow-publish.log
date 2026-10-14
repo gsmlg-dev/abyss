@@ -1,0 +1,556 @@
+Publish release to hex.pm	Set up job	﻿2026-10-14T03:42:51.8650010Z Current runner version: '2.337.0'
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8677051Z ##[group]Runner Image Provisioner
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8678246Z Hosted Compute Agent
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8678949Z Version: 20261002.596
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8679578Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8680345Z Build Date: 2026-10-02T22:28:27Z
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8681046Z Worker ID: {4c0e0237-aaf2-443d-8899-2e98b6f7bfba}
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8681818Z Region: westus
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8682436Z Cloud: Azure
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8682990Z ##[endgroup]
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8684779Z ##[group]Operating System
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8685490Z Ubuntu
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8686047Z 24.04.5
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8686639Z LTS
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8687204Z ##[endgroup]
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8688075Z ##[group]Runner Image
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8688794Z Image: ubuntu-24.04
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8689457Z Version: 20261004.327.1
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8690650Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8692892Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8694057Z ##[endgroup]
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8695214Z ##[group]GITHUB_TOKEN Permissions
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8697403Z Contents: write
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8698233Z Metadata: read
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8698900Z ##[endgroup]
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8701067Z Secret source: Actions
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8702161Z Cache mode: write
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.8702941Z Prepare workflow directory
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.9048179Z Prepare all required actions
+Publish release to hex.pm	Set up job	2026-10-14T03:42:51.9100258Z Getting action download info
+Publish release to hex.pm	Set up job	2026-10-14T03:42:52.3203236Z Download action repository 'styfle/cancel-workflow-action@0.12.1' (SHA:85880fa0301c86cca9da44039ee3bb12d3bedbfa)
+Publish release to hex.pm	Set up job	2026-10-14T03:42:52.6435679Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+Publish release to hex.pm	Set up job	2026-10-14T03:42:52.6791246Z Download action repository 'erlef/setup-beam@v1' (SHA:54075bcc5e249e4758d363f27d099f55d843f124)
+Publish release to hex.pm	Set up job	2026-10-14T03:42:53.0584567Z Download action repository 'actions/github-script@v7' (SHA:f28e40c7f34bde8b3046d885e986cb6290c5673b)
+Publish release to hex.pm	Set up job	2026-10-14T03:42:53.4774982Z Complete job name: Publish release to hex.pm
+Publish release to hex.pm	🛑 Cancel Previous Runs	﻿2026-10-14T03:42:53.5540531Z ##[group]Run styfle/cancel-workflow-action@0.12.1
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:53.5541561Z with:
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:53.5545397Z   access_token: ***
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:53.5545870Z   ignore_sha: false
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:53.5546326Z   all_but_latest: false
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:53.5547001Z ##[endgroup]
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:53.6221623Z {
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:53.6222676Z   eventName: 'workflow_dispatch',
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:53.6223800Z   sha: '7d3a29f4206457669afa60a762a78eb7b90d2690',
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:53.6225038Z   headSha: '7d3a29f4206457669afa60a762a78eb7b90d2690',
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:53.6226197Z   branch: 'main',
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:53.6227038Z   owner: 'gsmlg-dev',
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:53.6228149Z   repo: 'abyss',
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:53.6229023Z   GITHUB_RUN_ID: '38507496773'
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:53.6229982Z }
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:53.6230797Z Found token: yes
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:53.6253812Z (node:2203) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:53.6255292Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:53.6378662Z (node:2203) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:53.9344169Z Found workflow_id: ["146755131"]
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:54.4319918Z Found 5 runs total.
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:54.4321599Z Found 0 runs to cancel.
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:54.4322394Z 
+Publish release to hex.pm	🛑 Cancel Previous Runs	2026-10-14T03:42:54.4322877Z Cancel Complete.
+Publish release to hex.pm	⬇️ Checkout repo	﻿2026-10-14T03:42:54.4720407Z ##[group]Run actions/checkout@v4
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.4721627Z with:
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.4722652Z   ref: 7d3a29f4206457669afa60a762a78eb7b90d2690
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.4724028Z   repository: gsmlg-dev/abyss
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.4734444Z   token: ***
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.4735403Z   ssh-strict: true
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.4736366Z   ssh-user: git
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.4737342Z   persist-credentials: true
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.4738542Z   clean: true
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.4739525Z   sparse-checkout-cone-mode: true
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.4740695Z   fetch-depth: 1
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.4741636Z   fetch-tags: false
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.4742621Z   show-progress: true
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.4743611Z   lfs: false
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.4744515Z   submodules: false
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.4745503Z   set-safe-directory: true
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.4746647Z   allow-unsafe-pr-checkout: false
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.4747926Z ##[endgroup]
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.5729601Z Syncing repository: gsmlg-dev/abyss
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.5733966Z ##[group]Getting Git version info
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.5736652Z Working directory is '/home/runner/work/abyss/abyss'
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.5740565Z [command]/usr/bin/git version
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.5792592Z git version 2.55.0
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.5820086Z ##[endgroup]
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.5836088Z Temporarily overriding HOME='/home/runner/work/_temp/fac5abc4-82bd-4619-bb2a-ecdc9871546e' before making global git config changes
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.5841782Z Adding repository directory to the temporary git global config as a safe directory
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.5846139Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.5903099Z Deleting the contents of '/home/runner/work/abyss/abyss'
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.5912409Z ##[group]Initializing the repository
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.5916207Z [command]/usr/bin/git init /home/runner/work/abyss/abyss
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6028951Z hint: Using 'master' as the name for the initial branch. This default branch name
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6032660Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6036210Z hint: to use in all of your new repositories, which will suppress this warning,
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6039468Z hint: call:
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6040921Z hint:
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6042611Z hint: 	git config --global init.defaultBranch <name>
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6044677Z hint:
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6144835Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6148774Z hint: 'development'. The just-created branch can be renamed via this command:
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6151663Z hint:
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6153089Z hint: 	git branch -m <name>
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6154724Z hint:
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6156996Z hint: Disable this message with "git config set advice.defaultBranchName false"
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6160886Z Initialized empty Git repository in /home/runner/work/abyss/abyss/.git/
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6166721Z [command]/usr/bin/git remote add origin https://github.com/gsmlg-dev/abyss
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6173756Z ##[endgroup]
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6176317Z ##[group]Disabling automatic garbage collection
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6178593Z [command]/usr/bin/git config --local gc.auto 0
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6186498Z ##[endgroup]
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6189784Z ##[group]Setting up auth
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6192698Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6200942Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6555647Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6598929Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6857125Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.6895481Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.7127921Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.7170275Z ##[endgroup]
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.7173115Z ##[group]Fetching the repository
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:54.7183260Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin 7d3a29f4206457669afa60a762a78eb7b90d2690
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3050512Z From https://github.com/gsmlg-dev/abyss
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3053888Z  * branch            7d3a29f4206457669afa60a762a78eb7b90d2690 -> FETCH_HEAD
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3061926Z ##[endgroup]
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3064850Z ##[group]Determining the checkout info
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3072665Z ##[endgroup]
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3075054Z [command]/usr/bin/git sparse-checkout disable
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3123177Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3159680Z ##[group]Checking out the ref
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3164814Z [command]/usr/bin/git checkout --progress --force 7d3a29f4206457669afa60a762a78eb7b90d2690
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3686974Z Note: switching to '7d3a29f4206457669afa60a762a78eb7b90d2690'.
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3694087Z 
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3695702Z You are in 'detached HEAD' state. You can look around, make experimental
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3699494Z changes and commit them, and you can discard any commits you make in this
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3702703Z state without impacting any branches by switching back to a branch.
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3704751Z 
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3706026Z If you want to create a new branch to retain commits you create, you may
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3709290Z do so (now or later) by using -c with the switch command. Example:
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3711011Z 
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3711859Z   git switch -c <new-branch-name>
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3713218Z 
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3713867Z Or undo this operation with:
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3714953Z 
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3715535Z   git switch -
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3716333Z 
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3718317Z Turn off this advice by setting config variable advice.detachedHead to false
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3720474Z 
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3721897Z HEAD is now at 7d3a29f docs: record final UDP acceptance and 0.8.0 release handoff
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3727986Z ##[endgroup]
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3750271Z [command]/usr/bin/git log -1 --format=%H
+Publish release to hex.pm	⬇️ Checkout repo	2026-10-14T03:42:55.3781265Z 7d3a29f4206457669afa60a762a78eb7b90d2690
+Publish release to hex.pm	Set up Elixir	﻿2026-10-14T03:42:55.4062810Z ##[group]Run erlef/setup-beam@v1
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:55.4063851Z with:
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:55.4064593Z   otp-version: 27
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:55.4065403Z   elixir-version: 1.18
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:55.4074265Z   github-token: ***
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:55.4075122Z   otp-architecture: 64
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:55.4075989Z   install-hex: true
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:55.4076813Z   install-rebar: true
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:55.4077792Z   version-type: loose
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:55.4078697Z   disable_problem_matchers: false
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:55.4079773Z   hexpm-mirrors: https://builds.hex.pm
+Publish release to hex.pm	Set up Elixir	
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:55.4080862Z ##[endgroup]
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:55.6639951Z ##[group]Installing Erlang/OTP OTP-27.3.4.18 - built on amd64/ubuntu-24.04
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:56.3256104Z [command]/usr/bin/tar zx --strip-components=1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/e3dcec9e-d2e5-4b00-9423-0032e2e1e8a8 -f /home/runner/work/_temp/6379885b-fa98-4786-b220-0e41ccf453aa
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:59.0190044Z [command]/home/runner/work/_temp/.setup-beam/otp/Install -minimal /home/runner/work/_temp/.setup-beam/otp
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:59.0498384Z Installed Erlang/OTP version
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:59.0516586Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -version
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:59.0636846Z Erlang (SMP,ASYNC_THREADS) (BEAM) emulator version 15.2.7.13
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:59.0679440Z ##[endgroup]
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:59.0680762Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -noshell -eval io:format(erlang:system_info(otp_release)), halt().
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:59.2949108Z 27::debug::Was not able to coerce latest with semver
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:59.2966824Z Using Elixir 1.18.5 (built for Erlang/OTP 27)
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:59.2967624Z ##[group]Installing Elixir v1.18.5-otp-27
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:42:59.6528687Z [command]/usr/bin/unzip -o -q /home/runner/work/_temp/f7e8d9d3-31d6-4434-95b4-2909372e92f0
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:43:00.1113168Z Installed Elixir version
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:43:00.1138314Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/elixir -v
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:43:00.3271558Z Erlang/OTP 27 [erts-15.2.7.13] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:1] [jit:ns]
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:43:00.3272413Z 
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:43:00.3342294Z Elixir 1.18.5 (compiled with Erlang/OTP 27)
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:43:00.3399691Z ##[endgroup]
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:43:00.3400482Z ##[group]Running mix local.rebar,--force
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:43:00.3410745Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.rebar --force
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:43:01.3761856Z * creating /home/runner/.mix/elixir/1-18-otp-27/rebar3
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:43:01.3839811Z ##[endgroup]
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:43:01.3840668Z ##[group]Running mix local.hex,--force
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:43:01.3854766Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.hex --force
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:43:02.3063220Z * creating /home/runner/.mix/archives/hex-2.5.2
+Publish release to hex.pm	Set up Elixir	2026-10-14T03:43:02.3150984Z ##[endgroup]
+Publish release to hex.pm	Install Deps	﻿2026-10-14T03:43:02.3358811Z ##[group]Run mix deps.get
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:02.3359200Z ^[[36;1mmix deps.get^[[0m
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:02.3359555Z ^[[36;1msed -i 's%@version "[0-9\.]\+"%@version "0.8.0"%' mix.exs^[[0m
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:02.3360025Z ^[[36;1msed -i 's%{:abyss, "~> [0-9\.]\+"}%{:abyss, "~> 0.8.0"}%' README.md^[[0m
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:02.3677177Z shell: /usr/bin/bash -e {0}
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:02.3677585Z env:
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:02.3678198Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:02.3678794Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:02.3679272Z   MIX_ENV: prod
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:02.3679541Z ##[endgroup]
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.2154351Z Resolving Hex dependencies...
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3028828Z Resolution completed in 0.085s
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3101688Z Unchanged:
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3102753Z   bunt 1.0.0
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3135805Z   credo 1.7.19
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3136969Z   dhcp_ex 0.5.0
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3138022Z   dialyxir 1.4.8
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3138862Z   earmark_parser 1.4.46
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3139450Z   erlex 0.2.9
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3139825Z   ex_dns 0.5.0
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3140184Z   ex_doc 0.40.4
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3140587Z   file_system 1.1.1
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3140957Z   jason 1.4.5
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3141305Z   machete 0.3.12
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3141672Z   makeup 1.2.3
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3142038Z   makeup_elixir 1.0.1
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3142439Z   makeup_erlang 1.1.0
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3142803Z   mime 2.0.7
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3143138Z   mox 1.3.2
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3143500Z   nimble_ownership 1.0.2
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3143909Z   nimble_parsec 1.4.2
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3144302Z   telemetry 1.4.2
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3144687Z   telemetry_metrics 1.2.0
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3145135Z   tesla 1.21.3
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3199520Z * Getting telemetry (Hex package)
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3730163Z * Getting telemetry_metrics (Hex package)
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3848265Z * Getting mox (Hex package)
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.3917989Z * Getting ex_dns (Hex package)
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.4419437Z * Getting dhcp_ex (Hex package)
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.4495419Z * Getting machete (Hex package)
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.4725377Z * Getting ex_doc (Hex package)
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.5009800Z * Getting dialyxir (Hex package)
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.5237094Z * Getting credo (Hex package)
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.5942524Z * Getting bunt (Hex package)
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.5979732Z * Getting file_system (Hex package)
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.6043902Z * Getting jason (Hex package)
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.6094823Z * Getting erlex (Hex package)
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.6138274Z * Getting earmark_parser (Hex package)
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.6268048Z * Getting makeup_elixir (Hex package)
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.6330553Z * Getting makeup_erlang (Hex package)
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.6380887Z * Getting makeup (Hex package)
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.6460479Z * Getting nimble_parsec (Hex package)
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.6510341Z * Getting tesla (Hex package)
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.6701879Z * Getting mime (Hex package)
+Publish release to hex.pm	Install Deps	2026-10-14T03:43:03.6739008Z * Getting nimble_ownership (Hex package)
+Publish release to hex.pm	Publish to hex.pm	﻿2026-10-14T03:43:03.7237038Z ##[group]Run mix hex.publish --yes
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:03.7237408Z ^[[36;1mmix hex.publish --yes^[[0m
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:03.7302630Z shell: /usr/bin/bash -e {0}
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:03.7302933Z env:
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:03.7303254Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:03.7303748Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:03.7304159Z   MIX_ENV: dev
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:03.7307143Z   GITHUB_TOKEN: ***
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:03.7307427Z   HEX_API_KEY: ***
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:03.7307862Z ##[endgroup]
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2681473Z Building abyss 0.8.0
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2681969Z   Dependencies:
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2682411Z     telemetry ~> 1.0 (app: telemetry)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2683038Z     telemetry_metrics ~> 1.0 (app: telemetry_metrics)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2683584Z     ex_doc >= 0.0.0 (app: ex_doc)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2729877Z   App: abyss
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2730367Z   Name: abyss
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2730802Z   Files:
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2731170Z     lib
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2731727Z     lib/abyss
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2732151Z     lib/abyss/table_owner.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2732677Z     lib/abyss/server_config.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2733188Z     lib/abyss/listener_pool_scaler.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2733585Z     lib/abyss/endpoint.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2733931Z     lib/abyss/datagram_runtime.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2734297Z     lib/abyss/datagram_dispatcher.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2734650Z     lib/abyss/handler.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2734953Z     lib/abyss/utils.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2735253Z     lib/abyss/transport
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2735556Z     lib/abyss/transport/udp
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2735902Z     lib/abyss/transport/udp/broadcast.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2736285Z     lib/abyss/transport/udp/unicast.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2736699Z     lib/abyss/transport/udp/core.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2737068Z     lib/abyss/transport/udp/native.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2737418Z     lib/abyss/transport/udp/multicast.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2738107Z     lib/abyss/transport/udp.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2738660Z     lib/abyss/listener_pool.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2739137Z     lib/abyss/quic.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2739565Z     lib/abyss/shutdown_listener.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2740049Z     lib/abyss/dhcp_socket
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2740504Z     lib/abyss/dhcp_socket/native.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2740993Z     lib/abyss/transport.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2741434Z     lib/abyss/datagram.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2741868Z     lib/abyss/connection.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2742307Z     lib/abyss/quic
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2742706Z     lib/abyss/quic/handler.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2743170Z     lib/abyss/quic/service.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2743642Z     lib/abyss/listener_starter.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2744100Z     lib/abyss/server.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2744387Z     lib/abyss/telemetry.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2744683Z     lib/abyss/udp_admission.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2744998Z     lib/abyss/application.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2745312Z     lib/abyss/datagram_handler.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2745632Z     lib/abyss/client.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2745933Z     lib/abyss/datagram_actions.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2746242Z     lib/abyss/listener.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2746532Z     lib/abyss/datagram_worker.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2746865Z     lib/abyss/logger.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2747133Z     lib/abyss.ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2747368Z     LICENSE
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2747560Z     mix.exs
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2747896Z     README.md
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2748110Z     docs/dispatcher.md
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2748340Z     docs/quic-service.md
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2748591Z     docs/udp-broadcast-multicast.md
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2748866Z     docs/udp-runtime/design.md
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2749610Z     docs/udp-runtime/migration.md
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2750062Z   Version: 0.8.0
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2750399Z   Build tools: mix
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2750810Z   Description: Abyss is a pure Elixir UDP server
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2751290Z   Licenses: MIT
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2751600Z   Links: 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2751977Z     Github: https://github.com/gsmlg-dev/abyss
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2752871Z     Changelog: https://hexdocs.pm/abyss/changelog.html
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2753376Z   Elixir: ~> 1.13
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2770322Z Before publishing, please read the Code of Conduct: https://hex.pm/policies/codeofconduct
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2771067Z 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.2771557Z Publishing package to public repository hexpm.
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.5806102Z 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.5807071Z Building docs...
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.6353487Z ==> earmark_parser
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.6355099Z Compiling 2 files (.xrl)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.6596621Z Compiling 1 file (.yrl)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.6917137Z Compiling 3 files (.erl)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:04.8710254Z Compiling 32 files (.ex)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:05.5216207Z Generated earmark_parser app
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:05.6527635Z ==> file_system
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:05.6529011Z Compiling 7 files (.ex)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:05.8834554Z Generated file_system app
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:05.9357402Z ==> mime
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:05.9358468Z Compiling 1 file (.ex)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:06.0265183Z Generated mime app
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:06.0440727Z ==> nimble_parsec
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:06.0441354Z Compiling 4 files (.ex)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:06.3941223Z Generated nimble_parsec app
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:06.4074127Z ==> bunt
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:06.4075177Z Compiling 2 files (.ex)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:06.7586596Z Generated bunt app
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:07.0997213Z ==> abyss
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:07.0998500Z ===> Analyzing applications...
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:07.1340774Z ===> Compiling telemetry
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:07.3793561Z ==> telemetry_metrics
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:07.3794509Z Compiling 7 files (.ex)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:07.4967986Z Generated telemetry_metrics app
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:07.5289315Z ==> jason
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:07.5290550Z Compiling 10 files (.ex)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:09.2568685Z Generated jason app
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:09.3356152Z ==> tesla
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:09.3357244Z Compiling 57 files (.ex)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:10.1240867Z Generated tesla app
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:10.2033793Z ==> ex_dns
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:10.2034362Z Compiling 71 files (.ex)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:12.1178897Z Generated ex_dns app
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:12.2391010Z ==> dhcp_ex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:12.2393520Z Compiling 12 files (.ex)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:12.9656815Z Generated dhcp_ex app
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:13.1591973Z ==> credo
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:13.1592868Z Compiling 257 files (.ex)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:18.6183982Z Generated credo app
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:18.7729488Z ==> makeup
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:18.7729981Z Compiling 15 files (.ex)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:19.4730239Z Generated makeup app
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:19.6464837Z ==> makeup_elixir
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:19.6466490Z Compiling 6 files (.ex)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:28.4921432Z Generated makeup_elixir app
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:28.5142526Z ==> makeup_erlang
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:28.5143036Z Compiling 4 files (.ex)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:39.6078867Z Compiling lib/makeup/lexers/erlang_lexer.ex (it's taking more than 10s)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:39.8954074Z Generated makeup_erlang app
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:39.9280718Z ==> ex_doc
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:39.9281784Z Compiling 30 files (.ex)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:41.0414953Z Generated ex_doc app
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:41.1313527Z ==> erlex
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:41.1314685Z Compiling 1 file (.xrl)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:41.1469099Z Compiling 1 file (.yrl)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:41.2055090Z Compiling 2 files (.erl)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:41.5955014Z Compiling 2 files (.ex)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:41.7488203Z Generated erlex app
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:41.7676574Z ==> dialyxir
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:41.7677122Z Compiling 70 files (.ex)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:42.4017937Z Generated dialyxir app
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:42.4844599Z ==> machete
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:42.4875101Z Compiling 43 files (.ex)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:43.3592191Z Generated machete app
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:43.4451869Z ==> abyss
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:43.4452989Z Compiling 35 files (.ex)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:44.9573987Z Generated abyss app
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.2561297Z Generating docs...
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4260461Z warning: documentation references file "udp-otp-multicast-defects.md" but it does not exist
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4262300Z └─ docs/udp-broadcast-multicast.md: (file)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4263707Z 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4264688Z warning: documentation references file "docs/udp-runtime/acceptance.md" but it does not exist
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4266004Z └─ README.md: (file)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4266584Z 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4267518Z warning: documentation references file "udp-hardening-acceptance.md" but it does not exist
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4269087Z └─ docs/udp-broadcast-multicast.md: (file)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4269725Z 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4333516Z warning: documentation references file "acceptance.md" but it does not exist
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4335254Z └─ docs/udp-runtime/migration.md: (file)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4336126Z 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4371490Z warning: documentation references file "published-quic-acceptance.md" but it does not exist
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4372997Z └─ docs/quic-service.md: (file)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4373335Z 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4375755Z warning: documentation references file "phase1-acceptance.md" but it does not exist
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4376665Z └─ docs/quic-service.md: (file)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4376988Z 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4461725Z     warning: documentation references function "Abyss.child_spec/1" but it is hidden
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4466539Z     │
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4473084Z   1 │ defmodule Abyss.Endpoint do
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4482853Z     │ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4483467Z     │
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4484171Z     └─ (abyss 0.8.0) lib/abyss/endpoint.ex:1: Abyss.Endpoint.child_spec/1
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4484919Z 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4485512Z      warning: documentation references function "GenServer.terminate/2" but it is undefined or private
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4486467Z      │
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4487249Z  112 │   Cleanup on orderly process shutdown. As with `GenServer.terminate/2`,
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4488702Z      │   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4489337Z      │
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4489899Z      └─ lib/abyss/handler.ex:112: Abyss.Handler (module)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.4490319Z 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5506025Z warning: documentation references file "udp-otp-multicast-defects.md" but it does not exist
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5507962Z └─ docs/udp-broadcast-multicast.md: (file)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5508678Z 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5509443Z warning: documentation references file "docs/udp-runtime/acceptance.md" but it does not exist
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5510361Z └─ README.md: (file)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5510611Z 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5511316Z warning: documentation references file "udp-hardening-acceptance.md" but it does not exist
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5512263Z └─ docs/udp-broadcast-multicast.md: (file)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5512627Z 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5513149Z warning: documentation references file "acceptance.md" but it does not exist
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5513997Z └─ docs/udp-runtime/migration.md: (file)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5514340Z 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5526770Z warning: documentation references file "published-quic-acceptance.md" but it does not exist
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5528226Z └─ docs/quic-service.md: (file)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5528738Z 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5529436Z warning: documentation references file "phase1-acceptance.md" but it does not exist
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5530422Z └─ docs/quic-service.md: (file)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5530777Z 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5679635Z     warning: documentation references function "Abyss.child_spec/1" but it is hidden
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5700880Z     │
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5701598Z   1 │ defmodule Abyss.Endpoint do
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5702651Z     │ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5703681Z     │
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5714165Z     └─ (abyss 0.8.0) lib/abyss/endpoint.ex:1: Abyss.Endpoint.child_spec/1
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5715504Z 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5716326Z      warning: documentation references function "GenServer.terminate/2" but it is undefined or private
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5717515Z      │
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5719002Z  112 │   Cleanup on orderly process shutdown. As with `GenServer.terminate/2`,
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5720219Z      │   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5721767Z      │
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5722774Z      └─ lib/abyss/handler.ex:112: Abyss.Handler (module)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.5724835Z 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.6335360Z View html docs at "doc/index.html"
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.6336152Z View markdown docs at "doc/llms.txt"
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.6336814Z View epub docs at "doc/Abyss.epub"
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.6359195Z Publishing package...
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.7960753Z 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.7962005Z [##                       ] 9%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.7963023Z [####                     ] 18%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.7963732Z [######                   ] 27%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.7964449Z [#########                ] 37%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.7965206Z [###########              ] 46%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.7970805Z [#############            ] 55%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.7971287Z [################         ] 64%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.7971715Z [##################       ] 74%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.7972140Z [####################     ] 83%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:45.7972589Z [#######################  ] 92%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.6370347Z 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.6371843Z Package published to https://hex.pm/packages/abyss/0.8.0 (b7c60c6502a655a98c8a08e7068a2cd0ba0cb128505ab6349453629823fb18eb)
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.6374002Z Publishing docs...
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7583721Z [#########################] 100%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7584776Z [                         ] 2%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7585316Z [#                        ] 4%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7585816Z [#                        ] 6%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7586312Z [##                       ] 9%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7586809Z [##                       ] 11%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7588113Z [###                      ] 13%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7588681Z [###                      ] 15%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7589343Z [####                     ] 18%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7589902Z [#####                    ] 20%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7590400Z [#####                    ] 22%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7590882Z [######                   ] 24%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7591398Z [######                   ] 27%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7591882Z [#######                  ] 29%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7592343Z [#######                  ] 31%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7739669Z [########                 ] 33%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7744990Z [#########                ] 36%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7748534Z [#########                ] 38%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7753354Z [##########               ] 40%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7753713Z [##########               ] 43%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7754037Z [###########              ] 45%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7754350Z [###########              ] 47%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7754662Z [############             ] 49%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7754998Z [#############            ] 52%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7755302Z [#############            ] 54%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7755610Z [##############           ] 56%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7755913Z [##############           ] 58%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7756218Z [###############          ] 61%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7816561Z [###############          ] 63%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7817146Z [################         ] 65%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7818348Z [################         ] 67%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7819181Z [#################        ] 70%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7819834Z [##################       ] 72%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7820614Z [##################       ] 74%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7821606Z [###################      ] 76%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7822070Z [###################      ] 79%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7822513Z [####################     ] 81%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7822956Z [####################     ] 83%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7823412Z [#####################    ] 86%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7823861Z [######################   ] 88%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7824765Z [######################   ] 90%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7825218Z [#######################  ] 92%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7825666Z [#######################  ] 95%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7826123Z [######################## ] 97%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:46.7826574Z [######################## ] 99%
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:47.6509626Z 
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:47.6511934Z Docs will soon be available at https://abyss.hexdocs.pm/0.8.0
+Publish release to hex.pm	Publish to hex.pm	2026-10-14T03:43:47.6690014Z [#########################] 100%
+Publish release to hex.pm	Create Git Tag	﻿2026-10-14T03:43:47.6825658Z ##[group]Run actions/github-script@v7
+Publish release to hex.pm	Create Git Tag	2026-10-14T03:43:47.6825964Z with:
+Publish release to hex.pm	Create Git Tag	2026-10-14T03:43:47.6826485Z   script: github.rest.git.createRef({
+Publish release to hex.pm	Create Git Tag	  owner: context.repo.owner,
+Publish release to hex.pm	Create Git Tag	  repo: context.repo.repo,
+Publish release to hex.pm	Create Git Tag	  ref: 'refs/tags/0.8.0',
+Publish release to hex.pm	Create Git Tag	  sha: context.sha
+Publish release to hex.pm	Create Git Tag	})
+Publish release to hex.pm	Create Git Tag	
+Publish release to hex.pm	Create Git Tag	2026-10-14T03:43:47.6829639Z   github-token: ***
+Publish release to hex.pm	Create Git Tag	2026-10-14T03:43:47.6829871Z   debug: false
+Publish release to hex.pm	Create Git Tag	2026-10-14T03:43:47.6830090Z   user-agent: actions/github-script
+Publish release to hex.pm	Create Git Tag	2026-10-14T03:43:47.6830356Z   result-encoding: json
+Publish release to hex.pm	Create Git Tag	2026-10-14T03:43:47.6830594Z   retries: 0
+Publish release to hex.pm	Create Git Tag	2026-10-14T03:43:47.6830824Z   retry-exempt-status-codes: 400,401,403,404,422
+Publish release to hex.pm	Create Git Tag	2026-10-14T03:43:47.6831112Z env:
+Publish release to hex.pm	Create Git Tag	2026-10-14T03:43:47.6831373Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Publish release to hex.pm	Create Git Tag	2026-10-14T03:43:47.6831796Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Publish release to hex.pm	Create Git Tag	2026-10-14T03:43:47.6832144Z ##[endgroup]
+Publish release to hex.pm	Post ⬇️ Checkout repo	﻿2026-10-14T03:43:48.5277594Z Post job cleanup.
+Publish release to hex.pm	Post ⬇️ Checkout repo	2026-10-14T03:43:48.6147834Z [command]/usr/bin/git version
+Publish release to hex.pm	Post ⬇️ Checkout repo	2026-10-14T03:43:48.6193940Z git version 2.55.0
+Publish release to hex.pm	Post ⬇️ Checkout repo	2026-10-14T03:43:48.6236008Z Temporarily overriding HOME='/home/runner/work/_temp/9550d2ef-0707-4f49-86a1-5b06ccf5c680' before making global git config changes
+Publish release to hex.pm	Post ⬇️ Checkout repo	2026-10-14T03:43:48.6237609Z Adding repository directory to the temporary git global config as a safe directory
+Publish release to hex.pm	Post ⬇️ Checkout repo	2026-10-14T03:43:48.6243940Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+Publish release to hex.pm	Post ⬇️ Checkout repo	2026-10-14T03:43:48.6289463Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Publish release to hex.pm	Post ⬇️ Checkout repo	2026-10-14T03:43:48.6328297Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Publish release to hex.pm	Post ⬇️ Checkout repo	2026-10-14T03:43:48.6599535Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Publish release to hex.pm	Post ⬇️ Checkout repo	2026-10-14T03:43:48.6626692Z http.https://github.com/.extraheader
+Publish release to hex.pm	Post ⬇️ Checkout repo	2026-10-14T03:43:48.6638682Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+Publish release to hex.pm	Post ⬇️ Checkout repo	2026-10-14T03:43:48.6679799Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Publish release to hex.pm	Post ⬇️ Checkout repo	2026-10-14T03:43:48.6951619Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Publish release to hex.pm	Post ⬇️ Checkout repo	2026-10-14T03:43:48.6992487Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Publish release to hex.pm	Complete job	﻿2026-10-14T03:43:48.7404623Z Cleaning up orphan processes
+Publish release to hex.pm	Complete job	2026-10-14T03:43:48.7692782Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/github-script@v7, styfle/cancel-workflow-action@0.12.1. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

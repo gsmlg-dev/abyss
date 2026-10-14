@@ -1,0 +1,250 @@
+Format Check	Set up job	﻿2026-10-14T03:40:53.1832779Z Current runner version: '2.337.0'
+Format Check	Set up job	2026-10-14T03:40:53.1850009Z ##[group]Runner Image Provisioner
+Format Check	Set up job	2026-10-14T03:40:53.1850798Z Hosted Compute Agent
+Format Check	Set up job	2026-10-14T03:40:53.1851173Z Version: 20261002.596
+Format Check	Set up job	2026-10-14T03:40:53.1851575Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+Format Check	Set up job	2026-10-14T03:40:53.1852059Z Build Date: 2026-10-02T22:28:27Z
+Format Check	Set up job	2026-10-14T03:40:53.1852503Z Worker ID: {03d99cca-b2f0-40e5-91c2-e39859567d15}
+Format Check	Set up job	2026-10-14T03:40:53.1852947Z Region: centralus
+Format Check	Set up job	2026-10-14T03:40:53.1853297Z Cloud: Azure
+Format Check	Set up job	2026-10-14T03:40:53.1853628Z ##[endgroup]
+Format Check	Set up job	2026-10-14T03:40:53.1854493Z ##[group]Operating System
+Format Check	Set up job	2026-10-14T03:40:53.1854892Z Ubuntu
+Format Check	Set up job	2026-10-14T03:40:53.1855199Z 24.04.5
+Format Check	Set up job	2026-10-14T03:40:53.1855574Z LTS
+Format Check	Set up job	2026-10-14T03:40:53.1855916Z ##[endgroup]
+Format Check	Set up job	2026-10-14T03:40:53.1856281Z ##[group]Runner Image
+Format Check	Set up job	2026-10-14T03:40:53.1856675Z Image: ubuntu-24.04
+Format Check	Set up job	2026-10-14T03:40:53.1857008Z Version: 20261004.327.1
+Format Check	Set up job	2026-10-14T03:40:53.1857671Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+Format Check	Set up job	2026-10-14T03:40:53.1858756Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+Format Check	Set up job	2026-10-14T03:40:53.1859324Z ##[endgroup]
+Format Check	Set up job	2026-10-14T03:40:53.1861368Z ##[group]GITHUB_TOKEN Permissions
+Format Check	Set up job	2026-10-14T03:40:53.1862681Z Actions: write
+Format Check	Set up job	2026-10-14T03:40:53.1863113Z ArtifactMetadata: write
+Format Check	Set up job	2026-10-14T03:40:53.1863546Z Attestations: write
+Format Check	Set up job	2026-10-14T03:40:53.1863896Z Checks: write
+Format Check	Set up job	2026-10-14T03:40:53.1864271Z CodeQuality: write
+Format Check	Set up job	2026-10-14T03:40:53.1864613Z Contents: write
+Format Check	Set up job	2026-10-14T03:40:53.1864946Z CopilotRequests: write
+Format Check	Set up job	2026-10-14T03:40:53.1865376Z Deployments: write
+Format Check	Set up job	2026-10-14T03:40:53.1865720Z Discussions: write
+Format Check	Set up job	2026-10-14T03:40:53.1866079Z Drives: write
+Format Check	Set up job	2026-10-14T03:40:53.1866424Z Issues: write
+Format Check	Set up job	2026-10-14T03:40:53.1866807Z Metadata: read
+Format Check	Set up job	2026-10-14T03:40:53.1867209Z Models: read
+Format Check	Set up job	2026-10-14T03:40:53.1867535Z Packages: write
+Format Check	Set up job	2026-10-14T03:40:53.1867892Z Pages: write
+Format Check	Set up job	2026-10-14T03:40:53.1868233Z PullRequests: write
+Format Check	Set up job	2026-10-14T03:40:53.1868602Z RepositoryProjects: write
+Format Check	Set up job	2026-10-14T03:40:53.1869033Z SecurityEvents: write
+Format Check	Set up job	2026-10-14T03:40:53.1869435Z Statuses: write
+Format Check	Set up job	2026-10-14T03:40:53.1869769Z VulnerabilityAlerts: read
+Format Check	Set up job	2026-10-14T03:40:53.1870200Z ##[endgroup]
+Format Check	Set up job	2026-10-14T03:40:53.1871694Z Secret source: Actions
+Format Check	Set up job	2026-10-14T03:40:53.1872305Z Cache mode: write
+Format Check	Set up job	2026-10-14T03:40:53.1872716Z Prepare workflow directory
+Format Check	Set up job	2026-10-14T03:40:53.2099950Z Prepare all required actions
+Format Check	Set up job	2026-10-14T03:40:53.2141731Z Getting action download info
+Format Check	Set up job	2026-10-14T03:40:53.4661338Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+Format Check	Set up job	2026-10-14T03:40:53.5548885Z Download action repository 'erlef/setup-beam@v1' (SHA:54075bcc5e249e4758d363f27d099f55d843f124)
+Format Check	Set up job	2026-10-14T03:40:54.0236517Z Download action repository 'actions/cache@v4' (SHA:0057852bfaa89a56745cba8c7296529d2fc39830)
+Format Check	Set up job	2026-10-14T03:40:54.2050635Z Complete job name: Format Check
+Format Check	Checkout code	﻿2026-10-14T03:40:54.2514320Z ##[group]Run actions/checkout@v4
+Format Check	Checkout code	2026-10-14T03:40:54.2514773Z with:
+Format Check	Checkout code	2026-10-14T03:40:54.2515053Z   repository: gsmlg-dev/abyss
+Format Check	Checkout code	2026-10-14T03:40:54.2517361Z   token: ***
+Format Check	Checkout code	2026-10-14T03:40:54.2517613Z   ssh-strict: true
+Format Check	Checkout code	2026-10-14T03:40:54.2517870Z   ssh-user: git
+Format Check	Checkout code	2026-10-14T03:40:54.2518132Z   persist-credentials: true
+Format Check	Checkout code	2026-10-14T03:40:54.2518420Z   clean: true
+Format Check	Checkout code	2026-10-14T03:40:54.2518746Z   sparse-checkout-cone-mode: true
+Format Check	Checkout code	2026-10-14T03:40:54.2519052Z   fetch-depth: 1
+Format Check	Checkout code	2026-10-14T03:40:54.2519309Z   fetch-tags: false
+Format Check	Checkout code	2026-10-14T03:40:54.2519575Z   show-progress: true
+Format Check	Checkout code	2026-10-14T03:40:54.2519849Z   lfs: false
+Format Check	Checkout code	2026-10-14T03:40:54.2520101Z   submodules: false
+Format Check	Checkout code	2026-10-14T03:40:54.2520663Z   set-safe-directory: true
+Format Check	Checkout code	2026-10-14T03:40:54.2520980Z   allow-unsafe-pr-checkout: false
+Format Check	Checkout code	2026-10-14T03:40:54.2521403Z ##[endgroup]
+Format Check	Checkout code	2026-10-14T03:40:54.3167688Z Syncing repository: gsmlg-dev/abyss
+Format Check	Checkout code	2026-10-14T03:40:54.3169289Z ##[group]Getting Git version info
+Format Check	Checkout code	2026-10-14T03:40:54.3169916Z Working directory is '/home/runner/work/abyss/abyss'
+Format Check	Checkout code	2026-10-14T03:40:54.3171162Z [command]/usr/bin/git version
+Format Check	Checkout code	2026-10-14T03:40:54.3222854Z git version 2.55.0
+Format Check	Checkout code	2026-10-14T03:40:54.3250832Z ##[endgroup]
+Format Check	Checkout code	2026-10-14T03:40:54.3255526Z Temporarily overriding HOME='/home/runner/work/_temp/da2ba1c6-6e81-48da-a990-f4b0b69c5b45' before making global git config changes
+Format Check	Checkout code	2026-10-14T03:40:54.3257593Z Adding repository directory to the temporary git global config as a safe directory
+Format Check	Checkout code	2026-10-14T03:40:54.3259001Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+Format Check	Checkout code	2026-10-14T03:40:54.3300944Z Deleting the contents of '/home/runner/work/abyss/abyss'
+Format Check	Checkout code	2026-10-14T03:40:54.3302018Z ##[group]Initializing the repository
+Format Check	Checkout code	2026-10-14T03:40:54.3302877Z [command]/usr/bin/git init /home/runner/work/abyss/abyss
+Format Check	Checkout code	2026-10-14T03:40:54.3402834Z hint: Using 'master' as the name for the initial branch. This default branch name
+Format Check	Checkout code	2026-10-14T03:40:54.3403920Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+Format Check	Checkout code	2026-10-14T03:40:54.3406169Z hint: to use in all of your new repositories, which will suppress this warning,
+Format Check	Checkout code	2026-10-14T03:40:54.3406634Z hint: call:
+Format Check	Checkout code	2026-10-14T03:40:54.3406891Z hint:
+Format Check	Checkout code	2026-10-14T03:40:54.3407220Z hint: 	git config --global init.defaultBranch <name>
+Format Check	Checkout code	2026-10-14T03:40:54.3407590Z hint:
+Format Check	Checkout code	2026-10-14T03:40:54.3407934Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+Format Check	Checkout code	2026-10-14T03:40:54.3408722Z hint: 'development'. The just-created branch can be renamed via this command:
+Format Check	Checkout code	2026-10-14T03:40:54.3409288Z hint:
+Format Check	Checkout code	2026-10-14T03:40:54.3409710Z hint: 	git branch -m <name>
+Format Check	Checkout code	2026-10-14T03:40:54.3410160Z hint:
+Format Check	Checkout code	2026-10-14T03:40:54.3410961Z hint: Disable this message with "git config set advice.defaultBranchName false"
+Format Check	Checkout code	2026-10-14T03:40:54.3411699Z Initialized empty Git repository in /home/runner/work/abyss/abyss/.git/
+Format Check	Checkout code	2026-10-14T03:40:54.3422603Z [command]/usr/bin/git remote add origin https://github.com/gsmlg-dev/abyss
+Format Check	Checkout code	2026-10-14T03:40:54.3476055Z ##[endgroup]
+Format Check	Checkout code	2026-10-14T03:40:54.3476585Z ##[group]Disabling automatic garbage collection
+Format Check	Checkout code	2026-10-14T03:40:54.3479840Z [command]/usr/bin/git config --local gc.auto 0
+Format Check	Checkout code	2026-10-14T03:40:54.3508032Z ##[endgroup]
+Format Check	Checkout code	2026-10-14T03:40:54.3508738Z ##[group]Setting up auth
+Format Check	Checkout code	2026-10-14T03:40:54.3513652Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Format Check	Checkout code	2026-10-14T03:40:54.3542621Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Format Check	Checkout code	2026-10-14T03:40:54.3947635Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Format Check	Checkout code	2026-10-14T03:40:54.3975798Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Format Check	Checkout code	2026-10-14T03:40:54.4150131Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Format Check	Checkout code	2026-10-14T03:40:54.4178120Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Format Check	Checkout code	2026-10-14T03:40:54.4349847Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Format Check	Checkout code	2026-10-14T03:40:54.4381479Z ##[endgroup]
+Format Check	Checkout code	2026-10-14T03:40:54.4382114Z ##[group]Fetching the repository
+Format Check	Checkout code	2026-10-14T03:40:54.4387623Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +7d3a29f4206457669afa60a762a78eb7b90d2690:refs/remotes/origin/main
+Format Check	Checkout code	2026-10-14T03:40:55.1338729Z From https://github.com/gsmlg-dev/abyss
+Format Check	Checkout code	2026-10-14T03:40:55.1340728Z  * [new ref]         7d3a29f4206457669afa60a762a78eb7b90d2690 -> origin/main
+Format Check	Checkout code	2026-10-14T03:40:55.1343161Z ##[endgroup]
+Format Check	Checkout code	2026-10-14T03:40:55.1344166Z ##[group]Determining the checkout info
+Format Check	Checkout code	2026-10-14T03:40:55.1345236Z ##[endgroup]
+Format Check	Checkout code	2026-10-14T03:40:55.1348764Z [command]/usr/bin/git sparse-checkout disable
+Format Check	Checkout code	2026-10-14T03:40:55.1447954Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Format Check	Checkout code	2026-10-14T03:40:55.1476258Z ##[group]Checking out the ref
+Format Check	Checkout code	2026-10-14T03:40:55.1479260Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+Format Check	Checkout code	2026-10-14T03:40:55.1866367Z Switched to a new branch 'main'
+Format Check	Checkout code	2026-10-14T03:40:55.1871272Z branch 'main' set up to track 'origin/main'.
+Format Check	Checkout code	2026-10-14T03:40:55.1878428Z ##[endgroup]
+Format Check	Checkout code	2026-10-14T03:40:55.1912348Z [command]/usr/bin/git log -1 --format=%H
+Format Check	Checkout code	2026-10-14T03:40:55.1933906Z 7d3a29f4206457669afa60a762a78eb7b90d2690
+Format Check	Set up Elixir	﻿2026-10-14T03:40:55.2195479Z ##[group]Run erlef/setup-beam@v1
+Format Check	Set up Elixir	2026-10-14T03:40:55.2251857Z with:
+Format Check	Set up Elixir	2026-10-14T03:40:55.2252521Z   elixir-version: 1.18
+Format Check	Set up Elixir	2026-10-14T03:40:55.2253188Z   otp-version: 28
+Format Check	Set up Elixir	2026-10-14T03:40:55.2259583Z   github-token: ***
+Format Check	Set up Elixir	2026-10-14T03:40:55.2260190Z   otp-architecture: 64
+Format Check	Set up Elixir	2026-10-14T03:40:55.2261007Z   install-hex: true
+Format Check	Set up Elixir	2026-10-14T03:40:55.2261604Z   install-rebar: true
+Format Check	Set up Elixir	2026-10-14T03:40:55.2262226Z   version-type: loose
+Format Check	Set up Elixir	2026-10-14T03:40:55.2262869Z   disable_problem_matchers: false
+Format Check	Set up Elixir	2026-10-14T03:40:55.2263666Z   hexpm-mirrors: https://builds.hex.pm
+Format Check	Set up Elixir	
+Format Check	Set up Elixir	2026-10-14T03:40:55.2264434Z ##[endgroup]
+Format Check	Set up Elixir	2026-10-14T03:40:55.4248651Z ##[group]Installing Erlang/OTP OTP-28.5.0.7 - built on amd64/ubuntu-24.04
+Format Check	Set up Elixir	2026-10-14T03:40:55.7863675Z [command]/usr/bin/tar zx --strip-components=1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/6cd2cd1a-4e7d-4a30-84f1-190a5e96ddf3 -f /home/runner/work/_temp/fb09b7ff-9997-43fd-b295-8f8238048a54
+Format Check	Set up Elixir	2026-10-14T03:40:58.1864387Z [command]/home/runner/work/_temp/.setup-beam/otp/Install -minimal /home/runner/work/_temp/.setup-beam/otp
+Format Check	Set up Elixir	2026-10-14T03:40:58.2108016Z Installed Erlang/OTP version
+Format Check	Set up Elixir	2026-10-14T03:40:58.2116822Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -version
+Format Check	Set up Elixir	2026-10-14T03:40:58.2220114Z Erlang (SMP,ASYNC_THREADS) (BEAM) emulator version 16.4.0.6
+Format Check	Set up Elixir	2026-10-14T03:40:58.2247136Z ##[endgroup]
+Format Check	Set up Elixir	2026-10-14T03:40:58.2247907Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -noshell -eval io:format(erlang:system_info(otp_release)), halt().
+Format Check	Set up Elixir	2026-10-14T03:40:58.3657752Z 28::debug::Was not able to coerce latest with semver
+Format Check	Set up Elixir	2026-10-14T03:40:58.3667720Z Using Elixir 1.18.5 (built for Erlang/OTP 27)
+Format Check	Set up Elixir	2026-10-14T03:40:58.3668406Z ##[group]Installing Elixir v1.18.5-otp-27
+Format Check	Set up Elixir	2026-10-14T03:40:58.5738628Z [command]/usr/bin/unzip -o -q /home/runner/work/_temp/853df68d-6ee8-43a2-bbe1-9760264d42ca
+Format Check	Set up Elixir	2026-10-14T03:40:58.8687204Z Installed Elixir version
+Format Check	Set up Elixir	2026-10-14T03:40:58.8701987Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/elixir -v
+Format Check	Set up Elixir	2026-10-14T03:40:59.0181893Z Erlang/OTP 28 [erts-16.4.0.6] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:1] [jit:ns]
+Format Check	Set up Elixir	2026-10-14T03:40:59.0182242Z 
+Format Check	Set up Elixir	2026-10-14T03:40:59.0226464Z Elixir 1.18.5 (compiled with Erlang/OTP 27)
+Format Check	Set up Elixir	2026-10-14T03:40:59.0268865Z ##[endgroup]
+Format Check	Set up Elixir	2026-10-14T03:40:59.0269465Z ##[group]Running mix local.rebar,--force
+Format Check	Set up Elixir	2026-10-14T03:40:59.0271736Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.rebar --force
+Format Check	Set up Elixir	2026-10-14T03:40:59.6378361Z * creating /home/runner/.mix/elixir/1-18-otp-28/rebar3
+Format Check	Set up Elixir	2026-10-14T03:40:59.6448180Z ##[endgroup]
+Format Check	Set up Elixir	2026-10-14T03:40:59.6448520Z ##[group]Running mix local.hex,--force
+Format Check	Set up Elixir	2026-10-14T03:40:59.6457591Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.hex --force
+Format Check	Set up Elixir	2026-10-14T03:41:00.3205081Z * creating /home/runner/.mix/archives/hex-2.5.2
+Format Check	Set up Elixir	2026-10-14T03:41:00.3276925Z ##[endgroup]
+Format Check	Restore dependencies cache	﻿2026-10-14T03:41:00.4177387Z ##[group]Run actions/cache@v4
+Format Check	Restore dependencies cache	2026-10-14T03:41:00.4177572Z with:
+Format Check	Restore dependencies cache	2026-10-14T03:41:00.4177684Z   path: deps
+Format Check	Restore dependencies cache	_build
+Format Check	Restore dependencies cache	
+Format Check	Restore dependencies cache	2026-10-14T03:41:00.4177894Z   key: Linux-mix-23079aaa40567801449cba6ad1e1d3a6f676c52b016d9fbd47e7fa8498d0e3d2
+Format Check	Restore dependencies cache	2026-10-14T03:41:00.4178131Z   restore-keys: Linux-mix-
+Format Check	Restore dependencies cache	2026-10-14T03:41:00.4178290Z   enableCrossOsArchive: false
+Format Check	Restore dependencies cache	2026-10-14T03:41:00.4178434Z   fail-on-cache-miss: false
+Format Check	Restore dependencies cache	2026-10-14T03:41:00.4178592Z   lookup-only: false
+Format Check	Restore dependencies cache	2026-10-14T03:41:00.4178709Z   save-always: false
+Format Check	Restore dependencies cache	2026-10-14T03:41:00.4178826Z env:
+Format Check	Restore dependencies cache	2026-10-14T03:41:00.4178974Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Format Check	Restore dependencies cache	2026-10-14T03:41:00.4179213Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Format Check	Restore dependencies cache	2026-10-14T03:41:00.4179546Z ##[endgroup]
+Format Check	Restore dependencies cache	2026-10-14T03:41:00.4870528Z (node:2351) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Format Check	Restore dependencies cache	2026-10-14T03:41:00.4871052Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Format Check	Restore dependencies cache	2026-10-14T03:41:00.6096356Z Cache hit for restore-key: Linux-mix-f486325e945391c2ede7c62e2b36f684ba51e4b8d15a6bddd1bceb285635037a
+Format Check	Restore dependencies cache	2026-10-14T03:41:00.6156399Z (node:2351) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Format Check	Restore dependencies cache	2026-10-14T03:41:01.1918771Z Received 1987724 of 1987724 (100.0%), 4.5 MBs/sec
+Format Check	Restore dependencies cache	2026-10-14T03:41:01.1919141Z Cache Size: ~2 MB (1987724 B)
+Format Check	Restore dependencies cache	2026-10-14T03:41:01.1936567Z [command]/usr/bin/tar -xf /home/runner/work/_temp/0724c1c4-7216-4a99-a194-d318b4a75482/cache.tzst -P -C /home/runner/work/abyss/abyss --use-compress-program unzstd
+Format Check	Restore dependencies cache	2026-10-14T03:41:01.2268624Z Cache restored successfully
+Format Check	Restore dependencies cache	2026-10-14T03:41:01.2319920Z Cache restored from key: Linux-mix-f486325e945391c2ede7c62e2b36f684ba51e4b8d15a6bddd1bceb285635037a
+Format Check	Install dependencies	﻿2026-10-14T03:41:01.2405421Z ##[group]Run mix deps.get
+Format Check	Install dependencies	2026-10-14T03:41:01.2405650Z ^[[36;1mmix deps.get^[[0m
+Format Check	Install dependencies	2026-10-14T03:41:01.2630665Z shell: /usr/bin/bash -e {0}
+Format Check	Install dependencies	2026-10-14T03:41:01.2630840Z env:
+Format Check	Install dependencies	2026-10-14T03:41:01.2631010Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Format Check	Install dependencies	2026-10-14T03:41:01.2631266Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Format Check	Install dependencies	2026-10-14T03:41:01.2631470Z ##[endgroup]
+Format Check	Install dependencies	2026-10-14T03:41:01.8452041Z Resolving Hex dependencies...
+Format Check	Install dependencies	2026-10-14T03:41:01.8781099Z Resolution completed in 0.031s
+Format Check	Install dependencies	2026-10-14T03:41:01.8817326Z Unchanged:
+Format Check	Install dependencies	2026-10-14T03:41:01.8817564Z   bunt 1.0.0
+Format Check	Install dependencies	2026-10-14T03:41:01.8824956Z   credo 1.7.19
+Format Check	Install dependencies	2026-10-14T03:41:01.8825326Z   dhcp_ex 0.5.0
+Format Check	Install dependencies	2026-10-14T03:41:01.8825599Z   dialyxir 1.4.8
+Format Check	Install dependencies	2026-10-14T03:41:01.8825918Z   earmark_parser 1.4.46
+Format Check	Install dependencies	2026-10-14T03:41:01.8826290Z   erlex 0.2.9
+Format Check	Install dependencies	2026-10-14T03:41:01.8826477Z   ex_dns 0.5.0
+Format Check	Install dependencies	2026-10-14T03:41:01.8826681Z   ex_doc 0.40.4
+Format Check	Install dependencies	2026-10-14T03:41:01.8826874Z   file_system 1.1.1
+Format Check	Install dependencies	2026-10-14T03:41:01.8827070Z   jason 1.4.5
+Format Check	Install dependencies	2026-10-14T03:41:01.8827684Z   machete 0.3.12
+Format Check	Install dependencies	2026-10-14T03:41:01.8827894Z   makeup 1.2.3
+Format Check	Install dependencies	2026-10-14T03:41:01.8828100Z   makeup_elixir 1.0.1
+Format Check	Install dependencies	2026-10-14T03:41:01.8828312Z   makeup_erlang 1.1.0
+Format Check	Install dependencies	2026-10-14T03:41:01.8828512Z   mime 2.0.7
+Format Check	Install dependencies	2026-10-14T03:41:01.8828687Z   mox 1.3.2
+Format Check	Install dependencies	2026-10-14T03:41:01.8828886Z   nimble_ownership 1.0.2
+Format Check	Install dependencies	2026-10-14T03:41:01.8829105Z   nimble_parsec 1.4.2
+Format Check	Install dependencies	2026-10-14T03:41:01.8829302Z   telemetry 1.4.2
+Format Check	Install dependencies	2026-10-14T03:41:01.8829795Z   telemetry_metrics 1.2.0
+Format Check	Install dependencies	2026-10-14T03:41:01.8839373Z   tesla 1.21.3
+Format Check	Install dependencies	2026-10-14T03:41:01.8958301Z All dependencies are up to date
+Format Check	Check code formatting	﻿2026-10-14T03:41:01.9081568Z ##[group]Run mix format --check-formatted
+Format Check	Check code formatting	2026-10-14T03:41:01.9081802Z ^[[36;1mmix format --check-formatted^[[0m
+Format Check	Check code formatting	2026-10-14T03:41:01.9135740Z shell: /usr/bin/bash -e {0}
+Format Check	Check code formatting	2026-10-14T03:41:01.9135902Z env:
+Format Check	Check code formatting	2026-10-14T03:41:01.9136063Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Format Check	Check code formatting	2026-10-14T03:41:01.9136306Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Format Check	Check code formatting	2026-10-14T03:41:01.9136510Z ##[endgroup]
+Format Check	Post Restore dependencies cache	﻿2026-10-14T03:41:02.4599182Z Post job cleanup.
+Format Check	Post Restore dependencies cache	2026-10-14T03:41:02.5337058Z (node:2457) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Format Check	Post Restore dependencies cache	2026-10-14T03:41:02.5337736Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Format Check	Post Restore dependencies cache	2026-10-14T03:41:02.5446385Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/abyss/abyss --files-from manifest.txt --use-compress-program zstdmt
+Format Check	Post Restore dependencies cache	2026-10-14T03:41:02.7742942Z (node:2457) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Format Check	Post Restore dependencies cache	2026-10-14T03:41:03.1662091Z Sent 1988151 of 1988151 (100.0%), 4.8 MBs/sec
+Format Check	Post Restore dependencies cache	2026-10-14T03:41:03.3357435Z Cache saved with key: Linux-mix-23079aaa40567801449cba6ad1e1d3a6f676c52b016d9fbd47e7fa8498d0e3d2
+Format Check	Post Checkout code	﻿2026-10-14T03:41:03.3460899Z Post job cleanup.
+Format Check	Post Checkout code	2026-10-14T03:41:03.4021876Z [command]/usr/bin/git version
+Format Check	Post Checkout code	2026-10-14T03:41:03.4055167Z git version 2.55.0
+Format Check	Post Checkout code	2026-10-14T03:41:03.4080077Z Temporarily overriding HOME='/home/runner/work/_temp/0b6a8a53-d7b5-4369-a751-ae68e10fba2e' before making global git config changes
+Format Check	Post Checkout code	2026-10-14T03:41:03.4080852Z Adding repository directory to the temporary git global config as a safe directory
+Format Check	Post Checkout code	2026-10-14T03:41:03.4090966Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+Format Check	Post Checkout code	2026-10-14T03:41:03.4113297Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Format Check	Post Checkout code	2026-10-14T03:41:03.4139729Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Format Check	Post Checkout code	2026-10-14T03:41:03.4342871Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Format Check	Post Checkout code	2026-10-14T03:41:03.4371547Z http.https://github.com/.extraheader
+Format Check	Post Checkout code	2026-10-14T03:41:03.4381332Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+Format Check	Post Checkout code	2026-10-14T03:41:03.4413037Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Format Check	Post Checkout code	2026-10-14T03:41:03.4611191Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Format Check	Post Checkout code	2026-10-14T03:41:03.4640588Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Format Check	Complete job	﻿2026-10-14T03:41:03.4928308Z Cleaning up orphan processes
+Format Check	Complete job	2026-10-14T03:41:03.5128665Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/cache@v4, actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

@@ -1,17 +1,19 @@
 # UDP runtime execution progress
 
-## Current status — read this first
+## Current status — complete
 
-P0–P6 implementation and G0–G10 acceptance PASS on9ecd90cae1e630478a41c54e2ca0c882750a045a. Final0.8.0 integration/release/publication verification is next.
+P0–P6 are complete. G0–G10 are accepted on the declared tested environments, with G10's lint baseline comparison and the restrictions below. Abyss **0.8.0** is published on GitHub and Hex.
 
-- OTP27/28 local full648tests+3doctests/0; format, strict compile, Dialyzer0errors/0skips, examples, native strict replies and three-policy stress PASS.
-- G8 resolved upstream108/PR110; published elixir_quic/ex_ssl0.21.6 unchanged consumers PASS. No workaround.
-- G9 regression38507071297 attempt2 all3Linux/macOSjobs PASS; network38507074883 all19jobs PASS. Attempt1 retained: unchanged legacy idle test300ms notification boundary. Retry changed no source/assertions. Owned macOS alias setup/cleanup PASS.
-- Fresh0.8 archive core no-Rust/no-QUIC and optional11 DHCP/ARP gates PASS. Optional DHCP package stays unpublished.
-- Strict Credo absolute FAIL/exit30, baseline83/current83/new0; no suppression. Legacy throughput regression6.9%. Minimum Elixir unverified; GenUDP socket scoped IPv6 unsupported.
-- Primary untracked initial11doc files preserved in `/tmp/abyss-primary-udp-runtime-preserved-20261014.tar.gz`, SHA256af877d78ec868f9816c465e52497509cb86dba33abff5f2438f09db1e1792aec; preserve original directory too before safe fast-forward.
+- Release source/tag: `7d3a29f4206457669afa60a762a78eb7b90d2690`; workflow [38507496773](https://github.com/gsmlg-dev/abyss/actions/runs/38507496773) PASS. [GitHub Release](https://github.com/gsmlg-dev/abyss/releases/tag/0.8.0) is published, non-draft, non-prerelease.
+- Local OTP27/28 each passed 648 tests + 3 doctests with zero failures. Format, strict compile, Dialyzer, examples, native strict replies and bounded three-policy stress PASS.
+- Release-source [Linux/macOS regressions](https://github.com/gsmlg-dev/abyss/actions/runs/38507495990): all 3 jobs PASS on first attempt. [Network/package matrix](https://github.com/gsmlg-dev/abyss/actions/runs/38507495942): all 19 jobs PASS. Earlier failed attempts remain attributed separately.
+- Fresh published-only consumer PASS: exact Hex 0.8.0, fresh registry/build/deps, no Rust/QUIC, 43 packaged files byte-equal to tag and installed dependency, both checksums and 3 dependency edges verified, 18 endpoints / 54 actual IPv4/IPv6 UDP exchanges including native strict replies. Evidence: `p6-published-verification.json`, `p6-published-core.log`.
+- G8's upstream issue108 is closed; fixed published elixir_quic/ex_ssl0.21.6 passed the original main and independent consumer workloads. No workaround.
+- Strict Credo remains FAIL on 83 pre-existing findings; baseline comparison PASS, zero new findings. Controlled legacy throughput regressed 6.9%. GenUDP socket-driver scoped IPv6 is unsupported; native features are tested on Linux OTP27/28. The declared older Elixir minimum remains explicitly unverified.
+- DHCP users must explicitly install `packages/abyss_dhcp_socket`; its 11 wire gates pass and the package remains unpublished. Existing Hex documentation emits two warnings for a pre-existing QUIC evidence link; release/source verification passes.
+- User input Markdown is preserved. Initial untracked 11-file docs directory is preserved at `/tmp/abyss-primary-udp-runtime-preserved-20261014` and its archive `/tmp/abyss-primary-udp-runtime-preserved-20261014.tar.gz` (SHA256 `af877d78ec868f9816c465e52497509cb86dba33abff5f2438f09db1e1792aec`).
 
-Exact next action: commit final docs/evidence only, fast-forward main safely, push accepted source, dispatch release workflow with ref main and exact same git-ref SHA (tag uses context.sha). After success create GitHub release and independently verify Hex checksums/source, fresh published-only actual traffic, local/remote/tag parity. User release authorization persists; no confirmation needed.
+No remaining execution step. The post-release handoff commit changes only acceptance/progress/evidence; release tag stays immutable and all executable/package source remains byte-equal to the release. Main/origin/main are synchronized after that evidence commit. Reproduction and full gate details are in [acceptance](acceptance.md).
 
 ## Source and authorization
 
@@ -48,7 +50,7 @@ Legacy Abyss.start_link/child_spec/suspend/resume/stop/join/leave/memberships; c
 - [x] P6 QA/matrices/consumers/docs/performance
 - [x] Commit/push final tested candidate (`9ecd90cae1e630478a41c54e2ca0c882750a045a` on `codex/udp-runtime`)
 - [x] Resolve upstream108 and accept G8/G10 local baseline comparison
-- [ ] Release0.8.0 and verify published consumer
+- [x] Release0.8.0 and verify published consumer
 
 ## Evidence and reproduction
 
@@ -163,3 +165,16 @@ Fresh0.8 archive consumers PASS/exit0, core no-Rust/no-QUIC plus optional11 DHCP
 
 
 Final remote acceptance: unchanged-source attempt2 macOS194tests/0failures plus all Linux/coverage/backend/stress jobs PASS; network all19jobs PASS. Preserve failed attempt1 and diagnostic scoped coverage failure (7tests/0,6.73% below40 threshold); neither is silently relabeled. Final documentation corrects stale upstream-blocked prose and DHCP package path. Executable/test/workflow bytes unchanged from accepted9ecd90c.
+
+
+## Release dispatch checkpoint
+
+Primary main and origin/main both7d3a29f4206457669afa60a762a78eb7b90d2690. Initial untracked docs preserved directory `/tmp/abyss-primary-udp-runtime-preserved-20261014` and checksum archive; user input Markdown remains untracked/preserved. Release38507496773 dispatched with workflowref main, release-version0.8.0 and git-ref exact7d3a29f; context.sha and checkout source match. No GitHub Release/tag/Hex success claimed until actual completion. Root next: on release success create notes-backed GitHub Release, run prepared independent p6-published-verifier.py on exacttagsha, store evidence, finalize progress and docs-only handoff commit.
+
+
+Release workflow38507496773 PASS, tag0.8.0==7d3a29f4206457669afa60a762a78eb7b90d2690==primaryHEAD==origin/main. GitHub Release published/non-draft/non-prerelease. Main-source regression38507495990 all3jobs and network38507495942 all19jobs PASS first attempt. Main Test/compile/format/Dialyzer PASS; strict Credo83 baseline findings only. Exact next action: finish fresh published-only Hex archive/checksum/source/54traffic verifier, then final docs/evidence-only commit and verify release source parity despite evidence commit advancing main.
+
+
+## Final publication verification
+
+Independent verifier exited0 under OTP27. Outer SHA256 `b7c60c6502a655a98c8a08e7068a2cd0ba0cb128505ab6349453629823fb18eb`, inner `72a5738408aa7443b0d862ec7a20ab7c85b0cf518eee21270cfcb6761122adf3`. All43 distributed files match tag and installed Hex dependency;18endpoints/54real exchanges PASS; no Rust/QUIC/native artifacts. Release source main/origin/main/tag equality verified before evidence commit. Final evidence-only descendant retains executable and all packaged-file parity. All agents/commands finished; no blocker or pending action.

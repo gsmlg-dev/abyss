@@ -1,0 +1,369 @@
+Dialyzer	Set up job	﻿2026-10-14T03:40:53.4395076Z Current runner version: '2.337.0'
+Dialyzer	Set up job	2026-10-14T03:40:53.4433236Z ##[group]Runner Image Provisioner
+Dialyzer	Set up job	2026-10-14T03:40:53.4434821Z Hosted Compute Agent
+Dialyzer	Set up job	2026-10-14T03:40:53.4435952Z Version: 20261002.596
+Dialyzer	Set up job	2026-10-14T03:40:53.4437099Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+Dialyzer	Set up job	2026-10-14T03:40:53.4438609Z Build Date: 2026-10-02T22:28:27Z
+Dialyzer	Set up job	2026-10-14T03:40:53.4439734Z Worker ID: {e468deb0-8a24-4061-be50-698230e1b0dc}
+Dialyzer	Set up job	2026-10-14T03:40:53.4441112Z Region: eastus
+Dialyzer	Set up job	2026-10-14T03:40:53.4442132Z Cloud: Azure
+Dialyzer	Set up job	2026-10-14T03:40:53.4443042Z ##[endgroup]
+Dialyzer	Set up job	2026-10-14T03:40:53.4446085Z ##[group]Operating System
+Dialyzer	Set up job	2026-10-14T03:40:53.4447560Z Ubuntu
+Dialyzer	Set up job	2026-10-14T03:40:53.4448808Z 24.04.5
+Dialyzer	Set up job	2026-10-14T03:40:53.4449822Z LTS
+Dialyzer	Set up job	2026-10-14T03:40:53.4450902Z ##[endgroup]
+Dialyzer	Set up job	2026-10-14T03:40:53.4451842Z ##[group]Runner Image
+Dialyzer	Set up job	2026-10-14T03:40:53.4452780Z Image: ubuntu-24.04
+Dialyzer	Set up job	2026-10-14T03:40:53.4453777Z Version: 20261004.327.1
+Dialyzer	Set up job	2026-10-14T03:40:53.4455675Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+Dialyzer	Set up job	2026-10-14T03:40:53.4459022Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+Dialyzer	Set up job	2026-10-14T03:40:53.4460699Z ##[endgroup]
+Dialyzer	Set up job	2026-10-14T03:40:53.4466448Z ##[group]GITHUB_TOKEN Permissions
+Dialyzer	Set up job	2026-10-14T03:40:53.4470145Z Actions: write
+Dialyzer	Set up job	2026-10-14T03:40:53.4471201Z ArtifactMetadata: write
+Dialyzer	Set up job	2026-10-14T03:40:53.4472175Z Attestations: write
+Dialyzer	Set up job	2026-10-14T03:40:53.4473293Z Checks: write
+Dialyzer	Set up job	2026-10-14T03:40:53.4474291Z CodeQuality: write
+Dialyzer	Set up job	2026-10-14T03:40:53.4475275Z Contents: write
+Dialyzer	Set up job	2026-10-14T03:40:53.4476194Z CopilotRequests: write
+Dialyzer	Set up job	2026-10-14T03:40:53.4477613Z Deployments: write
+Dialyzer	Set up job	2026-10-14T03:40:53.4478765Z Discussions: write
+Dialyzer	Set up job	2026-10-14T03:40:53.4479703Z Drives: write
+Dialyzer	Set up job	2026-10-14T03:40:53.4480592Z Issues: write
+Dialyzer	Set up job	2026-10-14T03:40:53.4481668Z Metadata: read
+Dialyzer	Set up job	2026-10-14T03:40:53.4482537Z Models: read
+Dialyzer	Set up job	2026-10-14T03:40:53.4483499Z Packages: write
+Dialyzer	Set up job	2026-10-14T03:40:53.4484503Z Pages: write
+Dialyzer	Set up job	2026-10-14T03:40:53.4485449Z PullRequests: write
+Dialyzer	Set up job	2026-10-14T03:40:53.4486406Z RepositoryProjects: write
+Dialyzer	Set up job	2026-10-14T03:40:53.4487811Z SecurityEvents: write
+Dialyzer	Set up job	2026-10-14T03:40:53.4488930Z Statuses: write
+Dialyzer	Set up job	2026-10-14T03:40:53.4489883Z VulnerabilityAlerts: read
+Dialyzer	Set up job	2026-10-14T03:40:53.4491019Z ##[endgroup]
+Dialyzer	Set up job	2026-10-14T03:40:53.4494040Z Secret source: Actions
+Dialyzer	Set up job	2026-10-14T03:40:53.4495639Z Cache mode: write
+Dialyzer	Set up job	2026-10-14T03:40:53.4496776Z Prepare workflow directory
+Dialyzer	Set up job	2026-10-14T03:40:53.4982763Z Prepare all required actions
+Dialyzer	Set up job	2026-10-14T03:40:53.5053667Z Getting action download info
+Dialyzer	Set up job	2026-10-14T03:40:53.7226801Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+Dialyzer	Set up job	2026-10-14T03:40:53.8177803Z Download action repository 'erlef/setup-beam@v1' (SHA:54075bcc5e249e4758d363f27d099f55d843f124)
+Dialyzer	Set up job	2026-10-14T03:40:53.9922503Z Download action repository 'actions/cache@v4' (SHA:0057852bfaa89a56745cba8c7296529d2fc39830)
+Dialyzer	Set up job	2026-10-14T03:40:54.2347165Z Complete job name: Dialyzer
+Dialyzer	Checkout code	﻿2026-10-14T03:40:54.3144932Z ##[group]Run actions/checkout@v4
+Dialyzer	Checkout code	2026-10-14T03:40:54.3145831Z with:
+Dialyzer	Checkout code	2026-10-14T03:40:54.3146308Z   repository: gsmlg-dev/abyss
+Dialyzer	Checkout code	2026-10-14T03:40:54.3150428Z   token: ***
+Dialyzer	Checkout code	2026-10-14T03:40:54.3150856Z   ssh-strict: true
+Dialyzer	Checkout code	2026-10-14T03:40:54.3151288Z   ssh-user: git
+Dialyzer	Checkout code	2026-10-14T03:40:54.3151723Z   persist-credentials: true
+Dialyzer	Checkout code	2026-10-14T03:40:54.3152198Z   clean: true
+Dialyzer	Checkout code	2026-10-14T03:40:54.3152637Z   sparse-checkout-cone-mode: true
+Dialyzer	Checkout code	2026-10-14T03:40:54.3153163Z   fetch-depth: 1
+Dialyzer	Checkout code	2026-10-14T03:40:54.3153584Z   fetch-tags: false
+Dialyzer	Checkout code	2026-10-14T03:40:54.3154011Z   show-progress: true
+Dialyzer	Checkout code	2026-10-14T03:40:54.3154460Z   lfs: false
+Dialyzer	Checkout code	2026-10-14T03:40:54.3154862Z   submodules: false
+Dialyzer	Checkout code	2026-10-14T03:40:54.3155294Z   set-safe-directory: true
+Dialyzer	Checkout code	2026-10-14T03:40:54.3155790Z   allow-unsafe-pr-checkout: false
+Dialyzer	Checkout code	2026-10-14T03:40:54.3156705Z ##[endgroup]
+Dialyzer	Checkout code	2026-10-14T03:40:54.4178933Z Syncing repository: gsmlg-dev/abyss
+Dialyzer	Checkout code	2026-10-14T03:40:54.4181336Z ##[group]Getting Git version info
+Dialyzer	Checkout code	2026-10-14T03:40:54.4182258Z Working directory is '/home/runner/work/abyss/abyss'
+Dialyzer	Checkout code	2026-10-14T03:40:54.4183865Z [command]/usr/bin/git version
+Dialyzer	Checkout code	2026-10-14T03:40:54.4303134Z git version 2.55.0
+Dialyzer	Checkout code	2026-10-14T03:40:54.4333740Z ##[endgroup]
+Dialyzer	Checkout code	2026-10-14T03:40:54.4353038Z Temporarily overriding HOME='/home/runner/work/_temp/c1c58c12-df5d-46d1-a853-0d93ba7b0d35' before making global git config changes
+Dialyzer	Checkout code	2026-10-14T03:40:54.4355923Z Adding repository directory to the temporary git global config as a safe directory
+Dialyzer	Checkout code	2026-10-14T03:40:54.4359715Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+Dialyzer	Checkout code	2026-10-14T03:40:54.4451029Z Deleting the contents of '/home/runner/work/abyss/abyss'
+Dialyzer	Checkout code	2026-10-14T03:40:54.4452813Z ##[group]Initializing the repository
+Dialyzer	Checkout code	2026-10-14T03:40:54.4453928Z [command]/usr/bin/git init /home/runner/work/abyss/abyss
+Dialyzer	Checkout code	2026-10-14T03:40:54.4583399Z hint: Using 'master' as the name for the initial branch. This default branch name
+Dialyzer	Checkout code	2026-10-14T03:40:54.4598353Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+Dialyzer	Checkout code	2026-10-14T03:40:54.4607680Z hint: to use in all of your new repositories, which will suppress this warning,
+Dialyzer	Checkout code	2026-10-14T03:40:54.4609424Z hint: call:
+Dialyzer	Checkout code	2026-10-14T03:40:54.4610551Z hint:
+Dialyzer	Checkout code	2026-10-14T03:40:54.4611618Z hint: 	git config --global init.defaultBranch <name>
+Dialyzer	Checkout code	2026-10-14T03:40:54.4613013Z hint:
+Dialyzer	Checkout code	2026-10-14T03:40:54.4614458Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+Dialyzer	Checkout code	2026-10-14T03:40:54.4619953Z hint: 'development'. The just-created branch can be renamed via this command:
+Dialyzer	Checkout code	2026-10-14T03:40:54.4621449Z hint:
+Dialyzer	Checkout code	2026-10-14T03:40:54.4622359Z hint: 	git branch -m <name>
+Dialyzer	Checkout code	2026-10-14T03:40:54.4623316Z hint:
+Dialyzer	Checkout code	2026-10-14T03:40:54.4624587Z hint: Disable this message with "git config set advice.defaultBranchName false"
+Dialyzer	Checkout code	2026-10-14T03:40:54.4626565Z Initialized empty Git repository in /home/runner/work/abyss/abyss/.git/
+Dialyzer	Checkout code	2026-10-14T03:40:54.4630361Z [command]/usr/bin/git remote add origin https://github.com/gsmlg-dev/abyss
+Dialyzer	Checkout code	2026-10-14T03:40:54.4690000Z ##[endgroup]
+Dialyzer	Checkout code	2026-10-14T03:40:54.4691466Z ##[group]Disabling automatic garbage collection
+Dialyzer	Checkout code	2026-10-14T03:40:54.4692744Z [command]/usr/bin/git config --local gc.auto 0
+Dialyzer	Checkout code	2026-10-14T03:40:54.4746214Z ##[endgroup]
+Dialyzer	Checkout code	2026-10-14T03:40:54.4747775Z ##[group]Setting up auth
+Dialyzer	Checkout code	2026-10-14T03:40:54.4749100Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Dialyzer	Checkout code	2026-10-14T03:40:54.4818127Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Dialyzer	Checkout code	2026-10-14T03:40:54.5235522Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Dialyzer	Checkout code	2026-10-14T03:40:54.5278292Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Dialyzer	Checkout code	2026-10-14T03:40:54.5525544Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Dialyzer	Checkout code	2026-10-14T03:40:54.5563455Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Dialyzer	Checkout code	2026-10-14T03:40:54.5792019Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Dialyzer	Checkout code	2026-10-14T03:40:54.5836273Z ##[endgroup]
+Dialyzer	Checkout code	2026-10-14T03:40:54.5837117Z ##[group]Fetching the repository
+Dialyzer	Checkout code	2026-10-14T03:40:54.5846315Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +7d3a29f4206457669afa60a762a78eb7b90d2690:refs/remotes/origin/main
+Dialyzer	Checkout code	2026-10-14T03:40:54.9585494Z From https://github.com/gsmlg-dev/abyss
+Dialyzer	Checkout code	2026-10-14T03:40:54.9588208Z  * [new ref]         7d3a29f4206457669afa60a762a78eb7b90d2690 -> origin/main
+Dialyzer	Checkout code	2026-10-14T03:40:54.9592924Z ##[endgroup]
+Dialyzer	Checkout code	2026-10-14T03:40:54.9595170Z ##[group]Determining the checkout info
+Dialyzer	Checkout code	2026-10-14T03:40:54.9597760Z ##[endgroup]
+Dialyzer	Checkout code	2026-10-14T03:40:54.9600935Z [command]/usr/bin/git sparse-checkout disable
+Dialyzer	Checkout code	2026-10-14T03:40:54.9658768Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Dialyzer	Checkout code	2026-10-14T03:40:54.9697119Z ##[group]Checking out the ref
+Dialyzer	Checkout code	2026-10-14T03:40:54.9703266Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+Dialyzer	Checkout code	2026-10-14T03:40:55.0249506Z Switched to a new branch 'main'
+Dialyzer	Checkout code	2026-10-14T03:40:55.0259712Z branch 'main' set up to track 'origin/main'.
+Dialyzer	Checkout code	2026-10-14T03:40:55.0265370Z ##[endgroup]
+Dialyzer	Checkout code	2026-10-14T03:40:55.0312749Z [command]/usr/bin/git log -1 --format=%H
+Dialyzer	Checkout code	2026-10-14T03:40:55.0342135Z 7d3a29f4206457669afa60a762a78eb7b90d2690
+Dialyzer	Set up Elixir	﻿2026-10-14T03:40:55.0791433Z ##[group]Run erlef/setup-beam@v1
+Dialyzer	Set up Elixir	2026-10-14T03:40:55.0792718Z with:
+Dialyzer	Set up Elixir	2026-10-14T03:40:55.0793659Z   elixir-version: 1.18
+Dialyzer	Set up Elixir	2026-10-14T03:40:55.0794694Z   otp-version: 28
+Dialyzer	Set up Elixir	2026-10-14T03:40:55.0804114Z   github-token: ***
+Dialyzer	Set up Elixir	2026-10-14T03:40:55.0805162Z   otp-architecture: 64
+Dialyzer	Set up Elixir	2026-10-14T03:40:55.0806192Z   install-hex: true
+Dialyzer	Set up Elixir	2026-10-14T03:40:55.0807313Z   install-rebar: true
+Dialyzer	Set up Elixir	2026-10-14T03:40:55.0808334Z   version-type: loose
+Dialyzer	Set up Elixir	2026-10-14T03:40:55.0809399Z   disable_problem_matchers: false
+Dialyzer	Set up Elixir	2026-10-14T03:40:55.0810632Z   hexpm-mirrors: https://builds.hex.pm
+Dialyzer	Set up Elixir	
+Dialyzer	Set up Elixir	2026-10-14T03:40:55.0811865Z ##[endgroup]
+Dialyzer	Set up Elixir	2026-10-14T03:40:55.2996082Z ##[group]Installing Erlang/OTP OTP-28.5.0.7 - built on amd64/ubuntu-24.04
+Dialyzer	Set up Elixir	2026-10-14T03:40:56.0690254Z [command]/usr/bin/tar zx --strip-components=1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/4ae43b42-534d-47bb-8ffa-de64e2722c55 -f /home/runner/work/_temp/6908aef7-9ee5-4286-8960-bb8572cb1d11
+Dialyzer	Set up Elixir	2026-10-14T03:41:00.2801415Z [command]/home/runner/work/_temp/.setup-beam/otp/Install -minimal /home/runner/work/_temp/.setup-beam/otp
+Dialyzer	Set up Elixir	2026-10-14T03:41:00.3123546Z Installed Erlang/OTP version
+Dialyzer	Set up Elixir	2026-10-14T03:41:00.3149561Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -version
+Dialyzer	Set up Elixir	2026-10-14T03:41:00.3285035Z Erlang (SMP,ASYNC_THREADS) (BEAM) emulator version 16.4.0.6
+Dialyzer	Set up Elixir	2026-10-14T03:41:00.3326000Z ##[endgroup]
+Dialyzer	Set up Elixir	2026-10-14T03:41:00.3328058Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -noshell -eval io:format(erlang:system_info(otp_release)), halt().
+Dialyzer	Set up Elixir	2026-10-14T03:41:00.5603216Z 28::debug::Was not able to coerce latest with semver
+Dialyzer	Set up Elixir	2026-10-14T03:41:00.5623206Z Using Elixir 1.18.5 (built for Erlang/OTP 27)
+Dialyzer	Set up Elixir	2026-10-14T03:41:00.5624490Z ##[group]Installing Elixir v1.18.5-otp-27
+Dialyzer	Set up Elixir	2026-10-14T03:41:01.3875813Z [command]/usr/bin/unzip -o -q /home/runner/work/_temp/e8b38ba9-0fca-4368-a153-1e847bf271a1
+Dialyzer	Set up Elixir	2026-10-14T03:41:01.8550157Z Installed Elixir version
+Dialyzer	Set up Elixir	2026-10-14T03:41:01.8563138Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/elixir -v
+Dialyzer	Set up Elixir	2026-10-14T03:41:02.0912518Z Erlang/OTP 28 [erts-16.4.0.6] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:1] [jit:ns]
+Dialyzer	Set up Elixir	2026-10-14T03:41:02.0913312Z 
+Dialyzer	Set up Elixir	2026-10-14T03:41:02.0980617Z Elixir 1.18.5 (compiled with Erlang/OTP 27)
+Dialyzer	Set up Elixir	2026-10-14T03:41:02.1040950Z ##[endgroup]
+Dialyzer	Set up Elixir	2026-10-14T03:41:02.1041706Z ##[group]Running mix local.rebar,--force
+Dialyzer	Set up Elixir	2026-10-14T03:41:02.1049129Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.rebar --force
+Dialyzer	Set up Elixir	2026-10-14T03:41:03.4786132Z * creating /home/runner/.mix/elixir/1-18-otp-28/rebar3
+Dialyzer	Set up Elixir	2026-10-14T03:41:03.4860484Z ##[endgroup]
+Dialyzer	Set up Elixir	2026-10-14T03:41:03.4861230Z ##[group]Running mix local.hex,--force
+Dialyzer	Set up Elixir	2026-10-14T03:41:03.4879714Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.hex --force
+Dialyzer	Set up Elixir	2026-10-14T03:41:04.5843303Z * creating /home/runner/.mix/archives/hex-2.5.2
+Dialyzer	Set up Elixir	2026-10-14T03:41:04.5925731Z ##[endgroup]
+Dialyzer	Restore dependencies cache	﻿2026-10-14T03:41:04.7431877Z ##[group]Run actions/cache@v4
+Dialyzer	Restore dependencies cache	2026-10-14T03:41:04.7432196Z with:
+Dialyzer	Restore dependencies cache	2026-10-14T03:41:04.7432400Z   path: deps
+Dialyzer	Restore dependencies cache	_build
+Dialyzer	Restore dependencies cache	
+Dialyzer	Restore dependencies cache	2026-10-14T03:41:04.7432791Z   key: Linux-mix-23079aaa40567801449cba6ad1e1d3a6f676c52b016d9fbd47e7fa8498d0e3d2
+Dialyzer	Restore dependencies cache	2026-10-14T03:41:04.7433254Z   restore-keys: Linux-mix-
+Dialyzer	Restore dependencies cache	2026-10-14T03:41:04.7433508Z   enableCrossOsArchive: false
+Dialyzer	Restore dependencies cache	2026-10-14T03:41:04.7433773Z   fail-on-cache-miss: false
+Dialyzer	Restore dependencies cache	2026-10-14T03:41:04.7434028Z   lookup-only: false
+Dialyzer	Restore dependencies cache	2026-10-14T03:41:04.7434247Z   save-always: false
+Dialyzer	Restore dependencies cache	2026-10-14T03:41:04.7434471Z env:
+Dialyzer	Restore dependencies cache	2026-10-14T03:41:04.7434734Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Dialyzer	Restore dependencies cache	2026-10-14T03:41:04.7435181Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Dialyzer	Restore dependencies cache	2026-10-14T03:41:04.7435792Z ##[endgroup]
+Dialyzer	Restore dependencies cache	2026-10-14T03:41:04.8541590Z (node:2542) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Dialyzer	Restore dependencies cache	2026-10-14T03:41:04.8542687Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Dialyzer	Restore dependencies cache	2026-10-14T03:41:04.9271183Z Cache hit for: Linux-mix-23079aaa40567801449cba6ad1e1d3a6f676c52b016d9fbd47e7fa8498d0e3d2
+Dialyzer	Restore dependencies cache	2026-10-14T03:41:04.9383937Z (node:2542) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Dialyzer	Restore dependencies cache	2026-10-14T03:41:05.0747652Z Received 1988151 of 1988151 (100.0%), 20.6 MBs/sec
+Dialyzer	Restore dependencies cache	2026-10-14T03:41:05.0748426Z Cache Size: ~2 MB (1988151 B)
+Dialyzer	Restore dependencies cache	2026-10-14T03:41:05.0784345Z [command]/usr/bin/tar -xf /home/runner/work/_temp/92a13f2b-99fa-4070-8431-a547fa12f7ad/cache.tzst -P -C /home/runner/work/abyss/abyss --use-compress-program unzstd
+Dialyzer	Restore dependencies cache	2026-10-14T03:41:05.1380145Z Cache restored successfully
+Dialyzer	Restore dependencies cache	2026-10-14T03:41:05.1461009Z Cache restored from key: Linux-mix-23079aaa40567801449cba6ad1e1d3a6f676c52b016d9fbd47e7fa8498d0e3d2
+Dialyzer	Install dependencies	﻿2026-10-14T03:41:05.1593236Z ##[group]Run mix deps.get
+Dialyzer	Install dependencies	2026-10-14T03:41:05.1593616Z ^[[36;1mmix deps.get^[[0m
+Dialyzer	Install dependencies	2026-10-14T03:41:05.1861367Z shell: /usr/bin/bash -e {0}
+Dialyzer	Install dependencies	2026-10-14T03:41:05.1861761Z env:
+Dialyzer	Install dependencies	2026-10-14T03:41:05.1862161Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Dialyzer	Install dependencies	2026-10-14T03:41:05.1862798Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Dialyzer	Install dependencies	2026-10-14T03:41:05.1863334Z ##[endgroup]
+Dialyzer	Install dependencies	2026-10-14T03:41:06.1316163Z Resolving Hex dependencies...
+Dialyzer	Install dependencies	2026-10-14T03:41:06.1908861Z Resolution completed in 0.056s
+Dialyzer	Install dependencies	2026-10-14T03:41:06.1979188Z Unchanged:
+Dialyzer	Install dependencies	2026-10-14T03:41:06.1979681Z   bunt 1.0.0
+Dialyzer	Install dependencies	2026-10-14T03:41:06.1998013Z   credo 1.7.19
+Dialyzer	Install dependencies	2026-10-14T03:41:06.1998488Z   dhcp_ex 0.5.0
+Dialyzer	Install dependencies	2026-10-14T03:41:06.1998893Z   dialyxir 1.4.8
+Dialyzer	Install dependencies	2026-10-14T03:41:06.1999259Z   earmark_parser 1.4.46
+Dialyzer	Install dependencies	2026-10-14T03:41:06.1999664Z   erlex 0.2.9
+Dialyzer	Install dependencies	2026-10-14T03:41:06.2000261Z   ex_dns 0.5.0
+Dialyzer	Install dependencies	2026-10-14T03:41:06.2000623Z   ex_doc 0.40.4
+Dialyzer	Install dependencies	2026-10-14T03:41:06.2000975Z   file_system 1.1.1
+Dialyzer	Install dependencies	2026-10-14T03:41:06.2001321Z   jason 1.4.5
+Dialyzer	Install dependencies	2026-10-14T03:41:06.2001708Z   machete 0.3.12
+Dialyzer	Install dependencies	2026-10-14T03:41:06.2002050Z   makeup 1.2.3
+Dialyzer	Install dependencies	2026-10-14T03:41:06.2002392Z   makeup_elixir 1.0.1
+Dialyzer	Install dependencies	2026-10-14T03:41:06.2002775Z   makeup_erlang 1.1.0
+Dialyzer	Install dependencies	2026-10-14T03:41:06.2003128Z   mime 2.0.7
+Dialyzer	Install dependencies	2026-10-14T03:41:06.2003448Z   mox 1.3.2
+Dialyzer	Install dependencies	2026-10-14T03:41:06.2003788Z   nimble_ownership 1.0.2
+Dialyzer	Install dependencies	2026-10-14T03:41:06.2004176Z   nimble_parsec 1.4.2
+Dialyzer	Install dependencies	2026-10-14T03:41:06.2004540Z   telemetry 1.4.2
+Dialyzer	Install dependencies	2026-10-14T03:41:06.2004919Z   telemetry_metrics 1.2.0
+Dialyzer	Install dependencies	2026-10-14T03:41:06.2005301Z   tesla 1.21.3
+Dialyzer	Install dependencies	2026-10-14T03:41:06.3121731Z All dependencies are up to date
+Dialyzer	Restore Dialyzer PLT cache	﻿2026-10-14T03:41:06.5780757Z ##[group]Run actions/cache@v4
+Dialyzer	Restore Dialyzer PLT cache	2026-10-14T03:41:06.5781069Z with:
+Dialyzer	Restore Dialyzer PLT cache	2026-10-14T03:41:06.5781280Z   path: priv/plts
+Dialyzer	Restore Dialyzer PLT cache	2026-10-14T03:41:06.5781697Z   key: Linux-dialyzer-23079aaa40567801449cba6ad1e1d3a6f676c52b016d9fbd47e7fa8498d0e3d2
+Dialyzer	Restore Dialyzer PLT cache	2026-10-14T03:41:06.5782215Z   restore-keys: Linux-dialyzer-
+Dialyzer	Restore Dialyzer PLT cache	2026-10-14T03:41:06.5782575Z   enableCrossOsArchive: false
+Dialyzer	Restore Dialyzer PLT cache	2026-10-14T03:41:06.5783001Z   fail-on-cache-miss: false
+Dialyzer	Restore Dialyzer PLT cache	2026-10-14T03:41:06.5783410Z   lookup-only: false
+Dialyzer	Restore Dialyzer PLT cache	2026-10-14T03:41:06.5783829Z   save-always: false
+Dialyzer	Restore Dialyzer PLT cache	2026-10-14T03:41:06.5784227Z env:
+Dialyzer	Restore Dialyzer PLT cache	2026-10-14T03:41:06.5784748Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Dialyzer	Restore Dialyzer PLT cache	2026-10-14T03:41:06.5785514Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Dialyzer	Restore Dialyzer PLT cache	2026-10-14T03:41:06.5786028Z ##[endgroup]
+Dialyzer	Restore Dialyzer PLT cache	2026-10-14T03:41:06.6872905Z (node:2610) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Dialyzer	Restore Dialyzer PLT cache	2026-10-14T03:41:06.6874191Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Dialyzer	Restore Dialyzer PLT cache	2026-10-14T03:41:06.7540354Z Cache hit for restore-key: Linux-dialyzer-f486325e945391c2ede7c62e2b36f684ba51e4b8d15a6bddd1bceb285635037a
+Dialyzer	Restore Dialyzer PLT cache	2026-10-14T03:41:06.7650133Z (node:2610) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Dialyzer	Restore Dialyzer PLT cache	2026-10-14T03:41:07.0110457Z Received 5479935 of 5479935 (100.0%), 26.3 MBs/sec
+Dialyzer	Restore Dialyzer PLT cache	2026-10-14T03:41:07.0111150Z Cache Size: ~5 MB (5479935 B)
+Dialyzer	Restore Dialyzer PLT cache	2026-10-14T03:41:07.0141767Z [command]/usr/bin/tar -xf /home/runner/work/_temp/e34d62af-e15e-4038-90b1-ae014d950732/cache.tzst -P -C /home/runner/work/abyss/abyss --use-compress-program unzstd
+Dialyzer	Restore Dialyzer PLT cache	2026-10-14T03:41:07.0274435Z Cache restored successfully
+Dialyzer	Restore Dialyzer PLT cache	2026-10-14T03:41:07.0356084Z Cache restored from key: Linux-dialyzer-f486325e945391c2ede7c62e2b36f684ba51e4b8d15a6bddd1bceb285635037a
+Dialyzer	Run Dialyzer	﻿2026-10-14T03:41:07.0452664Z ##[group]Run mix dialyzer
+Dialyzer	Run Dialyzer	2026-10-14T03:41:07.0452973Z ^[[36;1mmix dialyzer^[[0m
+Dialyzer	Run Dialyzer	2026-10-14T03:41:07.0520672Z shell: /usr/bin/bash -e {0}
+Dialyzer	Run Dialyzer	2026-10-14T03:41:07.0520974Z env:
+Dialyzer	Run Dialyzer	2026-10-14T03:41:07.0521308Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Dialyzer	Run Dialyzer	2026-10-14T03:41:07.0521821Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Dialyzer	Run Dialyzer	2026-10-14T03:41:07.0522228Z ##[endgroup]
+Dialyzer	Run Dialyzer	2026-10-14T03:41:07.6527038Z ==> earmark_parser
+Dialyzer	Run Dialyzer	2026-10-14T03:41:07.6528152Z Compiling 2 files (.xrl)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:07.6864724Z Compiling 1 file (.yrl)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:07.7215517Z Compiling 3 files (.erl)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:07.9342988Z Compiling 32 files (.ex)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:08.8030287Z Generated earmark_parser app
+Dialyzer	Run Dialyzer	2026-10-14T03:41:08.9072355Z ==> file_system
+Dialyzer	Run Dialyzer	2026-10-14T03:41:08.9073606Z Compiling 7 files (.ex)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:09.1011628Z Generated file_system app
+Dialyzer	Run Dialyzer	2026-10-14T03:41:09.1224612Z ==> mime
+Dialyzer	Run Dialyzer	2026-10-14T03:41:09.1225779Z Compiling 1 file (.ex)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:09.2232797Z Generated mime app
+Dialyzer	Run Dialyzer	2026-10-14T03:41:09.2433861Z ==> bunt
+Dialyzer	Run Dialyzer	2026-10-14T03:41:09.2434986Z Compiling 2 files (.ex)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:09.6289504Z Generated bunt app
+Dialyzer	Run Dialyzer	2026-10-14T03:41:09.6455346Z ==> jason
+Dialyzer	Run Dialyzer	2026-10-14T03:41:09.6456388Z Compiling 10 files (.ex)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:10.9968363Z Generated jason app
+Dialyzer	Run Dialyzer	2026-10-14T03:41:11.0207697Z ==> erlex
+Dialyzer	Run Dialyzer	2026-10-14T03:41:11.0208653Z Compiling 1 file (.xrl)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:11.0328283Z Compiling 1 file (.yrl)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:11.0930520Z Compiling 2 files (.erl)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:11.5038682Z Compiling 2 files (.ex)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:11.6551532Z Generated erlex app
+Dialyzer	Run Dialyzer	2026-10-14T03:41:11.6716846Z ==> machete
+Dialyzer	Run Dialyzer	2026-10-14T03:41:11.6718190Z Compiling 43 files (.ex)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:12.3347094Z Generated machete app
+Dialyzer	Run Dialyzer	2026-10-14T03:41:12.3969533Z ==> nimble_parsec
+Dialyzer	Run Dialyzer	2026-10-14T03:41:12.3970326Z Compiling 4 files (.ex)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:12.7688422Z Generated nimble_parsec app
+Dialyzer	Run Dialyzer	2026-10-14T03:41:12.7904394Z ==> makeup
+Dialyzer	Run Dialyzer	2026-10-14T03:41:12.7905148Z Compiling 15 files (.ex)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:13.1865267Z Generated makeup app
+Dialyzer	Run Dialyzer	2026-10-14T03:41:13.2121132Z ==> makeup_elixir
+Dialyzer	Run Dialyzer	2026-10-14T03:41:13.2122247Z Compiling 6 files (.ex)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:21.7689530Z Generated makeup_elixir app
+Dialyzer	Run Dialyzer	2026-10-14T03:41:21.7901485Z ==> makeup_erlang
+Dialyzer	Run Dialyzer	2026-10-14T03:41:21.7901871Z Compiling 4 files (.ex)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:31.8397045Z Compiling lib/makeup/lexers/erlang_lexer.ex (it's taking more than 10s)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:32.2642748Z Generated makeup_erlang app
+Dialyzer	Run Dialyzer	2026-10-14T03:41:32.2926978Z ==> ex_doc
+Dialyzer	Run Dialyzer	2026-10-14T03:41:32.2927855Z Compiling 30 files (.ex)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:33.3801845Z Generated ex_doc app
+Dialyzer	Run Dialyzer	2026-10-14T03:41:33.7401232Z ==> abyss
+Dialyzer	Run Dialyzer	2026-10-14T03:41:33.7402636Z ===> Analyzing applications...
+Dialyzer	Run Dialyzer	2026-10-14T03:41:33.7803439Z ===> Compiling telemetry
+Dialyzer	Run Dialyzer	2026-10-14T03:41:34.0431801Z ==> telemetry_metrics
+Dialyzer	Run Dialyzer	2026-10-14T03:41:34.0432724Z Compiling 7 files (.ex)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:34.1515903Z Generated telemetry_metrics app
+Dialyzer	Run Dialyzer	2026-10-14T03:41:34.1787799Z ==> tesla
+Dialyzer	Run Dialyzer	2026-10-14T03:41:34.1788399Z Compiling 57 files (.ex)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:34.9687618Z Generated tesla app
+Dialyzer	Run Dialyzer	2026-10-14T03:41:35.0167942Z ==> ex_dns
+Dialyzer	Run Dialyzer	2026-10-14T03:41:35.0169191Z Compiling 71 files (.ex)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:36.8531111Z Generated ex_dns app
+Dialyzer	Run Dialyzer	2026-10-14T03:41:36.9246861Z ==> dialyxir
+Dialyzer	Run Dialyzer	2026-10-14T03:41:36.9248348Z Compiling 70 files (.ex)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:37.7235434Z Generated dialyxir app
+Dialyzer	Run Dialyzer	2026-10-14T03:41:37.7776181Z ==> dhcp_ex
+Dialyzer	Run Dialyzer	2026-10-14T03:41:37.7777757Z Compiling 12 files (.ex)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:38.2358742Z Generated dhcp_ex app
+Dialyzer	Run Dialyzer	2026-10-14T03:41:38.2789723Z ==> credo
+Dialyzer	Run Dialyzer	2026-10-14T03:41:38.2790594Z Compiling 257 files (.ex)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:43.6292930Z Generated credo app
+Dialyzer	Run Dialyzer	2026-10-14T03:41:43.6987061Z ==> abyss
+Dialyzer	Run Dialyzer	2026-10-14T03:41:43.6990345Z Compiling 35 files (.ex)
+Dialyzer	Run Dialyzer	2026-10-14T03:41:45.3411488Z Generated abyss app
+Dialyzer	Run Dialyzer	2026-10-14T03:41:45.6143123Z Finding suitable PLTs
+Dialyzer	Run Dialyzer	2026-10-14T03:41:45.6143734Z Checking PLT...
+Dialyzer	Run Dialyzer	2026-10-14T03:41:45.6333826Z [:abyss, :elixir, :kernel, :logger, :machete, :public_key, :stdlib, :telemetry, :telemetry_metrics]
+Dialyzer	Run Dialyzer	2026-10-14T03:41:45.6337397Z Looking up modules in dialyzer.plt
+Dialyzer	Run Dialyzer	2026-10-14T03:41:46.9428229Z Finding applications for dialyzer.plt
+Dialyzer	Run Dialyzer	2026-10-14T03:41:46.9477982Z Finding modules for dialyzer.plt
+Dialyzer	Run Dialyzer	2026-10-14T03:41:46.9669674Z Checking 676 modules in dialyzer.plt
+Dialyzer	Run Dialyzer	2026-10-14T03:42:03.9580238Z Adding 7 modules to dialyzer.plt
+Dialyzer	Run Dialyzer	2026-10-14T03:42:07.1809818Z done in 0m3.21s
+Dialyzer	Run Dialyzer	2026-10-14T03:42:07.1813511Z No :ignore_warnings opt specified in mix.exs and default does not exist.
+Dialyzer	Run Dialyzer	2026-10-14T03:42:07.1881575Z 
+Dialyzer	Run Dialyzer	2026-10-14T03:42:07.1881881Z Starting Dialyzer
+Dialyzer	Run Dialyzer	2026-10-14T03:42:07.1882268Z [
+Dialyzer	Run Dialyzer	2026-10-14T03:42:07.1882615Z   check_plt: false,
+Dialyzer	Run Dialyzer	2026-10-14T03:42:07.1883201Z   init_plt: ~c"/home/runner/work/abyss/abyss/priv/plts/dialyzer.plt",
+Dialyzer	Run Dialyzer	2026-10-14T03:42:07.1884311Z   files: [~c"/home/runner/work/abyss/abyss/_build/dev/lib/abyss/ebin/Elixir.Abyss.Dispatcher.SendCapability.beam",
+Dialyzer	Run Dialyzer	2026-10-14T03:42:07.1885600Z    ~c"/home/runner/work/abyss/abyss/_build/dev/lib/abyss/ebin/Elixir.Abyss.Listener.beam",
+Dialyzer	Run Dialyzer	2026-10-14T03:42:07.1886810Z    ~c"/home/runner/work/abyss/abyss/_build/dev/lib/abyss/ebin/Elixir.Abyss.Transport.UDP.Broadcast.beam",
+Dialyzer	Run Dialyzer	2026-10-14T03:42:07.1888239Z    ~c"/home/runner/work/abyss/abyss/_build/dev/lib/abyss/ebin/Elixir.Abyss.Endpoint.beam",
+Dialyzer	Run Dialyzer	2026-10-14T03:42:07.1889248Z    ~c"/home/runner/work/abyss/abyss/_build/dev/lib/abyss/ebin/Elixir.Abyss.Logger.beam",
+Dialyzer	Run Dialyzer	2026-10-14T03:42:07.1889971Z    ...],
+Dialyzer	Run Dialyzer	2026-10-14T03:42:07.1890544Z   warnings: [:error_handling, :extra_return, :missing_return, :unknown, ...]
+Dialyzer	Run Dialyzer	2026-10-14T03:42:07.1891200Z ]
+Dialyzer	Run Dialyzer	2026-10-14T03:42:09.3766369Z Total errors: 0, Skipped: 0, Unnecessary Skips: 0
+Dialyzer	Run Dialyzer	2026-10-14T03:42:09.3796186Z done in 0m2.19s
+Dialyzer	Run Dialyzer	2026-10-14T03:42:09.3797057Z done (passed successfully)
+Dialyzer	Post Restore Dialyzer PLT cache	﻿2026-10-14T03:42:09.7179649Z Post job cleanup.
+Dialyzer	Post Restore Dialyzer PLT cache	2026-10-14T03:42:09.8344793Z (node:2719) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Dialyzer	Post Restore Dialyzer PLT cache	2026-10-14T03:42:09.8346494Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Dialyzer	Post Restore Dialyzer PLT cache	2026-10-14T03:42:09.8514567Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/abyss/abyss --files-from manifest.txt --use-compress-program zstdmt
+Dialyzer	Post Restore Dialyzer PLT cache	2026-10-14T03:42:09.9626212Z (node:2719) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Dialyzer	Post Restore Dialyzer PLT cache	2026-10-14T03:42:10.1300625Z Sent 5487873 of 5487873 (100.0%), 29.9 MBs/sec
+Dialyzer	Post Restore Dialyzer PLT cache	2026-10-14T03:42:10.1994043Z Cache saved with key: Linux-dialyzer-23079aaa40567801449cba6ad1e1d3a6f676c52b016d9fbd47e7fa8498d0e3d2
+Dialyzer	Post Restore dependencies cache	﻿2026-10-14T03:42:10.5196961Z Post job cleanup.
+Dialyzer	Post Restore dependencies cache	2026-10-14T03:42:10.6294466Z Cache hit occurred on the primary key Linux-mix-23079aaa40567801449cba6ad1e1d3a6f676c52b016d9fbd47e7fa8498d0e3d2, not saving cache.
+Dialyzer	Post Restore dependencies cache	2026-10-14T03:42:10.6296374Z (node:2751) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Dialyzer	Post Restore dependencies cache	2026-10-14T03:42:10.6297875Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Dialyzer	Post Checkout code	﻿2026-10-14T03:42:10.6428933Z Post job cleanup.
+Dialyzer	Post Checkout code	2026-10-14T03:42:10.7287994Z [command]/usr/bin/git version
+Dialyzer	Post Checkout code	2026-10-14T03:42:10.7329754Z git version 2.55.0
+Dialyzer	Post Checkout code	2026-10-14T03:42:10.7368228Z Temporarily overriding HOME='/home/runner/work/_temp/47711333-ee55-48dd-922d-0acf7580b5dc' before making global git config changes
+Dialyzer	Post Checkout code	2026-10-14T03:42:10.7369968Z Adding repository directory to the temporary git global config as a safe directory
+Dialyzer	Post Checkout code	2026-10-14T03:42:10.7374338Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+Dialyzer	Post Checkout code	2026-10-14T03:42:10.7412153Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Dialyzer	Post Checkout code	2026-10-14T03:42:10.7445902Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Dialyzer	Post Checkout code	2026-10-14T03:42:10.7695259Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Dialyzer	Post Checkout code	2026-10-14T03:42:10.7723382Z http.https://github.com/.extraheader
+Dialyzer	Post Checkout code	2026-10-14T03:42:10.7743167Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+Dialyzer	Post Checkout code	2026-10-14T03:42:10.7770434Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Dialyzer	Post Checkout code	2026-10-14T03:42:10.8028352Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Dialyzer	Post Checkout code	2026-10-14T03:42:10.8072513Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Dialyzer	Complete job	﻿2026-10-14T03:42:10.8487792Z Cleaning up orphan processes
+Dialyzer	Complete job	2026-10-14T03:42:10.8794213Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/cache@v4, actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

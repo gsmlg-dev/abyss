@@ -1,0 +1,1205 @@
+Run tests (Elixir 1.18, OTP 27)	Set up job	﻿2026-10-14T03:41:51.0256363Z Current runner version: '2.337.0'
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0276995Z ##[group]Runner Image Provisioner
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0277620Z Hosted Compute Agent
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0278013Z Version: 20261002.596
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0278402Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0278871Z Build Date: 2026-10-02T22:28:27Z
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0279306Z Worker ID: {73103fba-11b9-44ff-85b4-0109f3f4a405}
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0279717Z Region: centralus
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0280074Z Cloud: Azure
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0280452Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0281512Z ##[group]Operating System
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0282016Z Ubuntu
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0282460Z 24.04.5
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0282756Z LTS
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0283108Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0283469Z ##[group]Runner Image
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0283847Z Image: ubuntu-24.04
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0284215Z Version: 20261004.327.1
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0284816Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0285923Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0286494Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0287179Z ##[group]GITHUB_TOKEN Permissions
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0288914Z Contents: write
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0289309Z Metadata: read
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0289651Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0291123Z Secret source: Actions
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0291692Z Cache mode: write
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0292319Z Prepare workflow directory
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0504771Z Prepare all required actions
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.0538095Z Getting action download info
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.2768553Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.3498763Z Download action repository 'erlef/setup-beam@v1' (SHA:54075bcc5e249e4758d363f27d099f55d843f124)
+Run tests (Elixir 1.18, OTP 27)	Set up job	2026-10-14T03:41:51.7983422Z Complete job name: Run tests (Elixir 1.18, OTP 27)
+Run tests (Elixir 1.18, OTP 27)	Checkout	﻿2026-10-14T03:41:51.8451003Z ##[group]Run actions/checkout@v4
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.8451460Z with:
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.8451717Z   ref: 7d3a29f4206457669afa60a762a78eb7b90d2690
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.8452036Z   repository: gsmlg-dev/abyss
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.8454231Z   token: ***
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.8454457Z   ssh-strict: true
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.8454686Z   ssh-user: git
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.8454925Z   persist-credentials: true
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.8455183Z   clean: true
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.8455422Z   sparse-checkout-cone-mode: true
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.8455695Z   fetch-depth: 1
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.8455922Z   fetch-tags: false
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.8456157Z   show-progress: true
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.8456392Z   lfs: false
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.8456613Z   submodules: false
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.8456852Z   set-safe-directory: true
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.8457121Z   allow-unsafe-pr-checkout: false
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.8457468Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9118445Z Syncing repository: gsmlg-dev/abyss
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9119732Z ##[group]Getting Git version info
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9120169Z Working directory is '/home/runner/work/abyss/abyss'
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9120788Z [command]/usr/bin/git version
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9282676Z git version 2.55.0
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9298375Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9310572Z Temporarily overriding HOME='/home/runner/work/_temp/cad85c10-5f92-451f-87a3-0f51da9ce47c' before making global git config changes
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9312525Z Adding repository directory to the temporary git global config as a safe directory
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9315019Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9365605Z Deleting the contents of '/home/runner/work/abyss/abyss'
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9370919Z ##[group]Initializing the repository
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9371477Z [command]/usr/bin/git init /home/runner/work/abyss/abyss
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9478401Z hint: Using 'master' as the name for the initial branch. This default branch name
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9479671Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9481385Z hint: to use in all of your new repositories, which will suppress this warning,
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9482279Z hint: call:
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9482747Z hint:
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9483164Z hint: 	git config --global init.defaultBranch <name>
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9483603Z hint:
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9484011Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9484595Z hint: 'development'. The just-created branch can be renamed via this command:
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9485078Z hint:
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9485405Z hint: 	git branch -m <name>
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9485757Z hint:
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9486187Z hint: Disable this message with "git config set advice.defaultBranchName false"
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9486937Z Initialized empty Git repository in /home/runner/work/abyss/abyss/.git/
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9488970Z [command]/usr/bin/git remote add origin https://github.com/gsmlg-dev/abyss
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9541583Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9542364Z ##[group]Disabling automatic garbage collection
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9545384Z [command]/usr/bin/git config --local gc.auto 0
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9576478Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9576875Z ##[group]Setting up auth
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9581591Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9610776Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9898217Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:51.9928577Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.0137897Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.0169470Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.0344508Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.0378613Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.0379127Z ##[group]Fetching the repository
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.0384499Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin 7d3a29f4206457669afa60a762a78eb7b90d2690
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.6480697Z From https://github.com/gsmlg-dev/abyss
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.6482340Z  * branch            7d3a29f4206457669afa60a762a78eb7b90d2690 -> FETCH_HEAD
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.6484867Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.6485974Z ##[group]Determining the checkout info
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.6487054Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.6491386Z [command]/usr/bin/git sparse-checkout disable
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.6596408Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.6667609Z ##[group]Checking out the ref
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.6670601Z [command]/usr/bin/git checkout --progress --force 7d3a29f4206457669afa60a762a78eb7b90d2690
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.7307618Z Note: switching to '7d3a29f4206457669afa60a762a78eb7b90d2690'.
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.7308792Z 
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.7309435Z You are in 'detached HEAD' state. You can look around, make experimental
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.7310949Z changes and commit them, and you can discard any commits you make in this
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.7312606Z state without impacting any branches by switching back to a branch.
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.7313584Z 
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.7314213Z If you want to create a new branch to retain commits you create, you may
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.7315463Z do so (now or later) by using -c with the switch command. Example:
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.7316078Z 
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.7316334Z   git switch -c <new-branch-name>
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.7317068Z 
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.7317346Z Or undo this operation with:
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.7317831Z 
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.7318136Z   git switch -
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.7318790Z 
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.7319721Z Turn off this advice by setting config variable advice.detachedHead to false
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.7320613Z 
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.7321214Z HEAD is now at 7d3a29f docs: record final UDP acceptance and 0.8.0 release handoff
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.7324381Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.7361945Z [command]/usr/bin/git log -1 --format=%H
+Run tests (Elixir 1.18, OTP 27)	Checkout	2026-10-14T03:41:52.7386783Z 7d3a29f4206457669afa60a762a78eb7b90d2690
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	﻿2026-10-14T03:41:52.7641010Z ##[group]Run erlef/setup-beam@v1
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:52.7641752Z with:
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:52.7642435Z   otp-version: 27
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:52.7643009Z   elixir-version: 1.18
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:52.7649118Z   github-token: ***
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:52.7649702Z   otp-architecture: 64
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:52.7650286Z   install-hex: true
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:52.7650876Z   install-rebar: true
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:52.7651480Z   version-type: loose
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:52.7652088Z   disable_problem_matchers: false
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:52.7652881Z   hexpm-mirrors: https://builds.hex.pm
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:52.7653606Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:52.9819289Z ##[group]Installing Erlang/OTP OTP-27.3.4.18 - built on amd64/ubuntu-24.04
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:53.3875868Z [command]/usr/bin/tar zx --strip-components=1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/783bf312-edb1-407f-b382-caaf859735f0 -f /home/runner/work/_temp/8a0ce8aa-606f-469f-b391-e60595d8a957
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:57.4493940Z [command]/home/runner/work/_temp/.setup-beam/otp/Install -minimal /home/runner/work/_temp/.setup-beam/otp
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:57.4735453Z Installed Erlang/OTP version
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:57.4748149Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -version
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:57.4863451Z Erlang (SMP,ASYNC_THREADS) (BEAM) emulator version 15.2.7.13
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:57.4891143Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:57.4905101Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -noshell -eval io:format(erlang:system_info(otp_release)), halt().
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:57.7110937Z 27::debug::Was not able to coerce latest with semver
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:57.7125415Z Using Elixir 1.18.5 (built for Erlang/OTP 27)
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:57.7126145Z ##[group]Installing Elixir v1.18.5-otp-27
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:41:57.9073354Z [command]/usr/bin/unzip -o -q /home/runner/work/_temp/19f03795-d302-42cd-a4fd-625bc77e8fe3
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:42:01.6140743Z Installed Elixir version
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:42:01.6151970Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/elixir -v
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:42:01.7521749Z Erlang/OTP 27 [erts-15.2.7.13] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:1] [jit:ns]
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:42:01.7522459Z 
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:42:01.7583657Z Elixir 1.18.5 (compiled with Erlang/OTP 27)
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:42:01.7651857Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:42:01.7653005Z ##[group]Running mix local.rebar,--force
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:42:01.7656707Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.rebar --force
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:42:02.4398202Z * creating /home/runner/.mix/elixir/1-18-otp-27/rebar3
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:42:02.4466580Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:42:02.4466858Z ##[group]Running mix local.hex,--force
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:42:02.4474721Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.hex --force
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:42:03.1346528Z * creating /home/runner/.mix/archives/hex-2.5.2
+Run tests (Elixir 1.18, OTP 27)	Set up Elixir	2026-10-14T03:42:03.1423813Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	﻿2026-10-14T03:42:03.1599773Z ##[group]Run mix deps.get
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.1600012Z ^[[36;1mmix deps.get^[[0m
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.1825645Z shell: /usr/bin/bash -e {0}
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.1825932Z env:
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.1826161Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.1826420Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.1826613Z   MIX_ENV: test
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.1826765Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8276752Z Resolving Hex dependencies...
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8617098Z Resolution completed in 0.032s
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8661562Z Unchanged:
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8661889Z   bunt 1.0.0
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8674147Z   credo 1.7.19
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8675262Z   dhcp_ex 0.5.0
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8675460Z   dialyxir 1.4.8
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8675854Z   earmark_parser 1.4.46
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8676062Z   erlex 0.2.9
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8676329Z   ex_dns 0.5.0
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8676730Z   ex_doc 0.40.4
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8677016Z   file_system 1.1.1
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8677388Z   jason 1.4.5
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8677624Z   machete 0.3.12
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8678023Z   makeup 1.2.3
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8678203Z   makeup_elixir 1.0.1
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8678457Z   makeup_erlang 1.1.0
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8678761Z   mime 2.0.7
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8679005Z   mox 1.3.2
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8679299Z   nimble_ownership 1.0.2
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8679579Z   nimble_parsec 1.4.2
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8679871Z   telemetry 1.4.2
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8680174Z   telemetry_metrics 1.2.0
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8680523Z   tesla 1.21.3
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.8721001Z * Getting telemetry (Hex package)
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.9160990Z * Getting telemetry_metrics (Hex package)
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.9210037Z * Getting mox (Hex package)
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.9263830Z * Getting ex_dns (Hex package)
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.9923758Z * Getting dhcp_ex (Hex package)
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:03.9963087Z * Getting machete (Hex package)
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:04.0080206Z * Getting ex_doc (Hex package)
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:04.0236798Z * Getting dialyxir (Hex package)
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:04.0346732Z * Getting credo (Hex package)
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:04.0718698Z * Getting bunt (Hex package)
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:04.0740121Z * Getting file_system (Hex package)
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:04.0776412Z * Getting jason (Hex package)
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:04.0805453Z * Getting erlex (Hex package)
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:04.0828688Z * Getting earmark_parser (Hex package)
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:04.0896496Z * Getting makeup_elixir (Hex package)
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:04.0930248Z * Getting makeup_erlang (Hex package)
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:04.0957799Z * Getting makeup (Hex package)
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:04.1003092Z * Getting nimble_parsec (Hex package)
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:04.1031278Z * Getting tesla (Hex package)
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:04.1134195Z * Getting mime (Hex package)
+Run tests (Elixir 1.18, OTP 27)	Install dependencies	2026-10-14T03:42:04.1154252Z * Getting nimble_ownership (Hex package)
+Run tests (Elixir 1.18, OTP 27)	Check source code format	﻿2026-10-14T03:42:04.1667428Z ##[group]Run mix format --check-formatted
+Run tests (Elixir 1.18, OTP 27)	Check source code format	2026-10-14T03:42:04.1667648Z ^[[36;1mmix format --check-formatted^[[0m
+Run tests (Elixir 1.18, OTP 27)	Check source code format	2026-10-14T03:42:04.1721253Z shell: /usr/bin/bash -e {0}
+Run tests (Elixir 1.18, OTP 27)	Check source code format	2026-10-14T03:42:04.1721390Z env:
+Run tests (Elixir 1.18, OTP 27)	Check source code format	2026-10-14T03:42:04.1721538Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Run tests (Elixir 1.18, OTP 27)	Check source code format	2026-10-14T03:42:04.1721777Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Run tests (Elixir 1.18, OTP 27)	Check source code format	2026-10-14T03:42:04.1721962Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Remove compiled application files	﻿2026-10-14T03:42:04.5558965Z ##[group]Run mix clean
+Run tests (Elixir 1.18, OTP 27)	Remove compiled application files	2026-10-14T03:42:04.5559133Z ^[[36;1mmix clean^[[0m
+Run tests (Elixir 1.18, OTP 27)	Remove compiled application files	2026-10-14T03:42:04.5613374Z shell: /usr/bin/bash -e {0}
+Run tests (Elixir 1.18, OTP 27)	Remove compiled application files	2026-10-14T03:42:04.5613526Z env:
+Run tests (Elixir 1.18, OTP 27)	Remove compiled application files	2026-10-14T03:42:04.5613679Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Run tests (Elixir 1.18, OTP 27)	Remove compiled application files	2026-10-14T03:42:04.5613923Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Run tests (Elixir 1.18, OTP 27)	Remove compiled application files	2026-10-14T03:42:04.5614113Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	﻿2026-10-14T03:42:04.9182863Z ##[group]Run mix compile --warnings-as-errors
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:04.9183099Z ^[[36;1mmix compile --warnings-as-errors^[[0m
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:04.9236518Z shell: /usr/bin/bash -e {0}
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:04.9236664Z env:
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:04.9236815Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:04.9237056Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:04.9237247Z   MIX_ENV: test
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:04.9237362Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:05.2976234Z ==> earmark_parser
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:05.2982957Z Compiling 2 files (.xrl)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:05.3212799Z Compiling 1 file (.yrl)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:05.3448319Z Compiling 3 files (.erl)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:05.4584402Z Compiling 32 files (.ex)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:05.8954464Z Generated earmark_parser app
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:05.9685217Z ==> file_system
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:05.9692813Z Compiling 7 files (.ex)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:06.0923216Z Generated file_system app
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:06.1147367Z ==> mime
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:06.1148084Z Compiling 1 file (.ex)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:06.1768402Z Generated mime app
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:06.1895906Z ==> nimble_parsec
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:06.1896370Z Compiling 4 files (.ex)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:06.4120917Z Generated nimble_parsec app
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:06.4220076Z ==> bunt
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:06.4220725Z Compiling 2 files (.ex)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:06.6527561Z Generated bunt app
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:06.8676238Z ==> abyss
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:06.8677316Z ===> Analyzing applications...
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:06.8895378Z ===> Compiling telemetry
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:07.0381374Z ==> telemetry_metrics
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:07.0381948Z Compiling 7 files (.ex)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:07.1098112Z Generated telemetry_metrics app
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:07.1259364Z ==> jason
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:07.1259711Z Compiling 10 files (.ex)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:07.9769124Z Generated jason app
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:08.0133703Z ==> dhcp_ex
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:08.0134041Z Compiling 12 files (.ex)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:08.2858996Z Generated dhcp_ex app
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:08.3197553Z ==> credo
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:08.3197921Z Compiling 257 files (.ex)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:12.0679609Z Generated credo app
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:12.1458083Z ==> makeup
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:12.1458418Z Compiling 15 files (.ex)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:12.5704570Z Generated makeup app
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:12.6528967Z ==> makeup_elixir
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:12.6535538Z Compiling 6 files (.ex)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:18.4550496Z Generated makeup_elixir app
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:18.4692338Z ==> makeup_erlang
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:18.4692649Z Compiling 4 files (.ex)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:25.8550476Z Generated makeup_erlang app
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:25.8760602Z ==> ex_doc
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:25.8760920Z Compiling 30 files (.ex)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:26.5995659Z Generated ex_doc app
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:26.6343454Z ==> erlex
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:26.6343695Z Compiling 1 file (.xrl)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:26.6423452Z Compiling 1 file (.yrl)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:26.6749460Z Compiling 2 files (.erl)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:26.8996433Z Compiling 2 files (.ex)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:26.9926139Z Generated erlex app
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:27.0064223Z ==> dialyxir
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:27.0064535Z Compiling 70 files (.ex)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:27.4208302Z Generated dialyxir app
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:27.4654974Z ==> machete
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:27.4655910Z Compiling 43 files (.ex)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:27.9759442Z Generated machete app
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:28.0239915Z ==> nimble_ownership
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:28.0240733Z Compiling 2 files (.ex)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:28.1592342Z Generated nimble_ownership app
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:28.1709358Z ==> mox
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:28.1709694Z Compiling 2 files (.ex)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:28.2728672Z Generated mox app
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:28.2897290Z ==> tesla
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:28.2897584Z Compiling 57 files (.ex)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:28.8051645Z Generated tesla app
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:28.8638189Z ==> ex_dns
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:28.8638556Z Compiling 71 files (.ex)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:30.1655674Z Generated ex_dns app
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:30.2227401Z ==> abyss
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:30.2227965Z Compiling 38 files (.ex)
+Run tests (Elixir 1.18, OTP 27)	Compile & lint dependencies	2026-10-14T03:42:31.4078776Z Generated abyss app
+Run tests (Elixir 1.18, OTP 27)	Run tests	﻿2026-10-14T03:42:31.6021193Z ##[group]Run mix test
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:31.6021359Z ^[[36;1mmix test^[[0m
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:31.6075190Z shell: /usr/bin/bash -e {0}
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:31.6075341Z env:
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:31.6075494Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:31.6075728Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:31.6075920Z ##[endgroup]
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:31.9691243Z Cover compiling modules ...
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:32.7181330Z Running ExUnit with seed: 692571, max_cases: 8
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:32.7319934Z Excluding tags: [integration: true, slow: true]
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:32.7322001Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:33.9784836Z .......................................................................................................................................................................................................................................................
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:33.9786995Z 03:42:33.978 [info] The function passed as a handler with ID "test-handler" is a local function.
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:33.9788544Z This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:33.9789481Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:33.9789942Z https://hexdocs.pm/telemetry/telemetry.html#attach/4
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:34.0826124Z ................
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:34.0851783Z 03:42:34.080 [info] The function passed as a handler with ID "test-handler" is a local function.
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:34.0865238Z This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:34.0873780Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:34.0874432Z https://hexdocs.pm/telemetry/telemetry.html#attach/4
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:34.1007663Z .......
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:34.1012452Z 03:42:34.099 [warning] Option :num_acceptors is deprecated. Use :num_listeners instead.
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:34.1013834Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:34.1014659Z 03:42:34.099 [warning] Option :num_acceptors is deprecated. Use :num_listeners instead.
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:34.1833856Z ...........................
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:34.1834736Z 03:42:34.180 [info] The function passed as a handler with ID "test-handler" is a local function.
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:34.1853992Z This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:34.1855001Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:34.1855355Z https://hexdocs.pm/telemetry/telemetry.html#attach/4
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:40.3575373Z ..................................................................................................
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:40.3576394Z 03:42:40.357 [info] The function passed as a handler with ID :test_response_time_handler is a local function.
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:40.3577543Z This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:40.3578225Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:40.3578428Z https://hexdocs.pm/telemetry/telemetry.html#attach/4
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2296693Z ...................................
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2297174Z 03:42:41.229 [error] GenServer #PID<0.1951.0> terminating
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2297522Z ** (stop) {:binding_failed, {:error, :refused}}
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2297783Z Last message: :attach
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2298340Z State: [data: [{~c"State", %{owner: #PID<0.1945.0>, connection: %{id: #PID<0.1950.0>, generation: #Reference<0.1458988737.509870083.236444>}, initialized: false}}]]
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2313115Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2313449Z 03:42:41.229 [error] GenServer #PID<0.1957.0> terminating
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2314353Z ** (stop) {:host_component_down, :killed}
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2314608Z Last message: {:EXIT, #PID<0.1959.0>, :killed}
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2316865Z State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 33677}, port: 0, shutdown_timeout: 50, socket: #Port<0.327>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.1458988737.509870082.239884> => %{id: #PID<0.1962.0>, generation: #Reference<0.1458988737.509870082.239878>}}, writer: #PID<0.1959.0>, receiver: #PID<0.1961.0>, backend: Abyss.QUICServiceTest.Backend, alpn: ["test"], _backend: Abyss.QUICServiceTest.Backend, max_connections: 128, init_timeout: 5000, callback_timeout: 5000, poll_interval: 10, event_batch: 32, writer_timeout: 1000, writer_max_queue: 128, writer_max_bytes: 1048576, quic_options: [], admission: #PID<0.1958.0>, generation: #Reference<0.1458988737.509870082.239868>, endpoint: #PID<0.1960.0>, worker_refs: %{#PID<0.1963.0> => #Reference<0.1458988737.509870082.239884>}}}]]
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2319102Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2319393Z 03:42:41.231 [error] GenServer #PID<0.1965.0> terminating
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2337020Z ** (stop) {:host_component_down, :killed}
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2337341Z Last message: {:EXIT, #PID<0.1968.0>, :killed}
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2339661Z State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 42067}, port: 0, shutdown_timeout: 50, socket: #Port<0.328>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.1458988737.509870081.236207> => %{id: #PID<0.1970.0>, generation: #Reference<0.1458988737.509870081.236201>}}, writer: #PID<0.1967.0>, receiver: #PID<0.1969.0>, backend: Abyss.QUICServiceTest.Backend, alpn: ["test"], _backend: Abyss.QUICServiceTest.Backend, max_connections: 128, init_timeout: 5000, callback_timeout: 5000, poll_interval: 10, event_batch: 32, writer_timeout: 1000, writer_max_queue: 128, writer_max_bytes: 1048576, quic_options: [], admission: #PID<0.1966.0>, generation: #Reference<0.1458988737.509870081.236191>, endpoint: #PID<0.1968.0>, worker_refs: %{#PID<0.1971.0> => #Reference<0.1458988737.509870081.236207>}}}]]
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2342362Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2342640Z 03:42:41.231 [error] GenServer #PID<0.1973.0> terminating
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2342959Z ** (stop) {:host_component_down, :killed}
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2343226Z Last message: {:EXIT, #PID<0.1977.0>, :killed}
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2345530Z State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 56776}, port: 0, shutdown_timeout: 50, socket: #Port<0.329>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.1458988737.509870081.236240> => %{id: #PID<0.1978.0>, generation: #Reference<0.1458988737.509870081.236234>}}, writer: #PID<0.1975.0>, receiver: #PID<0.1977.0>, backend: Abyss.QUICServiceTest.Backend, alpn: ["test"], _backend: Abyss.QUICServiceTest.Backend, max_connections: 128, init_timeout: 5000, callback_timeout: 5000, poll_interval: 10, event_batch: 32, writer_timeout: 1000, writer_max_queue: 128, writer_max_bytes: 1048576, quic_options: [], admission: #PID<0.1974.0>, generation: #Reference<0.1458988737.509870081.236224>, endpoint: #PID<0.1976.0>, worker_refs: %{#PID<0.1979.0> => #Reference<0.1458988737.509870081.236240>}}}]]
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2347501Z ...
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2347715Z 03:42:41.232 [error] GenServer #PID<0.1998.0> terminating
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2347960Z ** (stop) killed
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2348155Z Last message: {:EXIT, #PID<0.1996.0>, :killed}
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2349099Z State: %{owner: #PID<0.1996.0>, socket: #Port<0.331>, queue: {[], []}, admission: #PID<0.1997.0>, generation: #Reference<0.1458988737.509870082.239931>, max_queue: 128, max_bytes: 1048576, transport: Abyss.QUIC.SocketTransport, owns_admission: false, sending: false, queue_bytes: 0, owner_monitor: #Reference<0.1458988737.509870082.239938>}
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2349697Z ..
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2349838Z 03:42:41.232 [error] GenServer #PID<0.2012.0> terminating
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2350038Z ** (stop) {:binding_failed, {:error, :init_failed}}
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2350442Z Last message: :attach
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2350759Z State: [data: [{~c"State", %{owner: #PID<0.2006.0>, connection: %{id: #PID<0.2011.0>, generation: #Reference<0.1458988737.509870082.239979>}, initialized: false}}]]
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2351115Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2352014Z 03:42:41.233 [error] GenServer #PID<0.2024.0> terminating
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2352663Z ** (RuntimeError) init crashed
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2353259Z     test/abyss/quic_test.exs:16: Abyss.QUICServiceTest.Handler.init/3
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2353953Z     (abyss 0.8.0) lib/abyss/quic/service.ex:453: anonymous fn/1 in Abyss.QUIC.Worker.handle_info/2
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2354654Z     (abyss 0.8.0) lib/abyss/quic/service.ex:547: Abyss.QUIC.Worker.watched/3
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2355267Z     (stdlib 6.2.2.5) gen_server.erl:2345: :gen_server.try_handle_info/3
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2356086Z     (stdlib 6.2.2.5) gen_server.erl:2433: :gen_server.handle_msg/6
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2356610Z     (stdlib 6.2.2.5) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2357120Z Last message: :attach
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2357796Z State: [data: [{~c"State", %{owner: #PID<0.2018.0>, connection: %{id: #PID<0.2023.0>, generation: #Reference<0.1458988737.509870081.236349>}, initialized: false}}]]
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2358538Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2358956Z 03:42:41.234 [error] GenServer #PID<0.2032.0> terminating
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2359440Z ** (stop) {:host_component_down, :killed}
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2359889Z Last message: {:EXIT, #PID<0.2034.0>, :killed}
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2362754Z State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 53206}, port: 0, shutdown_timeout: 50, socket: #Port<0.334>, callbacks: %{#PID<0.2038.0> => {#Reference<0.1458988737.509870082.240038>, #Reference<0.1458988737.509870082.240042>}}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.1458988737.509870082.240033> => %{id: #PID<0.2037.0>, generation: #Reference<0.1458988737.509870082.240027>}}, writer: #PID<0.2034.0>, receiver: #PID<0.2036.0>, backend: Abyss.QUICServiceTest.Backend, alpn: ["test"], _backend: Abyss.QUICServiceTest.Backend, max_connections: 128, init_timeout: 5000, callback_timeout: 5000, poll_interval: 10, event_batch: 32, writer_timeout: 1000, writer_max_queue: 128, writer_max_bytes: 1048576, quic_options: [], admission: #PID<0.2033.0>, generation: #Reference<0.1458988737.509870082.240015>, endpoint: #PID<0.2035.0>, worker_refs: %{#PID<0.2038.0> => #Reference<0.1458988737.509870082.240033>}}}]]
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2364904Z ...
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2365250Z 03:42:41.235 [error] GenServer #PID<0.2053.0> terminating
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2365627Z ** (stop) {:binding_failed, false}
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2366000Z Last message: :attach
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.2366499Z State: [data: [{~c"State", %{owner: #PID<0.2047.0>, connection: %{id: #PID<0.2052.0>, generation: #Reference<0.1458988737.509870082.240078>}, initialized: false}}]]
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6978713Z ..........................
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6979120Z 03:42:41.697 [debug] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6979673Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6980159Z 03:42:41.697 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6980633Z ...
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6980825Z 03:42:41.698 [debug] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6981439Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6981621Z 03:42:41.698 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6989803Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6990181Z 03:42:41.698 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6992013Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6992634Z 03:42:41.698 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6992973Z ..
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6993276Z 03:42:41.698 [debug] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6993594Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6993926Z 03:42:41.698 [debug] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6994266Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6994567Z 03:42:41.698 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6994898Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6995193Z 03:42:41.698 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6995501Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6995796Z 03:42:41.698 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6996551Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6996870Z 03:42:41.698 [debug] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6997215Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6997534Z 03:42:41.698 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6997874Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6998189Z 03:42:41.698 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6998526Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6998843Z 03:42:41.698 [debug] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6999186Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6999503Z 03:42:41.698 [debug] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.6999784Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.7000030Z 03:42:41.699 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.7000385Z ..
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.7000881Z 03:42:41.699 [info] The function passed as a handler with ID :integration_test_handler is a local function.
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.7001864Z This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.7002917Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:41.7003229Z https://hexdocs.pm/telemetry/telemetry.html#attach/4
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8016479Z ...
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8017161Z 03:42:42.801 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8017519Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8017767Z 03:42:42.801 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8018481Z ..
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8018687Z 03:42:42.801 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8020212Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8020364Z 03:42:42.801 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8026253Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8026470Z 03:42:42.802 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8026646Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8026858Z 03:42:42.802 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8027118Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8027468Z 03:42:42.802 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8027673Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8027844Z 03:42:42.802 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8029665Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8029847Z 03:42:42.802 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8030683Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8030899Z 03:42:42.802 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8031967Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8033502Z 03:42:42.803 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8033648Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8033749Z 03:42:42.803 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8035200Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8035382Z 03:42:42.803 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8036490Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8036602Z 03:42:42.803 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8072594Z ..
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8072859Z 03:42:42.807 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8074101Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.8074254Z 03:42:42.807 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9289801Z ......................
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9290387Z 03:42:42.928 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9291192Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9291322Z 03:42:42.929 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9296786Z ..
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9297035Z 03:42:42.929 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9297191Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9297301Z 03:42:42.929 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9298689Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9298906Z 03:42:42.929 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9300280Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9300406Z 03:42:42.929 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9302701Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9302908Z 03:42:42.930 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9305075Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9305392Z 03:42:42.930 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9308712Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9308916Z 03:42:42.930 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9309058Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9309157Z 03:42:42.930 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9310365Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9310591Z 03:42:42.930 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9312246Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9312383Z 03:42:42.931 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9314156Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9314356Z 03:42:42.931 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9315833Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9315942Z 03:42:42.931 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9317893Z ..
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9318081Z 03:42:42.931 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9319439Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9319555Z 03:42:42.931 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9323240Z ..
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9323440Z 03:42:42.932 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9337502Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9337748Z 03:42:42.933 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9342477Z ..
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9342861Z 03:42:42.934 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9345113Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9345522Z 03:42:42.934 [info] The function passed as a handler with ID #Reference<0.1458988737.509870082.241323> is a local function.
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9346416Z This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9347435Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9347618Z https://hexdocs.pm/telemetry/telemetry.html#attach/4
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9561377Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9561926Z 03:42:42.955 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9565469Z ..
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9565815Z 03:42:42.956 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9573562Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9573847Z 03:42:42.957 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9578393Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9578743Z 03:42:42.957 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9579260Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9579401Z 03:42:42.957 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9581940Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9582073Z 03:42:42.958 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9582576Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9582686Z 03:42:42.958 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9584772Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9584881Z 03:42:42.958 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9586208Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9588617Z 03:42:42.958 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9588767Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9588866Z 03:42:42.958 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9589128Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9589233Z 03:42:42.958 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9590623Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9590995Z 03:42:42.958 [info] The function passed as a handler with ID "scaler-test-#PID<0.2434.0>" is a local function.
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9591862Z This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9592774Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9592999Z https://hexdocs.pm/telemetry/telemetry.html#attach/4
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9593219Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9593332Z 03:42:42.959 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9594409Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9594535Z 03:42:42.959 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9596083Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9596205Z 03:42:42.959 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9597303Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9597417Z 03:42:42.959 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9598602Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9598697Z 03:42:42.959 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9599680Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9599782Z 03:42:42.959 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9601828Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9601933Z 03:42:42.960 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9602487Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9602593Z 03:42:42.960 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9603379Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9603487Z 03:42:42.960 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9605074Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9605192Z 03:42:42.960 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9605500Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9605607Z 03:42:42.960 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9605851Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9605954Z 03:42:42.960 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9608616Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9608803Z 03:42:42.960 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9610061Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9610171Z 03:42:42.960 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9681655Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9681992Z 03:42:42.967 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9682830Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9683046Z 03:42:42.968 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9684590Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9685207Z 03:42:42.968 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9686172Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9686414Z 03:42:42.968 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9692456Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9692695Z 03:42:42.969 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9692948Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9693153Z 03:42:42.969 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9693448Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9693552Z 03:42:42.969 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9693689Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9695714Z 03:42:42.969 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9695862Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9695963Z 03:42:42.969 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9697226Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9697402Z 03:42:42.969 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9699036Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9701136Z 03:42:42.969 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9701501Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9724083Z 03:42:42.970 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9724261Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9724494Z 03:42:42.972 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9725835Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9725942Z 03:42:42.972 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9728156Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9728360Z 03:42:42.972 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9735812Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9736142Z 03:42:42.973 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9736484Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9736720Z 03:42:42.973 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9737652Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9737799Z 03:42:42.973 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9743752Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9744869Z 03:42:42.973 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9745176Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9745445Z 03:42:42.973 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9745747Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9746010Z 03:42:42.974 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9746192Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9747054Z 03:42:42.974 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9757075Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9757199Z 03:42:42.974 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9757435Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9758798Z 03:42:42.974 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9758951Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9759057Z 03:42:42.974 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9759196Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9759944Z 03:42:42.975 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9794963Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9795248Z 03:42:42.979 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9805884Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9806066Z 03:42:42.980 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9806226Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9806406Z 03:42:42.980 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9806653Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9806798Z 03:42:42.980 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9810473Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9810756Z 03:42:42.980 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9811211Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9811307Z 03:42:42.981 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9814678Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9814889Z 03:42:42.981 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9815131Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9815338Z 03:42:42.981 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9817761Z ..
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9817950Z 03:42:42.981 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9818796Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9818894Z 03:42:42.981 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9820660Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9820762Z 03:42:42.982 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9821181Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9821283Z 03:42:42.982 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9824044Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9824217Z 03:42:42.982 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9824889Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9824984Z 03:42:42.982 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9825877Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9825980Z 03:42:42.982 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9826919Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9827022Z 03:42:42.982 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9827918Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9828017Z 03:42:42.982 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9828898Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9828996Z 03:42:42.982 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9830672Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9830771Z 03:42:42.983 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9831293Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9831839Z 03:42:42.983 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9831971Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9832198Z 03:42:42.983 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9832741Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9832839Z 03:42:42.983 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9833261Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9833358Z 03:42:42.983 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9834831Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9834931Z 03:42:42.983 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9839418Z .......
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9839713Z 03:42:42.983 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9840920Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9841026Z 03:42:42.984 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9842833Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9843010Z 03:42:42.984 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9844439Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9844534Z 03:42:42.984 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9846918Z ...
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9847089Z 03:42:42.984 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9848399Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9848502Z 03:42:42.984 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9850231Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9850408Z 03:42:42.984 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9851600Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9851694Z 03:42:42.985 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9853838Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9855508Z 03:42:42.985 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9855640Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:42.9855744Z 03:42:42.985 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0270406Z .............
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0270770Z 03:42:43.026 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0280732Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0281347Z 03:42:43.027 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0281599Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0281781Z 03:42:43.027 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0281976Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0282235Z 03:42:43.027 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0282467Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0282633Z 03:42:43.027 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0282820Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0282984Z 03:42:43.027 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0283169Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0283349Z 03:42:43.027 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0283531Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0283696Z 03:42:43.027 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0283826Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0283921Z 03:42:43.027 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0284049Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0284144Z 03:42:43.027 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0489304Z ..
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0489692Z 03:42:43.048 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0489951Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0490162Z 03:42:43.048 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0490373Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0490551Z 03:42:43.048 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0490797Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0490976Z 03:42:43.048 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0491229Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0491412Z 03:42:43.048 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0491700Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0491880Z 03:42:43.048 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0492271Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0492515Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0492753Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0492867Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0493006Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0493118Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0493275Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0493385Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0493523Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0493634Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0493777Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0493881Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0494028Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0494131Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0495895Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0496276Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0496552Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0496803Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0501833Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0502365Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0502520Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0502622Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0502849Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0503785Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0504343Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0504439Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0506518Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0506727Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0506957Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0507187Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0507445Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0507660Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0507916Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0508139Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0508401Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0508619Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0508883Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0509098Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0509362Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0509569Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0510007Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0510213Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0510450Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0510659Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0510896Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0511101Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0511338Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0511539Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0511772Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0511973Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0512335Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0512548Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0512806Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0513026Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0513285Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0513512Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0513772Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0513995Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0514259Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0514459Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0514722Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0514944Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0515206Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0515418Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0515668Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0515876Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0516185Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0516388Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0516626Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0516825Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0517065Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0517266Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0517498Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0517700Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0517934Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0518135Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0518373Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0518571Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0518823Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0519027Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0519259Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0519462Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0519698Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0519900Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0520135Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0520333Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0520571Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0520774Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0521016Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0521189Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0521378Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0521540Z 03:42:43.049 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0521727Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0521889Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0522073Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0522405Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0522537Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0522654Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0522784Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0522884Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0523041Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0523268Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0523517Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0523693Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0523888Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0523985Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0524117Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0524211Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0524345Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0524577Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0524706Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0524773Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0524857Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0524921Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0525011Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0525072Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0525163Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0525223Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0525327Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0525390Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0525474Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0525537Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0525624Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0525683Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0525771Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0525830Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0525999Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0526064Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0526150Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0526212Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0526301Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0526366Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0526452Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0526514Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0526600Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0526660Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0526748Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0526809Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0526895Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0526957Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0527041Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0527105Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0527193Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0527252Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0527339Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0527399Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0527486Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0527551Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0527635Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0527699Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0527783Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0527845Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0527939Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0527999Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0528084Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0528144Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0528232Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0528294Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0528379Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0528442Z 03:42:43.050 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0528527Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0528591Z 03:42:43.051 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0528677Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0528738Z 03:42:43.051 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0528825Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0528884Z 03:42:43.051 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0528970Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0529031Z 03:42:43.051 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0529118Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0529181Z 03:42:43.051 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0529266Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0529329Z 03:42:43.051 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0529419Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0529482Z 03:42:43.051 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0529569Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0529628Z 03:42:43.051 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0529717Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0529779Z 03:42:43.051 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0529863Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0529926Z 03:42:43.051 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0530011Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0530073Z 03:42:43.051 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0530161Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0530221Z 03:42:43.051 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0530308Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0530369Z 03:42:43.051 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0530456Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.0530520Z 03:42:43.051 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.6043235Z ...........................
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.6043616Z 03:42:43.604 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.6259716Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.6260297Z 03:42:43.625 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.6261757Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.6261870Z 03:42:43.626 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.6480175Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.6480746Z 03:42:43.647 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.6484890Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.6485231Z 03:42:43.648 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.7011805Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.7012740Z 03:42:43.700 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.7015549Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.7015882Z 03:42:43.701 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.8290258Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.8290887Z 03:42:43.828 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.8295063Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.8295272Z 03:42:43.829 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.8569691Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.8570232Z 03:42:43.856 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.8573393Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.8573600Z 03:42:43.857 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9092849Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9093895Z 03:42:43.909 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9096957Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9097260Z 03:42:43.909 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9104551Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9104807Z 03:42:43.910 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9111016Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9111302Z 03:42:43.911 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9112718Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9112944Z 03:42:43.911 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9116493Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9116751Z 03:42:43.911 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9430218Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9430823Z 03:42:43.942 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9431883Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9432278Z 03:42:43.942 [error] GenServer #PID<0.4653.0> terminating
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9432595Z ** (stop) {:runtime_exit, :killed}
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9432845Z Last message: {:EXIT, #PID<0.4655.0>, :killed}
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9437065Z State: %{runtime: #PID<0.4655.0>, mode: :running, handlers: %{}, dropped: 0, starter: #PID<0.4654.0>, generation: #Reference<0.1458988737.509870081.237666>, transport: Abyss.RuntimeBlockingTransport, memberships: [], listener_socket: #Port<0.683>, server_pid: #PID<0.4651.0>, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.RuntimeBlockingTransport, transport_options: [ip: {127, 0, 0, 1}], handler_module: nil, datagram_options: %{io_backend: :gen_udp, route_key: nil, execution: :per_datagram, datagram_handler: Abyss.RuntimeTestHandler, runtime_options: [send_timeout: 10], required_metadata: [], required_capabilities: []}, handler_options: [owner: #PID<0.4650.0>], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 1, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, dispatcher: nil, local_info: {{127, 0, 0, 1}, 37164}, reservation: nil, listener_span: %Abyss.Telemetry{span_name: :listener, telemetry_span_context: #Reference<0.1458988737.509870081.237680>, start_time: -576460739713980575, start_metadata: %{broadcast: false, handler: nil, listener_socket: #Port<0.683>, server_pid: #PID<0.4651.0>, telemetry_span_context: #Reference<0.1458988737.509870081.237680>, sampled: true, local_info: {{127, 0, 0, 1}, 37164}, listener_id: "listener-1"}}, retained_high_water: 0, received: 1, listener_id: "listener-1", runtime_send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.4657.0>, generation: #Reference<0.1458988737.509870081.237666>, admission: #PID<0.4656.0>, io_backend: :gen_udp}, native_select: nil, armed: true, desired_key: {#PID<0.4651.0>, "listener-1"}, drain_waiter: nil, active_high_water: 0}
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9444139Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9444353Z 03:42:43.943 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9448335Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9449015Z 03:42:43.944 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9453016Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:43.9453365Z 03:42:43.945 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.0080355Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.0080976Z 03:42:44.007 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.0084358Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.0084817Z 03:42:44.008 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.0902697Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.0903321Z 03:42:44.090 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.0907556Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.0907777Z 03:42:44.090 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1220830Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1221333Z 03:42:44.121 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1228219Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1228638Z 03:42:44.122 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1545748Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1546379Z 03:42:44.154 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1550006Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1550296Z 03:42:44.154 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1556257Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1556457Z 03:42:44.155 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1558737Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1558970Z 03:42:44.155 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1560874Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1560974Z 03:42:44.156 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1566775Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1566971Z 03:42:44.156 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1569181Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1569287Z 03:42:44.156 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1571316Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1571417Z 03:42:44.157 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1577320Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1577724Z 03:42:44.157 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1579656Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1579760Z 03:42:44.157 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1582992Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1583262Z 03:42:44.158 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1709065Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1709573Z 03:42:44.170 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1712987Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.1713477Z 03:42:44.171 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.2030995Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.2031593Z 03:42:44.202 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.2038086Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.2038469Z 03:42:44.203 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.2040420Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.2040663Z 03:42:44.203 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.2157701Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.2157991Z 03:42:44.215 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.2160737Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.2161158Z 03:42:44.216 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.2370832Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.2371372Z 03:42:44.236 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.2581123Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.2581708Z 03:42:44.257 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.2791868Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.2792650Z 03:42:44.278 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3012663Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3013296Z 03:42:44.301 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3013772Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3014015Z 03:42:44.301 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3015682Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3015812Z 03:42:44.301 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3017419Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3017792Z 03:42:44.301 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3024858Z ..
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3025202Z 03:42:44.302 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3087569Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3087989Z 03:42:44.308 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3090432Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3090611Z 03:42:44.309 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3403887Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3404497Z 03:42:44.340 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3410449Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3410672Z 03:42:44.340 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3539859Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3540328Z 03:42:44.353 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3542989Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3543293Z 03:42:44.354 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3659054Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3659395Z 03:42:44.365 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3663228Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.3663448Z 03:42:44.366 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4360426Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4361018Z 03:42:44.435 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4371755Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4372598Z 03:42:44.436 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4903697Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4904256Z 03:42:44.490 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4907856Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4908048Z 03:42:44.490 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4910743Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4910944Z 03:42:44.491 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4919095Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4919337Z 03:42:44.491 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4925285Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4925516Z 03:42:44.492 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4928025Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4928470Z 03:42:44.492 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4929620Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4929732Z 03:42:44.492 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4931225Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4931352Z 03:42:44.493 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4932381Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4932493Z 03:42:44.493 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4935795Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.4935991Z 03:42:44.493 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.5350631Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.5351392Z 03:42:44.534 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.5352882Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.5353030Z 03:42:44.535 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6361569Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6362628Z 03:42:44.635 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6365347Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6365701Z 03:42:44.636 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6782056Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6783061Z 03:42:44.677 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6785277Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6785445Z 03:42:44.678 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6787370Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6787512Z 03:42:44.678 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6792242Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6792591Z 03:42:44.679 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6796288Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6796517Z 03:42:44.679 [error] GenServer #PID<0.5074.0> terminating
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6796852Z ** (stop) killed
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6797139Z Last message: {:EXIT, #PID<0.5072.0>, :killed}
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6798192Z State: %{owner: #PID<0.5072.0>, socket: #Port<0.750>, queue: {[], []}, admission: #PID<0.5073.0>, generation: #Reference<0.1458988737.509870083.241130>, max_queue: 128, max_bytes: 1048576, transport: Abyss.Transport.UDP, owns_admission: false, sending: false, queue_bytes: 0, owner_monitor: #Reference<0.1458988737.509870083.241137>}
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6799103Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6799344Z 03:42:44.679 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6803239Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6803586Z 03:42:44.679 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6803943Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6804310Z 03:42:44.679 [error] GenServer #PID<0.5084.0> terminating
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6804710Z ** (stop) killed
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6805009Z Last message: {:EXIT, #PID<0.5082.0>, :killed}
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6806175Z State: %{owner: #PID<0.5082.0>, socket: #Port<0.752>, queue: {[], []}, admission: #PID<0.5083.0>, generation: #Reference<0.1458988737.509870081.240061>, max_queue: 128, max_bytes: 1048576, transport: Abyss.Transport.UDP, owns_admission: false, sending: false, queue_bytes: 0, owner_monitor: #Reference<0.1458988737.509870081.240068>}
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6807081Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6807199Z 03:42:44.680 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6807380Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6807507Z 03:42:44.680 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6807631Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6807791Z 03:42:44.680 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6810420Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6810648Z 03:42:44.680 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6814819Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6815045Z 03:42:44.681 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6818889Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6819107Z 03:42:44.681 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6821397Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6821573Z 03:42:44.682 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6825248Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6825460Z 03:42:44.682 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6830076Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6830301Z 03:42:44.682 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6831273Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6831381Z 03:42:44.683 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6833992Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.6834168Z 03:42:44.683 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7354600Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7355245Z 03:42:44.735 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7361895Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7362438Z 03:42:44.735 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7362609Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7362721Z 03:42:44.736 [error] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7875573Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7876200Z 03:42:44.787 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7878550Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7878874Z 03:42:44.787 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7884484Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7884684Z 03:42:44.788 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7886334Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7886492Z 03:42:44.788 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7890219Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7891040Z 03:42:44.788 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7891463Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7892005Z 03:42:44.788 [info] The function passed as a handler with ID "start-deadline-#PID<0.5174.0>" is a local function.
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7893297Z This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7894175Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7894425Z https://hexdocs.pm/telemetry/telemetry.html#attach/4
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7894677Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.7894859Z 03:42:44.789 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.8211413Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.8211873Z 03:42:44.820 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.8214912Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.8215238Z 03:42:44.821 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9221400Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9222329Z 03:42:44.921 [info] Telemetry event
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9222955Z .
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9223295Z Finished in 12.1 seconds (7.3s async, 4.7s sync)
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9223695Z 3 doctests, 648 tests, 0 failures, 7 excluded
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9225805Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9225954Z Generating cover results ...
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9226121Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9342815Z Percentage | Module
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9343382Z -----------|--------------------------
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9343854Z      0.00% | Abyss.DhcpSocket.Native
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9344252Z      0.00% | Abyss.QUIC.SocketTransport
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9344640Z     21.74% | Abyss.QUIC
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9344987Z     60.87% | Abyss.Connection
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9345374Z     65.61% | Abyss.Transport.UDP.Native
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9345758Z     68.00% | Abyss.Endpoint
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9346114Z     72.73% | Abyss.DatagramWorker
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9346491Z     76.60% | Abyss.Dispatcher.Writer
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9346869Z     76.92% | Abyss.UDPAdmission
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9347251Z     78.95% | Abyss.Transport.UDP.Unicast
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9347682Z     80.00% | Abyss.Transport.UDP.Multicast
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9348072Z     80.56% | Abyss.Datagram
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9348423Z     81.89% | Abyss.Dispatcher.Admission
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9348800Z     82.35% | Abyss.Transport.UDP.Broadcast
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9349147Z     82.99% | Abyss.QUIC.Service
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9349474Z     83.72% | Abyss.Dispatcher
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9349811Z     85.00% | Abyss.Handler
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9350161Z     85.42% | Abyss.Server
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9350511Z     87.30% | Abyss.Transport.UDP.Core
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9350901Z     87.36% | Abyss.DatagramRuntime
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9351270Z     87.50% | Abyss.ListenerPool
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9351613Z     88.00% | Abyss.QUIC.Worker
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9351958Z     89.03% | Abyss.Listener
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9352408Z     90.00% | Abyss
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9352718Z     90.00% | Abyss.Transport.UDP
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9353066Z     90.28% | Abyss.Utils
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9353411Z     90.48% | Abyss.DatagramActions
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9353780Z     91.41% | Abyss.Client
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9354135Z     92.31% | Abyss.ListenerPoolScaler
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9354507Z     92.31% | Abyss.TableOwner
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9355196Z     93.33% | Abyss.ShutdownListener
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9355565Z     96.05% | Abyss.ServerConfig
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9355919Z     96.43% | Abyss.Telemetry
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9356272Z    100.00% | Abyss.Application
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9356640Z    100.00% | Abyss.DatagramDispatcher
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9357014Z    100.00% | Abyss.DatagramHandler
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9357404Z    100.00% | Abyss.Dispatcher.SendCapability
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9357810Z    100.00% | Abyss.ListenerStarter
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9358168Z    100.00% | Abyss.Logger
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9358502Z    100.00% | Abyss.QUIC.Handler
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9358851Z    100.00% | Abyss.Transport
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9359263Z -----------|--------------------------
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9359619Z     85.42% | Total
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9360028Z 
+Run tests (Elixir 1.18, OTP 27)	Run tests	2026-10-14T03:42:44.9567739Z Generated HTML coverage results in "cover" directory
+Run tests (Elixir 1.18, OTP 27)	Post Checkout	﻿2026-10-14T03:42:44.9753508Z Post job cleanup.
+Run tests (Elixir 1.18, OTP 27)	Post Checkout	2026-10-14T03:42:45.0325605Z [command]/usr/bin/git version
+Run tests (Elixir 1.18, OTP 27)	Post Checkout	2026-10-14T03:42:45.0364338Z git version 2.55.0
+Run tests (Elixir 1.18, OTP 27)	Post Checkout	2026-10-14T03:42:45.0393282Z Temporarily overriding HOME='/home/runner/work/_temp/1b846f41-293c-400a-8516-d88e055a2667' before making global git config changes
+Run tests (Elixir 1.18, OTP 27)	Post Checkout	2026-10-14T03:42:45.0393959Z Adding repository directory to the temporary git global config as a safe directory
+Run tests (Elixir 1.18, OTP 27)	Post Checkout	2026-10-14T03:42:45.0397809Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+Run tests (Elixir 1.18, OTP 27)	Post Checkout	2026-10-14T03:42:45.0435497Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Run tests (Elixir 1.18, OTP 27)	Post Checkout	2026-10-14T03:42:45.0466464Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Run tests (Elixir 1.18, OTP 27)	Post Checkout	2026-10-14T03:42:45.0672497Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Run tests (Elixir 1.18, OTP 27)	Post Checkout	2026-10-14T03:42:45.0708861Z http.https://github.com/.extraheader
+Run tests (Elixir 1.18, OTP 27)	Post Checkout	2026-10-14T03:42:45.0717896Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+Run tests (Elixir 1.18, OTP 27)	Post Checkout	2026-10-14T03:42:45.0751705Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Run tests (Elixir 1.18, OTP 27)	Post Checkout	2026-10-14T03:42:45.0958574Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Run tests (Elixir 1.18, OTP 27)	Post Checkout	2026-10-14T03:42:45.0990707Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Run tests (Elixir 1.18, OTP 27)	Complete job	﻿2026-10-14T03:42:45.1294889Z Cleaning up orphan processes
+Run tests (Elixir 1.18, OTP 27)	Complete job	2026-10-14T03:42:45.1514228Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

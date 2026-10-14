@@ -1,0 +1,557 @@
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	﻿2026-10-14T03:40:53.1718463Z Current runner version: '2.337.0'
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1745597Z ##[group]Runner Image Provisioner
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1746673Z Hosted Compute Agent
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1747393Z Version: 20261002.596
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1748040Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1748777Z Build Date: 2026-10-02T22:28:27Z
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1749534Z Worker ID: {2d4218f5-f6dc-4d08-a341-6f4536647542}
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1750255Z Region: eastus
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1750870Z Cloud: Azure
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1751432Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1752932Z ##[group]Operating System
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1753716Z Ubuntu
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1754236Z 24.04.5
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1754822Z LTS
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1755364Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1756347Z ##[group]Runner Image
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1757074Z Image: ubuntu-24.04
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1757640Z Version: 20261004.327.1
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1758994Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1760566Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1761594Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1764718Z ##[group]GITHUB_TOKEN Permissions
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1767519Z Actions: write
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1768146Z ArtifactMetadata: write
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1768873Z Attestations: write
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1769446Z Checks: write
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1770018Z CodeQuality: write
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1770633Z Contents: write
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1771193Z CopilotRequests: write
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1771861Z Deployments: write
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1772422Z Discussions: write
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1772982Z Drives: write
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1773571Z Issues: write
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1774201Z Metadata: read
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1774808Z Models: read
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1775389Z Packages: write
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1776338Z Pages: write
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1777222Z PullRequests: write
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1777904Z RepositoryProjects: write
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1778587Z SecurityEvents: write
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1779186Z Statuses: write
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1779803Z VulnerabilityAlerts: read
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1780482Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1783204Z Secret source: Actions
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1784305Z Cache mode: write
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.1785382Z Prepare workflow directory
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.2177561Z Prepare all required actions
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.2225562Z Getting action download info
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.4635277Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.5555356Z Download action repository 'erlef/setup-beam@v1' (SHA:54075bcc5e249e4758d363f27d099f55d843f124)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.7106233Z Download action repository 'actions/cache@v4' (SHA:0057852bfaa89a56745cba8c7296529d2fc39830)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:53.8186689Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.0223176Z Complete job name: ubuntu-latest / OTP 28 / Elixir 1.18
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.1024408Z ##[group]Run actions/checkout@v4
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.1025358Z with:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.1026025Z   repository: gsmlg-dev/abyss
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.1030206Z   token: ***
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.1030647Z   ssh-strict: true
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.1031080Z   ssh-user: git
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.1031532Z   persist-credentials: true
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.1032020Z   clean: true
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.1032467Z   sparse-checkout-cone-mode: true
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.1032985Z   fetch-depth: 1
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.1033426Z   fetch-tags: false
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.1033869Z   show-progress: true
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.1034316Z   lfs: false
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.1034722Z   submodules: false
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.1035171Z   set-safe-directory: true
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.1035676Z   allow-unsafe-pr-checkout: false
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.1036918Z env:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.1037341Z   CI: true
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.1037746Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2310138Z Syncing repository: gsmlg-dev/abyss
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2313066Z ##[group]Getting Git version info
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2313780Z Working directory is '/home/runner/work/abyss/abyss'
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2315116Z [command]/usr/bin/git version
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2417877Z git version 2.55.0
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2457317Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2466319Z Temporarily overriding HOME='/home/runner/work/_temp/70a5448c-c608-4f65-b1e2-633e8e922742' before making global git config changes
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2468895Z Adding repository directory to the temporary git global config as a safe directory
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2471586Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2556918Z Deleting the contents of '/home/runner/work/abyss/abyss'
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2561911Z ##[group]Initializing the repository
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2566630Z [command]/usr/bin/git init /home/runner/work/abyss/abyss
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2696426Z hint: Using 'master' as the name for the initial branch. This default branch name
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2698923Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2705437Z hint: to use in all of your new repositories, which will suppress this warning,
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2707769Z hint: call:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2708950Z hint:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2712010Z hint: 	git config --global init.defaultBranch <name>
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2713548Z hint:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2805097Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2807609Z hint: 'development'. The just-created branch can be renamed via this command:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2809360Z hint:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2810499Z hint: 	git branch -m <name>
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2811749Z hint:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2813339Z hint: Disable this message with "git config set advice.defaultBranchName false"
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2815594Z Initialized empty Git repository in /home/runner/work/abyss/abyss/.git/
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2819906Z [command]/usr/bin/git remote add origin https://github.com/gsmlg-dev/abyss
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2823392Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2825069Z ##[group]Disabling automatic garbage collection
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2826888Z [command]/usr/bin/git config --local gc.auto 0
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2861456Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2862549Z ##[group]Setting up auth
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2870440Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.2914323Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.3444306Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.3486695Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.3714452Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.3752804Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.3983448Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.4025978Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.4027073Z ##[group]Fetching the repository
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.4036589Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +7d3a29f4206457669afa60a762a78eb7b90d2690:refs/remotes/origin/main
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.8152989Z From https://github.com/gsmlg-dev/abyss
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.8155011Z  * [new ref]         7d3a29f4206457669afa60a762a78eb7b90d2690 -> origin/main
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.8159347Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.8167743Z ##[group]Determining the checkout info
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.8169584Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.8170410Z [command]/usr/bin/git sparse-checkout disable
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.8222051Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.8255312Z ##[group]Checking out the ref
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.8267904Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.8798353Z Switched to a new branch 'main'
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.8804314Z branch 'main' set up to track 'origin/main'.
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.8815652Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.8861201Z [command]/usr/bin/git log -1 --format=%H
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.8888443Z 7d3a29f4206457669afa60a762a78eb7b90d2690
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.9253805Z ##[group]Run erlef/setup-beam@v1
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.9255015Z with:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.9256041Z   elixir-version: 1.18
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.9257013Z   otp-version: 28
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.9267879Z   github-token: ***
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.9268839Z   otp-architecture: 64
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.9269834Z   install-hex: true
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.9270744Z   install-rebar: true
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.9271693Z   version-type: loose
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.9272699Z   disable_problem_matchers: false
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.9273895Z   hexpm-mirrors: https://builds.hex.pm
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.9275061Z env:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.9276345Z   CI: true
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:54.9277253Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:55.1599053Z ##[group]Installing Erlang/OTP OTP-28.5.0.7 - built on amd64/ubuntu-24.04
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:55.5617372Z [command]/usr/bin/tar zx --strip-components=1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/06842038-c182-458b-a456-2e4a58082f6d -f /home/runner/work/_temp/3a7686d7-1e38-40ab-8382-1a79ae2687ec
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:58.2742528Z [command]/home/runner/work/_temp/.setup-beam/otp/Install -minimal /home/runner/work/_temp/.setup-beam/otp
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:58.3059322Z Installed Erlang/OTP version
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:58.3081797Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -version
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:58.3217424Z Erlang (SMP,ASYNC_THREADS) (BEAM) emulator version 16.4.0.6
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:58.3255362Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:58.3256859Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -noshell -eval io:format(erlang:system_info(otp_release)), halt().
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:58.5371583Z 28::debug::Was not able to coerce latest with semver
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:58.5398212Z Using Elixir 1.18.5 (built for Erlang/OTP 27)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:58.5399683Z ##[group]Installing Elixir v1.18.5-otp-27
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:59.0908651Z [command]/usr/bin/unzip -o -q /home/runner/work/_temp/e88cdd7f-7a3d-4863-b64f-5b280afb9cda
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:59.5560132Z Installed Elixir version
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:59.5586682Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/elixir -v
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:59.7880091Z Erlang/OTP 28 [erts-16.4.0.6] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:1] [jit:ns]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:59.7881639Z 
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:59.7937855Z Elixir 1.18.5 (compiled with Erlang/OTP 27)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:59.8005729Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:59.8006591Z ##[group]Running mix local.rebar,--force
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:40:59.8014148Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.rebar --force
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:01.1541678Z * creating /home/runner/.mix/elixir/1-18-otp-28/rebar3
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:01.1633176Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:01.1634033Z ##[group]Running mix local.hex,--force
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:01.1650499Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.hex --force
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.0313427Z * creating /home/runner/.mix/archives/hex-2.5.2
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.0432590Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.1245458Z ##[group]Run actions/cache@v4
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.1246066Z with:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.1246385Z   path: deps
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	_build
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.1246901Z   key: udp-Linux-X64-otp28-elixir1.18-f78492fb4f02bf8dd197fe1bf34c8a1ced24c9c78fa3dadaaa7b39b3e0e0f3c6
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.1247488Z   enableCrossOsArchive: false
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.1247782Z   fail-on-cache-miss: false
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.1248347Z   lookup-only: false
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.1248597Z   save-always: false
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.1248810Z env:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.1248997Z   CI: true
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.1249279Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.1249751Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.1250122Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.2302446Z (node:2533) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.2303805Z (Use `node --trace-deprecation ...` to show where the warning was created)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.2871224Z Cache not found for input keys: udp-Linux-X64-otp28-elixir1.18-f78492fb4f02bf8dd197fe1bf34c8a1ced24c9c78fa3dadaaa7b39b3e0e0f3c6
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.2969910Z ##[group]Run mix deps.get
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.2970257Z ^[[36;1mmix deps.get^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.3227421Z shell: /usr/bin/bash -e {0}
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.3227802Z env:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.3228079Z   CI: true
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.3228469Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.3229118Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:02.3229638Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.2635321Z Resolving Hex dependencies...
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3456594Z Resolution completed in 0.077s
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3550693Z Unchanged:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3551869Z   bunt 1.0.0
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3579813Z   credo 1.7.19
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3580238Z   dhcp_ex 0.5.0
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3580625Z   dialyxir 1.4.8
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3581036Z   earmark_parser 1.4.46
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3581450Z   erlex 0.2.9
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3581813Z   ex_dns 0.5.0
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3582193Z   ex_doc 0.40.4
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3582669Z   file_system 1.1.1
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3583144Z   jason 1.4.5
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3583559Z   machete 0.3.12
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3583942Z   makeup 1.2.3
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3584343Z   makeup_elixir 1.0.1
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3584779Z   makeup_erlang 1.1.0
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3585186Z   mime 2.0.7
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3585542Z   mox 1.3.2
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3586194Z   nimble_ownership 1.0.2
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3586651Z   nimble_parsec 1.4.2
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3587094Z   telemetry 1.4.2
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3587488Z   telemetry_metrics 1.2.0
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3587910Z   tesla 1.21.3
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.3659631Z * Getting telemetry (Hex package)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.4149227Z * Getting telemetry_metrics (Hex package)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.4247360Z * Getting mox (Hex package)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.4308225Z * Getting ex_dns (Hex package)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.5842812Z * Getting dhcp_ex (Hex package)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.5945309Z * Getting machete (Hex package)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.6266434Z * Getting ex_doc (Hex package)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.6519168Z * Getting dialyxir (Hex package)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.6691749Z * Getting credo (Hex package)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.7323432Z * Getting bunt (Hex package)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.7357038Z * Getting file_system (Hex package)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.7415961Z * Getting jason (Hex package)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.7466576Z * Getting erlex (Hex package)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.7510394Z * Getting earmark_parser (Hex package)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.7633964Z * Getting makeup_elixir (Hex package)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.7696558Z * Getting makeup_erlang (Hex package)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.7740657Z * Getting makeup (Hex package)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.7821814Z * Getting nimble_parsec (Hex package)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.7865858Z * Getting tesla (Hex package)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8058197Z * Getting mime (Hex package)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8092795Z * Getting nimble_ownership (Hex package)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8562830Z ##[group]Run mix test \
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8563128Z ^[[36;1mmix test \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8563371Z ^[[36;1m  test/abyss/datagram_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8563706Z ^[[36;1m  test/abyss/datagram_config_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8564057Z ^[[36;1m  test/abyss/endpoint_contract_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8564580Z ^[[36;1m  test/abyss/datagram_runtime_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8564927Z ^[[36;1m  test/abyss/metadata_requirements_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8565280Z ^[[36;1m  test/abyss/udp_peer_validation_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8565631Z ^[[36;1m  test/abyss/udp_backend_resolution_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8566262Z ^[[36;1m  test/abyss/handler_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8566579Z ^[[36;1m  test/abyss/handler_hardening_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8566901Z ^[[36;1m  test/abyss/connection_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8567233Z ^[[36;1m  test/abyss/connection_admission_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8567575Z ^[[36;1m  test/abyss/telemetry_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8567891Z ^[[36;1m  test/abyss/telemetry_metrics_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8568221Z ^[[36;1m  test/abyss/telemetry_endpoint_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8568554Z ^[[36;1m  test/abyss/table_owner_scope_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8568858Z ^[[36;1m  test/abyss/client_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8569213Z ^[[36;1m  test/abyss/transport/udp/options_regression_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8569609Z ^[[36;1m  test/abyss/transport/udp/core_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8569964Z ^[[36;1m  --cover --export-coverage udp-portable^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8636875Z shell: /usr/bin/bash -e {0}
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8637153Z env:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8637355Z   CI: true
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8637650Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8638150Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:03.8638556Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:04.4364359Z ==> earmark_parser
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:04.4364870Z Compiling 2 files (.xrl)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:04.4641446Z Compiling 1 file (.yrl)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:04.4968332Z Compiling 3 files (.erl)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:04.6505288Z Compiling 32 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:05.3067179Z Generated earmark_parser app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:05.3811268Z ==> file_system
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:05.3811815Z Compiling 7 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:05.5345004Z Generated file_system app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:05.5554104Z ==> mime
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:05.5555439Z Compiling 1 file (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:05.6449555Z Generated mime app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:05.6603096Z ==> bunt
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:05.6603945Z Compiling 2 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:06.0057493Z Generated bunt app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:06.0209925Z ==> jason
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:06.0210730Z Compiling 10 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:07.2412375Z Generated jason app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:07.2649921Z ==> erlex
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:07.2650852Z Compiling 1 file (.xrl)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:07.2822513Z Compiling 1 file (.yrl)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:07.3459702Z Compiling 2 files (.erl)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:07.8008332Z Compiling 2 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:07.9511050Z Generated erlex app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:07.9683286Z ==> machete
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:07.9684399Z Compiling 43 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:08.8419583Z Generated machete app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:08.9136596Z ==> nimble_parsec
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:08.9137719Z Compiling 4 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:09.3066612Z Generated nimble_parsec app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:09.3279217Z ==> makeup
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:09.3279707Z Compiling 15 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:09.6985368Z Generated makeup app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:09.7264992Z ==> makeup_elixir
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:09.7286747Z Compiling 6 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:17.9923859Z Generated makeup_elixir app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:18.0133245Z ==> makeup_erlang
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:18.0134569Z Compiling 4 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:28.2657028Z Generated makeup_erlang app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:28.2942267Z ==> ex_doc
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:28.2943015Z Compiling 30 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:29.3484766Z Generated ex_doc app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:29.7156078Z ==> abyss
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:29.7157465Z ===> Analyzing applications...
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:29.7563600Z ===> Compiling telemetry
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:30.0092574Z ==> telemetry_metrics
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:30.0093194Z Compiling 7 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:30.1086744Z Generated telemetry_metrics app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:30.1294408Z ==> dialyxir
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:30.1295328Z Compiling 70 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:30.7286864Z Generated dialyxir app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:30.7748871Z ==> dhcp_ex
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:30.7750937Z Compiling 12 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:31.2200552Z Generated dhcp_ex app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:31.2680335Z ==> credo
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:31.2681068Z Compiling 257 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:36.4947548Z Generated credo app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:36.5490954Z ==> nimble_ownership
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:36.5508368Z Compiling 2 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:36.7810114Z Generated nimble_ownership app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:36.8288180Z ==> mox
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:36.8288719Z Compiling 2 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:37.0181645Z Generated mox app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:37.0411278Z ==> tesla
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:37.0411959Z Compiling 57 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:37.8252556Z Generated tesla app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:37.8739271Z ==> ex_dns
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:37.8740206Z Compiling 71 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:39.7524843Z Generated ex_dns app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:39.8073590Z ==> abyss
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:39.8075703Z Compiling 38 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:41.4249612Z Generated abyss app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:41.7020780Z Cover compiling modules ...
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:42.8337120Z Running ExUnit with seed: 790657, max_cases: 8
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:42.8484125Z Excluding tags: [integration: true, slow: true]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:42.8493731Z 
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:43.4185576Z .....................
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:43.4187314Z 03:41:43.407 [info] The function passed as a handler with ID "test-handler" is a local function.
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:43.4189971Z This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:43.4192146Z 
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:43.4206717Z https://hexdocs.pm/telemetry/telemetry.html#attach/4
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:43.5214829Z ......
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:43.5216348Z 03:41:43.520 [info] The function passed as a handler with ID "test-handler" is a local function.
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:43.5233607Z This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:43.5235455Z 
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:43.5236369Z https://hexdocs.pm/telemetry/telemetry.html#attach/4
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:43.6231561Z ..........................................
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:43.6232563Z 03:41:43.621 [info] The function passed as a handler with ID "test-handler" is a local function.
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:43.6234608Z This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:43.6236592Z 
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:43.6237101Z https://hexdocs.pm/telemetry/telemetry.html#attach/4
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:44.5605992Z ...........
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:44.5606909Z 03:41:44.557 [info] The function passed as a handler with ID #Reference<0.1327362342.2657615876.22017> is a local function.
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:44.5608688Z This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:44.5610146Z 
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:44.5610579Z https://hexdocs.pm/telemetry/telemetry.html#attach/4
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:44.6010625Z ...............
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:44.6012484Z 03:41:44.600 [info] The function passed as a handler with ID :test_response_time_handler is a local function.
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:44.6015157Z This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:44.6017514Z 
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:44.6018195Z https://hexdocs.pm/telemetry/telemetry.html#attach/4
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:46.8919321Z .............................................................................................
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:46.8920810Z 03:41:46.884 [error] GenServer #PID<0.6545.0> terminating
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:46.8921794Z ** (stop) {:runtime_exit, :killed}
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:46.8922692Z Last message: {:EXIT, #PID<0.6547.0>, :killed}
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:46.8939231Z State: %{runtime: #PID<0.6547.0>, mode: :running, handlers: %{}, dropped: 0, starter: #PID<0.6546.0>, received: 1, transport: Abyss.RuntimeBlockingTransport, memberships: [], generation: #Reference<0.1327362342.2657615874.30610>, local_info: {{127, 0, 0, 1}, 54867}, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.RuntimeBlockingTransport, transport_options: [ip: {127, 0, 0, 1}], handler_module: nil, datagram_options: %{io_backend: :gen_udp, execution: :per_datagram, runtime_options: [send_timeout: 10], route_key: nil, datagram_handler: Abyss.RuntimeTestHandler, required_metadata: [], required_capabilities: []}, handler_options: [owner: #PID<0.6542.0>], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 1, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, listener_socket: #Port<0.387>, server_pid: #PID<0.6543.0>, desired_key: {#PID<0.6543.0>, "listener-1"}, dispatcher: nil, listener_id: "listener-1", listener_span: %Abyss.Telemetry{span_name: :listener, telemetry_span_context: #Reference<0.1327362342.2657615874.30625>, start_time: -576460709033029476, start_metadata: %{broadcast: false, handler: nil, telemetry_span_context: #Reference<0.1327362342.2657615874.30625>, local_info: {{127, 0, 0, 1}, 54867}, listener_socket: #Port<0.387>, server_pid: #PID<0.6543.0>, listener_id: "listener-1", sampled: true}}, runtime_send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.6549.0>, generation: #Reference<0.1327362342.2657615874.30610>, admission: #PID<0.6548.0>, io_backend: :gen_udp}, native_select: nil, armed: true, reservation: nil, drain_waiter: nil, active_high_water: 0, retained_high_water: 0}
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:46.9831188Z ....
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:46.9832160Z Finished in 4.1 seconds (1.6s async, 2.4s sync)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:46.9833435Z 195 tests, 0 failures, 3 excluded
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:46.9835061Z 
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:46.9836021Z Exporting cover results ...
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:46.9837000Z 
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:47.0214184Z Run "mix test.coverage" once all exports complete
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:47.0471888Z ##[group]Run mix test \
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:47.0472199Z ^[[36;1mmix test \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:47.0472471Z ^[[36;1m  test/abyss/transport/native_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:47.0472850Z ^[[36;1m  test/abyss/client_regression_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:47.0473298Z ^[[36;1m  test/abyss/transport/udp/multicast_regression_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:47.0473723Z ^[[36;1m  test/abyss/transport/udp_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:47.0474075Z ^[[36;1m  test/abyss/udp_host_hardening_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:47.0474450Z ^[[36;1m  test/abyss/udp_membership_host_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:47.0474813Z ^[[36;1m  test/abyss/udp_admission_test.exs \^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:47.0475160Z ^[[36;1m  --cover --export-coverage udp-linux^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:47.0539441Z shell: /usr/bin/bash -e {0}
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:47.0539752Z env:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:47.0539987Z   CI: true
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:47.0540331Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:47.0540927Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:47.0541554Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:47.6545102Z Cover compiling modules ...
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:48.8583984Z Running ExUnit with seed: 837602, max_cases: 8
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:48.8697925Z Excluding tags: [integration: true, slow: true]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:48.8700780Z 
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:49.8583860Z .......................................................
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:49.8584922Z 03:41:49.854 [info] The function passed as a handler with ID "start-deadline-#PID<0.515.0>" is a local function.
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:49.8587155Z This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:49.8588313Z 
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:49.8588979Z https://hexdocs.pm/telemetry/telemetry.html#attach/4
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.0521174Z ......
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.0521745Z 03:41:50.051 [error] GenServer #PID<0.633.0> terminating
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.0522314Z ** (stop) killed
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.0522725Z Last message: {:EXIT, #PID<0.631.0>, :killed}
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.0524222Z State: %{owner: #PID<0.631.0>, socket: #Port<0.199>, queue: {[], []}, admission: #PID<0.632.0>, generation: #Reference<0.3531422137.1583087618.99731>, max_queue: 128, max_bytes: 1048576, transport: Abyss.Transport.UDP, owns_admission: false, sending: false, queue_bytes: 0, owner_monitor: #Reference<0.3531422137.1583087618.99740>}
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.0526347Z 
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.0526732Z 03:41:50.049 [error] GenServer #PID<0.623.0> terminating
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.0533763Z ** (stop) killed
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.0534250Z Last message: {:EXIT, #PID<0.621.0>, :killed}
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.0536765Z State: %{owner: #PID<0.621.0>, socket: #Port<0.197>, queue: {[], []}, admission: #PID<0.622.0>, generation: #Reference<0.3531422137.1583087618.99637>, max_queue: 128, max_bytes: 1048576, transport: Abyss.Transport.UDP, owns_admission: false, sending: false, queue_bytes: 0, owner_monitor: #Reference<0.3531422137.1583087618.99646>}
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.3458241Z ......
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.3459209Z Finished in 1.4 seconds (0.5s async, 0.9s sync)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.3460423Z 67 tests, 0 failures
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.3462385Z 
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.3463194Z Exporting cover results ...
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.3463594Z 
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.3842473Z Run "mix test.coverage" once all exports complete
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.4007186Z ##[group]Run bash scripts/udp/backend_boot.sh
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.4007554Z ^[[36;1mbash scripts/udp/backend_boot.sh^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.4073392Z shell: /usr/bin/bash -e {0}
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.4073680Z env:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.4073901Z   CI: true
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.4074220Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.4074738Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:50.4075172Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:51.0012727Z ==> earmark_parser
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:51.0013268Z Compiling 3 files (.erl)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:51.1811040Z Compiling 32 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:51.8458617Z Generated earmark_parser app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:51.9171552Z ==> file_system
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:51.9172574Z Compiling 7 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:52.0752567Z Generated file_system app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:52.0986655Z ==> mime
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:52.0987379Z Compiling 1 file (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:52.1883110Z Generated mime app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:52.2019800Z ==> bunt
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:52.2020164Z Compiling 2 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:52.5624519Z Generated bunt app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:52.5785394Z ==> jason
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:52.5786104Z Compiling 10 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:53.8104104Z Generated jason app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:53.8612583Z ==> erlex
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:53.8613431Z Compiling 2 files (.erl)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:54.2780321Z Compiling 2 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:54.4202244Z Generated erlex app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:54.4356439Z ==> machete
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:54.4357001Z Compiling 43 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:55.0643594Z Generated machete app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:55.1308090Z ==> nimble_parsec
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:55.1316708Z Compiling 4 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:55.4702918Z Generated nimble_parsec app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:55.4900873Z ==> makeup
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:55.4901726Z Compiling 15 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:55.8585343Z Generated makeup app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:55.8843834Z ==> makeup_elixir
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:41:55.8844860Z Compiling 6 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:04.1839325Z Generated makeup_elixir app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:04.2042845Z ==> makeup_erlang
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:04.2043695Z Compiling 4 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:14.2257193Z Compiling lib/makeup/lexers/erlang_lexer.ex (it's taking more than 10s)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:14.5300201Z Generated makeup_erlang app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:14.5605263Z ==> ex_doc
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:14.5605948Z Compiling 30 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:15.6027160Z Generated ex_doc app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:15.9567833Z ==> abyss
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:15.9568492Z ===> Analyzing applications...
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:15.9755164Z ===> Compiling telemetry
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:16.2465621Z ==> telemetry_metrics
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:16.2467021Z Compiling 7 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:16.3493340Z Generated telemetry_metrics app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:16.3736208Z ==> tesla
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:16.3736873Z Compiling 57 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:17.1580066Z Generated tesla app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:17.2067288Z ==> ex_dns
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:17.2068304Z Compiling 71 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:19.0405293Z Generated ex_dns app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:19.1024426Z ==> dialyxir
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:19.1025479Z Compiling 70 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:19.8970600Z Generated dialyxir app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:19.9407543Z ==> dhcp_ex
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:19.9412207Z Compiling 12 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:20.4202051Z Generated dhcp_ex app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:20.4638770Z ==> credo
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:20.4639604Z Compiling 257 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:26.1697858Z Generated credo app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:26.2237044Z ==> abyss
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:26.2238149Z Compiling 35 files (.ex)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:27.9666043Z Generated abyss app
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:28.2863583Z PASS boot=:undefined selection=omitted effective=inet OTP=28
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:28.9441225Z PASS boot={:ok, :inet} selection=omitted effective=inet OTP=28
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:29.6153532Z PASS boot={:ok, :socket} selection=omitted effective=socket OTP=28
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:30.2843018Z PASS boot={:ok, :socket} selection=inet effective=inet OTP=28
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:30.9559330Z PASS boot={:ok, :inet} selection=socket effective=socket OTP=28
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:30.9682717Z ##[group]Run mix run scripts/udp/stress.exs
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:30.9683090Z ^[[36;1mmix run scripts/udp/stress.exs^[[0m
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:30.9745604Z shell: /usr/bin/bash -e {0}
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:30.9746176Z env:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:30.9746386Z   CI: true
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:30.9746684Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:30.9747170Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:30.9747674Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:31.7784332Z STRESS_PASS %{active: 2, processes: 124, dropped: 1181, mailbox: 1, retained: 996} baseline_processes=116 final_processes=116 epochs=20 payload_bytes=996 offered_per_epoch=202 ceiling=2 pending_count=0 pending_bytes=0 kernel_drops=unmeasured
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:31.7985248Z ##[group]Run actions/upload-artifact@v4
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:31.7985552Z with:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:31.7986071Z   name: udp-Linux-X64-otp28
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:31.7986345Z   path: cover/*.coverdata
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:31.7986597Z   if-no-files-found: ignore
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:31.7986844Z   compression-level: 6
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:31.7987069Z   overwrite: false
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:31.7987285Z   include-hidden-files: false
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:31.7987523Z env:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:31.7987699Z   CI: true
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:31.7987960Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:31.7988405Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:31.7988763Z ##[endgroup]
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:31.9712098Z (node:2984) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:31.9713939Z (Use `node --trace-deprecation ...` to show where the warning was created)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:31.9797445Z With the provided path, there will be 2 files uploaded
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:31.9798445Z Artifact name is valid!
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:31.9798909Z Root directory input is valid!
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:32.1881618Z Beginning upload of artifact content to blob storage
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:32.2169899Z (node:2984) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:32.2430006Z Uploaded bytes 54854
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:32.2581347Z Finished uploading artifact content to blob storage!
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:32.2582725Z SHA256 digest of uploaded artifact zip is 6c44abaace85936f5991126504b2d566e7f4ef2d5ed2e4b33d7de90d57fbd5c5
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:32.2583941Z Finalizing artifact upload
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:32.4400642Z Artifact udp-Linux-X64-otp28.zip successfully finalized. Artifact ID 11868467082
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:32.4402288Z Artifact udp-Linux-X64-otp28 has been successfully uploaded! Final size is 54854 bytes. Artifact ID is 11868467082
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:32.4408677Z Artifact download URL: https://github.com/gsmlg-dev/abyss/actions/runs/38507495990/artifacts/11868467082
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:32.5169910Z Post job cleanup.
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:32.6283346Z (node:3009) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:32.6284534Z (Use `node --trace-deprecation ...` to show where the warning was created)
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:32.6468559Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/abyss/abyss --files-from manifest.txt --use-compress-program zstdmt
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:32.8879924Z (node:3009) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:33.1522536Z Sent 14073553 of 14073553 (100.0%), 49.3 MBs/sec
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:33.2328540Z Cache saved with key: udp-Linux-X64-otp28-elixir1.18-f78492fb4f02bf8dd197fe1bf34c8a1ced24c9c78fa3dadaaa7b39b3e0e0f3c6
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:33.2470394Z Post job cleanup.
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:33.3331683Z [command]/usr/bin/git version
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:33.3378823Z git version 2.55.0
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:33.3417704Z Temporarily overriding HOME='/home/runner/work/_temp/403c2628-c39a-4649-93cd-1ec4457870d5' before making global git config changes
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:33.3419290Z Adding repository directory to the temporary git global config as a safe directory
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:33.3422988Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:33.3462280Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:33.3496665Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:33.3751072Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:33.3780151Z http.https://github.com/.extraheader
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:33.3792325Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:33.3825969Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:33.4092200Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:33.4130064Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:33.4532782Z Cleaning up orphan processes
+ubuntu-latest / OTP 28 / Elixir 1.18	UNKNOWN STEP	2026-10-14T03:42:33.4824120Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/cache@v4, actions/checkout@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

@@ -1,0 +1,205 @@
+{
+  "result": "PASS",
+  "version": "0.8.0",
+  "tag_sha": "7d3a29f4206457669afa60a762a78eb7b90d2690",
+  "stage": "/tmp/abyss-published-080-ej6z7csh",
+  "hex_archive_sha256": "b7c60c6502a655a98c8a08e7068a2cd0ba0cb128505ab6349453629823fb18eb",
+  "hex_inner_sha256": "72a5738408aa7443b0d862ec7a20ab7c85b0cf518eee21270cfcb6761122adf3",
+  "requirements": {
+    "ex_doc": {
+      "app": "ex_doc",
+      "optional": false,
+      "requirement": ">= 0.0.0"
+    },
+    "telemetry": {
+      "app": "telemetry",
+      "optional": false,
+      "requirement": "~> 1.0"
+    },
+    "telemetry_metrics": {
+      "app": "telemetry_metrics",
+      "optional": false,
+      "requirement": "~> 1.0"
+    }
+  },
+  "source_files": [
+    {
+      "file": "LICENSE",
+      "sha256": "e55700b73c35aa16a9c6e1fe93fe59e09bf0226547aef0d6f9b76662bd3a1baa"
+    },
+    {
+      "file": "README.md",
+      "sha256": "d4639460c0eecc0db0e242b533926b3f295383916d11cb4cfea354c453179018"
+    },
+    {
+      "file": "docs/dispatcher.md",
+      "sha256": "e16839d45be6d3e990bc90ed47ff8ffa75a50bce777baac4955bc56da4c91b2f"
+    },
+    {
+      "file": "docs/quic-service.md",
+      "sha256": "91ce04185a8f55442db4d66365ac05a0b2a0fce79fe56d3cbc6d84754a15fe43"
+    },
+    {
+      "file": "docs/udp-broadcast-multicast.md",
+      "sha256": "1e55dcb7bac17e7f31399c50b7c1a2b4a1014dd884d5e4dc5db2fa65e55b9f7a"
+    },
+    {
+      "file": "docs/udp-runtime/design.md",
+      "sha256": "96e0d1ec7fb0f38baff209c4bc93d148c183f3b6f76bfc2e9bf8dc5a863bf279"
+    },
+    {
+      "file": "docs/udp-runtime/migration.md",
+      "sha256": "89969ddde6815400b0e1c74f86ae65e9eb67554e937b0ac6df52a850418cab33"
+    },
+    {
+      "file": "lib/abyss.ex",
+      "sha256": "6f040597b676702c8faa7b414624d3d6200ac217684ec226cf0d9594c03fff79"
+    },
+    {
+      "file": "lib/abyss/application.ex",
+      "sha256": "a05a5369109945e21330d53dfe0970019e9e51cf53e3de19577b4b4069636629"
+    },
+    {
+      "file": "lib/abyss/client.ex",
+      "sha256": "5515a3426df2344723a8abbf2b053100f45279b8e6423ba1e11290ff52b0c73e"
+    },
+    {
+      "file": "lib/abyss/connection.ex",
+      "sha256": "75991f7efc9593ab6bc5825c4514c3e338853740947c0b44ebab72c8a5e87bb6"
+    },
+    {
+      "file": "lib/abyss/datagram.ex",
+      "sha256": "0b586088668bb63b013cf815fd35e001cd51dc1c72c372efb87de01431572d39"
+    },
+    {
+      "file": "lib/abyss/datagram_actions.ex",
+      "sha256": "ee4c6c44214f9bcb2e39f4cd537ac5745d0684417960f589f837d48eaafe2998"
+    },
+    {
+      "file": "lib/abyss/datagram_dispatcher.ex",
+      "sha256": "d8defa29e5bf0d388a8b4c14c594662fd4e2836bf99e991d9eb44586ba8d30b8"
+    },
+    {
+      "file": "lib/abyss/datagram_handler.ex",
+      "sha256": "846893da7397c78e738ca307b65d2777f99fb0fcebc8f0d9b767c6daa3a5fe58"
+    },
+    {
+      "file": "lib/abyss/datagram_runtime.ex",
+      "sha256": "58f1de0d219a603eb71c2c7cd7fbcf3fd40a7b49c02a420c68f4afa941f6f345"
+    },
+    {
+      "file": "lib/abyss/datagram_worker.ex",
+      "sha256": "8ab4272c285733f4752d796e9fec73d4e9f9a01598bc47d0b73b9fe2cb85adcc"
+    },
+    {
+      "file": "lib/abyss/dhcp_socket/native.ex",
+      "sha256": "254492642aecec2b7ed31ed03078a59b8e7775f8d57c4f4bc0afea35fadf3cf2"
+    },
+    {
+      "file": "lib/abyss/endpoint.ex",
+      "sha256": "b2a90ec7c42669fadc08cc01f9ab6cddaebe7023d480b5c7cc4fb8060dcc7d97"
+    },
+    {
+      "file": "lib/abyss/handler.ex",
+      "sha256": "3173ccafae7c775dab541d67df60e3cdd8e250bd63e2e3f5f00401828f03828e"
+    },
+    {
+      "file": "lib/abyss/listener.ex",
+      "sha256": "4e42024299498428cf8532e3e85999df08b33ebfe89984369680c1a961ab9e86"
+    },
+    {
+      "file": "lib/abyss/listener_pool.ex",
+      "sha256": "122eea5656bb9f9e7ade0046b8ff5b751f1099293cadc1528302f86256cb932e"
+    },
+    {
+      "file": "lib/abyss/listener_pool_scaler.ex",
+      "sha256": "7b95b946528141362dcc0298671b5a8a0eb73eae576680e1cadd4025fc232bdf"
+    },
+    {
+      "file": "lib/abyss/listener_starter.ex",
+      "sha256": "50c1219e3c35b5aa374fe9244206aa31ecf881701aab17dc905d4f3eac45fe1b"
+    },
+    {
+      "file": "lib/abyss/logger.ex",
+      "sha256": "ee0f45b8b65c63e8ef9e7347079db2e4a2d6228f9b19f59491a612c483842fb8"
+    },
+    {
+      "file": "lib/abyss/quic.ex",
+      "sha256": "440cb155d37d6f374cee704b8cc5c35a09dbb0759366116c8220d4cde3f3c9e2"
+    },
+    {
+      "file": "lib/abyss/quic/handler.ex",
+      "sha256": "a0e1bc27356c3144db0b3651a524d9712b30a5890a3383be78d7bf78e0b762ed"
+    },
+    {
+      "file": "lib/abyss/quic/service.ex",
+      "sha256": "ecd853982f39301c88fd174d81978deeca28c21e6800797647fbd30b268d8b42"
+    },
+    {
+      "file": "lib/abyss/server.ex",
+      "sha256": "c6ea5524f98e81582eb0020d49e3dd5fd8f669ac855ffc71a69f711d5d4b75bb"
+    },
+    {
+      "file": "lib/abyss/server_config.ex",
+      "sha256": "059464c7b11f44066af65aaaa3e4863c717ca0cc067289baaaa6d2a18929b3ac"
+    },
+    {
+      "file": "lib/abyss/shutdown_listener.ex",
+      "sha256": "87f1aa84a51af504d272af95ea634d8e17f9d87d9d16ba3df418836709e8b5fc"
+    },
+    {
+      "file": "lib/abyss/table_owner.ex",
+      "sha256": "55688ac9af73e6ce71e283855e211f3b512159666f97e59d83bd5fc431c63814"
+    },
+    {
+      "file": "lib/abyss/telemetry.ex",
+      "sha256": "0316f89d108e60d63a08b86b5a9ebacb2dab12b0f5514da7ef31ddd3a255e4be"
+    },
+    {
+      "file": "lib/abyss/transport.ex",
+      "sha256": "10fc757776b2a65aedba3580bef6b85f4afe13b4b2c0ea4bb77bde4ef0dfb6f6"
+    },
+    {
+      "file": "lib/abyss/transport/udp.ex",
+      "sha256": "2f889cc2f32f250d67f2fbdacbc1a0ab632ddd03f9ae5ea54fbd6a2e677de9e0"
+    },
+    {
+      "file": "lib/abyss/transport/udp/broadcast.ex",
+      "sha256": "f1ad057fa576afccb837a6d8a6885319b41ba660f24feaa46abdbb746bf3c1ab"
+    },
+    {
+      "file": "lib/abyss/transport/udp/core.ex",
+      "sha256": "eea49b164184828038c140d48c8083f167023db758153b096057e6849fa72d04"
+    },
+    {
+      "file": "lib/abyss/transport/udp/multicast.ex",
+      "sha256": "f6ffba3d638d89efd4f5259bc179fb20f46cbd20eb62b4100b845103908eb21a"
+    },
+    {
+      "file": "lib/abyss/transport/udp/native.ex",
+      "sha256": "54fadbd1c859891fba8b49d84a251db44b072f18bb90f69a7e696e7055d8ca34"
+    },
+    {
+      "file": "lib/abyss/transport/udp/unicast.ex",
+      "sha256": "d72b568868750280a623c82670eac90c0a27b3e2010facf9d70b881c9ee19c36"
+    },
+    {
+      "file": "lib/abyss/udp_admission.ex",
+      "sha256": "0c956ad44c526f3cc305f357d73df8a74ec955dcfd9184faf87b0fe6c8f69233"
+    },
+    {
+      "file": "lib/abyss/utils.ex",
+      "sha256": "408052a43ecdb62edb68c9b0d35eabb6d081488b108522e9b0417a9cb1ce7637"
+    },
+    {
+      "file": "mix.exs",
+      "sha256": "303f322faf030693a4d689a4d8099b939c078b48095bf6117330bc5ed4129bb4"
+    }
+  ],
+  "consumer_dependency_source": "Hex only, exact abyss == 0.8.0, fresh registry/build/deps",
+  "wire_endpoints": 18,
+  "actual_wire_exchanges": 54,
+  "coverage": "legacy and all three Datagram policies; inet/socket; IPv4/IPv6; empty/binary/text; native strict IPv4/IPv6",
+  "native_artifacts": [],
+  "optional_dhcp_package": "NOT PUBLISHED OR REBUILT"
+}

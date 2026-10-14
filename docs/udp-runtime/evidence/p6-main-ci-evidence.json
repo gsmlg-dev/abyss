@@ -1,0 +1,1055 @@
+{
+  "source_sha": "7d3a29f4206457669afa60a762a78eb7b90d2690",
+  "workflows": [
+    {
+      "workflow": "Test",
+      "run_id": 38507495830,
+      "run": "https://github.com/gsmlg-dev/abyss/actions/runs/38507495830",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "job": "Test",
+          "job_id": 115668233478,
+          "conclusion": "success",
+          "log": "p6-main-ci-test-test.log",
+          "log_sha256": "ba979db395d2657a52bc2249a211a0d6ee69c529339d5063e77691e5b96f2cda",
+          "test_results": [
+            "3 doctests, 648 tests, 0 failures, 7 excluded"
+          ]
+        }
+      ]
+    },
+    {
+      "workflow": "CI",
+      "run_id": 38507495913,
+      "run": "https://github.com/gsmlg-dev/abyss/actions/runs/38507495913",
+      "conclusion": "failure",
+      "jobs": [
+        {
+          "job": "Credo",
+          "job_id": 115668233879,
+          "conclusion": "failure",
+          "log": "p6-main-ci-quality-credo.log",
+          "log_sha256": "a02179a6a990e7e8fc8de54ce2e6b2aac6625d8a8cd4e7ea90619c782e16715f",
+          "test_results": [],
+          "finding_counts": {
+            "warnings": 15,
+            "refactoring": 15,
+            "readability": 48,
+            "software_design": 5,
+            "total": 83
+          },
+          "baseline_comparison": "Current count83 matches separately retained baseline comparison83/new0. Absolute strict Credo remains FAIL."
+        },
+        {
+          "job": "Compile",
+          "job_id": 115668233911,
+          "conclusion": "success",
+          "log": "p6-main-ci-quality-compile.log",
+          "log_sha256": "fdc5d56b311a50c0c7e2c30e4c7f760d55b89db0e21c228d5ca4bf00344e61c7",
+          "test_results": []
+        },
+        {
+          "job": "Dialyzer",
+          "job_id": 115668233929,
+          "conclusion": "success",
+          "log": "p6-main-ci-quality-dialyzer.log",
+          "log_sha256": "f19360b386c2c5578056b540d608e323f346b768911edb76b123ead8e92c752e",
+          "test_results": []
+        },
+        {
+          "job": "Format Check",
+          "job_id": 115668233949,
+          "conclusion": "success",
+          "log": "p6-main-ci-quality-format-check.log",
+          "log_sha256": "2fee2f911bb56fc372e647506002dc2222579870fc0e4e8d966e6192fab53dc8",
+          "test_results": []
+        }
+      ]
+    },
+    {
+      "workflow": "UDP Regression Matrix",
+      "run_id": 38507495990,
+      "run": "https://github.com/gsmlg-dev/abyss/actions/runs/38507495990",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "job": "ubuntu-latest / OTP 28 / Elixir 1.18",
+          "job_id": 115668234263,
+          "conclusion": "success",
+          "log": "p6-main-ci-regression-otp28.log",
+          "log_sha256": "9a658f93df32aa6282215969d98a8b96e15cda9cff19c1a0c4885bfd00de3b86",
+          "test_results": [
+            "195 tests, 0 failures, 3 excluded",
+            "67 tests, 0 failures"
+          ]
+        },
+        {
+          "job": "macos-14 / OTP 28 / Elixir 1.18",
+          "job_id": 115668234425,
+          "conclusion": "success",
+          "log": "p6-main-ci-regression-macos.log",
+          "log_sha256": "6a9d12b77a782977d41230a9ebf945049946add9a3c1aa5e6ddd7e6679739231",
+          "test_results": [
+            "194 tests, 0 failures, 3 excluded"
+          ],
+          "owned_loopback_alias_steps": [
+            {
+              "completedAt": "2026-10-14T03:41:19Z",
+              "conclusion": "success",
+              "name": "Create macOS wrong-peer loopback fixture",
+              "number": 6,
+              "startedAt": "2026-10-14T03:41:19Z",
+              "status": "completed"
+            },
+            {
+              "completedAt": "2026-10-14T03:42:37Z",
+              "conclusion": "success",
+              "name": "Remove owned macOS loopback fixture",
+              "number": 8,
+              "startedAt": "2026-10-14T03:42:37Z",
+              "status": "completed"
+            }
+          ]
+        },
+        {
+          "job": "ubuntu-latest / OTP 27 / Elixir 1.18",
+          "job_id": 115668234939,
+          "conclusion": "success",
+          "log": "p6-main-ci-regression-otp27.log",
+          "log_sha256": "8d14803fd2547312cd50b02ab2b0e792f79ea530258d6f71f9bd59449dc452f3",
+          "test_results": [
+            "195 tests, 0 failures, 3 excluded",
+            "67 tests, 0 failures"
+          ]
+        }
+      ]
+    },
+    {
+      "workflow": "Isolated UDP Network",
+      "run_id": 38507495942,
+      "run": "https://github.com/gsmlg-dev/abyss/actions/runs/38507495942",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "job": "dhcp_optional",
+          "job_id": 115668234284,
+          "conclusion": "success",
+          "log": "p6-main-ci-network-dhcp-optional.log",
+          "log_sha256": "e5cab098d15dcad9cc2029d64a985da7cac95e0399dbb5d5814e6ec2440e4d5c",
+          "test_results": [],
+          "gate_count": 11,
+          "actual_gate_result": {
+            "result": "PASS",
+            "gates": [
+              "native_bind_68",
+              "broadcast_source_68",
+              "unicast_source_68",
+              "dhcp_owner_payload",
+              "arp_probe_wire",
+              "arp_owner_frame",
+              "idempotent_close",
+              "closed_send_errors",
+              "close_kernel_release",
+              "owner_death_explicit_close",
+              "orphan_kernel_release"
+            ],
+            "consumer": "/tmp/abyss-p5-7wpm6eee/native-consumer",
+            "capabilities": [
+              "CAP_NET_RAW",
+              "CAP_NET_BIND_SERVICE"
+            ]
+          }
+        },
+        {
+          "job": "wire (28, inet, keyed)",
+          "job_id": 115668234522,
+          "conclusion": "success",
+          "log": "p6-main-ci-network-wire-28-inet-keyed.log",
+          "log_sha256": "f9573acbbd44102447a59b988c87c06e94fa92e3569a7b754afe66a634413540",
+          "test_results": [],
+          "gate_count": 15,
+          "actual_gate_result": {
+            "result": "PASS",
+            "backend": "inet",
+            "gates": [
+              "broadcast_limited_bidirectional_two_receivers",
+              "broadcast_directed_bidirectional_two_receivers",
+              "ipv4_strict_group_filter_foreign_socket_membership",
+              "ipv4_two_groups_bidirectional_two_subscribers",
+              "ipv4_leave_rejoin_idempotent_epoch_barriers",
+              "ipv4_two_interfaces_membership_egress_isolation",
+              "ipv4_ttl_or_hoplimit_wire_ancillary",
+              "ipv4_loopback_local_vs_remote_delivery",
+              "ipv6_two_groups_bidirectional_two_subscribers",
+              "ipv6_leave_rejoin_idempotent_epoch_barriers",
+              "ipv6_two_interfaces_membership_egress_isolation",
+              "ipv6_ttl_or_hoplimit_wire_ancillary",
+              "ipv6_loopback_local_vs_remote_delivery",
+              "empty_datagram_original_listener_reply_port",
+              "distinct_datagrams_preserve_boundaries"
+            ],
+            "payload_sizes": [
+              0,
+              6,
+              42,
+              46,
+              49,
+              50,
+              51,
+              52,
+              55,
+              56,
+              57,
+              62,
+              63
+            ],
+            "unsupported": [],
+            "topology": "3 endpoint namespaces, 2 isolated bridged subnets"
+          }
+        },
+        {
+          "job": "wire (28, socket, endpoint)",
+          "job_id": 115668234621,
+          "conclusion": "success",
+          "log": "p6-main-ci-network-wire-28-socket-endpoint.log",
+          "log_sha256": "5afbfe3eccabcace1a09983e206ec8e1dedbde6d5a870fe0faf3968a929756a2",
+          "test_results": [],
+          "gate_count": 10,
+          "actual_gate_result": {
+            "result": "PASS_SUPPORTED_SUBSET",
+            "backend": "socket",
+            "gates": [
+              "broadcast_limited_bidirectional_two_receivers",
+              "broadcast_directed_bidirectional_two_receivers",
+              "ipv4_two_groups_bidirectional_two_subscribers",
+              "ipv4_leave_rejoin_idempotent_epoch_barriers",
+              "ipv4_two_interfaces_membership_egress_isolation",
+              "ipv4_ttl_or_hoplimit_wire_ancillary",
+              "ipv4_loopback_local_vs_remote_delivery",
+              "empty_datagram_original_listener_reply_port",
+              "distinct_datagrams_preserve_boundaries",
+              "socket_backend_scoped_sockaddr_returns_explicit_error"
+            ],
+            "payload_sizes": [
+              0,
+              6,
+              42,
+              46,
+              49,
+              50,
+              51,
+              52,
+              55,
+              56,
+              57,
+              62,
+              63
+            ],
+            "unsupported": [
+              "ipv6_scoped_wire"
+            ],
+            "topology": "3 endpoint namespaces, 2 isolated bridged subnets"
+          }
+        },
+        {
+          "job": "wire (27, socket, per_datagram)",
+          "job_id": 115668234622,
+          "conclusion": "success",
+          "log": "p6-main-ci-network-wire-27-socket-per-datagram.log",
+          "log_sha256": "17a31c37300433f32b7ccaaf4482797be9128ca3642176ccae19f5d05c24541a",
+          "test_results": [],
+          "gate_count": 10,
+          "actual_gate_result": {
+            "result": "PASS_SUPPORTED_SUBSET",
+            "backend": "socket",
+            "gates": [
+              "broadcast_limited_bidirectional_two_receivers",
+              "broadcast_directed_bidirectional_two_receivers",
+              "ipv4_two_groups_bidirectional_two_subscribers",
+              "ipv4_leave_rejoin_idempotent_epoch_barriers",
+              "ipv4_two_interfaces_membership_egress_isolation",
+              "ipv4_ttl_or_hoplimit_wire_ancillary",
+              "ipv4_loopback_local_vs_remote_delivery",
+              "empty_datagram_original_listener_reply_port",
+              "distinct_datagrams_preserve_boundaries",
+              "socket_backend_scoped_sockaddr_returns_explicit_error"
+            ],
+            "payload_sizes": [
+              0,
+              6,
+              42,
+              46,
+              49,
+              50,
+              51,
+              52,
+              55,
+              56,
+              57,
+              62,
+              63
+            ],
+            "unsupported": [
+              "ipv6_scoped_wire"
+            ],
+            "topology": "3 endpoint namespaces, 2 isolated bridged subnets"
+          }
+        },
+        {
+          "job": "wire (28, socket, per_datagram)",
+          "job_id": 115668234643,
+          "conclusion": "success",
+          "log": "p6-main-ci-network-wire-28-socket-per-datagram.log",
+          "log_sha256": "7e53781c32352e4968103f1471d0db6c3fb681d67500a42a3a36e68619b0b08a",
+          "test_results": [],
+          "gate_count": 10,
+          "actual_gate_result": {
+            "result": "PASS_SUPPORTED_SUBSET",
+            "backend": "socket",
+            "gates": [
+              "broadcast_limited_bidirectional_two_receivers",
+              "broadcast_directed_bidirectional_two_receivers",
+              "ipv4_two_groups_bidirectional_two_subscribers",
+              "ipv4_leave_rejoin_idempotent_epoch_barriers",
+              "ipv4_two_interfaces_membership_egress_isolation",
+              "ipv4_ttl_or_hoplimit_wire_ancillary",
+              "ipv4_loopback_local_vs_remote_delivery",
+              "empty_datagram_original_listener_reply_port",
+              "distinct_datagrams_preserve_boundaries",
+              "socket_backend_scoped_sockaddr_returns_explicit_error"
+            ],
+            "payload_sizes": [
+              0,
+              6,
+              42,
+              46,
+              49,
+              50,
+              51,
+              52,
+              55,
+              56,
+              57,
+              62,
+              63
+            ],
+            "unsupported": [
+              "ipv6_scoped_wire"
+            ],
+            "topology": "3 endpoint namespaces, 2 isolated bridged subnets"
+          }
+        },
+        {
+          "job": "wire (28, inet, per_datagram)",
+          "job_id": 115668234677,
+          "conclusion": "success",
+          "log": "p6-main-ci-network-wire-28-inet-per-datagram.log",
+          "log_sha256": "fd2d58ae27847c74a2f7becdf17ee2ea00aeb581630584d88db85e8125f6b652",
+          "test_results": [],
+          "gate_count": 15,
+          "actual_gate_result": {
+            "result": "PASS",
+            "backend": "inet",
+            "gates": [
+              "broadcast_limited_bidirectional_two_receivers",
+              "broadcast_directed_bidirectional_two_receivers",
+              "ipv4_strict_group_filter_foreign_socket_membership",
+              "ipv4_two_groups_bidirectional_two_subscribers",
+              "ipv4_leave_rejoin_idempotent_epoch_barriers",
+              "ipv4_two_interfaces_membership_egress_isolation",
+              "ipv4_ttl_or_hoplimit_wire_ancillary",
+              "ipv4_loopback_local_vs_remote_delivery",
+              "ipv6_two_groups_bidirectional_two_subscribers",
+              "ipv6_leave_rejoin_idempotent_epoch_barriers",
+              "ipv6_two_interfaces_membership_egress_isolation",
+              "ipv6_ttl_or_hoplimit_wire_ancillary",
+              "ipv6_loopback_local_vs_remote_delivery",
+              "empty_datagram_original_listener_reply_port",
+              "distinct_datagrams_preserve_boundaries"
+            ],
+            "payload_sizes": [
+              0,
+              6,
+              42,
+              46,
+              49,
+              50,
+              51,
+              52,
+              55,
+              56,
+              57,
+              62,
+              63
+            ],
+            "unsupported": [],
+            "topology": "3 endpoint namespaces, 2 isolated bridged subnets"
+          }
+        },
+        {
+          "job": "wire (28, inet, endpoint)",
+          "job_id": 115668234681,
+          "conclusion": "success",
+          "log": "p6-main-ci-network-wire-28-inet-endpoint.log",
+          "log_sha256": "9946d97b04c0fc84cc6b117e685c85db4a2460268d19ea779d3e830247594ffd",
+          "test_results": [],
+          "gate_count": 15,
+          "actual_gate_result": {
+            "result": "PASS",
+            "backend": "inet",
+            "gates": [
+              "broadcast_limited_bidirectional_two_receivers",
+              "broadcast_directed_bidirectional_two_receivers",
+              "ipv4_strict_group_filter_foreign_socket_membership",
+              "ipv4_two_groups_bidirectional_two_subscribers",
+              "ipv4_leave_rejoin_idempotent_epoch_barriers",
+              "ipv4_two_interfaces_membership_egress_isolation",
+              "ipv4_ttl_or_hoplimit_wire_ancillary",
+              "ipv4_loopback_local_vs_remote_delivery",
+              "ipv6_two_groups_bidirectional_two_subscribers",
+              "ipv6_leave_rejoin_idempotent_epoch_barriers",
+              "ipv6_two_interfaces_membership_egress_isolation",
+              "ipv6_ttl_or_hoplimit_wire_ancillary",
+              "ipv6_loopback_local_vs_remote_delivery",
+              "empty_datagram_original_listener_reply_port",
+              "distinct_datagrams_preserve_boundaries"
+            ],
+            "payload_sizes": [
+              0,
+              6,
+              42,
+              46,
+              49,
+              50,
+              51,
+              52,
+              55,
+              56,
+              57,
+              62,
+              63
+            ],
+            "unsupported": [],
+            "topology": "3 endpoint namespaces, 2 isolated bridged subnets"
+          }
+        },
+        {
+          "job": "wire (28, native, per_datagram)",
+          "job_id": 115668234700,
+          "conclusion": "success",
+          "log": "p6-main-ci-network-wire-28-native-per-datagram.log",
+          "log_sha256": "98b260939cadd0913f2380f5f4b79a95906dc48baab4752a0c36f6d576f80918",
+          "test_results": [],
+          "gate_count": 21,
+          "actual_gate_result": {
+            "result": "PASS",
+            "backend": "native",
+            "gates": [
+              "broadcast_limited_bidirectional_two_receivers",
+              "broadcast_directed_bidirectional_two_receivers",
+              "ipv4_strict_group_filter_foreign_socket_membership",
+              "ipv4_two_groups_bidirectional_two_subscribers",
+              "ipv4_leave_rejoin_idempotent_epoch_barriers",
+              "ipv4_two_interfaces_membership_egress_isolation",
+              "ipv4_ttl_or_hoplimit_wire_ancillary",
+              "ipv4_loopback_local_vs_remote_delivery",
+              "ipv6_two_groups_bidirectional_two_subscribers",
+              "ipv6_leave_rejoin_idempotent_epoch_barriers",
+              "ipv6_two_interfaces_membership_egress_isolation",
+              "ipv6_ttl_or_hoplimit_wire_ancillary",
+              "ipv6_loopback_local_vs_remote_delivery",
+              "ipv4_identical_payload_distinct_destination_metadata",
+              "ipv4_strict_reply_original_socket_second_interface",
+              "ipv6_identical_payload_distinct_destination_metadata",
+              "ipv6_strict_reply_original_socket_second_interface",
+              "ipv6_two_link_local_scopes_strict_original_socket_replies",
+              "ipv4_directed_broadcast_truthful_metadata_strict_unicast_reply",
+              "empty_datagram_original_listener_reply_port",
+              "distinct_datagrams_preserve_boundaries"
+            ],
+            "payload_sizes": [
+              0,
+              6,
+              42,
+              46,
+              48,
+              49,
+              50,
+              51,
+              52,
+              55,
+              56,
+              57,
+              58,
+              62,
+              63,
+              64,
+              70
+            ],
+            "unsupported": [],
+            "topology": "3 endpoint namespaces, 2 isolated bridged subnets"
+          }
+        },
+        {
+          "job": "wire (27, socket, keyed)",
+          "job_id": 115668234710,
+          "conclusion": "success",
+          "log": "p6-main-ci-network-wire-27-socket-keyed.log",
+          "log_sha256": "66cb65e98faafc7c348b1668b4870cae66f86457e319d41c773d5a09f956be8f",
+          "test_results": [],
+          "gate_count": 10,
+          "actual_gate_result": {
+            "result": "PASS_SUPPORTED_SUBSET",
+            "backend": "socket",
+            "gates": [
+              "broadcast_limited_bidirectional_two_receivers",
+              "broadcast_directed_bidirectional_two_receivers",
+              "ipv4_two_groups_bidirectional_two_subscribers",
+              "ipv4_leave_rejoin_idempotent_epoch_barriers",
+              "ipv4_two_interfaces_membership_egress_isolation",
+              "ipv4_ttl_or_hoplimit_wire_ancillary",
+              "ipv4_loopback_local_vs_remote_delivery",
+              "empty_datagram_original_listener_reply_port",
+              "distinct_datagrams_preserve_boundaries",
+              "socket_backend_scoped_sockaddr_returns_explicit_error"
+            ],
+            "payload_sizes": [
+              0,
+              6,
+              42,
+              46,
+              49,
+              50,
+              51,
+              52,
+              55,
+              56,
+              57,
+              62,
+              63
+            ],
+            "unsupported": [
+              "ipv6_scoped_wire"
+            ],
+            "topology": "3 endpoint namespaces, 2 isolated bridged subnets"
+          }
+        },
+        {
+          "job": "wire (27, native, keyed)",
+          "job_id": 115668234728,
+          "conclusion": "success",
+          "log": "p6-main-ci-network-wire-27-native-keyed.log",
+          "log_sha256": "2c4ff239d80b93e5504d325e7835d4fa88d24cd062dc0bd8b3c7a078a759fb6c",
+          "test_results": [],
+          "gate_count": 21,
+          "actual_gate_result": {
+            "result": "PASS",
+            "backend": "native",
+            "gates": [
+              "broadcast_limited_bidirectional_two_receivers",
+              "broadcast_directed_bidirectional_two_receivers",
+              "ipv4_strict_group_filter_foreign_socket_membership",
+              "ipv4_two_groups_bidirectional_two_subscribers",
+              "ipv4_leave_rejoin_idempotent_epoch_barriers",
+              "ipv4_two_interfaces_membership_egress_isolation",
+              "ipv4_ttl_or_hoplimit_wire_ancillary",
+              "ipv4_loopback_local_vs_remote_delivery",
+              "ipv6_two_groups_bidirectional_two_subscribers",
+              "ipv6_leave_rejoin_idempotent_epoch_barriers",
+              "ipv6_two_interfaces_membership_egress_isolation",
+              "ipv6_ttl_or_hoplimit_wire_ancillary",
+              "ipv6_loopback_local_vs_remote_delivery",
+              "ipv4_identical_payload_distinct_destination_metadata",
+              "ipv4_strict_reply_original_socket_second_interface",
+              "ipv6_identical_payload_distinct_destination_metadata",
+              "ipv6_strict_reply_original_socket_second_interface",
+              "ipv6_two_link_local_scopes_strict_original_socket_replies",
+              "ipv4_directed_broadcast_truthful_metadata_strict_unicast_reply",
+              "empty_datagram_original_listener_reply_port",
+              "distinct_datagrams_preserve_boundaries"
+            ],
+            "payload_sizes": [
+              0,
+              6,
+              42,
+              46,
+              48,
+              49,
+              50,
+              51,
+              52,
+              55,
+              56,
+              57,
+              58,
+              62,
+              63,
+              64,
+              70
+            ],
+            "unsupported": [],
+            "topology": "3 endpoint namespaces, 2 isolated bridged subnets"
+          }
+        },
+        {
+          "job": "wire (28, socket, keyed)",
+          "job_id": 115668234739,
+          "conclusion": "success",
+          "log": "p6-main-ci-network-wire-28-socket-keyed.log",
+          "log_sha256": "29c4464bcf0a3d7012f944ad740b93a99807389e4f036db9f7da3cdfa4809f68",
+          "test_results": [],
+          "gate_count": 10,
+          "actual_gate_result": {
+            "result": "PASS_SUPPORTED_SUBSET",
+            "backend": "socket",
+            "gates": [
+              "broadcast_limited_bidirectional_two_receivers",
+              "broadcast_directed_bidirectional_two_receivers",
+              "ipv4_two_groups_bidirectional_two_subscribers",
+              "ipv4_leave_rejoin_idempotent_epoch_barriers",
+              "ipv4_two_interfaces_membership_egress_isolation",
+              "ipv4_ttl_or_hoplimit_wire_ancillary",
+              "ipv4_loopback_local_vs_remote_delivery",
+              "empty_datagram_original_listener_reply_port",
+              "distinct_datagrams_preserve_boundaries",
+              "socket_backend_scoped_sockaddr_returns_explicit_error"
+            ],
+            "payload_sizes": [
+              0,
+              6,
+              42,
+              46,
+              49,
+              50,
+              51,
+              52,
+              55,
+              56,
+              57,
+              62,
+              63
+            ],
+            "unsupported": [
+              "ipv6_scoped_wire"
+            ],
+            "topology": "3 endpoint namespaces, 2 isolated bridged subnets"
+          }
+        },
+        {
+          "job": "wire (27, native, endpoint)",
+          "job_id": 115668234763,
+          "conclusion": "success",
+          "log": "p6-main-ci-network-wire-27-native-endpoint.log",
+          "log_sha256": "c02a6c7cd5527589a2625358dbd56dde0c64f16fbcf11b1568bfd8502ae19341",
+          "test_results": [],
+          "gate_count": 21,
+          "actual_gate_result": {
+            "result": "PASS",
+            "backend": "native",
+            "gates": [
+              "broadcast_limited_bidirectional_two_receivers",
+              "broadcast_directed_bidirectional_two_receivers",
+              "ipv4_strict_group_filter_foreign_socket_membership",
+              "ipv4_two_groups_bidirectional_two_subscribers",
+              "ipv4_leave_rejoin_idempotent_epoch_barriers",
+              "ipv4_two_interfaces_membership_egress_isolation",
+              "ipv4_ttl_or_hoplimit_wire_ancillary",
+              "ipv4_loopback_local_vs_remote_delivery",
+              "ipv6_two_groups_bidirectional_two_subscribers",
+              "ipv6_leave_rejoin_idempotent_epoch_barriers",
+              "ipv6_two_interfaces_membership_egress_isolation",
+              "ipv6_ttl_or_hoplimit_wire_ancillary",
+              "ipv6_loopback_local_vs_remote_delivery",
+              "ipv4_identical_payload_distinct_destination_metadata",
+              "ipv4_strict_reply_original_socket_second_interface",
+              "ipv6_identical_payload_distinct_destination_metadata",
+              "ipv6_strict_reply_original_socket_second_interface",
+              "ipv6_two_link_local_scopes_strict_original_socket_replies",
+              "ipv4_directed_broadcast_truthful_metadata_strict_unicast_reply",
+              "empty_datagram_original_listener_reply_port",
+              "distinct_datagrams_preserve_boundaries"
+            ],
+            "payload_sizes": [
+              0,
+              6,
+              42,
+              46,
+              48,
+              49,
+              50,
+              51,
+              52,
+              55,
+              56,
+              57,
+              58,
+              62,
+              63,
+              64,
+              70
+            ],
+            "unsupported": [],
+            "topology": "3 endpoint namespaces, 2 isolated bridged subnets"
+          }
+        },
+        {
+          "job": "wire (27, native, per_datagram)",
+          "job_id": 115668234776,
+          "conclusion": "success",
+          "log": "p6-main-ci-network-wire-27-native-per-datagram.log",
+          "log_sha256": "de0cd51d6e8ef37af634f22f16505ff41148b88daa753de1045240c4079cd6fa",
+          "test_results": [],
+          "gate_count": 21,
+          "actual_gate_result": {
+            "result": "PASS",
+            "backend": "native",
+            "gates": [
+              "broadcast_limited_bidirectional_two_receivers",
+              "broadcast_directed_bidirectional_two_receivers",
+              "ipv4_strict_group_filter_foreign_socket_membership",
+              "ipv4_two_groups_bidirectional_two_subscribers",
+              "ipv4_leave_rejoin_idempotent_epoch_barriers",
+              "ipv4_two_interfaces_membership_egress_isolation",
+              "ipv4_ttl_or_hoplimit_wire_ancillary",
+              "ipv4_loopback_local_vs_remote_delivery",
+              "ipv6_two_groups_bidirectional_two_subscribers",
+              "ipv6_leave_rejoin_idempotent_epoch_barriers",
+              "ipv6_two_interfaces_membership_egress_isolation",
+              "ipv6_ttl_or_hoplimit_wire_ancillary",
+              "ipv6_loopback_local_vs_remote_delivery",
+              "ipv4_identical_payload_distinct_destination_metadata",
+              "ipv4_strict_reply_original_socket_second_interface",
+              "ipv6_identical_payload_distinct_destination_metadata",
+              "ipv6_strict_reply_original_socket_second_interface",
+              "ipv6_two_link_local_scopes_strict_original_socket_replies",
+              "ipv4_directed_broadcast_truthful_metadata_strict_unicast_reply",
+              "empty_datagram_original_listener_reply_port",
+              "distinct_datagrams_preserve_boundaries"
+            ],
+            "payload_sizes": [
+              0,
+              6,
+              42,
+              46,
+              48,
+              49,
+              50,
+              51,
+              52,
+              55,
+              56,
+              57,
+              58,
+              62,
+              63,
+              64,
+              70
+            ],
+            "unsupported": [],
+            "topology": "3 endpoint namespaces, 2 isolated bridged subnets"
+          }
+        },
+        {
+          "job": "wire (27, inet, keyed)",
+          "job_id": 115668234777,
+          "conclusion": "success",
+          "log": "p6-main-ci-network-wire-27-inet-keyed.log",
+          "log_sha256": "e364b6de79fda768575f37258d28741b7af5071fbd4a073df54243c4a55d3a56",
+          "test_results": [],
+          "gate_count": 15,
+          "actual_gate_result": {
+            "result": "PASS",
+            "backend": "inet",
+            "gates": [
+              "broadcast_limited_bidirectional_two_receivers",
+              "broadcast_directed_bidirectional_two_receivers",
+              "ipv4_strict_group_filter_foreign_socket_membership",
+              "ipv4_two_groups_bidirectional_two_subscribers",
+              "ipv4_leave_rejoin_idempotent_epoch_barriers",
+              "ipv4_two_interfaces_membership_egress_isolation",
+              "ipv4_ttl_or_hoplimit_wire_ancillary",
+              "ipv4_loopback_local_vs_remote_delivery",
+              "ipv6_two_groups_bidirectional_two_subscribers",
+              "ipv6_leave_rejoin_idempotent_epoch_barriers",
+              "ipv6_two_interfaces_membership_egress_isolation",
+              "ipv6_ttl_or_hoplimit_wire_ancillary",
+              "ipv6_loopback_local_vs_remote_delivery",
+              "empty_datagram_original_listener_reply_port",
+              "distinct_datagrams_preserve_boundaries"
+            ],
+            "payload_sizes": [
+              0,
+              6,
+              42,
+              46,
+              49,
+              50,
+              51,
+              52,
+              55,
+              56,
+              57,
+              62,
+              63
+            ],
+            "unsupported": [],
+            "topology": "3 endpoint namespaces, 2 isolated bridged subnets"
+          }
+        },
+        {
+          "job": "wire (27, inet, endpoint)",
+          "job_id": 115668234785,
+          "conclusion": "success",
+          "log": "p6-main-ci-network-wire-27-inet-endpoint.log",
+          "log_sha256": "8e82cafc7194782fb00331026c7adafbf7c05b9aebd4a712fa104895939cd3bd",
+          "test_results": [],
+          "gate_count": 15,
+          "actual_gate_result": {
+            "result": "PASS",
+            "backend": "inet",
+            "gates": [
+              "broadcast_limited_bidirectional_two_receivers",
+              "broadcast_directed_bidirectional_two_receivers",
+              "ipv4_strict_group_filter_foreign_socket_membership",
+              "ipv4_two_groups_bidirectional_two_subscribers",
+              "ipv4_leave_rejoin_idempotent_epoch_barriers",
+              "ipv4_two_interfaces_membership_egress_isolation",
+              "ipv4_ttl_or_hoplimit_wire_ancillary",
+              "ipv4_loopback_local_vs_remote_delivery",
+              "ipv6_two_groups_bidirectional_two_subscribers",
+              "ipv6_leave_rejoin_idempotent_epoch_barriers",
+              "ipv6_two_interfaces_membership_egress_isolation",
+              "ipv6_ttl_or_hoplimit_wire_ancillary",
+              "ipv6_loopback_local_vs_remote_delivery",
+              "empty_datagram_original_listener_reply_port",
+              "distinct_datagrams_preserve_boundaries"
+            ],
+            "payload_sizes": [
+              0,
+              6,
+              42,
+              46,
+              49,
+              50,
+              51,
+              52,
+              55,
+              56,
+              57,
+              62,
+              63
+            ],
+            "unsupported": [],
+            "topology": "3 endpoint namespaces, 2 isolated bridged subnets"
+          }
+        },
+        {
+          "job": "wire (27, socket, endpoint)",
+          "job_id": 115668234825,
+          "conclusion": "success",
+          "log": "p6-main-ci-network-wire-27-socket-endpoint.log",
+          "log_sha256": "a4ad6a415139a6a5c33785a0ed80603ac1f823145c6e6d1419311b3ebc92b414",
+          "test_results": [],
+          "gate_count": 10,
+          "actual_gate_result": {
+            "result": "PASS_SUPPORTED_SUBSET",
+            "backend": "socket",
+            "gates": [
+              "broadcast_limited_bidirectional_two_receivers",
+              "broadcast_directed_bidirectional_two_receivers",
+              "ipv4_two_groups_bidirectional_two_subscribers",
+              "ipv4_leave_rejoin_idempotent_epoch_barriers",
+              "ipv4_two_interfaces_membership_egress_isolation",
+              "ipv4_ttl_or_hoplimit_wire_ancillary",
+              "ipv4_loopback_local_vs_remote_delivery",
+              "empty_datagram_original_listener_reply_port",
+              "distinct_datagrams_preserve_boundaries",
+              "socket_backend_scoped_sockaddr_returns_explicit_error"
+            ],
+            "payload_sizes": [
+              0,
+              6,
+              42,
+              46,
+              49,
+              50,
+              51,
+              52,
+              55,
+              56,
+              57,
+              62,
+              63
+            ],
+            "unsupported": [
+              "ipv6_scoped_wire"
+            ],
+            "topology": "3 endpoint namespaces, 2 isolated bridged subnets"
+          }
+        },
+        {
+          "job": "wire (28, native, endpoint)",
+          "job_id": 115668234834,
+          "conclusion": "success",
+          "log": "p6-main-ci-network-wire-28-native-endpoint.log",
+          "log_sha256": "ca5083f1239b25ab8dc685e0c6e41a8eefe1bec26710e1b3009baaeff62c6282",
+          "test_results": [],
+          "gate_count": 21,
+          "actual_gate_result": {
+            "result": "PASS",
+            "backend": "native",
+            "gates": [
+              "broadcast_limited_bidirectional_two_receivers",
+              "broadcast_directed_bidirectional_two_receivers",
+              "ipv4_strict_group_filter_foreign_socket_membership",
+              "ipv4_two_groups_bidirectional_two_subscribers",
+              "ipv4_leave_rejoin_idempotent_epoch_barriers",
+              "ipv4_two_interfaces_membership_egress_isolation",
+              "ipv4_ttl_or_hoplimit_wire_ancillary",
+              "ipv4_loopback_local_vs_remote_delivery",
+              "ipv6_two_groups_bidirectional_two_subscribers",
+              "ipv6_leave_rejoin_idempotent_epoch_barriers",
+              "ipv6_two_interfaces_membership_egress_isolation",
+              "ipv6_ttl_or_hoplimit_wire_ancillary",
+              "ipv6_loopback_local_vs_remote_delivery",
+              "ipv4_identical_payload_distinct_destination_metadata",
+              "ipv4_strict_reply_original_socket_second_interface",
+              "ipv6_identical_payload_distinct_destination_metadata",
+              "ipv6_strict_reply_original_socket_second_interface",
+              "ipv6_two_link_local_scopes_strict_original_socket_replies",
+              "ipv4_directed_broadcast_truthful_metadata_strict_unicast_reply",
+              "empty_datagram_original_listener_reply_port",
+              "distinct_datagrams_preserve_boundaries"
+            ],
+            "payload_sizes": [
+              0,
+              6,
+              42,
+              46,
+              48,
+              49,
+              50,
+              51,
+              52,
+              55,
+              56,
+              57,
+              58,
+              62,
+              63,
+              64,
+              70
+            ],
+            "unsupported": [],
+            "topology": "3 endpoint namespaces, 2 isolated bridged subnets"
+          }
+        },
+        {
+          "job": "wire (28, native, keyed)",
+          "job_id": 115668234847,
+          "conclusion": "success",
+          "log": "p6-main-ci-network-wire-28-native-keyed.log",
+          "log_sha256": "730c83174c455b4409e99fadd097af7a2176af9e3b4ea5fad8add9af8939f97b",
+          "test_results": [],
+          "gate_count": 21,
+          "actual_gate_result": {
+            "result": "PASS",
+            "backend": "native",
+            "gates": [
+              "broadcast_limited_bidirectional_two_receivers",
+              "broadcast_directed_bidirectional_two_receivers",
+              "ipv4_strict_group_filter_foreign_socket_membership",
+              "ipv4_two_groups_bidirectional_two_subscribers",
+              "ipv4_leave_rejoin_idempotent_epoch_barriers",
+              "ipv4_two_interfaces_membership_egress_isolation",
+              "ipv4_ttl_or_hoplimit_wire_ancillary",
+              "ipv4_loopback_local_vs_remote_delivery",
+              "ipv6_two_groups_bidirectional_two_subscribers",
+              "ipv6_leave_rejoin_idempotent_epoch_barriers",
+              "ipv6_two_interfaces_membership_egress_isolation",
+              "ipv6_ttl_or_hoplimit_wire_ancillary",
+              "ipv6_loopback_local_vs_remote_delivery",
+              "ipv4_identical_payload_distinct_destination_metadata",
+              "ipv4_strict_reply_original_socket_second_interface",
+              "ipv6_identical_payload_distinct_destination_metadata",
+              "ipv6_strict_reply_original_socket_second_interface",
+              "ipv6_two_link_local_scopes_strict_original_socket_replies",
+              "ipv4_directed_broadcast_truthful_metadata_strict_unicast_reply",
+              "empty_datagram_original_listener_reply_port",
+              "distinct_datagrams_preserve_boundaries"
+            ],
+            "payload_sizes": [
+              0,
+              6,
+              42,
+              46,
+              48,
+              49,
+              50,
+              51,
+              52,
+              55,
+              56,
+              57,
+              58,
+              62,
+              63,
+              64,
+              70
+            ],
+            "unsupported": [],
+            "topology": "3 endpoint namespaces, 2 isolated bridged subnets"
+          }
+        },
+        {
+          "job": "wire (27, inet, per_datagram)",
+          "job_id": 115668235164,
+          "conclusion": "success",
+          "log": "p6-main-ci-network-wire-27-inet-per-datagram.log",
+          "log_sha256": "938c094e16d153d0be868e1d46d1b1e879ecc2a2ad74e0133324837e2e286966",
+          "test_results": [],
+          "gate_count": 15,
+          "actual_gate_result": {
+            "result": "PASS",
+            "backend": "inet",
+            "gates": [
+              "broadcast_limited_bidirectional_two_receivers",
+              "broadcast_directed_bidirectional_two_receivers",
+              "ipv4_strict_group_filter_foreign_socket_membership",
+              "ipv4_two_groups_bidirectional_two_subscribers",
+              "ipv4_leave_rejoin_idempotent_epoch_barriers",
+              "ipv4_two_interfaces_membership_egress_isolation",
+              "ipv4_ttl_or_hoplimit_wire_ancillary",
+              "ipv4_loopback_local_vs_remote_delivery",
+              "ipv6_two_groups_bidirectional_two_subscribers",
+              "ipv6_leave_rejoin_idempotent_epoch_barriers",
+              "ipv6_two_interfaces_membership_egress_isolation",
+              "ipv6_ttl_or_hoplimit_wire_ancillary",
+              "ipv6_loopback_local_vs_remote_delivery",
+              "empty_datagram_original_listener_reply_port",
+              "distinct_datagrams_preserve_boundaries"
+            ],
+            "payload_sizes": [
+              0,
+              6,
+              42,
+              46,
+              49,
+              50,
+              51,
+              52,
+              55,
+              56,
+              57,
+              62,
+              63
+            ],
+            "unsupported": [],
+            "topology": "3 endpoint namespaces, 2 isolated bridged subnets"
+          }
+        }
+      ]
+    }
+  ]
+}
