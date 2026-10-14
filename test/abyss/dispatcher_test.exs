@@ -276,6 +276,7 @@ defmodule Abyss.DispatcherTest do
     assert {:ok, _} = Dispatcher.Writer.await(state.writer, state.send, ref)
   end
 
+  @tag :capture_log
   test "writer death invalidates dispatcher capability instead of retaining success" do
     previous = Process.flag(:trap_exit, true)
     on_exit(fn -> Process.flag(:trap_exit, previous) end)
