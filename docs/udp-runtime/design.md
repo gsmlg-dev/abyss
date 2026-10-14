@@ -159,6 +159,11 @@ when egress is admitted. `Endpoint.await(capability, ref, timeout)` reports:
 | `{:error, reason}` | Definite local failure |
 | `{:unknown, ref}` | No definite result is available within this wait |
 
+Supported GenUDP and native transport instrumentation records each actual local
+socket result once, including empty sends. Payload bytes exclude addressing
+controls. Validation/admission rejections and receipt waits or reads do not
+record socket outcomes. Custom transports retain their own contracts.
+
 Local completion does not prove delivery. Timeout does not cancel accepted
 work or justify a blind retry. Send references have finite result retention.
 The endpoint separately retains action outcome receipts, including outcomes

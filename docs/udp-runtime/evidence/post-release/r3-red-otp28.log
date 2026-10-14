@@ -1,0 +1,16 @@
+Compiling 2 files (.ex)
+Generated abyss app
+Running ExUnit with seed: 750554, max_cases: 16
+    error: module Abyss.SendAccountingFixture is not loaded and could not be found
+    │
+  4 │   import Abyss.SendAccountingFixture
+    │   ^
+    │
+    └─ test/abyss/datagram_native_send_accounting_test.exs:4:3: Abyss.DatagramNativeSendAccountingTest (module)
+
+
+== Compilation error in file test/abyss/datagram_native_send_accounting_test.exs ==
+** (CompileError) test/abyss/datagram_native_send_accounting_test.exs: cannot compile module Abyss.DatagramNativeSendAccountingTest (errors have been logged)
+
+Excluding tags: [integration: true, slow: true]
+

@@ -8,7 +8,13 @@ defmodule Abyss.Telemetry do
   module queries aggregate registered endpoints for legacy callers. Runtime
   socket generations share the logical endpoint scope; closing an endpoint
   removes its socket registrations and counter rows. Raw socket operations
-  bypass the supported transport send instrumentation.
+  bypass the supported transport send instrumentation. Supported GenUDP and
+  native sends record each actual local socket outcome once, independently of
+  connection-span sampling. Success increments `responses_total` and payload
+  `bytes_sent`; empty datagrams count as one success and zero bytes. Definite
+  socket-send failures increment `send_errors_total`. Validation/admission
+  rejection, waits and repeated receipt reads do not count as sends. Local
+  completion is not evidence of peer delivery.
 
   - `connections_active`: Number of currently active connections
   - `connections_total`: Total number of connections since server start
@@ -72,6 +78,10 @@ defmodule Abyss.Telemetry do
   sampling.
 
   ## Other Events
+
+  - `[:abyss, :datagram, :send]` - actual instrumented local send result
+    (measurements: payload `bytes`; metadata: `server_id`, `result`, `socket`).
+
 
   - `[:abyss, :metrics, :response_time]` - emitted for every tracked
     response (measurements: `response_time` in ms; metadata: `handler`)

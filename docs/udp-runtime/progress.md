@@ -16,7 +16,7 @@ Read Agent Note `27a599ba-c246-4263-92e9-77b80ef5605c`, revision 2, in full. Its
 |---|---|
 | R1 watchdog arm identity | PASS — final RED and both runtimes green |
 | R2 endpoint generation lifetime | PASS — real UDP lifetime and timer regressions |
-| R3 native local-send telemetry | NOT RUN |
+| R3 native local-send telemetry | PASS — 15 accounting regressions and interacting suites |
 | R4 public network-drop accounting | NOT RUN |
 | Combined local/remote/package/QUIC validation | NOT RUN |
 | Commit/push/patch release/published verification | NOT RUN |
@@ -35,3 +35,5 @@ R1 checkpoint: final actual-timer cross-phase regressions fail oldcd65c84 indepe
 2026-10-14 R1 delivery checkpoint: committed `babc1d1`. Baseline steady samples completed serially for legacy/per_datagram/endpoint/keyed (three each), logs retained. R2 implementation owner hardening_r1; parent owns docs, integration and release. Publication verifier owns workflow regression path updates only. Exact next action: accept R2 discriminating RED/green, commit R2, then assign ordered R3.
 
 R2 checkpoint: isolated `babc1d1` fails final lifetime regressions (4 tests, 2 intended failures, exit 2). Fixed OTP27/28 each pass 50 interacting tests, exit 0. Endpoint state and its timer survive inactivity and pause/resume with zero completed input/egress credit; actual stop/replacement cancels old timers. Keyed eviction/status stability, obsolete-timer isolation and existing maximum-key limits remain tested. Production change is a three-line endpoint empty-queue guard. Commands/hashes in `r2-source-identity.json`. Next: R3 native local-send instrumentation and discriminating accounting regressions.
+
+R3 checkpoint: isolated `d9c01b1` final-byte RED gives 15 tests / 5 intended failures, exit 2 (four native missing events after actual receive, one false GenUDP validation error). Fixed OTP27/28 each pass 84 interacting tests, exit 0. Actual IPv4/IPv6, all three backends, sampling 0/1, empty/strict sends, both transmitting same-handler endpoints, socket errors and delayed completion agree with receipts and counters. Portable failure uses a real 65,536-byte UDP send (`:emsgsize`); Linux native port-zero error is `:einval`. No Writer change. Commands/hashes in `r3-source-identity.json`. Credo retains 83 baseline findings plus two introduced R1 runtime nesting findings, which parent will fix before R4.

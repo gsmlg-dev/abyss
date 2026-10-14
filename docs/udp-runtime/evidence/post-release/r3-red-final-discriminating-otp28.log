@@ -1,0 +1,77 @@
+Running ExUnit with seed: 525935, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+....
+
+  1) test unsupported scoped GenUDP socket destination is not an attempted socket send (Abyss.DatagramSendAccountingTest)
+     test/abyss/datagram_send_accounting_test.exs:39
+     Assertion with == failed
+     code:  assert metrics.send_errors_total == failures
+     left:  1
+     right: 0
+     stacktrace:
+       test/abyss/datagram_send_accounting_test.exs:48: (test)
+
+.....
+
+  2) test native inet6 ordinary and strict outcomes count payload bytes once with sampling 0.0 (Abyss.DatagramNativeSendAccountingTest)
+     test/abyss/datagram_native_send_accounting_test.exs:14
+     Assertion failed, no matching message after 1000ms
+     The following variables were pinned:
+       server = #PID<0.416.0>
+       bytes = 7
+     The process mailbox is empty.
+     code: assert_receive {:socket_send_event, ^server, %{bytes: ^bytes}, metadata}
+     stacktrace:
+       (abyss 0.8.0) test/support/datagram_send_accounting_fixture.ex:79: Abyss.Test.SendAccountingFixture.assert_event/3
+       (abyss 0.8.0) test/support/datagram_send_accounting_fixture.ex:74: Abyss.Test.SendAccountingFixture.successful_send/5
+       test/abyss/datagram_native_send_accounting_test.exs:28: (test)
+
+
+
+  3) test native inet ordinary and strict outcomes count payload bytes once with sampling 0.0 (Abyss.DatagramNativeSendAccountingTest)
+     test/abyss/datagram_native_send_accounting_test.exs:14
+     Assertion failed, no matching message after 1000ms
+     The following variables were pinned:
+       server = #PID<0.438.0>
+       bytes = 7
+     The process mailbox is empty.
+     code: assert_receive {:socket_send_event, ^server, %{bytes: ^bytes}, metadata}
+     stacktrace:
+       (abyss 0.8.0) test/support/datagram_send_accounting_fixture.ex:79: Abyss.Test.SendAccountingFixture.assert_event/3
+       (abyss 0.8.0) test/support/datagram_send_accounting_fixture.ex:74: Abyss.Test.SendAccountingFixture.successful_send/5
+       test/abyss/datagram_native_send_accounting_test.exs:28: (test)
+
+.
+
+  4) test native inet6 ordinary and strict outcomes count payload bytes once with sampling 1.0 (Abyss.DatagramNativeSendAccountingTest)
+     test/abyss/datagram_native_send_accounting_test.exs:14
+     Assertion failed, no matching message after 1000ms
+     The following variables were pinned:
+       server = #PID<0.472.0>
+       bytes = 7
+     The process mailbox is empty.
+     code: assert_receive {:socket_send_event, ^server, %{bytes: ^bytes}, metadata}
+     stacktrace:
+       (abyss 0.8.0) test/support/datagram_send_accounting_fixture.ex:79: Abyss.Test.SendAccountingFixture.assert_event/3
+       (abyss 0.8.0) test/support/datagram_send_accounting_fixture.ex:74: Abyss.Test.SendAccountingFixture.successful_send/5
+       test/abyss/datagram_native_send_accounting_test.exs:28: (test)
+
+
+
+  5) test native inet ordinary and strict outcomes count payload bytes once with sampling 1.0 (Abyss.DatagramNativeSendAccountingTest)
+     test/abyss/datagram_native_send_accounting_test.exs:14
+     Assertion failed, no matching message after 1000ms
+     The following variables were pinned:
+       server = #PID<0.494.0>
+       bytes = 7
+     The process mailbox is empty.
+     code: assert_receive {:socket_send_event, ^server, %{bytes: ^bytes}, metadata}
+     stacktrace:
+       (abyss 0.8.0) test/support/datagram_send_accounting_fixture.ex:79: Abyss.Test.SendAccountingFixture.assert_event/3
+       (abyss 0.8.0) test/support/datagram_send_accounting_fixture.ex:74: Abyss.Test.SendAccountingFixture.successful_send/5
+       test/abyss/datagram_native_send_accounting_test.exs:28: (test)
+
+
+Finished in 4.3 seconds (0.00s async, 4.3s sync)
+15 tests, 5 failures

@@ -149,13 +149,8 @@ defmodule Abyss.Transport.UDP.Core do
   @spec send(Abyss.Transport.socket(), iodata()) :: Abyss.Transport.on_send()
   def send(socket, data), do: record_send(socket, data, :gen_udp.send(socket, data))
 
-  def send(socket, %{family: :inet6, scope_id: _}, data) when not is_port(socket),
-    do:
-      record_send(
-        socket,
-        data,
-        {:error, {:unsupported_capability, :scoped_sockaddr_send, :socket}}
-      )
+  def send(socket, %{family: :inet6, scope_id: _}, _data) when not is_port(socket),
+    do: {:error, {:unsupported_capability, :scoped_sockaddr_send, :socket}}
 
   def send(socket, dest, data), do: record_send(socket, data, :gen_udp.send(socket, dest, data))
 

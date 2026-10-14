@@ -24,12 +24,21 @@ Counters are scoped by the logical server PID. `Abyss.Telemetry.get_metrics()` a
 | `datagrams_received`, `bytes_received` | Inputs observed by Abyss reception |
 | `datagrams_dropped`, `bytes_dropped` | Explicit library drops; runtime accounting can include serialized event metadata |
 | `accepts_total`, `connections_total`, `connections_active` | Validated admission and active work accounting |
-| `responses_total`, `bytes_sent` | Successful instrumented local socket sends |
-| `send_errors_total` | Instrumented local send failures |
+| `responses_total`, `bytes_sent` | Successful instrumented local socket sends and payload bytes; an empty datagram counts as one send |
+| `send_errors_total` | Definite failed socket-send attempts |
 | `work_completed`, `work_failed` | Accounted work outcomes |
 | `accepts_per_second`, `responses_per_second` | Rates over the current counter window |
 
-Handler exit alone does not count as a response. Raw `:gen_udp` or `:socket` sends bypass Abyss transport instrumentation. A send counter or receipt does not establish peer delivery.
+Supported GenUDP and Linux native ordinary sends and strict replies record the
+actual local socket outcome once. Validation/admission rejections, `await`
+timeouts and repeated receipt reads do not count as sends or send errors. A
+send that completes after a caller stops waiting still counts its actual
+completion. Addressing controls do not contribute to payload `bytes_sent`.
+
+Handler exit alone does not count as a response. Raw `:gen_udp` or `:socket`
+sends bypass Abyss transport instrumentation. Custom transports retain their
+own instrumentation contracts. A send counter or receipt does not establish
+peer delivery.
 
 ```elixir
 :telemetry.attach_many(

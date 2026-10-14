@@ -1,0 +1,68 @@
+{
+  "task": "R3",
+  "assignment": "direct",
+  "baseline": "d9c01b12fb99ec2d99faada2b143ca8f417309b6",
+  "worktree": "/home/gao/Workspace/gsmlg-dev/abyss/.trees/post-release-hardening",
+  "branch": "codex/post-release-hardening",
+  "source_sha256": {
+    "lib/abyss/transport/udp/native.ex": "e87cb0ef1bcf4fa80485f89bed298677d5cd8aeaa9aa4dd9112c19c5414d54bf",
+    "lib/abyss/transport/udp/core.ex": "b650bad39f030ff6280cc66b3ddbf54d4dc20f9b9636f397e692700ae5ad2aa8",
+    "test/abyss/datagram_send_accounting_test.exs": "3c89cbb119c6a3af67913d6be53d348823899fe71359320f82c0480c977009fa",
+    "test/abyss/datagram_native_send_accounting_test.exs": "985703ec749f0662377030b5f872e0ca99b91af3d77e586549bbe009aa7baa37",
+    "test/support/datagram_send_accounting_fixture.ex": "d9c2ecea4f57d5061490ae9b81634adb447300c5ff996f6a8761585006efcc12"
+  },
+  "isolated_red_worktree": "/home/gao/Workspace/gsmlg-dev/abyss/.trees/r3-red-baseline",
+  "isolated_red_source_sha256": {
+    "lib/abyss/transport/udp/native.ex": "54fadbd1c859891fba8b49d84a251db44b072f18bb90f69a7e696e7055d8ca34",
+    "lib/abyss/transport/udp/core.ex": "eea49b164184828038c140d48c8083f167023db758153b096057e6849fa72d04",
+    "test/abyss/datagram_send_accounting_test.exs": "3c89cbb119c6a3af67913d6be53d348823899fe71359320f82c0480c977009fa",
+    "test/abyss/datagram_native_send_accounting_test.exs": "985703ec749f0662377030b5f872e0ca99b91af3d77e586549bbe009aa7baa37",
+    "test/support/datagram_send_accounting_fixture.ex": "d9c2ecea4f57d5061490ae9b81634adb447300c5ff996f6a8761585006efcc12"
+  },
+  "red_command": "CI=true ERL_FLAGS=\"+S 8:8\" MIX_BUILD_PATH=/tmp/abyss-post-hardening-r3-red-otp28 mix test --no-cover test/abyss/datagram_send_accounting_test.exs test/abyss/datagram_native_send_accounting_test.exs",
+  "red_exit": 2,
+  "red_results": "15 tests, 5 intended failures: four native actual successful traffic missing event; unsupported scoped socket rejection wrongly records send error",
+  "green_command": "mix test --no-cover test/abyss/datagram_watchdog_test.exs test/abyss/datagram_lifetime_test.exs test/abyss/datagram_runtime_test.exs test/abyss/dispatcher_test.exs test/abyss/datagram_send_accounting_test.exs test/abyss/datagram_native_send_accounting_test.exs test/abyss/telemetry_endpoint_test.exs test/abyss/endpoint_contract_test.exs test/abyss/transport/native_test.exs",
+  "otp28_environment": "CI=true ERL_FLAGS=\"+S 8:8\" MIX_BUILD_PATH=/tmp/abyss-post-hardening-otp28",
+  "otp27_environment": "devenv shell -- bash -c cd .trees/post-release-hardening; CI=true ERL_FLAGS=\"+S 8:8\" MIX_BUILD_PATH=/tmp/abyss-post-hardening-otp27",
+  "otp27_green_exit": 0,
+  "otp28_green_exit": 0,
+  "green_results": "84 tests, 0 failures per runtime",
+  "local_backend_coverage": "GenUDP inet/socket and native Linux, IPv4/IPv6; sampling0/1; strict native nonempty/empty; local socket failure; isolated same-handler scopes; no double counts on awaits; no counts on queue/metadata/destination rejection; late accepted send actual completion",
+  "actual_failure_controls": "Portable65536-byte send -> emsgsize; native port0 send -> einval",
+  "credo": {
+    "baseline": 83,
+    "current": 85,
+    "introduced": [
+      {
+        "category": "refactor",
+        "check": "Credo.Check.Refactor.Nesting",
+        "column": 11,
+        "column_end": 13,
+        "filename": "lib/abyss/datagram_runtime.ex",
+        "line_no": 258,
+        "message": "Function body is nested too deep (max depth is 2, was 3).",
+        "priority": 3,
+        "scope": "Abyss.DatagramRuntime.handle_info",
+        "trigger": "if"
+      },
+      {
+        "category": "refactor",
+        "check": "Credo.Check.Refactor.Nesting",
+        "column": 21,
+        "column_end": 23,
+        "filename": "lib/abyss/datagram_runtime.ex",
+        "line_no": 413,
+        "message": "Function body is nested too deep (max depth is 2, was 3).",
+        "priority": 3,
+        "scope": "Abyss.DatagramRuntime.start_next",
+        "trigger": "if"
+      }
+    ],
+    "exit": 30
+  },
+  "sol_repair_rounds": 0,
+  "received_astra_repair_counter": null,
+  "commands_finished": true,
+  "remaining_risks": "Final combined integration/macOS/release parent-owned; two runtime lint findings parent owns. Intermediate logs record corrected harness compilation/option/waiter premises and are not acceptance RED."
+}

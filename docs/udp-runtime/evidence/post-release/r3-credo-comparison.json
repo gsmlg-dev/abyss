@@ -1,0 +1,31 @@
+{
+  "baseline": 83,
+  "current": 85,
+  "introduced": [
+    {
+      "category": "refactor",
+      "check": "Credo.Check.Refactor.Nesting",
+      "column": 11,
+      "column_end": 13,
+      "filename": "lib/abyss/datagram_runtime.ex",
+      "line_no": 258,
+      "message": "Function body is nested too deep (max depth is 2, was 3).",
+      "priority": 3,
+      "scope": "Abyss.DatagramRuntime.handle_info",
+      "trigger": "if"
+    },
+    {
+      "category": "refactor",
+      "check": "Credo.Check.Refactor.Nesting",
+      "column": 21,
+      "column_end": 23,
+      "filename": "lib/abyss/datagram_runtime.ex",
+      "line_no": 413,
+      "message": "Function body is nested too deep (max depth is 2, was 3).",
+      "priority": 3,
+      "scope": "Abyss.DatagramRuntime.start_next",
+      "trigger": "if"
+    }
+  ],
+  "exit": 30
+}

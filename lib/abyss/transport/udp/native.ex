@@ -95,7 +95,18 @@ defmodule Abyss.Transport.UDP.Native do
 
   def send(_, _, _), do: {:error, :invalid_native_send}
 
-  defp send_message(socket, message), do: :socket.sendmsg(socket, message, [], @send_timeout)
+  defp send_message(socket, message) do
+    result = :socket.sendmsg(socket, message, [], @send_timeout)
+
+    Abyss.Telemetry.track_send_result(
+      Abyss.Telemetry.socket_scope(socket),
+      result,
+      IO.iodata_length(message.iov),
+      %{socket: socket}
+    )
+
+    result
+  end
 
   def setopts(socket, options) when is_list(options) do
     Enum.reduce_while(options, :ok, fn option, :ok ->

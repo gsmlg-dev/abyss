@@ -8,7 +8,7 @@ Baseline `cd65c84073c66de460ab883206414cf8ce0154bf`; worktree `.trees/post-relea
 |---|---|---|
 | R1 stale cross-phase watchdog | PASS: isolated final-harness RED4tests/2 intended failures; fixed scoped46/0 each OTP27/28 | `evidence/post-release/r1-*` |
 | R2 endpoint idle eviction | PASS: final RED 4 tests / 2 intended failures; fixed combined 50/0 each OTP27/28 | `evidence/post-release/r2-*` |
-| R3 missing native send telemetry | NOT RUN | Pending |
+| R3 missing native send telemetry | PASS: final RED 15 tests / 5 intended failures; fixed combined 84/0 each OTP27/28 | `evidence/post-release/r3-*` |
 | R4 public drop omission/overlap | NOT RUN | Pending |
 
 Reproduction inputs and raw evidence live in [post-release evidence](evidence/post-release/); resumable ownership and next steps are in [progress](progress.md).
@@ -23,3 +23,5 @@ Baseline resource gate PASS, exit0 (`baseline-runtime-stress-otp27.log`): all3po
 R1 checkpoint: final actual-timer cross-phase regressions fail oldcd65c84 independently (4tests/2 intended stale init/callback kills, isolated `.trees/r1-red-baseline`, exit2). Fixed source preserves active init/callback/effects and bounded cleanup; stale invocation/key/generation arms harmless. OTP27/28 each46tests/0, exit0. Source hashes/commands in `r1-source-identity.json`; raw final RED/green logs retained. Other timer classes audited, no demonstrated analogous identity reuse changed. R1 ownership returned; next R2 endpoint lifetime.
 
 R2 checkpoint: isolated `babc1d1` fails final lifetime regressions (4 tests, 2 intended failures, exit 2). Fixed OTP27/28 each pass 50 interacting tests, exit 0. Endpoint state and its timer survive inactivity and pause/resume with zero completed input/egress credit; actual stop/replacement cancels old timers. Keyed eviction/status stability, obsolete-timer isolation and existing maximum-key limits remain tested. Production change is a three-line endpoint empty-queue guard. Commands/hashes in `r2-source-identity.json`. Next: R3 native local-send instrumentation and discriminating accounting regressions.
+
+R3 checkpoint: isolated `d9c01b1` final-byte RED gives 15 tests / 5 intended failures, exit 2 (four native missing events after actual receive, one false GenUDP validation error). Fixed OTP27/28 each pass 84 interacting tests, exit 0. Actual IPv4/IPv6, all three backends, sampling 0/1, empty/strict sends, both transmitting same-handler endpoints, socket errors and delayed completion agree with receipts and counters. Portable failure uses a real 65,536-byte UDP send (`:emsgsize`); Linux native port-zero error is `:einval`. No Writer change. Commands/hashes in `r3-source-identity.json`. Credo retains 83 baseline findings plus two introduced R1 runtime nesting findings, which parent will fix before R4.

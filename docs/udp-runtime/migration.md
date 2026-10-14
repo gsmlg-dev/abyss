@@ -158,7 +158,10 @@ result = Abyss.Endpoint.await(capability, ref, 100)
 `{:unknown, ref}`. Local completion does not prove delivery. Timeout does not
 cancel accepted sends and must not cause blind retries. Writer results are also
 retained for up to 256 references/five seconds; expiry does not establish that
-a packet was unsent.
+a packet was unsent. Supported GenUDP and Linux native sends (including strict
+replies) now share actual local-outcome counters and send events. Native sends
+were missing that instrumentation in 0.8.0. Wait timeouts, receipt reads and
+pre-send validation/admission rejection do not add send counts.
 
 ## Pause, stop, and socket replacement
 
