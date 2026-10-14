@@ -1,0 +1,62 @@
+defmodule TableOwnerCleanupObserve do
+  def poll(_server, _socket, 0), do: {:error, :endpoint_cleanup_did_not_complete}
+  def poll(server, socket, retries) do
+    :sys.get_state(Abyss.TableOwner)
+    if Abyss.Telemetry.socket_scope(socket) != :unscoped do
+      poll(server, socket, retries - 1)
+    else
+      {:ok, Abyss.Telemetry.get_metrics(server).connections_active}
+    end
+  end
+end
+observer = self()
+server = spawn(fn -> receive do :finish -> :ok end end)
+monitor = Process.monitor(server)
+socket = make_ref()
+Abyss.Telemetry.register_scope(server, ScopeHandler)
+Abyss.Telemetry.register_socket(server, socket)
+Abyss.Telemetry.track_connection_accepted(server)
+Abyss.TableOwner.ensure_table(:abyss_udp_memberships, [:named_table, :public, :set])
+:ets.insert(:abyss_udp_memberships, {{server, 1}, [{{239, 1, 2, 3}, {127, 0, 0, 1}}]})
+owner = Process.whereis(Abyss.TableOwner)
+owner_monitor = :sys.get_state(owner).scopes[server]
+:ok = :sys.install(owner, {fn seen, event, _name ->
+  case event do
+    {:in, {:DOWN, ^owner_monitor, :process, ^server, :killed}} -> true
+    {:noreply, state} when seen ->
+      if Map.has_key?(state.scopes, server) do
+        seen
+      else
+        send(observer, {:real_scope_down_handled, server})
+        :done
+      end
+    _ -> seen
+  end
+end, false})
+:ok = :sys.suspend(owner)
+try do
+  started = System.monotonic_time(:microsecond)
+  Process.exit(server, :kill)
+  receive do
+    {:DOWN, ^monitor, :process, ^server, :killed} -> IO.puts("ACTUAL_SERVER_DOWN killed")
+  after
+    100 -> raise "server monitor DOWN missing"
+  end
+  result = TableOwnerCleanupObserve.poll(server, socket, 100)
+  IO.inspect({result, System.monotonic_time(:microsecond) - started}, label: "ORIGINAL_100_SYSTEM_PROBES")
+  {:messages, messages} = Process.info(owner, :messages)
+  true = {:DOWN, owner_monitor, :process, server, :killed} in messages
+  IO.puts("ACTUAL_OWNER_SCOPE_DOWN_QUEUED")
+  :ok = :sys.resume(owner)
+  receive do
+    {:real_scope_down_handled, ^server} -> IO.puts("ACTUAL_OWNER_SCOPE_DOWN_HANDLER_COMPLETED")
+  after
+    100 -> raise "scope handler completion missing"
+  end
+  {:ok, 0} = TableOwnerCleanupObserve.poll(server, socket, 100)
+  [] = :ets.lookup(:abyss_udp_memberships, {server, 1})
+  false = Map.has_key?(:sys.get_state(owner).scopes, server)
+  IO.puts("ORIGINAL_ASSERTIONS_PASS_AFTER_ACTUAL_HANDLER_COMPLETION")
+after
+  :sys.resume(owner)
+end

@@ -1,0 +1,39 @@
+defmodule WriterDeathTrace do
+  def loop(targets) do
+    receive do
+      {:trace_ts, pid, :return_from, {Abyss.Dispatcher, :init, 1}, {:ok, state}, timestamp} ->
+        refs = Enum.map([pid, state.writer, state.admission], &{Process.monitor(&1), &1})
+        IO.puts("WD_INIT #{inspect({pid, state.writer, state.admission, state.module, timestamp})}")
+        loop(Map.merge(targets, Map.new(refs)))
+      {:trace_ts, pid, :call, {module, fun, args}, timestamp} ->
+        detail = case {module, fun, args} do
+          {Abyss.Dispatcher, :handle_info, [message, _state]} -> message
+          {Abyss.Dispatcher.Admission, :handle_info, [message, _state]} -> message
+          {_, :terminate, [reason, _]} -> reason
+          {_, :stop_child, [child]} -> child
+          {:persistent_term, :erase, [key]} -> key
+          {:gen_server, :terminate, _} -> :otp_termination
+          {:gen_server, :error_info, _} -> :otp_error_report
+          _ -> :other
+        end
+        IO.puts("WD_CALL #{inspect({pid, module, fun, detail, timestamp})}")
+        loop(targets)
+      {:trace_ts, pid, :return_from, mfa, _result, timestamp} ->
+        IO.puts("WD_RETURN #{inspect({pid, mfa, timestamp})}")
+        loop(targets)
+      {:DOWN, ref, :process, pid, reason} ->
+        if Map.has_key?(targets, ref), do: IO.puts("WD_DOWN #{inspect({pid, reason, System.monotonic_time(:nanosecond)})}")
+        loop(Map.delete(targets, ref))
+      :stop -> :ok
+      _ -> loop(targets)
+    end
+  end
+end
+for module <- [Abyss.Dispatcher, Abyss.Dispatcher.Admission, :gen_server, :persistent_term], do: Code.ensure_loaded!(module)
+tracer = spawn(fn -> WriterDeathTrace.loop(%{}) end)
+:erlang.trace(:new, true, [:call, :monotonic_timestamp, {:tracer, tracer}])
+for mfa <- [{Abyss.Dispatcher, :init, 1}, {Abyss.Dispatcher, :handle_info, 2}, {Abyss.Dispatcher, :terminate, 2}, {Abyss.Dispatcher, :stop_child, 1}, {Abyss.Dispatcher.Admission, :handle_info, 2}, {Abyss.Dispatcher.Admission, :terminate, 2}, {:persistent_term, :erase, 1}, {:gen_server, :terminate, 9}, {:gen_server, :error_info, 7}] do
+ :erlang.trace_pattern(mfa, [{:_, [], [{:return_trace}]}], [:local])
+end
+args = System.argv()
+Mix.Task.run("test", args)

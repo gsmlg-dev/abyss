@@ -17,7 +17,33 @@ defmodule Abyss.TableOwnerScopeTest do
     :ets.insert(:abyss_udp_memberships, {{server, 1}, [{{239, 1, 2, 3}, {127, 0, 0, 1}}]})
     state = :sys.get_state(Abyss.TableOwner)
     assert map_size(state.scopes) >= 1
+
+    owner = self()
+    monitor = Process.monitor(server)
+    scope_monitor = Map.fetch!(state.scopes, server)
+    completed = make_ref()
+
+    :ok =
+      :sys.install(
+        Abyss.TableOwner,
+        {fn observed, event, _name ->
+           case {observed, event} do
+             {false, {:in, {:DOWN, ^scope_monitor, :process, ^server, :killed}}} ->
+               true
+
+             {true, {:noreply, _state}} ->
+               send(owner, {:endpoint_cleanup_completed, completed})
+               :done
+
+             _ ->
+               observed
+           end
+         end, false}
+      )
+
     Process.exit(server, :kill)
+    assert_receive {:DOWN, ^monitor, :process, ^server, :killed}
+    assert_receive {:endpoint_cleanup_completed, ^completed}
     wait_for_cleanup(server, socket, 100)
     assert :ets.lookup(:abyss_udp_memberships, {server, 1}) == []
     refute Map.has_key?(:sys.get_state(Abyss.TableOwner).scopes, server)

@@ -1,0 +1,39 @@
+WD_CALL {#PID<0.186.0>, :gen_server, :terminate, :otp_termination, -576460751381280371}
+Running ExUnit with seed: 953627, max_cases: 16
+Excluding tags: [:test]
+Including tags: [location: {"test/abyss/dispatcher_test.exs", 279}]
+
+WD_CALL {#PID<0.196.0>, :gen_server, :terminate, :otp_termination, -576460751033585598}
+WD_CALL {#PID<0.225.0>, Abyss.Dispatcher, :init, :other, -576460751017083712}
+WD_INIT {#PID<0.225.0>, #PID<0.227.0>, #PID<0.226.0>, Abyss.DispatcherTestCallback, -576460751009327381}
+WD_DOWN {#PID<0.227.0>, :killed, -576460751003897823}
+WD_CALL {#PID<0.225.0>, Abyss.Dispatcher, :handle_info, {:EXIT, #PID<0.227.0>, :killed}, -576460751003911856}
+WD_RETURN {#PID<0.225.0>, {Abyss.Dispatcher, :handle_info, 2}, -576460751003908553}
+WD_CALL {#PID<0.225.0>, :gen_server, :terminate, :otp_termination, -576460751003901865}
+WD_CALL {#PID<0.225.0>, Abyss.Dispatcher, :terminate, {:writer_exit, :killed}, -576460751003898484}
+WD_CALL {#PID<0.225.0>, Abyss.Dispatcher, :stop_child, #PID<0.227.0>, -576460751003895883}
+WD_CALL {#PID<0.226.0>, Abyss.Dispatcher.Admission, :handle_info, {:DOWN, #Reference<0.3668402255.3188719620.83824>, :process, #PID<0.227.0>, :killed}, -576460751003886339}
+WD_CALL {#PID<0.226.0>, :persistent_term, :erase, {Abyss.Dispatcher.Writer, #PID<0.227.0>}, -576460751003883678}
+WD_RETURN {#PID<0.225.0>, {Abyss.Dispatcher, :stop_child, 1}, -576460751003874385}
+WD_CALL {#PID<0.225.0>, Abyss.Dispatcher, :stop_child, #PID<0.226.0>, -576460751003871483}
+WD_RETURN {#PID<0.226.0>, {:persistent_term, :erase, 1}, -576460751003785691}
+WD_RETURN {#PID<0.226.0>, {Abyss.Dispatcher.Admission, :handle_info, 2}, -576460751003779305}
+WD_CALL {#PID<0.226.0>, :gen_server, :terminate, :otp_termination, -576460751003774902}
+WD_CALL {#PID<0.226.0>, Abyss.Dispatcher.Admission, :terminate, :normal, -576460751003771512}
+WD_RETURN {#PID<0.226.0>, {Abyss.Dispatcher.Admission, :terminate, 2}, -576460751003770344}
+WD_DOWN {#PID<0.226.0>, :normal, -576460750999935888}
+WD_RETURN {#PID<0.225.0>, {Abyss.Dispatcher, :stop_child, 1}, -576460751003756225}
+WD_RETURN {#PID<0.225.0>, {Abyss.Dispatcher, :terminate, 2}, -576460751003755116}
+WD_CALL {#PID<0.194.0>, :gen_server, :terminate, :otp_termination, -576460750997801047}
+
+11:05:54.645 [error] GenServer #PID<0.225.0> terminating
+** (stop) {:writer_exit, :killed}
+Last message: {:EXIT, #PID<0.227.0>, :killed}
+State: %{module: Abyss.DispatcherTestCallback, monitors: %{}, send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.227.0>, generation: #Reference<0.3668402255.3188719617.85109>, admission: #PID<0.226.0>, io_backend: :gen_udp}, writer: #PID<0.227.0>, admission: #PID<0.226.0>, generation: #Reference<0.3668402255.3188719617.85109>, routes: %{}, callback_state: %{started: 0, send_fun: #Function<2.70726043/2 in Abyss.Dispatcher.init/1>}, listener: nil}
+WD_DOWN {#PID<0.225.0>, {:writer_exit, :killed}, -576460750993214452}
+.
+Finished in 0.3 seconds (0.3s async, 0.00s sync)
+19 tests, 0 failures, 18 excluded
+WD_CALL {#PID<0.200.0>, :gen_server, :terminate, :otp_termination, -576460750992896573}
+WD_CALL {#PID<0.203.0>, :gen_server, :terminate, :otp_termination, -576460750992848302}
+WD_CALL {#PID<0.198.0>, :gen_server, :terminate, :otp_termination, -576460750992829749}

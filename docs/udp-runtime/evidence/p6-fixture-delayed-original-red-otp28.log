@@ -1,0 +1,62 @@
+Running ExUnit with seed: 953627, max_cases: 16
+Excluding tags: [:test]
+Including tags: [location: {"/tmp/abyss-completed-effects-fixtures-diagnostics/delayed-original-fixture_test.exs", 855}]
+
+warning: redefining module Abyss.DatagramRuntime (current version loaded from /tmp/abyss-p6-otp28-final/lib/abyss/ebin/Elixir.Abyss.DatagramRuntime.beam)
+└─ nofile:1: Abyss.DatagramRuntime (module)
+
+     warning: function completed_effect_fixture/4 is unused
+     │
+ 442 │   defp completed_effect_fixture(server, client, port, payload) do
+     │        ~
+     │
+     └─ /tmp/abyss-completed-effects-fixtures-diagnostics/delayed-original-fixture_test.exs:442:8: Abyss.DatagramRuntimeTest (module)
+
+
+
+  1) test zero-input runtime death kills blocked output components and erases lookup (Abyss.DatagramRuntimeTest)
+     /tmp/abyss-completed-effects-fixtures-diagnostics/delayed-original-fixture_test.exs:855
+     Assertion failed, no matching message after 1000ms
+     Showing 2 of 2 messages in the mailbox
+     code: assert_receive {:terminated, worker, _, 1}
+     mailbox:
+       pattern: {:terminated, worker, _, 1}
+       value:   {:initialized, #PID<0.227.0>,
+                 %{
+                   send: %Abyss.Dispatcher.SendCapability{
+                     writer: #PID<0.223.0>,
+                     generation: #Reference<0.3998539785.2117861380.125546>,
+                     admission: #PID<0.222.0>,
+                     io_backend: :gen_udp
+                   },
+                   generation: #Reference<0.3998539785.2117861380.125546>,
+                   endpoint_id: {#PID<0.217.0>, "listener-1"}
+                 }}
+
+       pattern: {:terminated, worker, _, 1}
+       value:   {:invoked, #PID<0.227.0>,
+                 %Abyss.Datagram{
+                   payload: "unknown-send",
+                   peer: %{
+                     port: 56245,
+                     addr: {127, 0, 0, 1},
+                     family: :inet
+                   },
+                   local_endpoint: {{127, 0, 0, 1}, 42438},
+                   destination: nil,
+                   interface_index: nil,
+                   local_address: nil,
+                   hop_limit: nil,
+                   traffic_class: nil,
+                   endpoint_id: {#PID<0.217.0>, "listener-1"},
+                   generation: #Reference<0.3998539785.2117861380.125546>,
+                   received_at: -576460749836244,
+                   ancillary: [],
+                   flags: []
+                 }, 0}
+     stacktrace:
+       /tmp/abyss-completed-effects-fixtures-diagnostics/delayed-original-fixture_test.exs:871: (test)
+
+
+Finished in 2.6 seconds (0.00s async, 2.6s sync)
+23 tests, 1 failure, 22 excluded

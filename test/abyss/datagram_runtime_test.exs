@@ -438,9 +438,74 @@ defmodule Abyss.DatagramRuntimeTest do
     assert generation == info.generation
   end
 
-  test "blocked writer retains output credit when invocation finishes and caller dies" do
+  defp completed_effect_fixture(server, client, port, payload) do
     owner = self()
-    diagnostic_ref = make_ref()
+    gate = make_ref()
+    [listener] = server |> Abyss.Server.listener_pool_pid() |> Abyss.ListenerPool.listener_pids()
+    runtime = :sys.get_state(listener).runtime
+
+    :ok =
+      :sys.install(
+        runtime,
+        {fn held, event, _name ->
+           case event do
+             {:noreply, state} when not held ->
+               case Map.to_list(state.workers) do
+                 [
+                   {key,
+                    %{
+                      phase: :effects,
+                      current: token,
+                      effect_pid: helper,
+                      effect_monitor: monitor
+                    }}
+                 ] ->
+                   fixture = %{
+                     runtime: runtime,
+                     admission: state.admission,
+                     slot: state.inputs[token].slot
+                   }
+
+                   send(owner, {gate, key, token, helper, monitor, fixture})
+
+                   # These fixtures require completed effects. Preserve the real
+                   # deadline, but process its actual expiry after matching DOWN.
+                   receive do
+                     {:work_expired, ^key, ^token} = expired ->
+                       receive do: ({^gate, :continue} -> send(self(), expired))
+                   end
+
+                   true
+
+                 _ ->
+                   held
+               end
+
+             _ ->
+               held
+           end
+         end, false}
+      )
+
+    :erlang.trace(runtime, true, [:receive])
+
+    try do
+      :ok = packet(client, port, payload)
+      assert_receive {^gate, key, token, helper, monitor, fixture}
+
+      assert_receive {:trace, ^runtime, :receive,
+                      {:effects_result, ^key, ^token, [{:unknown, _}], nil}}
+
+      assert_receive {:trace, ^runtime, :receive, {:DOWN, ^monitor, :process, ^helper, :normal}}
+      assert_receive {:trace, ^runtime, :receive, {:work_expired, ^key, ^token}}
+      fixture
+    after
+      send(runtime, {gate, :continue})
+      :erlang.trace(runtime, false, [:receive])
+    end
+  end
+
+  test "blocked writer retains output credit when invocation finishes and caller dies" do
     :persistent_term.put({Abyss.RuntimeBlockingTransport, :owner}, self())
     on_exit(fn -> :persistent_term.erase({Abyss.RuntimeBlockingTransport, :owner}) end)
 
@@ -451,95 +516,19 @@ defmodule Abyss.DatagramRuntimeTest do
         dispatcher_max_queue: 1
       )
 
-    [listener] = server |> Abyss.Server.listener_pool_pid() |> Abyss.ListenerPool.listener_pids()
-    runtime = :sys.get_state(listener).runtime
-
-    :ok =
-      :sys.install(
-        runtime,
-        {fn {event, previous, sequence} = observed, message, _name ->
-           case message do
-             {:in, {:invocation_result, key, token, _}} ->
-               {{:invocation_result, key, token}, previous, sequence}
-
-             {:in, event}
-             when is_tuple(event) and
-                    elem(event, 0) in [
-                      :initialized,
-                      :invocation_settled,
-                      :effects_result,
-                      :work_expired,
-                      :cleanup_expired,
-                      :DOWN,
-                      :EXIT
-                    ] ->
-               {event, previous, sequence}
-
-             {:in, _} ->
-               {nil, previous, sequence}
-
-             {:noreply, state} ->
-               current = %{
-                 input_count: map_size(state.inputs),
-                 workers:
-                   Map.new(state.workers, fn {key, worker} ->
-                     {key,
-                      Map.take(worker, [
-                        :pid,
-                        :phase,
-                        :current,
-                        :effect_pid,
-                        :effect_monitor,
-                        :effect_result,
-                        :callback_settled,
-                        :watchdog,
-                        :worker_dead
-                      ])}
-                   end)
-               }
-
-               if event do
-                 record =
-                   {sequence, System.monotonic_time(:microsecond), event, previous, current}
-
-                 send(owner, {:blocked_writer_trace, diagnostic_ref, record})
-               end
-
-               {nil, current, sequence + 1}
-
-             _ ->
-               observed
-           end
-         end, {nil, nil, 0}}
-      )
-
-    try do
-      :ok = packet(client, port, "blocked-send")
-      assert_receive {:writer_blocked, writer}
-      assert_receive {:terminated, _, {:shutdown, :normal}, 1}, 1000
-      assert {:ok, %{send: capability, egress: %{entries: 1}}} = Endpoint.info(server)
-      destination = %{family: :inet, addr: {127, 0, 0, 1}, port: port}
-      assert {:error, :queue_limit} = Endpoint.send(capability, destination, "overload")
-      assert :ok = Endpoint.pause(server)
-      {:ok, %{receipts: receipts}} = Endpoint.info(server)
-      [{_, %{outcomes: [{:unknown, ref}]}}] = Map.to_list(receipts)
-      send(writer, :continue)
-      assert {:ok, {_, ^port, <<1::32>>}} = response(client)
-      assert {:ok, _} = Endpoint.await(capability, ref, 1000)
-      assert :ok = Endpoint.stop(server, 100)
-    after
-      flush = fn flush ->
-        receive do
-          {:blocked_writer_trace, ^diagnostic_ref, record} ->
-            IO.inspect(record, label: "BLOCKED_WRITER_ORDER", limit: :infinity)
-            flush.(flush)
-        after
-          0 -> :ok
-        end
-      end
-
-      flush.(flush)
-    end
+    completed_effect_fixture(server, client, port, "blocked-send")
+    assert_receive {:writer_blocked, writer}
+    assert_receive {:terminated, _, {:shutdown, :normal}, 1}, 1000
+    assert {:ok, %{send: capability, egress: %{entries: 1}}} = Endpoint.info(server)
+    destination = %{family: :inet, addr: {127, 0, 0, 1}, port: port}
+    assert {:error, :queue_limit} = Endpoint.send(capability, destination, "overload")
+    assert :ok = Endpoint.pause(server)
+    {:ok, %{receipts: receipts}} = Endpoint.info(server)
+    [{_, %{outcomes: [{:unknown, ref}]}}] = Map.to_list(receipts)
+    send(writer, :continue)
+    assert {:ok, {_, ^port, <<1::32>>}} = response(client)
+    assert {:ok, _} = Endpoint.await(capability, ref, 1000)
+    assert :ok = Endpoint.stop(server, 100)
   end
 
   test "completed effects retain credit through settlement despite queued watchdog expiry" do
@@ -872,12 +861,10 @@ defmodule Abyss.DatagramRuntimeTest do
         runtime_options: [send_timeout: 10]
       )
 
-    [listener] = server |> Abyss.Server.listener_pool_pid() |> Abyss.ListenerPool.listener_pids()
-    runtime = :sys.get_state(listener).runtime
-    :ok = packet(client, port, "unknown-send")
+    %{runtime: runtime, admission: admission, slot: token} =
+      completed_effect_fixture(server, client, port, "unknown-send")
+
     assert_receive {:writer_blocked, writer}
-    %{admission: admission, inputs: inputs} = :sys.get_state(runtime)
-    token = inputs |> Map.values() |> hd() |> Map.fetch!(:slot)
     assert_receive {:terminated, worker, _, 1}, 1000
     worker_monitor = Process.monitor(worker)
     assert_receive {:DOWN, ^worker_monitor, :process, ^worker, _}, 1000

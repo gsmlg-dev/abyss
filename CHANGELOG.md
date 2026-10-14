@@ -91,6 +91,30 @@ base_listeners = max(div(current_connections, 1000), 1)
 base_listeners = max(div(current_connections, 100), 1)
 ```
 
+## [0.8.0] - 2026-10-14
+
+### Added
+
+- Public `Abyss.Datagram`, `Abyss.DatagramHandler`, and `Abyss.Endpoint` APIs with per-datagram, endpoint, and keyed execution policies.
+- Bounded input and action accounting, generation-scoped send receipts, managed events, callback watchdogs, and observed worker/helper cleanup.
+- Linux native UDP metadata and strict source/interface-correct replies, with independent IPv4/IPv6 multicast and scoped-send fixtures.
+- Runtime design, migration, resource/performance measurements, and reproducible G0–G10 evidence in `docs/udp-runtime/`.
+
+### Changed
+
+- DHCP/ARP Rust support moves to the explicitly installed `optional/abyss_dhcp_socket` package. The legacy facade remains; ordinary UDP builds without Rust or QUIC. The optional package is not published in this release.
+- Optional QUIC examples pin the fixed published `elixir_quic`/`ex_ssl` 0.21.6 and retain their concurrent workload and deadlines.
+
+### Fixed
+
+- UDP one-peer exchanges reject wrong IP/port replies without extending the absolute response deadline.
+- Public UDP paths resolve the effective boot/default backend consistently.
+- Completed effects retire their watchdog after actual helper completion; stop handles expected runtime deadline retirement while draining.
+
+### Performance
+
+- Controlled legacy sequential throughput is approximately 6.9% below the 0.7.0 baseline. New execution policies incur additional action/receipt coordination costs; measurements and limits are documented.
+
 ## [0.6.1] - 2026-09-29
 
 ### Fixed

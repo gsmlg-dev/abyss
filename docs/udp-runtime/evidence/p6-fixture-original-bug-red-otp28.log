@@ -1,0 +1,25 @@
+Generated abyss app
+Running ExUnit with seed: 953627, max_cases: 16
+Excluding tags: [:test]
+Including tags: [location: {"/tmp/abyss-completed-effects-fixtures-diagnostics/original-bug_test.exs", 535}]
+
+warning: redefining module Abyss.DatagramRuntime (current version loaded from /tmp/abyss-p6-otp28-final/lib/abyss/ebin/Elixir.Abyss.DatagramRuntime.beam)
+└─ nofile:1: Abyss.DatagramRuntime (module)
+
+
+
+  1) test completed effects retain credit through settlement despite queued watchdog expiry (Abyss.DatagramRuntimeTest)
+     /tmp/abyss-completed-effects-fixtures-diagnostics/original-bug_test.exs:535
+     Expected truthy, got false
+     code: assert Process.alive?(worker)
+     arguments:
+
+         # 1
+         #PID<0.235.0>
+
+     stacktrace:
+       /tmp/abyss-completed-effects-fixtures-diagnostics/original-bug_test.exs:610: (test)
+
+
+Finished in 1.7 seconds (0.00s async, 1.7s sync)
+23 tests, 1 failure, 22 excluded
