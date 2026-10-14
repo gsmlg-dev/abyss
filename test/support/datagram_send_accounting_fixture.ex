@@ -68,6 +68,15 @@ defmodule Abyss.Test.SendAccountingFixture do
     {peer, %{family: family, addr: address, port: port}}
   end
 
+  def close_send_socket(server) do
+    [listener] = Abyss.Listener.for_server(server)
+    :ok = :sys.suspend(listener)
+    on_exit(fn -> if Process.alive?(listener), do: :sys.resume(listener) end)
+    %{listener_socket: socket} = :sys.get_state(listener)
+    assert Telemetry.socket_scope(socket) == server
+    :ok = :gen_udp.close(socket)
+  end
+
   def successful_send(server, capability, peer, destination, payload) do
     assert {:ok, ref} = Endpoint.send(capability, destination, payload)
     assert {:ok, at} = Endpoint.await(capability, ref, 1000)

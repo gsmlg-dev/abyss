@@ -27,11 +27,11 @@ defmodule Abyss.DatagramSendAccountingTest do
       assert_counts(server, 2, 7, 0)
       assert_counts(other, 0, 0, 0)
 
-      oversized = :binary.copy(<<1>>, 65_536)
-      assert {:ok, ref} = Endpoint.send(capability, destination, oversized)
-      assert {:error, :emsgsize} = Endpoint.await(capability, ref, 1000)
-      assert_event(server, {:error, :emsgsize}, 65_536)
-      assert {:error, :emsgsize} = Endpoint.await(capability, ref, 1000)
+      close_send_socket(server)
+      assert {:ok, ref} = Endpoint.send(capability, destination, "failed")
+      assert {:error, :closed} = Endpoint.await(capability, ref, 1000)
+      assert_event(server, {:error, :closed}, 6)
+      assert {:error, :closed} = Endpoint.await(capability, ref, 1000)
       assert_counts(server, 2, 7, 1)
       assert_counts(other, 0, 0, 0)
       refute_receive {:socket_send_event, ^server, _, _}, 0

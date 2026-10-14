@@ -1,0 +1,81 @@
+{
+  "task": "R3 portable failure fixture repair",
+  "assignment": "direct",
+  "head": "997e6800def6beb14c430f94de65ac4e1a233716",
+  "worktree": "/home/gao/Workspace/gsmlg-dev/abyss/.trees/post-release-hardening",
+  "branch": "codex/post-release-hardening",
+  "source_sha256": {
+    "test/abyss/datagram_send_accounting_test.exs": "ab695453559dc552b7c64d405a8e8ff7e86fcd8310da4016504cac8589712985",
+    "test/support/datagram_send_accounting_fixture.ex": "165d593b9cfe4c65e4db8c764c58a1ba93bc4b82f4a1d2c8014a0f60e663d29a",
+    "test/abyss/datagram_native_send_accounting_test.exs": "985703ec749f0662377030b5f872e0ca99b91af3d77e586549bbe009aa7baa37",
+    "lib/abyss/transport/udp/core.ex": "b650bad39f030ff6280cc66b3ddbf54d4dc20f9b9636f397e692700ae5ad2aa8",
+    "lib/abyss/transport/udp/native.ex": "e87cb0ef1bcf4fa80485f89bed298677d5cd8aeaa9aa4dd9112c19c5414d54bf"
+  },
+  "red_worktree": "/home/gao/Workspace/gsmlg-dev/abyss/.trees/r3-red-baseline",
+  "red_head": "d9c01b12fb99ec2d99faada2b143ca8f417309b6",
+  "red_source_sha256": {
+    "test/abyss/datagram_send_accounting_test.exs": "ab695453559dc552b7c64d405a8e8ff7e86fcd8310da4016504cac8589712985",
+    "test/support/datagram_send_accounting_fixture.ex": "165d593b9cfe4c65e4db8c764c58a1ba93bc4b82f4a1d2c8014a0f60e663d29a",
+    "test/abyss/datagram_native_send_accounting_test.exs": "985703ec749f0662377030b5f872e0ca99b91af3d77e586549bbe009aa7baa37",
+    "lib/abyss/transport/udp/core.ex": "eea49b164184828038c140d48c8083f167023db758153b096057e6849fa72d04",
+    "lib/abyss/transport/udp/native.ex": "54fadbd1c859891fba8b49d84a251db44b072f18bb90f69a7e696e7055d8ca34"
+  },
+  "test_command": "mix test --no-cover test/abyss/datagram_send_accounting_test.exs test/abyss/datagram_native_send_accounting_test.exs",
+  "otp28_environment": {
+    "CI": "true",
+    "ERL_FLAGS": "+S 8:8",
+    "MIX_BUILD_PATH": "/tmp/abyss-post-hardening-otp28"
+  },
+  "otp27_environment": {
+    "launcher": "devenv shell -- bash -c",
+    "CI": "true",
+    "ERL_FLAGS": "+S 8:8",
+    "MIX_BUILD_PATH": "/tmp/abyss-post-hardening-otp27"
+  },
+  "red_environment": {
+    "CI": "true",
+    "ERL_FLAGS": "+S 8:8",
+    "MIX_BUILD_PATH": "/tmp/abyss-post-hardening-r3-red-otp28"
+  },
+  "red_results": {
+    "tests": 15,
+    "intended_failures": 5,
+    "exit": 2
+  },
+  "green_otp27": {
+    "tests": 15,
+    "failures": 0,
+    "exit": 0
+  },
+  "green_otp28": {
+    "tests": 15,
+    "failures": 0,
+    "exit": 0
+  },
+  "format_exit": 0,
+  "test_compile_exit": 0,
+  "credo": {
+    "baseline": 83,
+    "current": 83,
+    "introduced": [],
+    "exit": 30
+  },
+  "root_cause": "Darwin IPv6 accepted65536byte payload locally; emsgsize assumption not portable. Replace only testfailure control with actual closedfixture socket. Suspend owner to retain registered telemetryscope until publicWriter attempt/receipt/event assertions; resumeregistered on_exit before endpointstop.",
+  "coverage_preserved": "GenUDP inet/socket IPv4/IPv6 sampling0/1; success,empty,actualfailure,repeatreceipt,twoendpoint isolation unchanged. Native strictreply success tests unchanged. Failure payload6bytes; actual :gen_udp.send produces :closed on Linux27/28, eventonce; zero successincrement.",
+  "sol_repair_rounds_portable": 1,
+  "prior_r4_sol_repair_rounds": 2,
+  "received_astra_repair_counter": null,
+  "commands_finished": true,
+  "remaining": "Rootowns exactsource macOS/fullintegration/publication; macOS newfixture not yetvalidated.",
+  "format_command": "mix format --check-formatted test/abyss/datagram_send_accounting_test.exs test/support/datagram_send_accounting_fixture.ex",
+  "test_compile_command": "MIX_ENV=test mix compile --warnings-as-errors",
+  "credo_command": "MIX_ENV=test mix credo --strict --format json",
+  "logs": [
+    "r3-portable-repair-red-otp28.log",
+    "r3-portable-repair-green-otp27.log",
+    "r3-portable-repair-green-otp28.log",
+    "r3-portable-repair-format-otp28.log",
+    "r3-portable-repair-compile-otp28.log",
+    "r3-portable-repair-credo-otp28.log"
+  ]
+}
