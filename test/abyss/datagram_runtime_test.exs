@@ -471,7 +471,7 @@ defmodule Abyss.DatagramRuntimeTest do
                    # These fixtures require completed effects. Preserve the real
                    # deadline, but process its actual expiry after matching DOWN.
                    receive do
-                     {:work_expired, ^key, ^token} = expired ->
+                     {:work_expired, ^key, ^token, _, :effects, _, _} = expired ->
                        receive do: ({^gate, :continue} -> send(self(), expired))
                    end
 
@@ -497,7 +497,10 @@ defmodule Abyss.DatagramRuntimeTest do
                       {:effects_result, ^key, ^token, [{:unknown, _}], nil}}
 
       assert_receive {:trace, ^runtime, :receive, {:DOWN, ^monitor, :process, ^helper, :normal}}
-      assert_receive {:trace, ^runtime, :receive, {:work_expired, ^key, ^token}}
+
+      assert_receive {:trace, ^runtime, :receive,
+                      {:work_expired, ^key, ^token, _, :effects, _, _}}
+
       fixture
     after
       send(runtime, {gate, :continue})
@@ -568,7 +571,7 @@ defmodule Abyss.DatagramRuntimeTest do
                # Queue the actual expired timer after the actual helper DOWN,
                # independently of how quickly the helper gets scheduled.
                receive do
-                 {:work_expired, ^key, ^token} = expired ->
+                 {:work_expired, ^key, ^token, _, :effects, _, _} = expired ->
                    receive do: (:continue_effect_queue -> send(self(), expired))
                end
 
@@ -598,7 +601,7 @@ defmodule Abyss.DatagramRuntimeTest do
       assert_receive {:writer_blocked, writer}
       assert_receive {:trace, ^runtime, :receive, {:effects_result, _, _, [{:unknown, ref}], nil}}
       assert_receive {:trace, ^runtime, :receive, {:DOWN, _, :process, ^helper, :normal}}
-      assert_receive {:trace, ^runtime, :receive, {:work_expired, _, _}}
+      assert_receive {:trace, ^runtime, :receive, {:work_expired, _, _, _, :effects, _, _}}
       send(runtime, :continue_effect_queue)
       assert_receive {:effect_down_held, ^helper}
       send(runtime, :continue_effect_down)

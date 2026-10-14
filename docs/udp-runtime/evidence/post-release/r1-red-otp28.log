@@ -1,0 +1,24 @@
+Running ExUnit with seed: 24990, max_cases: 16
+Excluding tags: [integration: true, slow: true]
+
+
+
+  1) test an actual init expiry delivered after callback arm cannot kill that callback (Abyss.DatagramWatchdogTest)
+     test/abyss/datagram_watchdog_test.exs:97
+     stale init expiry killed the active callback
+     code: assert Process.alive?(worker), "stale init expiry killed the active callback"
+     stacktrace:
+       test/abyss/datagram_watchdog_test.exs:109: (test)
+
+.
+
+  2) test an actual callback expiry delivered after effects arm cannot kill those effects (Abyss.DatagramWatchdogTest)
+     test/abyss/datagram_watchdog_test.exs:123
+     stale callback expiry killed active effects
+     code: assert Process.alive?(worker), "stale callback expiry killed active effects"
+     stacktrace:
+       test/abyss/datagram_watchdog_test.exs:142: (test)
+
+.
+Finished in 0.8 seconds (0.00s async, 0.8s sync)
+4 tests, 2 failures

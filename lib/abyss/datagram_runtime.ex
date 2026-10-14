@@ -196,12 +196,8 @@ defmodule Abyss.DatagramRuntime do
   def handle_info({:initialized, key, token}, state) do
     case state.workers[key] do
       %{current: ^token, phase: :init} = worker ->
-        cancel(worker.watchdog)
-
-        watchdog =
-          Process.send_after(self(), {:work_expired, key, token}, state.limits.callback_timeout)
-
-        {:noreply, put_worker(state, key, %{worker | phase: :callback, watchdog: watchdog})}
+        worker = arm_watchdog(worker, key, token, :callback, state.limits.callback_timeout, state)
+        {:noreply, put_worker(state, key, worker)}
 
       _ ->
         {:noreply, state}
@@ -249,10 +245,25 @@ defmodule Abyss.DatagramRuntime do
     end
   end
 
-  def handle_info({:work_expired, key, token}, state) do
+  def handle_info({:work_expired, key, token, pid, phase, identity, generation}, state)
+      when generation == state.context.generation do
     case state.workers[key] do
-      %{current: ^token, watchdog: watchdog} when is_reference(watchdog) ->
-        {:noreply, remove_worker(key, :callback_timeout, state)}
+      %{
+        pid: ^pid,
+        current: ^token,
+        phase: ^phase,
+        watchdog: %{identity: ^identity, phase: ^phase, deadline: deadline}
+      } ->
+        if now() >= deadline do
+          if phase == :closing do
+            Process.exit(pid, :kill)
+            {:noreply, state}
+          else
+            {:noreply, remove_worker(key, :callback_timeout, state)}
+          end
+        else
+          {:noreply, state}
+        end
 
       _ ->
         {:noreply, state}
@@ -301,17 +312,6 @@ defmodule Abyss.DatagramRuntime do
 
   def handle_info({:receipt_expired, token}, state),
     do: {:noreply, %{state | receipts: Map.delete(state.receipts, token)}}
-
-  def handle_info({:cleanup_expired, key, pid}, state) do
-    case state.workers[key] do
-      %{pid: ^pid, phase: :closing} ->
-        Process.exit(pid, :kill)
-        {:noreply, state}
-
-      _ ->
-        {:noreply, state}
-    end
-  end
 
   def handle_info(:drain_poll, state), do: check_drain(%{state | poll: nil})
   def handle_info(:drain_expired, state), do: {:stop, :normal, state}
@@ -410,16 +410,15 @@ defmodule Abyss.DatagramRuntime do
                 do: state.limits.callback_timeout,
                 else: state.limits.init_timeout
 
-            watchdog = Process.send_after(self(), {:work_expired, key, token}, timeout)
+            phase = if worker.initialized, do: :callback, else: :init
+            worker = arm_watchdog(worker, key, token, phase, timeout, state)
             :ok = UDPAdmission.protect(state.inputs[token].slot, worker.pid)
             _ = GenServer.cast(worker.pid, {:invoke, token, state.inputs[token].event})
 
             put_worker(state, key, %{
               worker
               | queue: queue,
-                current: token,
-                watchdog: watchdog,
-                phase: if(worker.initialized, do: :callback, else: :init)
+                current: token
             })
 
           {:empty, _} ->
@@ -470,23 +469,22 @@ defmodule Abyss.DatagramRuntime do
         _ = send(runtime, {:effects_result, key, token, outcomes, stop_reason})
       end)
 
-    watchdog =
-      Process.send_after(
-        self(),
-        {:work_expired, key, token},
-        min(max(1, length(sends)) * (2 * timeout + 10), 0xFFFFFFFF)
+    worker =
+      arm_watchdog(
+        state.workers[key],
+        key,
+        token,
+        :effects,
+        min(max(1, length(sends)) * (2 * timeout + 10), 0xFFFFFFFF),
+        state
       )
-
-    worker = state.workers[key]
 
     worker = %{
       worker
       | effect_pid: pid,
         effect_monitor: monitor,
         effect_result: nil,
-        callback_settled: false,
-        watchdog: watchdog,
-        phase: :effects
+        callback_settled: false
     }
 
     {:noreply, put_worker(state, key, worker)}
@@ -719,17 +717,11 @@ defmodule Abyss.DatagramRuntime do
           do: Process.exit(worker.pid, :kill),
           else: _ = GenServer.cast(worker.pid, {:finish, {:shutdown, reason}})
 
-        timer =
-          Process.send_after(
-            self(),
-            {:cleanup_expired, key, worker.pid},
-            state.limits.terminate_timeout
-          )
-
         worker =
           worker
+          |> arm_watchdog(key, worker.current, :closing, state.limits.terminate_timeout, state)
           |> Map.put(:worker_dead, dead)
-          |> Map.merge(%{phase: :closing, queue: :queue.new(), watchdog: timer})
+          |> Map.put(:queue, :queue.new())
 
         state = put_worker(state, key, worker)
         finish_closed(key, state)
@@ -849,6 +841,17 @@ defmodule Abyss.DatagramRuntime do
     kind, reason -> {:error, {kind, reason}}
   end
 
+  defp arm_watchdog(worker, key, token, phase, timeout, state) do
+    cancel(worker.watchdog)
+    identity = make_ref()
+    deadline = now() + timeout
+    message = {:work_expired, key, token, worker.pid, phase, identity, state.context.generation}
+    ref = Process.send_after(self(), message, deadline, abs: true)
+    watchdog = %{ref: ref, identity: identity, phase: phase, deadline: deadline}
+    %{worker | watchdog: watchdog, phase: phase}
+  end
+
+  defp cancel(%{ref: ref}), do: cancel(ref)
   defp cancel(nil), do: :ok
 
   defp cancel(timer) do

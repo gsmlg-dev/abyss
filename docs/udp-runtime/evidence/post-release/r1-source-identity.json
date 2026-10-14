@@ -1,0 +1,22 @@
+{
+  "task": "R1",
+  "baseline": "cd65c84073c66de460ab883206414cf8ce0154bf",
+  "worktree": "/home/gao/Workspace/gsmlg-dev/abyss/.trees/post-release-hardening",
+  "branch": "codex/post-release-hardening",
+  "source_sha256": {
+    "lib/abyss/datagram_runtime.ex": "d6228eb037a48c4368ed9f6c6ae6352b555359fcd4f6899bb7294171128c0af5",
+    "test/abyss/datagram_runtime_test.exs": "d3d82c0d6dd7737a1ca4c9bff4aaa8d026d20f43a49a529a39cd24dabb1583c0",
+    "test/abyss/datagram_watchdog_test.exs": "b4e458b750bfddeef62420bd5d9653798bc1ca090d1e4db66df4856cd4b442d9"
+  },
+  "isolated_red_worktree": "/home/gao/Workspace/gsmlg-dev/abyss/.trees/r1-red-baseline",
+  "isolated_red_runtime_sha256": "58f1de0d219a603eb71c2c7cd7fbcf3fd40a7b49c02a420c68f4afa941f6f345",
+  "isolated_red_test_sha256": "b4e458b750bfddeef62420bd5d9653798bc1ca090d1e4db66df4856cd4b442d9",
+  "red_exit": 2,
+  "red_results": "4 tests; exactly 2 intended cross-phase stale-expiry failures",
+  "otp27_green_exit": 0,
+  "otp28_green_exit": 0,
+  "green_results": "46 tests, 0 failures per runtime (4 watchdog + 23 runtime + 19 dispatcher)",
+  "green_command": "mix test --no-cover test/abyss/datagram_watchdog_test.exs test/abyss/datagram_runtime_test.exs test/abyss/dispatcher_test.exs",
+  "sol_repair_rounds": 0,
+  "commands_finished": true
+}

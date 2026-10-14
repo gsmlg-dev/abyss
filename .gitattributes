@@ -1,2 +1,6 @@
 # Preserve tool output formatting in raw evidence; check source whitespace normally.
 docs/udp-runtime/evidence/*.log -whitespace
+
+# Preserve verbatim post-release evidence while keeping source checks enabled.
+docs/udp-runtime/evidence/post-release/*.log -whitespace
+docs/udp-runtime/evidence/post-release/agent-note.md -whitespace
