@@ -1,5 +1,7 @@
 # UDP runtime acceptance
 
+> Historical record. Commands, paths, versions and status below describe the recorded source, not the current checkout. See the [archive index](../README.md) and [current guides](../../README.md).
+
 P0–P6 implementation and acceptance are complete on the tested 0.8.0 source. Final local QA, unchanged optional QUIC consumers, Linux/macOS regressions and19-job network/package matrix PASS. Abyss 0.8.0 publication and fresh published-only verification also PASS.
 
 ## Source and environment
@@ -10,7 +12,7 @@ The tested151-file implementation manifest is `4acbce68f6f111da1f1a47c7c78273ecb
 
 ## G0–G10
 
-Evidence paths below are relative to [evidence/](evidence/). Historical checkpoints are identified separately; they do not substitute for a pending final remote result.
+Evidence paths below are relative to [evidence/](../../udp-runtime/evidence). Historical checkpoints are identified separately; they do not substitute for a pending final remote result.
 
 | Gate | Status | Evidence and limits |
 |---|---|---|

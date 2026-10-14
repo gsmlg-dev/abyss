@@ -1,5 +1,7 @@
 # Completed-effects watchdog harness diagnostics
 
+> Historical record. Commands, paths, versions and status below describe the recorded source, not the current checkout. See the [archive index](../../README.md) and [current guides](../../../README.md).
+
 The baseline test could observe `effects_result`, normal helper `DOWN`, and
 `work_expired` through selective trace receives without proving their processing
 order. Its normal-`DOWN` barrier was too late when expiry had already been

@@ -1,5 +1,7 @@
 # TableOwner scope-cleanup test ordering
 
+> Historical record. Commands, paths, versions and status below describe the recorded source, not the current checkout. See the [archive index](../../README.md) and [current guides](../../../README.md).
+
 Remote diagnostic run `38505262533`, source
 `2c896247cc9a6282c84dc67dc9cbd76a0636aaa7`, fails the unchanged abrupt
 server-death test on Linux OTP27 with `endpoint cleanup did not complete`.

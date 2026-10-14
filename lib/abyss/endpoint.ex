@@ -15,6 +15,7 @@ defmodule Abyss.Endpoint do
   alias Abyss.Transport.UDP.Multicast
 
   defdelegate start_link(options), to: Abyss
+  @doc "Return a supervisor child specification for an endpoint."
   defdelegate child_spec(options), to: Abyss
   defdelegate pause(server), to: Abyss, as: :suspend
   defdelegate resume(server), to: Abyss

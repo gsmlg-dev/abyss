@@ -109,7 +109,7 @@ defmodule Abyss.Handler do
   @callback handle_error(reason :: any(), state :: term()) :: term()
 
   @doc """
-  Cleanup on orderly process shutdown. As with `GenServer.terminate/2`,
+  Cleanup on orderly process shutdown. As with `c:GenServer.terminate/2`,
   forced `:kill` can bypass application cleanup. Listener-owned monitors
   release admission/accounting even when this callback cannot run.
   """

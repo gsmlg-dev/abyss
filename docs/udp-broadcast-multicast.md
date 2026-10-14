@@ -1,38 +1,42 @@
 # UDP broadcast and multicast
 
-Abyss hosts UDP application callbacks. A datagram, including an empty payload,
-remains one message. Successful sends mean local submission, not acknowledged
-network delivery. UDP requires no QUIC engine; the optional QUIC integration
-retains its separate connection and protocol ownership.
+Abyss receives complete UDP datagrams, including empty payloads, and sends from
+the endpoint's socket. Broadcast and multicast addressing are independent of
+callback execution policy. Local send completion does not acknowledge network
+delivery, and ordinary UDP requires no QUIC engine.
 
 ## Start an endpoint
 
-The examples use protocol-neutral payloads and unprivileged ports. Run them only
-on a test interface or in the isolated fixture; substitute its actual address,
-interface name, and port. No subnet broadcast is guessed.
+The datagram API is available in Abyss 0.8. Implement `Abyss.DatagramHandler`
+and return bounded actions; the runtime owns the socket and executes the sends.
+The following examples use unprivileged ports. Replace `test0` with an existing
+test interface and select the destination from your actual network configuration.
 
 ```elixir
 defmodule DatagramEcho do
-  use Abyss.Handler
+  @behaviour Abyss.DatagramHandler
 
   @impl true
-  def handle_data({peer, port, payload}, state) do
-    :ok = state.server_config.transport_module.send(state.socket, peer, port, payload)
-    {:close, state}
+  def init(_options, _context), do: {:ok, 0}
+
+  @impl true
+  def handle_datagram(datagram, count) do
+    {:ok, count + 1, [{:reply, datagram.payload}]}
   end
 end
 
-{:ok, broadcast_server} = Abyss.start_link(
-  handler_module: DatagramEcho,
+{:ok, broadcast_endpoint} = Abyss.Endpoint.start_link(
+  datagram_handler: DatagramEcho,
+  execution: :endpoint,
   port: 49_001,
-  broadcast: true,
   transport_module: Abyss.Transport.UDP.Broadcast,
   transport_options: [ip: {0, 0, 0, 0}],
   num_connections: 32
 )
 
-{:ok, multicast_server} = Abyss.start_link(
-  handler_module: DatagramEcho,
+{:ok, multicast_endpoint} = Abyss.Endpoint.start_link(
+  datagram_handler: DatagramEcho,
+  execution: :endpoint,
   port: 49_002,
   transport_module: Abyss.Transport.UDP.Multicast,
   transport_options: [
@@ -41,59 +45,58 @@ end
     add_membership: {{239, 255, 42, 2}, "test0"},
     multicast_if: "test0",
     multicast_loop: true,
-    multicast_ttl: 1,
-    strict_group_filter: true
+    multicast_ttl: 1
   ],
   num_connections: 32
 )
+
+{:ok, {address, port}} = Abyss.Endpoint.local_endpoint(multicast_endpoint)
 ```
 
-Broadcast permission, receive activation, membership, and callback lifetime are
-separate. Transport defaults are passive. The server owns binary reception and
-uses `active: :once` to limit mailbox delivery; user `active: true` or list mode
-is rejected by the host. A handler does not own or close the shared socket.
-`{:continue, state}` preserves the application state/lifetime; the next packet
-from the same peer is not automatically assigned to that handler. Use the
-existing dispatcher for opt-in persistent routing. The legacy broadcast mode
-remains one-shot and invokes cleanup with the returned application state.
+`{:reply, payload}` sends a unicast reply to the observed peer and source port.
+A group reply requires an explicit `{:send, sockaddr, payload}` action, such as
+`{:send, %{family: :inet, addr: {239, 255, 42, 1}, port: 49_002}, payload}`.
+Broadcast permission, receive membership and outgoing interface selection are
+separate socket settings; a sender does not need to join a group.
 
-Broadcast/multicast receive endpoints use one socket, independent of
-`num_connections`. Automatic socket scaling is incompatible with this mode and
-is rejected. `port: 0` reports the actual endpoint through
-`Abyss.Listener.listener_info/1`; an ephemeral unicast endpoint also uses one
-socket instead of allocating unrelated ports in a pool.
+Choose `:per_datagram` for independent invocations, `:endpoint` for one serialized
+state, or `:keyed` with an explicit application `route_key`. Each datagram
+endpoint has one receiver. Callback execution has finite item, byte and deadline
+bounds; see the [runtime contract](udp-runtime/design.md) and
+[migration guide](udp-runtime/migration.md) for actions, timers and configuration.
 
-## Memberships and IPv6
+## Memberships
 
 ```elixir
-:ok = Abyss.join(multicast_server, {{239, 255, 42, 3}, "test0"})
-Abyss.memberships(multicast_server)
-:ok = Abyss.leave(multicast_server, {{239, 255, 42, 3}, "test0"})
+:ok = Abyss.Endpoint.join(multicast_endpoint, {{239, 255, 42, 3}, "test0"})
+Abyss.Endpoint.memberships(multicast_endpoint)
+:ok = Abyss.Endpoint.leave(multicast_endpoint, {{239, 255, 42, 3}, "test0"})
 ```
 
-These service APIs apply to one receiving endpoint and remain responsive without
-incoming packets. Memberships are canonicalized before comparison. Duplicate
-joins and absent leaves are idempotent; the same group on different interfaces
-remains distinct. Desired membership is preserved across a listener restart,
-updated only after a successful OS operation, and bounded to 64 entries.
-Pausing an existing socket does not rejoin its groups. Startup membership operations are applied individually after opening the socket;
-this also avoids OTP treating IPv6 startup memberships as a single scalar. A
-failed membership startup closes its temporary socket and existing joins; stopping closes all socket memberships.
+Membership APIs stay responsive without incoming packets. Memberships are
+canonicalized; duplicate joins and absent leaves are idempotent. The same group
+on different interfaces remains distinct. Desired memberships are bounded to 64
+entries, updated only after a successful OS operation, and restored on listener
+restart. Pause retains existing joins; stop closes all socket memberships.
+Startup applies membership operations individually after opening the socket and
+closes the temporary socket if a join fails.
 
-IPv4 selectors are local IPv4 addresses, interface names, or `:any` / `{0,0,0,0}`.
-An explicitly selected missing interface returns `{:error, :enodev}`; invalid
-addresses, family mismatches, and failed joins return explicit errors. Interface
-names must be up and have the requested address family where required. Receiving
-membership and outgoing `multicast_if` selection are distinct operations. A
-sender does not need to join a group.
+IPv4 selectors are local IPv4 addresses, interface names, `:any`, or
+`{0, 0, 0, 0}`. Interface names must exist and be up; invalid addresses and family
+mismatches fail explicitly. An explicitly selected missing interface returns
+`{:error, :enodev}`. `multicast_if` selects outgoing traffic independently of the
+receiving `add_membership` interface.
 
-IPv6 has no broadcast. Use `:inet6`, an IPv6 wildcard binding, and an existing
-positive interface index or name:
+## IPv6 and scope
+
+IPv6 has no broadcast. Use an IPv6 binding and an existing positive interface
+index or interface name:
 
 ```elixir
 group6 = {0xFF02, 0, 0, 0, 0, 0, 0, 42}
-{:ok, server6} = Abyss.start_link(
-  handler_module: DatagramEcho,
+{:ok, endpoint6} = Abyss.Endpoint.start_link(
+  datagram_handler: DatagramEcho,
+  execution: :endpoint,
   port: 49_003,
   transport_module: Abyss.Transport.UDP.Multicast,
   transport_options: [
@@ -105,41 +108,40 @@ group6 = {0xFF02, 0, 0, 0, 0, 0, 0, 42}
     {:multicast_loop, true}
   ]
 )
+
+Abyss.Client.broadcast(group6, 49_003, "ipv6",
+  interface: "test0", inet_backend: :inet, hop_limit: 1, loopback: true)
 ```
 
-The OS resolves the named interface to an index. Link-local client sends select
-a scope with `interface: "test0"` or `interface: index, scope_id: index`. A
-conflicting/missing scope is rejected; actual route/send failures are returned.
-The scoped client send uses OTP's native `inet` sockaddr map API (OTP 24.3
-or newer). OTP 27/28 `gen_udp_socket` does not accept scoped sockaddr maps;
-with `inet_backend: :socket`, the supported transport send returns
-`{:error, {:unsupported_capability, :scoped_sockaddr_send, :socket}}` and the
-client rejects the request before opening a socket. Scope is never discarded.
-Use `inet_backend: :inet` for the documented IPv6 multicast send path.
-IPv6 multicast interface/hop/loop controls are currently supported on Linux,
-using its tested IPv6 socket-option ABI on both OTP backends. Other platforms
-return `{:error, {:unsupported_capability, :ipv6_multicast_options, platform}}`
-rather than applying IPv4 options to IPv6 sockets. The
-project's Elixir minimum remains unchanged; minimum-runtime execution still
-requires the acceptance matrix, rather than assuming newer runtime evidence
-covers every older version. Linux OTP 27 / Elixir 1.18.4 portable and multicast/host subsets were run separately and passed.
+Link-local sends require an explicit scope, selected by `interface: "test0"` or
+`interface: index, scope_id: index`. Conflicting or missing scope fails rather
+than discarding it. GenUDP's `:inet` driver uses OTP's scoped sockaddr API;
+GenUDP's `:socket` driver returns
+`{:error, {:unsupported_capability, :scoped_sockaddr_send, :socket}}` on the tested
+OTP 27/28 runtimes. Client helpers reject this configuration before socket open.
+The direct native backend supports scoped endpoint sends on Linux OTP 27/28;
+it is distinct from the GenUDP socket driver.
 
-## Client queries and bounded collection
+IPv6 multicast interface, hop and loopback controls use tested Linux socket
+options. Other platforms return an unsupported-capability error. Runtime or
+backend limitations are reported explicitly; no alternative route is selected.
+
+## Client queries and subscriptions
 
 ```elixir
 Abyss.Client.broadcast({255, 255, 255, 255}, 49_001, "limited",
   interface: "test0", source: {192, 0, 2, 1})
 
-# The caller supplies the destination derived from its fixture's netmask.
+# Supply the directed broadcast address derived from the actual subnet.
 Abyss.Client.broadcast({192, 0, 2, 255}, 49_001, "directed",
   interface: "test0", source: {192, 0, 2, 1})
 
-# Ephemeral sender; the service replies to the query's source port.
+# An ephemeral sender collects replies addressed to its source port.
 Abyss.Client.multicast_query({239, 255, 42, 1}, 49_002, "query", 500,
   interface: "test0", source: {192, 0, 2, 1},
   reply_mode: :unicast, max_responses: 32, max_response_bytes: 65_536)
 
-# Group replies require a bound group port and membership.
+# Collect group replies by binding the group port and joining before sending.
 Abyss.Client.multicast_query({239, 255, 42, 1}, 49_002, "query", 500,
   interface: "test0", membership_interface: "test0",
   reply_mode: :multicast, bind_port: 49_002, loopback: true)
@@ -147,134 +149,111 @@ Abyss.Client.multicast_query({239, 255, 42, 1}, 49_002, "query", 500,
 Abyss.Client.subscribe_broadcast({239, 255, 42, 1}, 49_002, 500,
   membership_interface: "test0", with_metadata: true,
   on_ready: fn endpoint -> IO.inspect(endpoint, label: "subscription ready") end)
-
-Abyss.Client.broadcast(group6, 49_003, "ipv6", interface: "test0",
-  hop_limit: 1, loopback: true)
 ```
 
-All helpers use the same validated source, family, interface, and bind settings.
-Explicit Linux unicast/broadcast interface selection uses `bind_to_device` on
-the real socket, with no trial socket or route fallback. If privileges/backend
-support are insufficient, its OS error is returned. Other platforms reject
-explicit device binding instead of promising an unrelated egress route.
-Multicast uses the OS multicast interface option. IPv4 `source` binds outbound
-queries; subscription/group-reply reception instead binds wildcard and uses
-`membership_interface` independently. `ttl` / `hop_limit` defaults to 1 and
-`loopback` defaults to true. Explicit values are respected; no application
-protocol-specific TTL is imposed.
+Queries default to unicast replies; choosing multicast collection does not change
+how a server replies. Subscription/group-reply sockets bind wildcard by default;
+`membership_interface` selects reception, while `interface` selects egress.
+`source` binds outbound queries. `ttl` / `hop_limit` defaults to 1 and `loopback`
+to true. No application-specific TTL is imposed.
 
-Single-response helpers retain `{:ok, binary}` / `{:error, reason}`.
-`multicast_query` retains `{:ok, [{peer, port, payload}]}` when no ancillary
-fields are present; actual ancillary receive fields extend that tuple to
-`{peer, port, ancillary, payload}`. Subscriptions return binaries by default,
-or those actual peer tuples with `with_metadata: true`.
+Explicit unicast/broadcast device selection uses Linux `bind_to_device`. OS
+permission and backend errors are returned. Other platforms reject explicit
+device binding. Multicast egress uses the OS multicast interface setting.
 
-Collection uses one absolute finite deadline, defaults to at most 256 retained
-responses and 1,048,576 payload bytes, and counts empty payloads as an item.
-Bounds are positive integers; negative/infinite collection timeouts are invalid.
-Exceeding a bound returns `{:error, {:response_limit, :count | :bytes}, partial}`
-and does not retain the overflowing packet. Socket errors return
-`{:error, reason, partial}`. Only deadline/receive timeout ends normally with
-`{:ok, collected}`. Every temporary socket closes on success, failure, overflow,
-or callback exceptions. Sends are checked before waiting for any response.
+Single-response helpers return `{:ok, binary}` or `{:error, reason}`.
+`multicast_query` returns `{:ok, [{peer, port, payload}]}`; actual ancillary fields
+extend each tuple to `{peer, port, ancillary, payload}`. Subscriptions return
+binaries by default, or peer tuples with `with_metadata: true`.
 
-## Pause, drain, and resource limits
+Collectors use one absolute finite response deadline and default to at most 256
+responses and 1,048,576 payload bytes. Empty payloads consume an item. Bounds must
+be positive integers; infinite or negative collection timeouts are invalid.
+Overflow returns `{:error, {:response_limit, :count | :bytes}, partial}` without
+retaining the overflowing packet. Socket errors return `{:error, reason, partial}`;
+deadline expiry returns `{:ok, collected}`. Temporary sockets close on every exit,
+including callback exceptions. Send failure is checked before waiting for replies.
 
-`Abyss.suspend(server)` stops new admission while admitted workers may reply
-through the original socket. Datagrams actually received while suspended are
-discarded. The bounded kernel queue may retain packets while receive credit is
-withheld, including during an outstanding start; some may be received after
-resume. Pause is an admission barrier, not a universal kernel flush.
-`Abyss.resume(server)` uses the same socket and desired memberships and reports
-errors if it cannot rearm reception.
+## Pause, stop and send outcomes
 
-Ordinary UDP uses deterministic drop-new admission with a shared per-server
-`num_connections` limit including reserved starts and live handlers. There is
-no pending payload retry queue or per-rejection sleeping Task. One outstanding
-start per receiver temporarily withholds receive credit; `admission_start_timeout`
-bounds that handshake. Datagram buffers are large enough for ordinary maximum
-UDP packets before enforcing `max_packet_size`; truncated prefixes are not an
-acceptable packet-size check. UDP receive control bounds local work, not network
-backpressure. `active: :once` bounds ingress credit to one complete UDP message
-per receiver; the receive buffer is 65,536 bytes. A datagram larger than
-`max_packet_size` can temporarily occupy its complete receive binary before the
-size check rejects it. An outstanding start payload is bounded by
-`max_packet_size`. Admission retained-byte measurements cover reservations and
-admitted work, not all transient BEAM binaries or kernel queue memory.
-OS receive queue drops cannot be counted reliably.
+`Abyss.Endpoint.pause(endpoint)` stops admission while accepted work can reply
+from the existing socket. It does not flush the kernel queue: queued packets may
+be received after `resume/1`. Desired memberships survive pause and restore on
+listener restart. `Abyss.Endpoint.stop(endpoint, timeout_ms)` shares one absolute
+deadline across ingress, accepted work, sends and forced cleanup.
 
-`Abyss.stop(server, deadline_ms)` drains admitted ordinary handlers against one
-absolute overall deadline before closing the shared socket, then forces cleanup
-when that deadline expires. Persistent dispatcher mode has a narrower host-stop
-contract; this task does not redesign application-level QUIC session draining.
+Capabilities and receipts belong to one socket generation. `Endpoint.send/4`
+returns `{:ok, ref}` for admission; `Endpoint.await/3` reports local completion,
+definite error or an unknown outcome. A timeout does not cancel accepted sends or
+authorize retry. Results expire after finite count/time bounds. Writer limits
+include queued and in-flight work; UDP provides no network backpressure or peer
+acknowledgement. OS receive-queue drops cannot be counted reliably.
 
-Internal housekeeping does not extend handler idle deadlines. Explicit handler
-progress resets token-tagged timers, stale timers are ignored, and `:infinity`
-is supported without disabling admission limits. Process memory samples are
-bytes, not words, and are not a strict total-memory bound: blocking callbacks,
-shared binaries, and inter-sample spikes remain relevant.
+## Metadata and backend capabilities
 
-## OTP multicast option behavior
+Wildcard `sockname` identifies the binding, not a packet's destination or ingress
+interface. GenUDP preserves only peer/ancillary fields actually returned by OTP.
+It does not infer metadata from membership lists. The native backend exposes
+observed destination, interface and usable local-source metadata; strict replies
+require this metadata and per-message source controls.
 
-OTP 28.5 native socket opening collapses multiple IPv6 membership options in
-`inet:add_opt/4`; therefore Abyss opens the socket then applies each membership
-operation through the public socket-option API, closing the socket if startup
-fails. The regression checks actual Linux OS membership entries, not successful
-`drop_membership` returns (the inet driver can suppress some OS option errors).
+Use `Abyss.Endpoint.capabilities/1` to inspect the actual adapter and driver.
+`required_capabilities` rejects an incapable endpoint at startup, while
+`required_metadata` rejects individual inputs missing selected fields. Details
+and all capability names are in the [migration guide](udp-runtime/migration.md).
 
-On IPv6 sockets, generic OTP `multicast_ttl` and `multicast_loop` set IPv4 controls.
-A generic `multicast_if` index also fails or leaves the IPv6 egress interface
-unset. Abyss maps these options to Linux IPv6 interface/hop/loop options
-(IPPROTO_IPV6 41, option numbers 17/18/19), including runtime setters/getters.
-Tests compare independent raw kernel values on both backends; the isolated
-native fixture validates hops and loopback by actual delivery. On the Linux
-socket backend, named IPv4 `multicast_if`/`multicast_ttl`/`multicast_loop` controls
-also fail independently on OTP 27; Abyss maps them to IPPROTO_IP 0, options
-32/33/34 for open/runtime operations and restores public getters. The socket
-fixture verifies these controls through actual IPv4 egress, TTL and loopback.
-Socket-backend memberships use the Linux raw `ip_mreqn`/`ipv6_mreq` ABI because
-OTP's generic setter rejects membership tuples. Non-Linux socket-backend
-multicast controls/memberships are explicitly unsupported until tested. See
-[`udp-otp-multicast-defects.md`](udp-otp-multicast-defects.md) for exact reproducers.
+| Capability | GenUDP inet | GenUDP socket | Direct native |
+| --- | --- | --- | --- |
+| IPv4 broadcast/multicast | Supported | Supported on Linux | Linux OTP 27/28 |
+| IPv6 scoped endpoint send | Supported | Explicitly unsupported on OTP 27/28 | Linux OTP 27/28 |
+| Strict original-source/interface reply | Unavailable | Unavailable | Linux OTP 27/28 |
+| Strict IPv4 group filtering | Linux explicit option | Unavailable | Linux explicit option |
+| Strict interface receive filtering | Unavailable | Unavailable | Unimplemented |
 
-## Metadata, options, metrics, and platform limits
+Enable `strict_group_filter: true` only with a supported backend. GenUDP's inet
+implementation uses Linux `IP_MULTICAST_ALL=0` for IPv4. IPv6 strict group filtering
+is unsupported. Basic OS membership can deliver traffic for groups joined by
+another socket; membership alone does not promise per-interface receive isolation.
+Payload bytes are never used to deduplicate legitimate deliveries.
 
-Scalar options use the first user value, followed by defaults. Family aliases
-(`:inet` / `:inet6`) and mode aliases (`:binary` / `:list` / `mode`) share a key;
-explicit conflicting user choices fail. Membership operations preserve distinct
-group/interface pairs and meaningful add/drop order. Raw four-tuples remain
-ordered operations. `inet_backend` stays first as required by OTP.
+Transport option normalization keeps the first scalar user value. Conflicting
+family or mode aliases fail; membership operations and raw options preserve
+meaningful ordering. Linux GenUDP multicast controls/memberships use explicit OS
+option mappings where generic OTP options do not represent the requested IPv4 or
+IPv6 behavior. Untested platform/backend combinations return capability errors.
 
-Received peer and available ancillary fields are preserved. Local wildcard
-`sockname` is the binding, not the destination/group/interface of a packet.
-Abyss does not infer destination metadata from membership lists. Strict group
-isolation requires `strict_group_filter: true` on the supported platform; basic
-OS membership defaults can deliver traffic for groups joined by another socket.
-On IPv6, wildcard sockets may also receive same-group traffic across interfaces
-within a namespace, including local loopback emissions. Incoming membership
-interface selection alone does not promise strict per-interface socket filtering.
-Use a tested explicit device bind when that stronger restriction is required;
-this facade rejects unsupported `strict_group_filter: true` for IPv6.
-Payload bytes are never used to deduplicate legitimate packet delivery.
+## Legacy compatibility
 
-Metrics use the logical server PID and socket registration so two servers with
-the same handler remain independent. Supported transport sends report actual
-local send outcomes/bytes; handler termination does not imply a response was
-sent. Direct `:gen_udp.send` calls bypass this accounting. Legacy handler-module
-queries aggregate registered server scopes rather than inventing peer labels.
+`Abyss.start_link(handler_module: Module, ...)` and the `Abyss.join/leave/memberships`
+APIs retain their contracts. Legacy handlers receive `{peer, port, payload}` and
+send through their configured transport; they must not close the shared socket.
+Legacy broadcast callbacks remain one-shot, including cleanup with returned
+application state. In ordinary legacy mode `{:continue, state}` retains that
+invocation; it does not route the next packet from the peer back to it.
 
-| Capability | Linux inet backend | Linux socket backend | macOS | Older runtime |
-|---|---|---|---|---|
-| IPv4 unicast/broadcast/multicast exchange | Fast tests and 14-gate isolated network fixture PASS | Isolated IPv4 wire gates and bounded multicast query PASS | Runnable portable tests; NOT RUN locally | Linux OTP 27 scoped tests PASS; other minimum combinations NOT RUN |
-| IPv6 membership/index and explicit scope configuration | OS membership table and prepared wire, interface, hop, loopback gates PASS | Membership/index/hop/loop kernel settings PASS; scoped wire send explicitly unsupported | IPv6 multicast controls explicitly rejected pending a tested option ABI | Named-index support returns explicit error if unavailable |
-| Scoped IPv6 client send | OTP sockaddr map API plus actual IPv6 egress index | Explicit unsupported-capability error on OTP 27/28 | IPv6 multicast controls explicitly rejected | Requires OTP 24.3 sockaddr API |
-| Strict IPv4 per-socket group isolation | Tested IP_MULTICAST_ALL=0 | Explicitly rejected | Explicitly rejected | Backend/platform restriction retained |
-| Strict IPv6 group isolation | Explicitly rejected | Explicitly rejected | Explicitly rejected | Explicitly rejected |
-| Explicit broadcast/unicast device egress | Linux bind_to_device; errors preserved | Backend/permissions may reject | Explicitly rejected | Backend/permissions may reject |
-| Raw option failure reporting | OTP inet may ignore unsupported raw options | OS/backend dependent | NOT RUN locally | Backend dependent |
-| Destination/interface ancillary metadata | Only fields actually returned by OTP | Only fields actually returned by OTP | NOT RUN locally | No fabricated fields |
+Legacy broadcast/multicast and ephemeral endpoints also use one receive socket;
+automatic socket scaling is rejected. The [legacy dispatcher](dispatcher.md)
+supports multicast memberships with `broadcast: false`, but rejects Broadcast
+transport, `broadcast: true` and direct native sockets. New datagram execution
+supports broadcast/multicast with each of its three policies.
 
-Linux loopback tests exercise actual library send/receive paths, but they do not
-prove two-interface isolation, routed hop limits, or independent Python peers.
-Use the isolated network harness and the gate statuses in
-[`udp-hardening-acceptance.md`](udp-hardening-acceptance.md) for those claims.
+Legacy admission uses drop-new limits shared by reserved starts and live handlers.
+Reception uses one `active: :once` credit and a complete datagram buffer before
+checking `max_packet_size`. Idle deadlines advance only on explicit handler
+progress; stale timer tokens are ignored. Handler memory sampling reports bytes
+but cannot provide a strict whole-VM memory bound.
+
+Supported transport sends report local outcomes and byte counts per server;
+direct `:gen_udp.send` bypasses this accounting. Handler termination does not
+establish that a reply was sent.
+
+## Validation records
+
+Current implementation and release checks are retained in the
+[UDP runtime acceptance archive](https://github.com/gsmlg-dev/abyss/blob/main/docs/archive/udp-runtime/acceptance.md).
+The [UDP hardening archive](https://github.com/gsmlg-dev/abyss/blob/main/docs/archive/udp-hardening-acceptance.md)
+and [OTP multicast defect notes](https://github.com/gsmlg-dev/abyss/blob/main/docs/archive/udp-otp-multicast-defects.md)
+record historical gate results and reproductions. Portable loopback tests verify
+library paths; isolated independent-peer fixtures provide interface, hop-limit,
+loopback and source-selection evidence. Historical results apply to their
+recorded source and environments.

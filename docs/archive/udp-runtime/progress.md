@@ -1,5 +1,7 @@
 # UDP runtime execution progress
 
+> Historical record. Commands, paths, versions and status below describe the recorded source, not the current checkout. See the [archive index](../README.md) and [current guides](../../README.md).
+
 ## Current status — complete
 
 P0–P6 are complete. G0–G10 are accepted on the declared tested environments, with G10's lint baseline comparison and the restrictions below. Abyss **0.8.0** is published on GitHub and Hex.

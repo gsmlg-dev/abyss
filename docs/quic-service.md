@@ -1,26 +1,37 @@
-# General-purpose QUIC service
+# QUIC service
 
 Abyss hosts UDP I/O and binds application consumers to `elixir_quic` connections.
 The QUIC engine owns connection IDs, TLS, streams, flow control, recovery and
 packetization. Applications own their protocols. DNS/DoQ and HTTP/3/QPACK are
 permanently outside Abyss; raw stream examples do not implement either.
 
-## Dependency activation and application integration
+## Dependencies
 
 Ordinary `Abyss.start_link/1` UDP usage does not load or require elixir_quic. A QUIC
 application explicitly adds both Abyss and the engine to its dependencies:
 
 ```elixir
-{:abyss, "~> 0.6.1"},
-{:elixir_quic, "== 0.17.0"}
+def deps do
+  [
+    {:abyss, "~> 0.8.0"},
+    {:elixir_quic, "== 0.21.6"}
+  ]
+end
 ```
 
 The published engine uses OTP application `:elixir_quic` and facade `Quic`;
 its source is `gsmlg-dev/http_fetch` under `apps/elixir_quic`. It requires Hex `ex_ssl`
-`0.17.0`, whose TLS facade remains `SSL.QUIC`. Abyss does not provide a legacy
+`0.21.6`, whose TLS facade remains `SSL.QUIC`. Abyss does not provide a legacy
 `QUIC` alias or fall back to an older engine. The examples pin these published
 packages and use `ABYSS_PATH` only to select the Abyss checkout under test.
 Do not set `runtime: false` on these runtime dependencies.
+
+These versions match the repository's independent QUIC examples. The core
+Abyss package does not declare either engine or TLS package as a dependency.
+The examples require Elixir 1.18; check the selected engine's runtime requirements
+separately from Abyss's declared Elixir requirement.
+
+## Start a listener
 
 Implement `Abyss.QUIC.Handler` and add the listener to your supervisor:
 
@@ -36,16 +47,17 @@ Implement `Abyss.QUIC.Handler` and add the listener to your supervisor:
 ```
 
 Certificate material uses the public ex_ssl/elixir_quic TLS contract. `alpn` is a
-nonempty list of opaque identifiers (each 1–255 bytes). TLS negotiates one; Abyss
-does not inspect application payloads or route protocols on the same socket.
-Readiness/ALPN is not application authorization. This server subset does not
-authenticate client identity with mTLS; applications must provide any required
-client authentication at their own protocol layer.
+nonempty list of distinct opaque identifiers (each 1–255 bytes). TLS negotiates
+one; Abyss does not inspect application payloads or route protocols on the same socket.
+Readiness/ALPN is not application authorization. The documented service uses
+server certificates; it does not provide a client-identity authorization layer.
 Bind a concrete address; wildcard destination metadata is unsupported upstream.
 `local/1` returns `{:ok, {address, bound_port}}`; `stop/2` stops a listener.
 Startup errors are explicit; no QUIC option silently activates ordinary UDP.
 Credential structure is checked using the public `SSL.QUIC.new/2` API before
 starting the listener. Actual connection transcripts are created by elixir_quic.
+
+## Configuration
 
 Listener options, besides `name`, `handler`, `alpn` and `tls`, are:
 
@@ -78,16 +90,7 @@ host failures restart under the application's supervisor with fresh generations.
 Choose the `stop/2` call timeout and supervisor child shutdown timeout longer than
 `shutdown_timeout`. A stop-call timeout does not confirm listener termination.
 
-The independent projects `examples/quic_echo` and `examples/quic_collect` each
-have their own application supervisor, handler and custom ALPN. Copy either
-project to another directory and set `ABYSS_PATH` to this repository (or replace
-the path dependency with a reviewed package). Set `QUIC_CERT`, `QUIC_KEY` and
-optionally `QUIC_PORT`, then run `mix deps.get` and `mix run --no-halt`. Credentials
-are PEM files converted to DER by the example application. Test fixtures are
-not deployment credentials. `examples/udp_echo` demonstrates dependency-free
-ordinary UDP consumption.
-
-## Consumer ownership and byte streams
+## Application callbacks
 
 A listener owns its socket, one blocking receive process, writer and endpoint.
 A persistent worker per accepted connection attaches through the public engine
@@ -124,6 +127,8 @@ closes its socket. Writer/endpoint/receiver failure fails the listener closed.
 Existing connections are not resumed across restart. Watchdogs run in the service
 process; suspending that process delays watchdog enforcement and new binding,
 while already attached consumers and the writer continue to progress.
+
+## Byte streams
 
 Connection handles carry engine generations; streams embed their connection
 handle and stream ID. Treat them as opaque. The facade delegates `ready`, `info`,
@@ -174,15 +179,36 @@ terms. Application close/reset/stop codes are opaque 62-bit integers passed
 unchanged to elixir_quic; bounded binary reasons are not mapped to HTTP or DNS errors.
 The independent writer contract is documented in [dispatcher.md](dispatcher.md).
 
-## Capability limits and acceptance
+## Examples
 
-The engine supports the scoped QUIC v1, certificate-based 1-RTT bidi/uni byte-stream
-subset. Server mTLS, DATAGRAM, resumption/0-RTT, migration, wildcard/ancillary local-address
-metadata, external client endpoints, HTTP/3/QPACK and WebTransport are unsupported.
-Finite stream tombstones can exhaust the lifetime stream-record budget. This is
-not full conformance or a production security audit.
+The independent [echo](https://github.com/gsmlg-dev/abyss/tree/main/examples/quic_echo)
+and [collection](https://github.com/gsmlg-dev/abyss/tree/main/examples/quic_collect)
+projects each have their own application supervisor, handler and custom ALPN.
+Copy either
+project to another directory and set `ABYSS_PATH` to this repository (or replace
+the path dependency with a reviewed package). Set `QUIC_CERT`, `QUIC_KEY` and
+optionally `QUIC_PORT`, then run `mix deps.get` and `mix run --no-halt`. Credentials
+are PEM files converted to DER by the example application. Test fixtures are
+not deployment credentials. Echo demonstrates bounded pending output; collection
+hashes bounded reads incrementally. The
+[UDP echo](https://github.com/gsmlg-dev/abyss/tree/main/examples/udp_echo)
+application verifies ordinary UDP integration without a QUIC engine.
 
-See [published-quic-acceptance.md](published-quic-acceptance.md) for the published
-engine regression and [phase1-acceptance.md](phase1-acceptance.md) for the original tested source,
-commands, failures and gate status. Unit/fake-backend tests are host regressions;
-only the separate pinned-peer results count as real network acceptance.
+## Service limits and validation
+
+This service exposes QUIC v1 certificate-based 1-RTT bidi/uni byte streams.
+It does not expose engine DATAGRAM configuration or operations, external client
+endpoints, resumption/0-RTT, migration, or wildcard/ancillary local-address
+metadata. The pinned engine has its own DATAGRAM API; that does not activate
+DATAGRAM support through `Abyss.QUIC`. HTTP/3/QPACK, DoQ and WebTransport remain
+application-layer integrations outside this service. Finite stream tombstones
+can exhaust the lifetime stream-record budget. Recorded acceptance is scoped
+interoperability evidence, not a full conformance or production security audit.
+
+Current release validation is recorded in the
+[UDP runtime acceptance archive](https://github.com/gsmlg-dev/abyss/blob/main/docs/archive/udp-runtime/acceptance.md).
+The [published-engine regression](https://github.com/gsmlg-dev/abyss/blob/main/docs/archive/published-quic-acceptance.md)
+and [original QUIC acceptance](https://github.com/gsmlg-dev/abyss/blob/main/docs/archive/phase1-acceptance.md)
+retain their historical dependency versions, commands and gate status.
+Unit/fake-backend tests verify host regressions; independent peer transfers
+provide the network evidence.

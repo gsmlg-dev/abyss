@@ -9,7 +9,8 @@ import sys
 
 candidate = Path(__file__).resolve().parents[2]
 baseline = Path(sys.argv[1]).resolve()
-evidence = candidate / "docs/udp-runtime/evidence"
+evidence = candidate / "_build/udp-evidence"
+evidence.mkdir(parents=True, exist_ok=True)
 script = candidate / "scripts/udp/steady.exs"
 metrics = ["throughput_per_second", "latency_median_us", "latency_p95_us", "latency_p99_us"]
 samples = []

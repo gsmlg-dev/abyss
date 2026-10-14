@@ -1,30 +1,194 @@
-# UDP datagram runtime contract
+# UDP datagram runtime
 
-`Abyss.Endpoint` delegates startup and control to the existing Abyss supervision tree. `Abyss.Listener` remains the only socket owner and membership authority. New endpoints select `datagram_handler: Module`; simultaneous legacy handler/dispatcher selection is rejected. One physical receiver is required for this initial new API. Legacy raw-socket handlers and dispatcher receipt APIs remain separate and compatible.
+The datagram API separates application state from socket ownership, admission,
+execution deadlines, and egress. Applications implement `Abyss.DatagramHandler`
+and start an `Abyss.Endpoint`; the existing Abyss supervision tree owns the
+runtime. See the [migration guide](migration.md) for configuration and examples.
 
-`Abyss.Datagram` fields use `nil` for unavailable values. `peer` is a sockaddr map including family/address/port and observed IPv6 scope when available. `local_endpoint` is the bound address/port and preserves wildcard binds. Destination, ingress interface, local unicast address and hop limit come only from real receive controls. `received_at` is BEAM monotonic microseconds at receive processing, not kernel arrival. Ancillary controls and flags are bounded by adapter buffers and input quotas. Telemetry sampling never changes the value.
+## Ownership and data flow
 
-`Abyss.DatagramHandler` callbacks:
+Each datagram endpoint has one receive socket and one listener. Multiple
+listeners and dynamic receive scaling are rejected for `datagram_handler`.
 
-- `init(options, context) -> {:ok, application_state} | {:error, reason}`. Context includes endpoint ID, socket generation and immutable send capability; no raw socket.
-- `handle_datagram(datagram, state) -> {:ok, state, actions} | {:stop, reason, state, actions} | {:error, reason, state}`.
-- Optional `handle_event({:timer, token, value}, state)` uses the same transition contract.
-- Optional `terminate(reason, state)` receives the last returned application state, including invalid-action and stop/error paths; forced callback death cannot recover an unreturned state.
+| Component | Responsibility |
+|---|---|
+| `Abyss.Endpoint` | Public startup, inspection, membership, send, and lifecycle API |
+| `Abyss.Listener` | Sole socket owner; receive activation, metadata requirements, and membership changes |
+| [Abyss.DatagramRuntime](https://github.com/gsmlg-dev/abyss/blob/main/lib/abyss/datagram_runtime.ex) | Input queues, route helpers, workers, managed timers, action validation, and watchdogs |
+| [Abyss.DatagramWorker](https://github.com/gsmlg-dev/abyss/blob/main/lib/abyss/datagram_worker.ex) | Application initialization, state transitions, and optional termination |
+| [Abyss.UDPAdmission](https://github.com/gsmlg-dev/abyss/blob/main/lib/abyss/udp_admission.ex) | Shared input credits and protected work accounting |
+| `Abyss.Dispatcher.Writer` / `Admission` | Bounded egress and generation-scoped send receipts |
+| [Abyss.TableOwner](https://github.com/gsmlg-dev/abyss/blob/main/lib/abyss/table_owner.ex) | Durable membership intent and monitored retirement of owned runtime processes |
 
-Finite actions: `{:reply, binary}`, `{:reply, binary, :strict}`, `{:send, sockaddr, binary}`, `{:timer, token, delay_ms, value}`, `{:cancel_timer, token}`. Stop is explicit in the transition. Action count and total payload bytes are validated before any effects; submissions are individually reported and are not atomic. Routing-based reply is default. Strict reply requires actual source/interface metadata and verified per-message controls from the original socket, otherwise rejection is explicit.
+The listener normalizes a complete packet into `Abyss.Datagram`, checks packet
+size and required metadata, then submits it to the runtime. Admission reserves
+item and byte credits before application work starts. The runtime selects a
+worker, runs its callback, validates the entire action list, and submits effects
+through the original socket's writer. Routing, callbacks, and send helpers run
+outside the socket owner and have separate deadlines.
 
-Policies: `:per_datagram` has one init/invocation/cleanup; `:endpoint` retains one serialized application state; `:keyed` requires an explicit route function or `{module, function}`. The key is opaque, bounded by serialized size, with finite key count and idle expiry. Routing is serial in local admission order outside socket/control processes, and watchdog bounded. Different active keys execute concurrently; no invocation is retried after failure. Idle expiry only advances on application work, not inspection or stale timers.
+## Received datagrams
 
-Global input item credit reuses UDPAdmission. Bytes count queued, routing, initializing and executing work. Persistent queues have item/byte quotas; timer events use the same credit and a finite timer count. Full admission drops new work. No task is allocated per rejected packet. Callback/startup/route/cleanup watchdogs are owned by a separate runtime coordinator. Defaults and exact option names are documented in migration.md.
+`Abyss.Datagram` carries immutable packet context. Unavailable fields are `nil`;
+the runtime does not infer addressing information from configured memberships.
 
-Egress reuses Dispatcher.Writer/Admission and its generation-scoped receipts. `Endpoint.send` returns `{:ok, ref}` for admitted work, not delivery. `Endpoint.await` returns local completion `{:ok, monotonic_microseconds}`, definite failure `{:error, reason}`, or `{:unknown, ref}`. References remain resolvable for finite retention; timeout is not cancellation. Per-datagram action outcomes are retained by the endpoint, including after worker exit. Stale-generation capabilities cannot submit to replacement writers.
+| Field | Meaning |
+|---|---|
+| `payload` | Complete binary UDP payload, including an empty payload |
+| `peer` | Observed sockaddr map with family, address, port, and IPv6 scope when available |
+| `local_endpoint` | Bound address and port; wildcard binds remain wildcard |
+| `destination` | Packet destination from receive controls |
+| `interface_index` | Observed ingress interface |
+| `local_address` | Usable local unicast address for source-controlled replies |
+| `hop_limit`, `traffic_class` | Receive TTL/hop limit and TOS/traffic class when available |
+| `ancillary`, `flags` | Original bounded receive controls and flags |
+| `endpoint_id`, `generation` | Logical endpoint identity and current socket generation |
+| `received_at` | BEAM monotonic microseconds when receive processing occurs |
 
-Pause is an admission barrier retaining socket and accepted effects. Drain uses the original absolute deadline for input work and writer entries; expiry forces cleanup and local outcomes may remain unknown. Memberships restore through existing TableOwner storage on listener restart. Old worker/timer/receipt capabilities do not operate on a replacement generation; ephemeral ports may change.
+`received_at` is not a kernel arrival timestamp. Telemetry sampling does not
+change datagram contents. The native adapter drops truncated payloads; control
+truncation keeps unsafe derived metadata unavailable. Receive sub-binaries are
+copied when needed to avoid retaining larger parent buffers.
 
-`io_backend: :gen_udp` uses effective `inet_backend: :inet | :socket` separately. `io_backend: :socket_native` uses direct public OTP socket APIs and Linux control encodings, never a GenUDP descriptor. Native/legacy combinations and contradictory selectors are rejected. Capabilities distinguish supported, enabled, and unavailable reason; availability is never inferred from a configured group or a successful setter alone.
+## Handler transitions
 
-Internally, the seven new flat startup options are normalized into `ServerConfig.datagram_options`. All legacy struct fields stay intact. This keeps backend/policy/requirements together without changing the public keyword startup syntax or expanding the legacy configuration into unrelated fields. The existing TableOwner monitors active input roots/helpers and endpoint Writer/Admission components; forced retirement refunds input quota only after actual protected descendant DOWN. Normal callback turns explicitly acknowledge detachment before live persistent workers can release their current input.
+`init(options, context)` returns `{:ok, application_state}` or `{:error, reason}`.
+The options come from `handler_options`. Context contains `endpoint_id`,
+`generation`, and an immutable `send` capability; it contains no raw socket.
 
-New flat option duplicates consistently use the first keyword occurrence for validation, backend selection and normalized storage. Legacy and raw socket option ordering/precedence remain unchanged. Required new egress item/byte quotas are finite positive integers even without a legacy dispatcher.
+`handle_datagram(datagram, state)` returns one of:
 
-Completed effects retire their watchdog only after the terminal result and actual normal helper DOWN. An already-queued expiry then cannot kill the application worker. Input credit remains reserved until the library-owned worker settlement/worker DOWN; accepted egress remains reserved until its terminal Writer accounting. Unfinished effects retain their configured deadlines, and endpoint stop retains its absolute deadline.
+```elixir
+{:ok, state, actions}
+{:stop, reason, state, actions}
+{:error, reason, state}
+```
+
+Persistent policies can also implement `handle_event/2` with the same transition
+contract. Managed events are `{:timer, token, value}` and
+`{:send_outcomes, generation, input_token, outcomes}`. Events share the worker's
+serialized queue with datagrams and are subject to admission limits. Outcome
+events do not recursively produce further outcome events.
+
+Optional `terminate(reason, state)` receives the last returned application
+state, including a state returned with a stop/error transition or invalid
+actions. Forced callback death cannot recover unreturned state and can prevent
+termination from running. Cleanup itself has a watchdog.
+
+## Execution policies
+
+| Policy | Application state and ordering |
+|---|---|
+| `:per_datagram` (default) | One initialization, datagram callback, and cleanup per admitted packet |
+| `:endpoint` | One worker serializes the endpoint's datagrams and managed events |
+| `:keyed` | Explicit `route_key` selects an opaque application key; each key has one serialized worker |
+
+Keyed routing accepts a unary function or `{module, function}`. It runs serially
+in local admission order under `route_timeout`, outside listener and control
+processes. Keys have finite serialized-size and count limits. Different active
+keys can execute concurrently. The runtime neither parses protocols nor creates
+implicit peer sessions, and local serialization does not guarantee wire order.
+
+Both persistent policies retire idle workers after `idle_timeout`; later work
+initializes fresh state. Status inspection and stale timers do not extend idle
+life. Failed invocations and queued work retired with a failed worker are not
+replayed.
+
+## Bounds and watchdogs
+
+Input credit covers queued, routing, initializing, and executing work. Byte
+accounting includes serialized datagram/event metadata. `num_connections` is the
+shared service item ceiling; `runtime_options` supplies endpoint and worker
+item/byte limits, key limits, timer limits, and deadlines. Overload drops new
+work before allocating a rejected packet's worker. Timer and outcome events
+also use input credit and can be dropped under overload.
+
+Action count and total payload bytes are bounded. Managed timer token/value
+size and delay are validated, and timers are available only for persistent
+policies. Application state and arbitrary messages sent to application workers
+remain the application's responsibility; these quotas are not a whole-VM
+memory guarantee.
+
+Watchdogs run in the coordinator, separately from application callbacks.
+Completed effects retire their watchdog only after a terminal result and the
+helper's actual normal `DOWN`. Input credit stays reserved until worker
+settlement or protected work retirement. `TableOwner` monitors descendants so
+forced retirement cannot refund input credit while protected work remains
+alive. Accepted egress retains its own accounting until writer completion.
+
+See [configuration defaults](migration.md#configuration-and-limits) for exact
+option names and values.
+
+## Actions and send outcomes
+
+The complete action vocabulary is:
+
+```elixir
+{:reply, binary}
+{:reply, binary, :strict}
+{:send, sockaddr, binary}
+{:timer, token, delay_ms, value}
+{:cancel_timer, token}
+```
+
+The entire list is validated before any effects begin. Once valid actions are
+submitted, they are not a transaction: some effects can succeed while others
+fail. Ordinary reply uses the observed peer and normal routing. Strict reply
+requires actual local-source/interface metadata and native per-message
+controls on the original socket; missing metadata or unsupported controls
+produce explicit errors. A reply action requires a datagram callback; an event
+callback can use `{:send, sockaddr, binary}` for a saved destination.
+
+`Endpoint.send(capability, destination, payload, timeout)` returns `{:ok, ref}`
+when egress is admitted. `Endpoint.await(capability, ref, timeout)` reports:
+
+| Result | Meaning |
+|---|---|
+| `{:ok, monotonic_microseconds}` | Local socket send completed |
+| `{:error, reason}` | Definite local failure |
+| `{:unknown, ref}` | No definite result is available within this wait |
+
+Local completion does not prove delivery. Timeout does not cancel accepted
+work or justify a blind retry. Send references have finite result retention.
+The endpoint separately retains action outcome receipts, including outcomes
+from workers that have exited, and exposes them through `Endpoint.info/1`.
+Persistent handlers can receive outcomes through `handle_event/2`; receipt
+inspection remains useful when an outcome event is dropped.
+
+## Pause, drain, and restart
+
+`Endpoint.pause/1` establishes a barrier for admission of received datagrams
+while retaining the socket. Accepted callbacks, egress, and managed runtime
+events can continue. Pause does not flush the kernel queue.
+
+`Endpoint.stop/2` uses one absolute drain deadline across ingress, application
+work, egress, and forced cleanup. Drain cancels outstanding managed timers and
+stops new input admission. Deadline expiry forces retirement; accepted send
+outcomes can remain unknown.
+
+Capabilities, timer instances, and receipts belong to a socket generation.
+Old capabilities cannot submit to a replacement writer. Listener restart
+restores desired memberships from `TableOwner`; an ephemeral port can change.
+Logical service deletion removes stored membership intent.
+
+## Backends and compatibility
+
+`io_backend: :gen_udp` uses the effective `inet_backend: :inet | :socket` driver.
+`io_backend: :socket_native` uses direct public OTP `:socket` APIs and Linux
+receive/send control encodings. It never treats a GenUDP descriptor as a native
+socket. Native startup requires the datagram API, Linux, and OTP 27 or newer;
+the verified native runtime versions are OTP 27 and 28.
+
+`Endpoint.capabilities/1` reports adapter/driver identity, family, platform,
+runtime, and each capability's supported/enabled status and unavailable reason.
+`required_capabilities` rejects startup when a requirement is unavailable;
+`required_metadata` rejects individual packets missing selected fields.
+Membership success alone does not prove interface isolation. See the
+[backend matrix](migration.md#backend-and-capability-matrix).
+
+Legacy `Abyss.Handler`, custom `start_link/1` handlers, and
+`Abyss.DatagramDispatcher` remain separate interfaces. A datagram handler
+cannot be combined with a legacy handler or dispatcher. Dispatcher writer and
+receipt infrastructure is reused internally, without adopting legacy
+dispatcher callback queues. QUIC keeps its existing service and engine-owned
+connection state.

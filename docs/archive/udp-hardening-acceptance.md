@@ -1,5 +1,7 @@
 # UDP hardening acceptance
 
+> Historical record. Commands, paths, versions and status below describe the recorded source, not the current checkout. See the [archive index](README.md) and [current guides](../README.md).
+
 This report covers the repository-local implementation requested by
 `abyss-udp-broadcast-multicast-codex-prompt.md`. It is local acceptance, not a
 release, remote CI result or general production-readiness declaration.

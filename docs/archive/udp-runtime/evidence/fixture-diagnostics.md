@@ -1,5 +1,7 @@
 # Completed-effect fixture ordering
 
+> Historical record. Commands, paths, versions and status below describe the recorded source, not the current checkout. See the [archive index](../../README.md) and [current guides](../../../README.md).
+
 The original blocked-Writer credit test and zero-input runtime-death test require
 a normally completed invocation while its accepted Writer send remains blocked.
 Their assertions concern retained output credit and cleanup after input retirement.

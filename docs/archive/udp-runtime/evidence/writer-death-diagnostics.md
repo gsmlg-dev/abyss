@@ -1,5 +1,7 @@
 # Dispatcher writer-death timing diagnostic
 
+> Historical record. Commands, paths, versions and status below describe the recorded source, not the current checkout. See the [archive index](../../README.md) and [current guides](../../../README.md).
+
 The unchanged writer-death test at `test/abyss/dispatcher_test.exs:279` failed
 its 100 ms `assert_receive` in two ordinary OTP28 full-suite runs, seed 953627:
 `p6-full-otp28-watchdog-harness-final.log` and

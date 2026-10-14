@@ -92,7 +92,8 @@ defmodule Abyss.MixProject do
       maintainers: ["Jonathan Gao"],
       licenses: ["MIT"],
       files:
-        ~w(lib LICENSE mix.exs README.md docs/dispatcher.md docs/quic-service.md docs/udp-broadcast-multicast.md
+        ~w(lib LICENSE mix.exs README.md docs/README.md docs/architecture.md docs/operations.md
+           docs/dispatcher.md docs/quic-service.md docs/udp-broadcast-multicast.md
            docs/udp-runtime/design.md docs/udp-runtime/migration.md),
       links: %{
         Github: @source_url,
@@ -106,11 +107,25 @@ defmodule Abyss.MixProject do
       main: "readme",
       extras: [
         "README.md",
+        {"docs/README.md", filename: "documentation", title: "Documentation guide"},
+        "docs/architecture.md",
+        "docs/operations.md",
         "docs/dispatcher.md",
         "docs/quic-service.md",
         "docs/udp-broadcast-multicast.md",
         "docs/udp-runtime/design.md",
         "docs/udp-runtime/migration.md"
+      ],
+      groups_for_extras: [
+        Overview: ["README.md", "docs/README.md", "docs/architecture.md"],
+        Guides: [
+          "docs/udp-runtime/migration.md",
+          "docs/udp-runtime/design.md",
+          "docs/udp-broadcast-multicast.md",
+          "docs/dispatcher.md",
+          "docs/quic-service.md"
+        ],
+        Operations: ["docs/operations.md"]
       ],
       source_url: @source_url,
       source_ref: @version

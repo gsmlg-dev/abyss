@@ -1,13 +1,21 @@
-# Migrating to the UDP datagram API
+# UDP datagram API migration
 
-Abyss 0.8 adds an opt-in API. Existing `Abyss.start_link(handler_module: Module, ...)`, custom `start_link/1` handlers, transport calls, memberships, dispatcher capabilities and optional QUIC services keep their contracts. Legacy `{:continue, state}` keeps the invocation process alive; it does not route later packets from that peer back to it. Legacy broadcast processing remains one-shot.
+The datagram API is opt-in. Existing raw-socket handlers, transport calls,
+memberships, dispatcher capabilities, and optional QUIC services keep their
+contracts. This guide explains how to adopt `Abyss.DatagramHandler` and the
+configuration boundaries of the current runtime. See [runtime design](design.md)
+for ownership and lifecycle details.
 
-## A new consumer
+## Start an endpoint
 
 ```elixir
 defmodule Echo do
   @behaviour Abyss.DatagramHandler
+
+  @impl true
   def init(_options, _context), do: {:ok, 0}
+
+  @impl true
   def handle_datagram(datagram, count) do
     {:ok, count + 1, [{:reply, datagram.payload}]}
   end
@@ -19,78 +27,223 @@ end
   port: 0,
   transport_options: [ip: {127, 0, 0, 1}]
 )
+
 {:ok, {address, port}} = Abyss.Endpoint.local_endpoint(endpoint)
 ```
 
-Use `:per_datagram` for one init/transition/cleanup per admitted input, `:endpoint` for one serialized application state, or `:keyed` with an explicitly supplied `route_key: fn datagram -> application_key end`. Route functions receive immutable datagrams and run under a separate watchdog. A key is application-owned; the runtime neither parses protocols nor creates implicit peer sessions. Same-key work is locally serialized; different keys can progress concurrently. This does not imply wire ordering or delivery.
+Pass application options using `handler_options`; they become the first
+argument to `init/2`. Its context contains endpoint identity, socket generation,
+and the send capability. Callbacks receive a normalized `Abyss.Datagram` and
+return application state and actions instead of owning the socket.
 
-The new API uses exactly one receiver. Multiple/dynamic new receivers are rejected. Handler, new datagram handler and dispatcher selection must be unambiguous. Native sockets require the datagram API. No dummy legacy handler is needed for a dispatcher.
+The runtime selects one listener automatically. Setting `num_listeners` to
+anything other than `1`, enabling dynamic listeners, or combining
+`datagram_handler` with `handler_module` or `datagram_dispatcher` is rejected.
 
-## Bounds and effects
+## Choose state lifetime
 
-`num_connections` remains the service-wide input item ceiling. `runtime_options` has finite positive integer overrides:
+| Execution | Use when |
+|---|---|
+| `:per_datagram` (default) | Each packet is independent; initialize and clean up for each admitted input |
+| `:endpoint` | One application state should serialize datagrams and managed events |
+| `:keyed` | Application-selected keys need independent serialized states |
+
+For keyed execution, supply `route_key: fn datagram -> application_key end` or
+`route_key: {Module, :function}`. For example, `fn datagram -> datagram.peer end`
+explicitly chooses the complete peer sockaddr as the key. The runtime does not
+create implicit peer sessions. Routing has a separate watchdog; different
+active keys can progress concurrently, and same-key work is locally serialized.
+This does not imply wire ordering or delivery.
+
+Persistent workers, including the endpoint worker, expire after `idle_timeout`.
+The next packet initializes fresh state. Store durable application data outside
+the worker when it must survive idle expiry, callback failure, or socket
+restart. Legacy `{:continue, state}` keeps its invocation process alive; it
+does not route subsequent peer packets back to that process. Legacy broadcast
+processing remains one-shot.
+
+## Configuration and limits
+
+Top-level datagram options are:
+
+| Option | Default | Purpose |
+|---|---|---|
+| `datagram_handler` | `nil` | Select the application-state API |
+| `execution` | `:per_datagram` | Select state lifetime and routing |
+| `route_key` | `nil` | Required for `:keyed`, rejected for other policies |
+| `io_backend` | `:gen_udp` | Select GenUDP or direct native socket I/O |
+| `runtime_options` | `[]` | Override finite runtime limits below |
+| `required_capabilities` | `[]` | Require enabled adapter capabilities at startup |
+| `required_metadata` | `[]` | Require observed fields on each received datagram |
+
+`runtime_options` accepts only these finite positive integer overrides:
 
 | Option | Default |
 |---|---:|
 | `max_queue`, `max_keys`, `max_timers` | 128 |
-| `max_queue_bytes`, `max_action_bytes` | 1,048,576 |
+| `max_queue_bytes`, `max_action_bytes` | 1,048,576 bytes |
 | `max_key_queue` | 32 |
-| `max_key_queue_bytes` | 262,144 |
-| `max_key_bytes` | 1,024 |
+| `max_key_queue_bytes` | 262,144 bytes |
+| `max_key_bytes` | 1,024 bytes |
 | `max_actions` | 32 |
 | `init_timeout`, `callback_timeout`, `route_timeout` | 1,000 ms |
 | `terminate_timeout`, `send_timeout` | 100 ms |
 | `idle_timeout` | 60,000 ms |
 
-Input quotas cover queued, initializing, routing and executing work including serialized datagram/event metadata. Persistent keys have separate count/idle bounds. Timer token/value serialized size is at most 4,096 bytes; delay is an unsigned 32-bit millisecond value. Application state itself and arbitrary local mailbox messages are application responsibilities; these quotas are not a whole-VM memory guarantee.
+`num_connections` remains the shared service input ceiling (default 16,384).
+The endpoint's `max_queue` and worker's `max_key_queue` count in-flight work as
+well as queued work. Byte quotas include serialized datagram/event metadata.
+Key-worker limits apply to all execution policies, including per-datagram
+workers. Full admission drops new work.
 
-Callbacks return `{:ok, state, actions}`, `{:stop, reason, state, actions}` or `{:error, reason, state}`. Actions are finite lists of `{:reply, binary}`, `{:reply, binary, :strict}`, `{:send, sockaddr, binary}`, `{:timer, token, delay_ms, value}` and `{:cancel_timer, token}`. Timers require a persistent policy. Validate all actions before effects; after submission, multiple effects are not a transaction. Persistent `handle_event/2` receives timer events and generation/token-tagged send outcomes. Outcome events do not recursively generate outcome events.
+The listener also applies `max_packet_size` (default 8,192 payload bytes).
+`dispatcher_max_queue` (128) and `dispatcher_max_queue_bytes` (1,048,576) bound
+queued and in-flight egress, including structured addressing controls. These
+writer limits also apply to datagram handlers without a legacy dispatcher.
 
-`Endpoint.send/4` returns `{:ok, ref}` for admission. `Endpoint.await/3` reports local completion, definite error or unknown outcome. Timeout does not cancel accepted work and must not cause blind retries. Endpoint outcome retention is 256 entries/5 seconds; expiry does not establish that a packet was unsent. Writer item/byte bounds include queued and in-flight sends and structured addressing controls.
+Timer token/value serialized size is at most 4,096 bytes; delay is an unsigned
+32-bit millisecond value. Application state and arbitrary local mailbox
+messages are application responsibilities; runtime quotas are not a whole-VM
+memory guarantee.
 
-Pause stops admission while accepted work can still reply. It does not flush the kernel queue. Stop shares one absolute deadline across ingress, callbacks, egress and forced cleanup. Old socket generations invalidate capabilities, timers and receipts; restart may change an ephemeral port. Desired memberships restore through the existing owner, and logical service deletion removes them.
+## Return actions and handle events
+
+Callbacks return `{:ok, state, actions}`, `{:stop, reason, state, actions}`, or
+`{:error, reason, state}`. Supported actions are:
+
+| Action | Effect |
+|---|---|
+| `{:reply, binary}` | Reply to the current datagram's observed peer using normal routing |
+| `{:reply, binary, :strict}` | Require the original local source/interface through native send controls |
+| `{:send, sockaddr, binary}` | Send to an explicit sockaddr map |
+| `{:timer, token, delay_ms, value}` | Create or replace a managed timer for this worker |
+| `{:cancel_timer, token}` | Cancel this worker's managed timer |
+
+All actions are validated before effects begin. Multiple valid effects are not
+atomic. Timer actions require a persistent policy. A managed event has no
+current datagram, so its callback must use `{:send, sockaddr, binary}` instead
+of `{:reply, binary}`.
+
+Optional `handle_event/2` receives `{:timer, token, value}` and
+`{:send_outcomes, generation, input_token, outcomes}`. These events use the same
+input credit and worker queue as datagrams; overload can drop them. Outcome
+events do not recursively generate outcome events. `Endpoint.info/1` retains
+action receipts independently of worker lifetime, up to 256 entries for five
+seconds within the current generation.
+
+## Send outside a callback
+
+Use the capability returned by `Endpoint.capability/1` or supplied to `init/2`:
+
+```elixir
+{:ok, capability} = Abyss.Endpoint.capability(endpoint)
+{:ok, peer_socket} = :gen_udp.open(0, [:binary, active: false, ip: {127, 0, 0, 1}])
+{:ok, {_peer_address, peer_port}} = :inet.sockname(peer_socket)
+destination = %{family: :inet, addr: {127, 0, 0, 1}, port: peer_port}
+{:ok, ref} = Abyss.Endpoint.send(capability, destination, "hello", 100)
+result = Abyss.Endpoint.await(capability, ref, 100)
+{:ok, {_address, _port, "hello"}} = :gen_udp.recv(peer_socket, 0, 1_000)
+:gen_udp.close(peer_socket)
+```
+
+`{:ok, ref}` means admission. Await returns local completion
+`{:ok, monotonic_microseconds}`, definite failure `{:error, reason}`, or
+`{:unknown, ref}`. Local completion does not prove delivery. Timeout does not
+cancel accepted sends and must not cause blind retries. Writer results are also
+retained for up to 256 references/five seconds; expiry does not establish that
+a packet was unsent.
+
+## Pause, stop, and socket replacement
+
+`Endpoint.pause/1` stops admission of received datagrams while accepted work,
+managed events, and egress can continue. It retains the socket and does not
+flush its kernel receive queue. `Endpoint.resume/1` resumes receiving.
+
+`Endpoint.stop/2` shares one absolute deadline across input work, egress, and
+cleanup. Drain cancels outstanding managed timers; deadline expiry forces
+retirement. Accepted outcomes can remain unknown. Socket replacement
+invalidates old capabilities and timers, and an ephemeral port can change.
+Desired memberships restore through `TableOwner`; logical service deletion
+removes them.
 
 ## Backend and capability matrix
 
-`io_backend: :gen_udp` (default) and its `inet_backend: :inet | :socket` driver are different from `io_backend: :socket_native` (direct OTP `:socket`). Explicit driver, boot-time node default and OTP default use one effective resolver; already-opened sockets retain their actual identity.
+The default `io_backend: :gen_udp` has a separate driver selected through
+`transport_options: [inet_backend: :inet]` or `:socket`. If absent, the resolver
+uses the node's boot-time default and then the OTP default. Already-opened
+sockets retain their actual driver identity.
+
+`io_backend: :socket_native` uses direct OTP `:socket` APIs. Do not combine it
+with `inet_backend`. Native sockets require a datagram handler, Linux, and OTP
+27 or newer; native traffic/control validation covers OTP 27 and 28.
 
 | Linux OTP 27/28 capability | GenUDP inet | GenUDP socket | Direct native |
 |---|---|---|---|
-| Ordinary complete/empty IPv4 UDP | Yes | Yes | Yes |
-| IPv6 ordinary UDP | Yes | Yes | Yes |
-| IPv4 broadcast/multicast | Yes | Yes | Yes |
+| Complete/empty IPv4 UDP and ordinary IPv6 UDP | Supported | Supported | Supported |
+| IPv4 broadcast/multicast | Supported | Supported | Supported |
 | IPv6 scoped multicast | Verified | Unavailable | Verified |
-| Destination/ingress interface metadata | Unknown | Unknown | Verified IPv4/IPv6 |
+| Destination, ingress interface, local address metadata | Unavailable | Unavailable | IPv4/IPv6 receive controls |
 | TTL/traffic metadata | When enabled and supported | Runtime dependent | Enabled by default |
-| Strict original-source/interface reply | Unavailable | Unavailable | Verified IPv4/IPv6 |
+| Strict original-source/interface reply | Unavailable | Unavailable | IPv4/IPv6 per-message controls |
 | Strict IPv4 group filter | Linux explicit option | Unavailable | Explicit option |
 | Strict interface receive filter | Unavailable | Unavailable | Unimplemented |
-| Legacy raw socket handlers/dispatcher | Yes | Yes | Rejected |
+| Legacy raw-socket handlers/dispatcher | Supported | Supported | Rejected |
 
-Native payload buffer is 65,535 bytes and control buffer is 4,096 bytes. Payload truncation drops the packet. Control truncation leaves unsafe metadata `nil`; strict reply fails, and selected required metadata prevents admission. Tiny receive sub-binaries are copied to avoid retaining larger parent buffers. IPv4 packet destination, usable local source and interface are distinct. IPv6 group local source is selected from the observed ingress interface, preserving scope.
+Native receive buffers are 65,535 payload bytes and 4,096 control bytes; the
+listener's `max_packet_size` still applies. Payload truncation drops the packet.
+Control truncation leaves unsafe metadata `nil`, causing strict reply failure
+or admission rejection when required fields are missing. IPv4 packet
+destination, usable local source, and interface are distinct. For IPv6 group
+traffic the local source is selected from the observed ingress interface,
+preserving scope.
 
-`Endpoint.capabilities/1` reports adapter, driver, family, platform/runtime and each capability's `supported`, `enabled` and unavailable `reason`. `required_capabilities: [:destination, :source_control]` rejects startup unless enabled. `required_metadata: [:destination, :interface_index, :local_address]` drops any individual datagram missing these fields with a measurable reason. Membership alone never proves interface isolation. A route reply uses the peer; strict reply uses the original socket with per-message source/interface controls and fails without metadata. Group replies require an explicit destination.
+`Endpoint.capabilities/1` reports adapter, driver, family, platform/runtime,
+and each capability's `supported`, `enabled`, and unavailable `reason`.
+`required_capabilities: [:destination, :source_control]` rejects startup unless
+enabled. `required_metadata: [:destination, :interface_index, :local_address]`
+drops each packet missing these fields with a measurable reason. Membership
+alone never proves interface isolation. Route reply uses the peer; strict reply
+uses the original socket's source/interface controls. Group replies require an
+explicit destination.
 
-Native Linux control encodings are checked against system headers and independent peers. Other platforms and OTP versions below 27 reject native startup. Portable GenUDP macOS coverage is handled by CI; the declared Elixir `~> 1.13` requirement remains unchanged but the actual minimum runtime is unverified. Current tested runtime claims are Elixir 1.18 / OTP 27 and 28; no older native support is claimed.
+The declared Elixir requirement remains `~> 1.13`; the validated runtime
+matrix uses Elixir 1.18 with OTP 27/28. Portable GenUDP macOS coverage does not
+imply native macOS support. See the archived
+[acceptance record](https://github.com/gsmlg-dev/abyss/blob/main/docs/archive/udp-runtime/acceptance.md)
+for release validation and its exact platform scope.
 
-Unicast request/response helpers now reject a wrong resolved address/port under one absolute response deadline. DNS/socket setup remain outside that response budget. Broadcast/multicast helpers keep multi-responder behavior. Directed broadcast cannot be safely inferred without subnet context; select an explicit response policy for ambiguous one-to-many use.
+## Legacy dispatcher and transport helpers
 
-## Dispatcher eligibility
-
-| Configuration | Legacy dispatcher | New API |
+| Configuration | Legacy dispatcher | Datagram API |
 |---|---|---|
 | UDP/Unicast, `broadcast: false` | Supported | Supported |
-| Multicast memberships, `broadcast: false` | Preserved/tested | Supported |
-| Broadcast transport or `broadcast: true` | Rejected as before | Supported |
-| Native direct socket | Rejected | Supported |
+| Multicast memberships, `broadcast: false` | Supported | Supported |
+| Broadcast transport or `broadcast: true` | Rejected | Supported |
+| Direct native socket | Rejected | Supported |
 
-Legacy dispatcher callback-owned input queues are not bounded by the new handler runtime. Its writer/admission/outcome contracts remain independent. QUIC uses the existing service and engine-owned CID/protocol state; UDP execution does not redesign QUIC application draining.
+Legacy dispatcher callback-owned input queues are outside the handler runtime's
+bounds; its writer/admission/outcome contracts remain independent. See
+[dispatcher guidance](../dispatcher.md). QUIC retains its existing service and
+engine-owned protocol state; UDP execution policies do not replace QUIC
+application draining.
 
-## DHCP dependency migration
+Unicast request/response helpers reject responses from a wrong resolved
+address/port under one absolute response deadline. DNS/socket setup remains
+outside that response budget. Broadcast/multicast helpers retain
+multi-responder behavior. Directed broadcast requires subnet context; select
+an explicit response policy for ambiguous one-to-many use. See
+[broadcast and multicast guidance](../udp-broadcast-multicast.md).
 
-Ordinary core installation no longer compiles Rust or loads a native artifact. `Abyss.DhcpSocket.Native` is a pure-Elixir facade. Without the optional package its functions return `{:error, {:missing_optional_dependency, :abyss_dhcp_socket}}`.
+## Optional DHCP dependency
 
-DHCP users must explicitly add `packages/abyss_dhcp_socket`; this is a dependency migration, not a zero-change upgrade. The independently buildable package is intentionally unpublished. For a repository dependency pinned to this release (Mix supporting sparse Git dependencies):
+Ordinary core installation does not compile Rust or load a native artifact.
+`Abyss.DhcpSocket.Native` is a pure-Elixir facade. Without the optional package,
+its functions return
+`{:error, {:missing_optional_dependency, :abyss_dhcp_socket}}`.
+
+DHCP users must explicitly add `packages/abyss_dhcp_socket`; this is a dependency
+migration. The independently buildable package is unpublished. With Mix
+supporting sparse Git dependencies, pin the repository dependency:
 
 ```elixir
 {:abyss_dhcp_socket,
@@ -99,4 +252,10 @@ DHCP users must explicitly add `packages/abyss_dhcp_socket`; this is a dependenc
  sparse: "packages/abyss_dhcp_socket"}
 ```
 
-Local opt-in fixtures can instead use an explicit path to the extracted package. Core production metadata declares neither dependency nor local path. The implementation module is `AbyssDhcpSocket.Native`, its OTP app/artifact is `:abyss_dhcp_socket`, and the facade preserves five operations and owner messages. `open/2` returns the resource directly. The package still needs Cargo/Rust and Linux raw ARP/bind capabilities. See [package guidance](../../packages/abyss_dhcp_socket/README.md) and [acceptance evidence](acceptance.md).
+For a local opt-in fixture, use an explicit path to the extracted package.
+Core production metadata declares neither the dependency nor a local path.
+The implementation module is `AbyssDhcpSocket.Native`, and its OTP
+app/artifact is `:abyss_dhcp_socket`. The facade preserves the five operations
+and owner messages; `open/2` returns the opaque resource directly. The package
+still requires Cargo/Rust and Linux raw ARP/bind capabilities. See the
+[package guidance](https://github.com/gsmlg-dev/abyss/blob/main/packages/abyss_dhcp_socket/README.md).

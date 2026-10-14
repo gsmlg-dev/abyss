@@ -1,5 +1,7 @@
 # OTP multicast option reproductions
 
+> Historical record. Commands, paths, versions and status below describe the recorded source, not the current checkout. See the [archive index](README.md) and [current guides](../README.md).
+
 Observed on Linux with Elixir 1.18.5 / OTP 28.5.0.5 (`inet` backend), and the
 socket backend checked on OTP 28 and OTP 27 / Elixir 1.18.4. This records
 upstream behavior without modifying OTP or any sibling repository.

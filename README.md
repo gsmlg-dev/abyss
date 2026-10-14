@@ -4,22 +4,9 @@
 [![Hex.pm](https://img.shields.io/hexpm/v/abyss.svg)](https://hex.pm/packages/abyss)
 [![Documentation](https://img.shields.io/badge/documentation-gray)](https://hexdocs.pm/abyss)
 
-Abyss is a modern, pure Elixir UDP server library that provides a high-performance foundation for building UDP-based services like DNS servers, DHCP servers, or custom UDP applications. It implements a supervisor-based architecture with connection pooling and pluggable transport modules.
-
-## Features
-
-- **High Performance**: Supervisor-based architecture with configurable connection pooling
-- **Flexible Handler System**: Pluggable handler modules for custom protocol implementations
-- **Real-time Metrics**: Built-in telemetry with connection counts, throughput rates, and response times
-- **Security Features**: Configurable packet size validation
-- **Broadcast Support**: Native support for broadcast and multicast applications
-- **Persistent Dispatching**: Optional bounded dispatcher for stateful datagram protocols
-- **Graceful Shutdown**: Coordinated shutdown with configurable timeouts
-- **Extensible Transport**: Pluggable transport layer (currently UDP)
+Abyss is a supervised Elixir UDP service library. It provides socket ownership, bounded admission, pluggable handlers, broadcast/multicast support and lifecycle control. The core package does not require Rust, TLS or a QUIC engine.
 
 ## Installation
-
-The package can be installed by adding `abyss` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
@@ -29,473 +16,93 @@ def deps do
 end
 ```
 
-UDP lifecycle, interface selection, runtime membership control, client limits,
-and tested platform restrictions are documented in
-[UDP broadcast and multicast](docs/udp-broadcast-multicast.md). Each ordinary
-packet gets an execution process; `{:continue, state}` keeps that process alive
-without automatically routing the sender's next packet to it. Stateless handlers
-should finish with `{:close, state}`.
+QUIC applications explicitly install `elixir_quic` and its engine dependencies. DHCP native users explicitly install the optional, currently unpublished `abyss_dhcp_socket` package. See the [QUIC guide](docs/quic-service.md) and [DHCP migration](docs/udp-runtime/migration.md).
 
-## Datagram API
+## Datagram echo
 
-Abyss 0.8 adds this opt-in API. See [acceptance](docs/udp-runtime/acceptance.md) for source-linked validation and supported environments.
-
-Use `datagram_handler: Module` with `Abyss.DatagramHandler` for immutable datagrams and finite effects. Select `execution: :per_datagram | :endpoint | :keyed` independently of broadcast/multicast addressing. `Abyss.Endpoint` provides capabilities, send/reply receipts, memberships, pause/resume and deadline-based stop. See the runnable [datagram echo](example/datagram_echo.exs), [migration/backend matrix](docs/udp-runtime/migration.md) and [runtime contract](docs/udp-runtime/design.md).
-
-Ordinary UDP has no Rust/Cargo or QUIC dependency. DHCP native users must explicitly add the [unpublished optional package](packages/abyss_dhcp_socket/README.md); the old facade delegates when it is installed. Linux direct native sockets provide verified destination/interface metadata and strict original-socket replies on OTP 27/28.
-
-## Quick Start
-
-### Basic Echo Server
+Use the datagram API for immutable packet values and finite reply/send/timer actions. This example keeps one serialized endpoint state:
 
 ```elixir
-defmodule MyEchoHandler do
-  use Abyss.Handler
+defmodule Echo do
+  @behaviour Abyss.DatagramHandler
 
   @impl true
-  def handle_data({ip, port, data}, state) do
-    # Echo the data back to the client
-    Abyss.Transport.UDP.send(state.socket, ip, port, data)
-    {:close, state}
+  def init(_options, _context), do: {:ok, 0}
+
+  @impl true
+  def handle_datagram(datagram, count) do
+    {:ok, count + 1, [{:reply, datagram.payload}]}
   end
 end
 
-# Start the server
-{:ok, _pid} = Abyss.start_link([
-  handler_module: MyEchoHandler,
+{:ok, endpoint} = Abyss.Endpoint.start_link(
+  datagram_handler: Echo,
+  execution: :endpoint,
   port: 1234,
-  num_listeners: 10
-])
-```
-
-### Monitoring and Telemetry
-
-Abyss provides built-in real-time metrics for monitoring server performance:
-
-```elixir
-# Get current metrics
-metrics = Abyss.Telemetry.get_metrics()
-# => %{
-#   connections_active: 15,
-#   connections_total: 1250,
-#   accepts_total: 1250,
-#   responses_total: 1198,
-#   accepts_per_second: 25,
-#   responses_per_second: 23
-# }
-
-# Set up response time monitoring
-:telemetry.attach_many(
-  "response-monitor",
-  [[:abyss, :metrics, :response_time]],
-  fn [:abyss, :metrics, :response_time], measurements, _metadata, _config ->
-    IO.puts("Response time: \#{measurements.response_time}ms")
-  end,
-  %{}
+  transport_options: [ip: {127, 0, 0, 1}]
 )
 
-# Reset metrics
-Abyss.Telemetry.reset_metrics()
+{:ok, {address, port}} = Abyss.Endpoint.local_endpoint(endpoint)
 ```
 
-### Testing with netcat
+From another terminal:
 
-```bash
-# Send a test packet
-echo "Hello, UDP" | nc -4 -u -w1 127.0.0.1 1234
-
-# Continuous testing
-while true; do echo "Hello, UDP $(date +%T)" | nc -4 -u -w1 127.0.0.1 1234; done
+```sh
+printf 'hello' | nc -4 -u -w1 127.0.0.1 1234
 ```
 
-## API Reference
+Choose `:per_datagram` (the default) for a fresh state per input, `:endpoint` for serialized endpoint state, or `:keyed` with an explicit `route_key` for application-defined state partitions. Broadcast and multicast addressing are independent of execution policy. Persistent state is subject to idle expiry and configured bounds.
 
-### Core Functions
+A reply action uses the original endpoint socket. Send admission and local completion are distinct; neither establishes peer receipt. See [migration and backend capabilities](docs/udp-runtime/migration.md) and the [runtime contract](docs/udp-runtime/design.md).
 
-#### `start_link/1`
+## Existing handler API
 
-Starts an Abyss server with the given options.
+Legacy handlers continue to receive `{ip, port, payload}` and access the shared socket through their state:
 
 ```elixir
-@spec start_link(options()) :: Supervisor.on_start()
-```
-
-**Options:**
-- `handler_module` - Legacy module implementing `Abyss.Handler`; select this, `datagram_handler`, or a dispatcher
-- `port` - UDP port to listen on (default: 4000)
-- `num_listeners` - Number of listener processes (default: 100)
-- `num_connections` - Max concurrent connections (default: 16_384)
-- `transport_options` - Keyword list passed to UDP transport
-- `read_timeout` - Connection read timeout (default: 60_000ms)
-- `shutdown_timeout` - Graceful shutdown timeout (default: 15_000ms)
-- `max_packet_size` - Maximum packet size in bytes (default: 8192)
-- `broadcast` - Enable broadcast mode (default: false)
-- `datagram_dispatcher` - Optional module implementing `Abyss.DatagramDispatcher` (broadcast mode is rejected; multicast with `broadcast: false` is supported)
-- `dispatcher_options` - Options passed to the dispatcher callback (default: `[]`)
-- `dispatcher_max_queue` - Maximum queued dispatcher sends (default: 128)
-- `dispatcher_max_queue_bytes` - Maximum queued dispatcher bytes (default: 1,048,576)
-- `connection_telemetry_sample_rate` - Sampling rate for connection telemetry (default: 0.05)
-- `handler_memory_check_interval` - Memory check interval in ms (default: 10,000)
-- `handler_memory_warning_threshold` - Memory warning threshold in MB (default: 100)
-- `handler_memory_hard_limit` - Memory hard limit in MB (default: 150)
-
-#### `stop/2`
-
-Stops the server gracefully, waiting for connections to finish.
-
-```elixir
-@spec stop(Supervisor.supervisor(), timeout()) :: :ok
-```
-
-#### `suspend/1` and `resume/1`
-
-Temporarily stop accepting new connections while maintaining existing ones.
-
-```elixir
-def suspend(supervisor), do: Abyss.Server.suspend(supervisor)
-def resume(supervisor), do: Abyss.Server.resume(supervisor)
-```
-
-### Handler Behavior
-
-Implement the `Abyss.Handler` behavior to process UDP packets:
-
-```elixir
-defmodule MyHandler do
+defmodule LegacyEcho do
   use Abyss.Handler
 
   @impl true
-  def handle_data({ip, port, data}, state) do
-    # Process incoming UDP packet
-    response = process_data(data)
-
-    # Send response back to client
-    Abyss.Transport.UDP.send(state.socket, ip, port, response)
-
-    {:close, state}  # Finish this datagram
-    # or
-    {:close, state}     # Close connection after response
-  end
-
-  # Optional callbacks
-  @impl true
-  def handle_timeout(state) do
-    Logger.warn("Connection timed out")
+  def handle_data({ip, port, payload}, state) do
+    :ok = Abyss.Transport.UDP.send(state.socket, ip, port, payload)
     {:close, state}
   end
-
-  @impl true
-  def handle_error(reason, state) do
-    Logger.error("Handler error: #{inspect(reason)}")
-    {:continue, state}
-  end
-
-  @impl true
-  def init(state) do
-    {:ok, Map.put(state, :counter, 0)}
-  end
-
-  @impl true
-  def terminate(_reason, state) do
-    # Cleanup resources
-    :ok
-  end
 end
-```
 
-### Configuration Examples
-
-#### Basic Configuration
-
-```elixir
-Abyss.start_link([
-  handler_module: MyHandler,
-  port: 8080
-])
-```
-
-#### Performance Tuning
-
-```elixir
-Abyss.start_link([
-  handler_module: MyHandler,
-  port: 8080,
-  num_listeners: 200,      # Increase for high throughput
-  num_connections: 32_768, # Allow more concurrent connections
-  read_timeout: 30_000     # Shorter timeout for faster cleanup
-])
-```
-
-#### Security Configuration
-
-```elixir
-Abyss.start_link([
-  handler_module: MyHandler,
-  port: 8080,
-  max_packet_size: 1024         # Limit packet size to prevent DoS
-])
-```
-
-#### Broadcast/Multicast Configuration
-
-```elixir
-Abyss.start_link([
-  handler_module: MyDatagramHandler,
-  port: 49_001,
-  broadcast: true,
-  transport_module: Abyss.Transport.UDP.Broadcast,
-  transport_options: [
-    ip: {0, 0, 0, 0}
-  ]
-])
-```
-
-`multicast_if` selects a local outgoing multicast interface, not a broadcast or
-group destination. Receiving a group requires `add_membership`. See the
-[broadcast and multicast guide](docs/udp-broadcast-multicast.md) for tested
-interface selection and IPv4/IPv6 membership examples.
-
-#### Persistent Datagram Dispatcher
-
-Stateful protocols can opt into one persistent dispatcher per listener while
-the default remains one handler process per datagram. See
-[`docs/dispatcher.md`](docs/dispatcher.md) for the callback contract, bounded
-writer behavior, and routing lifecycle.
-
-### Telemetry Events
-
-Abyss emits comprehensive telemetry events for monitoring:
-
-#### Listener Events
-- `[:abyss, :listener, :start]`
-- `[:abyss, :listener, :ready]`
-- `[:abyss, :listener, :waiting]`
-- `[:abyss, :listener, :receiving]`
-- `[:abyss, :listener, :stop]`
-
-#### Connection Events
-- `[:abyss, :connection, :start]`
-- `[:abyss, :connection, :ready]`
-- `[:abyss, :connection, :send]`
-- `[:abyss, :connection, :recv]`
-- `[:abyss, :connection, :stop]`
-
-#### Security Events
-- `[:abyss, :listener, :packet_too_large]`
-
-#### Enabling Logging
-
-```elixir
-# Attach structured logger at different levels
-Abyss.Logger.attach_logger(:error)   # Errors only
-Abyss.Logger.attach_logger(:info)    # General events
-Abyss.Logger.attach_logger(:debug)   # Detailed debugging
-Abyss.Logger.attach_logger(:trace)   # Verbose tracing
-```
-
-### Performance Considerations
-
-#### Tuning Guidelines
-
-1. **Listener Pool Size** (`num_listeners`)
-   - Default: 100
-   - Increase for high-throughput scenarios
-   - Typical range: 10-1000
-
-2. **Connection Limits** (`num_connections`)
-   - Default: 16_384
-   - Based on available memory and expected load
-   - Use `:infinity` for unlimited (with caution)
-
-3. **Buffer Sizes**
-   - Configure via `transport_options`
-   ```elixir
-   transport_options: [
-     recbuf: 8192,  # Receive buffer
-     sndbuf: 8192   # Send buffer
-   ]
-   ```
-
-#### Monitoring
-
-Monitor key metrics via telemetry:
-
-```elixir
-:telemetry.attach_many(
-  "abyss-monitor",
-  [
-    [:abyss, :listener, :start],
-    [:abyss, :connection, :start],
-    [:abyss, :listener, :packet_too_large]
-  ],
-  &handle_metrics/4,
-  %{}
+{:ok, server} = Abyss.start_link(
+  handler_module: LegacyEcho,
+  port: 1235,
+  num_listeners: 1,
+  transport_options: [ip: {127, 0, 0, 1}]
 )
 ```
 
-## Security Best Practices
+Each accepted packet gets a separate invocation. `{:continue, state}` keeps that invocation alive without routing subsequent peer packets to it. Stateful protocols can use the [datagram API](docs/udp-runtime/migration.md), or retain an existing [dispatcher](docs/dispatcher.md).
 
-### Production Deployment
+## Documentation
 
-When deploying Abyss to production, consider these security configurations:
+The [documentation guide](docs/README.md) is the entry point for:
 
-```elixir
-Abyss.start_link([
-  handler_module: MyHandler,
-  port: 8080,
+- [Architecture](docs/architecture.md): supervision, ownership and data flow.
+- [UDP addressing and lifecycle](docs/udp-broadcast-multicast.md): clients, memberships, pause and drain.
+- [Datagram runtime](docs/udp-runtime/design.md) and [migration](docs/udp-runtime/migration.md): callbacks, bounds, effects and backends.
+- [Dispatcher and writer](docs/dispatcher.md): routing, send capabilities and receipts.
+- [QUIC service](docs/quic-service.md): optional engine and application handlers.
+- [Operations and development](docs/operations.md): inspection, telemetry and scoped checks.
 
-  # Limit packet size to prevent memory exhaustion
-  max_packet_size: 8192,
+Source-attributed plans, diagnostics and release evidence are separated in the [historical archive](https://github.com/gsmlg-dev/abyss/tree/main/docs/archive). Current guides describe behavior; historical measurements do not imply a universal throughput improvement.
 
-  # Use reasonable connection limits
-  num_connections: 10_000,
+## Development
 
-  # Configure socket buffers
-  transport_options: [
-    recbuf: 262_144,  # 256KB receive buffer
-    sndbuf: 262_144   # 256KB send buffer
-  ]
-])
-```
-
-### Security Considerations
-
-1. **Packet Size Limits**: Set appropriate `max_packet_size` limits
-2. **Connection Limits**: Monitor and adjust `num_connections` based on resources
-3. **Network Access**: Use firewall rules to restrict access when possible
-4. **Monitoring**: Set up alerts for security events
-
-### Monitoring Security Events
-
-```elixir
-:telemetry.attach_many(
-  "security-monitor",
-  [
-    [:abyss, :listener, :packet_too_large]
-  ],
-  &handle_security_event/4,
-  %{}
-)
-
-defp handle_security_event(event, measurements, metadata, config) do
-  case event do
-    [:abyss, :listener, :packet_too_large] ->
-      Logger.warn("Oversized packet from #{metadata.remote_address}: #{metadata.packet_size} bytes")
-  end
-end
-```
-
-## Examples
-
-### Echo Server
-
-```shell
-# Run echo server with trace logging
-mix run --no-halt -e 'Code.require_file("example/echo.ex"); Abyss.Logger.attach_logger(:trace); Abyss.start_link(handler_module: Echo, port: 1234); Process.sleep(:infinity)'
-
-# Test with netcat
-echo "Hello, UDP" | nc -4 -u -w1 127.0.0.1 1234
-```
-
-### DNS Server
-
-```shell
-# DNS forwarder
-mix run --no-halt -e 'Code.require_file("example/dns_forwarder.ex"); Abyss.start_link(handler_module: HandleDNS, port: 53); Process.sleep(:infinity)'
-
-# DNS recursive resolver
-mix run --no-halt -e 'Code.require_file("example/dns_recursive.ex"); Abyss.start_link(handler_module: HandleDNS, port: 53); Process.sleep(:infinity)'
-```
-
-### Broadcast Services
-
-```shell
-# Protocol-neutral broadcast receiver on an isolated test interface
-mix run example/udp_one_to_many.exs receive 255.255.255.255 test0 49001
-
-# Group receiver; test0 must exist in your isolated fixture
-mix run example/udp_one_to_many.exs receive 239.255.42.1 test0 49002
-
-# Send a group query from the selected test interface
-mix run example/udp_one_to_many.exs query 239.255.42.1 test0 49002 probe
-```
-
-## Architecture
-
-Abyss implements a hierarchical supervision tree:
-
-```
-Abyss (main supervisor)
-├── Abyss.ListenerPool (supervisor)
-│   ├── Abyss.Listener (listener process 1)
-│   ├── Abyss.Listener (listener process 2)
-│   └── ... (up to num_listeners processes)
-├── DynamicSupervisor (connection supervisor)
-│   ├── Handler process 1 (per UDP packet)
-│   ├── Handler process 2 (per UDP packet)
-│   └── ... (up to num_connections processes)
-├── Task (activator - starts listeners)
-└── Abyss.ShutdownListener (coordinates graceful shutdown)
-```
-
-### Request Flow
-
-1. **Listener Pool**: Manages multiple listener processes for load distribution
-2. **Listener**: Waits for UDP packets on the bound port
-3. **Connection**: Creates handler processes for incoming packets
-4. **Handler**: Processes packet data using user-defined logic
-5. **Transport**: Handles low-level UDP socket operations
-
-With `datagram_dispatcher` configured, accepted unicast packets go through the
-persistent dispatcher instead of creating a handler process for each packet.
-
-### Transport Layer
-
-Abyss uses specialized UDP transport modules:
-
-- **`Abyss.Transport.UDP.Core`** - Shared socket operations
-- **`Abyss.Transport.UDP.Unicast`** - Unicast socket behavior
-- **`Abyss.Transport.UDP.Broadcast`** - Broadcast and multicast behavior
-
-### Supervision Strategy
-
-- **Rest for One**: If a listener crashes, other listeners continue
-- **Dynamic Supervisor**: Handler processes are isolated
-- **Graceful Shutdown**: Coordinated termination with timeouts
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Open a Pull Request
-
-### Development
-
-```bash
-# Install dependencies
+```sh
 mix deps.get
-
-# Run tests
-mix test
-
-# Run tests with coverage
-mix test --cover
-
-# Format code
-mix format
-
-# Run dialyzer
-mix dialyzer
-
-# Run credo
-mix credo
-
-# Generate documentation
-mix docs
+mix docs --warnings-as-errors
+mix format --check-formatted
 ```
+
+Use [scoped verification commands](docs/operations.md) for the changed area. Independent network and optional-package gates are documented with their fixture prerequisites.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+[MIT](https://github.com/gsmlg-dev/abyss/blob/main/LICENSE).

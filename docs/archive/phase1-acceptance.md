@@ -1,5 +1,7 @@
 # Abyss Phase 1 acceptance — G-A
 
+> Historical record. Commands, paths, versions and status below describe the recorded source, not the current checkout. See the [archive index](README.md) and [current guides](../README.md).
+
 Date: 2026-09-28. **G-A: PASS for the scoped QUIC v1 application-service subset.**
 The gate has public application-consumption evidence, real independent-peer
 traffic and clean production-consumer release evidence. This is not a QUIC
@@ -68,8 +70,8 @@ Listener drain stops ingress before waiting and has a shared deadline. Connectio
 close cannot close the shared socket. Host component failure closes the listener;
 supervision creates a fresh generation, never an old TLS transcript.
 
-See [quic-service.md](quic-service.md) for configuration, callback events,
-ownership and application setup, and [dispatcher.md](dispatcher.md) for writer
+See [quic-service.md](../quic-service.md) for configuration, callback events,
+ownership and application setup, and [dispatcher.md](../dispatcher.md) for writer
 receipts. The independent `examples/quic_echo` and `examples/quic_collect`
 applications have different handlers and custom ALPNs; adding collection required
 no core routing change. `examples/udp_echo` has no ex_quic dependency.

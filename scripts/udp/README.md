@@ -76,3 +76,8 @@ measurements are samples, not a whole-VM bound. The package consumer gate builds
 fresh Hex contents outside the checkout, hides Rust/Cargo for core and explicitly
 adds the unpublished DHCP package for native tests. DHCP capabilities remain
 inside the owned namespace. It performs no publication.
+
+`compare_steady.py` writes fresh paired logs and its JSON summary to
+`_build/udp-evidence/`. Recorded release evidence is retained separately in
+[`docs/archive/`](../../docs/archive/README.md). See the
+[documentation guide](../../docs/README.md) for current APIs and architecture.

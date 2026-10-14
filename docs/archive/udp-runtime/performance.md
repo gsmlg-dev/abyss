@@ -1,5 +1,7 @@
 # Resource and performance measurements
 
+> Historical record. Commands, paths, versions and status below describe the recorded source, not the current checkout. See the [archive index](../README.md) and [current guides](../../README.md).
+
 These are controlled workload results and sampled process/mailbox observations. They do not establish whole-VM memory limits, kernel drop counts, UDP delivery guarantees or a universal throughput number.
 
 ## Paired legacy steady workload

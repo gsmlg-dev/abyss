@@ -1,5 +1,7 @@
 # Published QUIC engine acceptance — internal request #5
 
+> Historical record. Commands, paths, versions and status below describe the recorded source, not the current checkout. See the [archive index](README.md) and [current guides](../README.md).
+
 Date: 2026-09-29. Scope: Abyss only, on the existing `main` branch.
 Issue: [gsmlg-dev/abyss#5](https://github.com/gsmlg-dev/abyss/issues/5).
 Release target: `0.6.1`. The tag and commit containing this report provide the
@@ -73,7 +75,7 @@ reset/stop/close errors, Retry on/off/loss/invalid/expired tokens, wrong CA/ALPN
 consumer failures, listener suspension and writer failure/restart. The independent
 release check also verifies ordinary UDP has no loadable engine.
 
-Capability limits from [quic-service.md](quic-service.md) remain unchanged.
+Capability limits from [quic-service.md](../quic-service.md) remain unchanged.
 The pre-existing Credo/Dialyzer CI failures are outside this issue; this change
 does not claim to resolve them. The user-owned `03-abyss-plan.md` is preserved.
 
