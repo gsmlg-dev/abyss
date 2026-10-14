@@ -1,0 +1,331 @@
+{
+  "candidate": "cd7f26822e366d65e3f168246020cd41ee7b7f3f",
+  "baseline": "cd65c84073c66de460ab883206414cf8ce0154bf",
+  "runtime": "OTP27 devenv",
+  "schedulers": 8,
+  "stress_exit": 0,
+  "workload": "500warmup+3000sequential64byte request/replies; paired serial3samples per4modes; no concurrent local builds/tests",
+  "samples": [
+    {
+      "label": "baseline",
+      "mode": "legacy",
+      "repeat": 1,
+      "log": "final-steady-baseline-legacy-1.log",
+      "throughput_per_second": 9415.604795681376,
+      "latency_median_us": 105.0,
+      "latency_p95_us": 147.0,
+      "latency_p99_us": 169.0
+    },
+    {
+      "label": "candidate",
+      "mode": "legacy",
+      "repeat": 1,
+      "log": "final-steady-candidate-legacy-1.log",
+      "throughput_per_second": 8374.648264772879,
+      "latency_median_us": 117.0,
+      "latency_p95_us": 153.0,
+      "latency_p99_us": 173.0
+    },
+    {
+      "label": "baseline",
+      "mode": "per_datagram",
+      "repeat": 1,
+      "log": "final-steady-baseline-per_datagram-1.log",
+      "throughput_per_second": 3512.193751339024,
+      "latency_median_us": 276.0,
+      "latency_p95_us": 375.0,
+      "latency_p99_us": 426.0
+    },
+    {
+      "label": "candidate",
+      "mode": "per_datagram",
+      "repeat": 1,
+      "log": "final-steady-candidate-per_datagram-1.log",
+      "throughput_per_second": 3472.644244960325,
+      "latency_median_us": 281.0,
+      "latency_p95_us": 375.0,
+      "latency_p99_us": 422.0
+    },
+    {
+      "label": "baseline",
+      "mode": "endpoint",
+      "repeat": 1,
+      "log": "final-steady-baseline-endpoint-1.log",
+      "throughput_per_second": 3207.5475732764244,
+      "latency_median_us": 309.0,
+      "latency_p95_us": 418.0,
+      "latency_p99_us": 480.0
+    },
+    {
+      "label": "candidate",
+      "mode": "endpoint",
+      "repeat": 1,
+      "log": "final-steady-candidate-endpoint-1.log",
+      "throughput_per_second": 3447.4674903815658,
+      "latency_median_us": 283.0,
+      "latency_p95_us": 390.0,
+      "latency_p99_us": 443.0
+    },
+    {
+      "label": "baseline",
+      "mode": "keyed",
+      "repeat": 1,
+      "log": "final-steady-baseline-keyed-1.log",
+      "throughput_per_second": 3242.706881996816,
+      "latency_median_us": 301.0,
+      "latency_p95_us": 418.0,
+      "latency_p99_us": 474.0
+    },
+    {
+      "label": "candidate",
+      "mode": "keyed",
+      "repeat": 1,
+      "log": "final-steady-candidate-keyed-1.log",
+      "throughput_per_second": 2899.2398193193744,
+      "latency_median_us": 331.0,
+      "latency_p95_us": 504.0,
+      "latency_p99_us": 606.0
+    },
+    {
+      "label": "baseline",
+      "mode": "legacy",
+      "repeat": 2,
+      "log": "final-steady-baseline-legacy-2.log",
+      "throughput_per_second": 9237.761505631956,
+      "latency_median_us": 106.0,
+      "latency_p95_us": 143.0,
+      "latency_p99_us": 161.0
+    },
+    {
+      "label": "candidate",
+      "mode": "legacy",
+      "repeat": 2,
+      "log": "final-steady-candidate-legacy-2.log",
+      "throughput_per_second": 8477.37811649613,
+      "latency_median_us": 112.0,
+      "latency_p95_us": 172.0,
+      "latency_p99_us": 196.0
+    },
+    {
+      "label": "baseline",
+      "mode": "per_datagram",
+      "repeat": 2,
+      "log": "final-steady-baseline-per_datagram-2.log",
+      "throughput_per_second": 3478.9788501279104,
+      "latency_median_us": 280.0,
+      "latency_p95_us": 371.0,
+      "latency_p99_us": 417.0
+    },
+    {
+      "label": "candidate",
+      "mode": "per_datagram",
+      "repeat": 2,
+      "log": "final-steady-candidate-per_datagram-2.log",
+      "throughput_per_second": 3409.664352641126,
+      "latency_median_us": 286.0,
+      "latency_p95_us": 380.0,
+      "latency_p99_us": 443.0
+    },
+    {
+      "label": "baseline",
+      "mode": "endpoint",
+      "repeat": 2,
+      "log": "final-steady-baseline-endpoint-2.log",
+      "throughput_per_second": 3597.471696891425,
+      "latency_median_us": 269.0,
+      "latency_p95_us": 383.0,
+      "latency_p99_us": 441.0
+    },
+    {
+      "label": "candidate",
+      "mode": "endpoint",
+      "repeat": 2,
+      "log": "final-steady-candidate-endpoint-2.log",
+      "throughput_per_second": 3480.011971241181,
+      "latency_median_us": 276.0,
+      "latency_p95_us": 411.0,
+      "latency_p99_us": 509.0
+    },
+    {
+      "label": "baseline",
+      "mode": "keyed",
+      "repeat": 2,
+      "log": "final-steady-baseline-keyed-2.log",
+      "throughput_per_second": 3463.743267349024,
+      "latency_median_us": 278.0,
+      "latency_p95_us": 389.0,
+      "latency_p99_us": 443.0
+    },
+    {
+      "label": "candidate",
+      "mode": "keyed",
+      "repeat": 2,
+      "log": "final-steady-candidate-keyed-2.log",
+      "throughput_per_second": 3231.8357365622965,
+      "latency_median_us": 303.0,
+      "latency_p95_us": 407.0,
+      "latency_p99_us": 471.0
+    },
+    {
+      "label": "baseline",
+      "mode": "legacy",
+      "repeat": 3,
+      "log": "final-steady-baseline-legacy-3.log",
+      "throughput_per_second": 9577.963022677424,
+      "latency_median_us": 104.0,
+      "latency_p95_us": 140.0,
+      "latency_p99_us": 157.0
+    },
+    {
+      "label": "candidate",
+      "mode": "legacy",
+      "repeat": 3,
+      "log": "final-steady-candidate-legacy-3.log",
+      "throughput_per_second": 9582.460264731435,
+      "latency_median_us": 103.0,
+      "latency_p95_us": 142.0,
+      "latency_p99_us": 157.0
+    },
+    {
+      "label": "baseline",
+      "mode": "per_datagram",
+      "repeat": 3,
+      "log": "final-steady-baseline-per_datagram-3.log",
+      "throughput_per_second": 3335.4754497888644,
+      "latency_median_us": 290.0,
+      "latency_p95_us": 399.0,
+      "latency_p99_us": 452.0
+    },
+    {
+      "label": "candidate",
+      "mode": "per_datagram",
+      "repeat": 3,
+      "log": "final-steady-candidate-per_datagram-3.log",
+      "throughput_per_second": 3261.117693737567,
+      "latency_median_us": 300.0,
+      "latency_p95_us": 407.0,
+      "latency_p99_us": 468.0
+    },
+    {
+      "label": "baseline",
+      "mode": "endpoint",
+      "repeat": 3,
+      "log": "final-steady-baseline-endpoint-3.log",
+      "throughput_per_second": 3672.2807678983904,
+      "latency_median_us": 266.0,
+      "latency_p95_us": 359.0,
+      "latency_p99_us": 415.0
+    },
+    {
+      "label": "candidate",
+      "mode": "endpoint",
+      "repeat": 3,
+      "log": "final-steady-candidate-endpoint-3.log",
+      "throughput_per_second": 3673.949250514353,
+      "latency_median_us": 267.0,
+      "latency_p95_us": 354.0,
+      "latency_p99_us": 406.0
+    },
+    {
+      "label": "baseline",
+      "mode": "keyed",
+      "repeat": 3,
+      "log": "final-steady-baseline-keyed-3.log",
+      "throughput_per_second": 3427.744852384168,
+      "latency_median_us": 283.0,
+      "latency_p95_us": 391.0,
+      "latency_p99_us": 447.0
+    },
+    {
+      "label": "candidate",
+      "mode": "keyed",
+      "repeat": 3,
+      "log": "final-steady-candidate-keyed-3.log",
+      "throughput_per_second": 3141.4171770596963,
+      "latency_median_us": 312.0,
+      "latency_p95_us": 433.0,
+      "latency_p99_us": 530.0
+    }
+  ],
+  "median_of_three": {
+    "baseline": {
+      "legacy": {
+        "throughput_per_second": 9415.604795681376,
+        "latency_median_us": 105.0,
+        "latency_p95_us": 143.0,
+        "latency_p99_us": 161.0
+      },
+      "per_datagram": {
+        "throughput_per_second": 3478.9788501279104,
+        "latency_median_us": 280.0,
+        "latency_p95_us": 375.0,
+        "latency_p99_us": 426.0
+      },
+      "endpoint": {
+        "throughput_per_second": 3597.471696891425,
+        "latency_median_us": 269.0,
+        "latency_p95_us": 383.0,
+        "latency_p99_us": 441.0
+      },
+      "keyed": {
+        "throughput_per_second": 3427.744852384168,
+        "latency_median_us": 283.0,
+        "latency_p95_us": 391.0,
+        "latency_p99_us": 447.0
+      }
+    },
+    "candidate": {
+      "legacy": {
+        "throughput_per_second": 8477.37811649613,
+        "latency_median_us": 112.0,
+        "latency_p95_us": 153.0,
+        "latency_p99_us": 173.0
+      },
+      "per_datagram": {
+        "throughput_per_second": 3409.664352641126,
+        "latency_median_us": 286.0,
+        "latency_p95_us": 380.0,
+        "latency_p99_us": 443.0
+      },
+      "endpoint": {
+        "throughput_per_second": 3480.011971241181,
+        "latency_median_us": 276.0,
+        "latency_p95_us": 390.0,
+        "latency_p99_us": 443.0
+      },
+      "keyed": {
+        "throughput_per_second": 3141.4171770596963,
+        "latency_median_us": 312.0,
+        "latency_p95_us": 433.0,
+        "latency_p99_us": 530.0
+      }
+    }
+  },
+  "percent_delta": {
+    "legacy": {
+      "throughput_per_second": -9.96459281740012,
+      "latency_median_us": 6.666666666666665,
+      "latency_p95_us": 6.9930069930070005,
+      "latency_p99_us": 7.453416149068315
+    },
+    "per_datagram": {
+      "throughput_per_second": -1.9923805367266345,
+      "latency_median_us": 2.1428571428571352,
+      "latency_p95_us": 1.333333333333342,
+      "latency_p99_us": 3.9906103286384997
+    },
+    "endpoint": {
+      "throughput_per_second": -3.265063231817522,
+      "latency_median_us": 2.6022304832713727,
+      "latency_p95_us": 1.8276762402088753,
+      "latency_p99_us": 0.45351473922903285
+    },
+    "keyed": {
+      "throughput_per_second": -8.353237701613548,
+      "latency_median_us": 10.24734982332156,
+      "latency_p95_us": 10.741687979539648,
+      "latency_p99_us": 18.568232662192386
+    }
+  },
+  "limits": "Host-managed sampled bounds only; no whole-VM/native reclamation claim. Steady loopback sample is not a production throughput guarantee."
+}

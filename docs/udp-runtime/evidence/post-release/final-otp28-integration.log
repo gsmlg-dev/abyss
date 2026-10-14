@@ -1,0 +1,973 @@
+{"command": ["mix", "test", "--include", "integration", "--no-cover"], "cwd": "/home/gao/Workspace/gsmlg-dev/abyss/.trees/post-release-hardening", "env": {"CI": "true", "ERL_FLAGS": "+S 8:8", "MIX_BUILD_PATH": "/tmp/abyss-post-hardening-otp28", "MIX_ENV": "test"}, "source_head": "960c40aabdae0c308b0fae95b8c46643dee2b623"}
+Running ExUnit with seed: 708062, max_cases: 16
+Excluding tags: [slow: true]
+Including tags: [:integration]
+
+..................................................................................................................................................................................................................................................................................................................................................................................
+20:42:42.631 [error] GenServer #PID<0.1990.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.1987.0>, :killed}
+State: %{broadcast: false, socket: #Port<0.255>, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.Transport.UDP, transport_options: [], handler_module: Abyss.TestHandler, datagram_options: %{io_backend: :gen_udp, required_metadata: [], datagram_handler: nil, required_capabilities: [], execution: :per_datagram, route_key: nil, runtime_options: []}, handler_options: [], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 100, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, listener: #PID<0.1985.0>, idle_token: #Reference<0.3208709782.1666973699.64993>, idle_timer: #Reference<0.3208709782.1666973699.64994>, memory_timer: #Reference<0.3208709782.1666973699.64990>, memory_check_interval: 10000, memory_token: #Reference<0.3208709782.1666973699.64989>, adaptive_timeout: 30000, read_timeout: 60000, idle_deadline: -576460698529, connection_span: %Abyss.Telemetry{span_name: :test, telemetry_span_context: #Reference<0.3208709782.1666973699.64983>, start_time: -576460728528949238, start_metadata: %{sampled: true, telemetry_span_context: #Reference<0.3208709782.1666973699.64983>}}, processing_times: [1663]}
+.
+20:42:42.627 [error] GenServer #PID<0.1980.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.1977.0>, :killed}
+State: %{broadcast: false, socket: #Port<0.254>, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.Transport.UDP, transport_options: [], handler_module: Abyss.TestHandler, datagram_options: %{io_backend: :gen_udp, required_metadata: [], datagram_handler: nil, required_capabilities: [], execution: :per_datagram, route_key: nil, runtime_options: []}, handler_options: [], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 100, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, listener: #PID<0.1975.0>, idle_token: #Reference<0.3208709782.1666973702.66091>, idle_timer: #Reference<0.3208709782.1666973702.66092>, memory_timer: #Reference<0.3208709782.1666973702.66088>, memory_check_interval: 10000, memory_token: #Reference<0.3208709782.1666973702.66087>, adaptive_timeout: 30000, read_timeout: 60000, idle_deadline: -576460698533, connection_span: %Abyss.Telemetry{span_name: :test, telemetry_span_context: #Reference<0.3208709782.1666973702.66077>, start_time: -576460728537556899, start_metadata: %{sampled: true, telemetry_span_context: #Reference<0.3208709782.1666973702.66077>}}, processing_times: [1454]}
+..
+20:42:42.737 [error] GenServer #PID<0.2004.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.2001.0>, :killed}
+State: %{broadcast: false, socket: #Port<0.256>, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.Transport.UDP, transport_options: [], handler_module: Abyss.TestHandler, datagram_options: %{io_backend: :gen_udp, required_metadata: [], datagram_handler: nil, required_capabilities: [], execution: :per_datagram, route_key: nil, runtime_options: []}, handler_options: [], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 100, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, listener: #PID<0.1999.0>, idle_token: #Reference<0.3208709782.1666973699.65076>, idle_timer: #Reference<0.3208709782.1666973699.65077>, memory_timer: #Reference<0.3208709782.1666973699.65075>, memory_check_interval: 10000, memory_token: #Reference<0.3208709782.1666973699.65074>, adaptive_timeout: 30000, read_timeout: 60000, idle_deadline: -576460698524, connection_span: %Abyss.Telemetry{span_name: :test, telemetry_span_context: #Reference<0.3208709782.1666973699.65068>, start_time: -576460728523855363, start_metadata: %{sampled: true, telemetry_span_context: #Reference<0.3208709782.1666973699.65068>}}, processing_times: [1442]}
+.....
+20:42:43.845 [info] The function passed as a handler with ID :integration_test_handler is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+..............................................
+20:42:44.177 [info] The function passed as a handler with ID "scaler-test-#PID<0.3573.0>" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.......
+20:42:44.189 [debug] Telemetry event
+.
+20:42:44.189 [error] Telemetry event
+.
+20:42:44.189 [debug] Telemetry event
+..
+20:42:44.189 [info] Telemetry event
+.
+20:42:44.189 [debug] Telemetry event
+..
+20:42:44.190 [error] Telemetry event
+
+20:42:44.190 [info] Telemetry event
+.
+20:42:44.190 [debug] Telemetry event
+.
+20:42:44.190 [error] Telemetry event
+
+20:42:44.190 [info] Telemetry event
+
+20:42:44.190 [debug] Telemetry event
+
+20:42:44.190 [debug] Telemetry event
+..
+20:42:44.190 [error] Telemetry event
+....
+20:42:44.191 [info] Telemetry event
+.
+20:42:44.191 [error] Telemetry event
+
+20:42:44.191 [info] Telemetry event
+
+20:42:44.191 [debug] Telemetry event
+.
+20:42:44.191 [info] Telemetry event
+
+20:42:44.195 [info] Telemetry event
+.
+20:42:44.197 [info] Telemetry event
+
+20:42:44.249 [info] Telemetry event
+.
+20:42:44.269 [info] Telemetry event
+
+20:42:44.271 [info] Telemetry event
+
+20:42:44.280 [info] Telemetry event
+
+20:42:44.281 [info] Telemetry event
+.
+20:42:44.286 [info] Telemetry event
+
+20:42:44.288 [info] Telemetry event
+.
+20:42:44.289 [info] Telemetry event
+
+20:42:44.290 [info] Telemetry event
+
+20:42:44.295 [info] Telemetry event
+
+20:42:44.295 [info] Telemetry event
+.
+20:42:44.296 [info] Telemetry event
+
+20:42:44.298 [info] Telemetry event
+
+20:42:44.302 [info] Telemetry event
+
+20:42:44.302 [info] Telemetry event
+.
+20:42:44.304 [info] Telemetry event
+
+20:42:44.305 [info] Telemetry event
+
+20:42:44.308 [info] Telemetry event
+
+20:42:44.309 [info] Telemetry event
+.
+20:42:44.310 [info] Telemetry event
+
+20:42:44.310 [info] Telemetry event
+.
+20:42:44.311 [info] Telemetry event
+
+20:42:44.312 [info] Telemetry event
+
+20:42:44.315 [info] Telemetry event
+
+20:42:44.316 [info] Telemetry event
+.
+20:42:44.317 [info] Telemetry event
+
+20:42:44.317 [info] Telemetry event
+
+20:42:44.320 [info] Telemetry event
+
+20:42:44.321 [info] Telemetry event
+.
+20:42:44.321 [info] Telemetry event
+
+20:42:44.322 [info] Telemetry event
+
+20:42:44.324 [info] Telemetry event
+
+20:42:44.325 [info] Telemetry event
+.
+20:42:44.326 [info] Telemetry event
+
+20:42:44.326 [info] Telemetry event
+
+20:42:44.329 [info] Telemetry event
+
+20:42:44.329 [info] Telemetry event
+.
+20:42:44.329 [info] Telemetry event
+
+20:42:44.380 [info] Telemetry event
+.
+20:42:44.381 [info] Telemetry event
+
+20:42:44.381 [info] Telemetry event
+.
+20:42:44.382 [info] Telemetry event
+
+20:42:44.382 [info] Telemetry event
+.
+20:42:44.382 [info] Telemetry event
+
+20:42:44.383 [info] Telemetry event
+.
+20:42:44.394 [info] Telemetry event
+
+20:42:44.394 [info] Telemetry event
+.
+20:42:44.395 [info] Telemetry event
+
+20:42:44.395 [info] Telemetry event
+..
+20:42:44.396 [info] Telemetry event
+
+20:42:44.396 [info] Telemetry event
+.
+20:42:44.397 [info] Telemetry event
+
+20:42:44.397 [info] Telemetry event
+.
+20:42:44.398 [error] Telemetry event
+
+20:42:44.398 [error] Telemetry event
+
+20:42:44.398 [error] Telemetry event
+
+20:42:44.398 [error] Telemetry event
+
+20:42:44.399 [error] Telemetry event
+
+20:42:44.399 [error] Telemetry event
+
+20:42:44.399 [error] Telemetry event
+
+20:42:44.399 [error] Telemetry event
+
+20:42:44.399 [error] Telemetry event
+
+20:42:44.399 [error] Telemetry event
+
+20:42:44.399 [error] Telemetry event
+
+20:42:44.399 [error] Telemetry event
+
+20:42:44.399 [error] Telemetry event
+
+20:42:44.400 [error] Telemetry event
+
+20:42:44.400 [error] Telemetry event
+
+20:42:44.400 [error] Telemetry event
+
+20:42:44.400 [error] Telemetry event
+
+20:42:44.400 [error] Telemetry event
+
+20:42:44.400 [error] Telemetry event
+
+20:42:44.400 [error] Telemetry event
+
+20:42:44.400 [error] Telemetry event
+
+20:42:44.400 [error] Telemetry event
+
+20:42:44.400 [error] Telemetry event
+
+20:42:44.401 [error] Telemetry event
+
+20:42:44.401 [error] Telemetry event
+
+20:42:44.401 [error] Telemetry event
+
+20:42:44.401 [error] Telemetry event
+
+20:42:44.401 [error] Telemetry event
+
+20:42:44.401 [error] Telemetry event
+
+20:42:44.401 [error] Telemetry event
+
+20:42:44.401 [error] Telemetry event
+
+20:42:44.401 [error] Telemetry event
+
+20:42:44.402 [error] Telemetry event
+
+20:42:44.402 [error] Telemetry event
+
+20:42:44.402 [error] Telemetry event
+
+20:42:44.402 [error] Telemetry event
+
+20:42:44.402 [error] Telemetry event
+
+20:42:44.402 [error] Telemetry event
+
+20:42:44.402 [error] Telemetry event
+
+20:42:44.402 [error] Telemetry event
+
+20:42:44.402 [error] Telemetry event
+
+20:42:44.402 [error] Telemetry event
+
+20:42:44.403 [error] Telemetry event
+
+20:42:44.403 [error] Telemetry event
+
+20:42:44.403 [error] Telemetry event
+
+20:42:44.403 [error] Telemetry event
+
+20:42:44.403 [error] Telemetry event
+
+20:42:44.403 [error] Telemetry event
+
+20:42:44.403 [error] Telemetry event
+
+20:42:44.403 [error] Telemetry event
+
+20:42:44.403 [error] Telemetry event
+
+20:42:44.404 [error] Telemetry event
+
+20:42:44.404 [error] Telemetry event
+
+20:42:44.404 [error] Telemetry event
+
+20:42:44.404 [error] Telemetry event
+
+20:42:44.404 [error] Telemetry event
+
+20:42:44.404 [error] Telemetry event
+
+20:42:44.404 [error] Telemetry event
+
+20:42:44.404 [error] Telemetry event
+
+20:42:44.404 [error] Telemetry event
+
+20:42:44.405 [error] Telemetry event
+
+20:42:44.405 [error] Telemetry event
+
+20:42:44.405 [error] Telemetry event
+
+20:42:44.405 [error] Telemetry event
+
+20:42:44.405 [error] Telemetry event
+
+20:42:44.405 [error] Telemetry event
+
+20:42:44.405 [error] Telemetry event
+
+20:42:44.405 [error] Telemetry event
+
+20:42:44.405 [error] Telemetry event
+
+20:42:44.405 [error] Telemetry event
+
+20:42:44.406 [error] Telemetry event
+
+20:42:44.406 [error] Telemetry event
+
+20:42:44.406 [error] Telemetry event
+
+20:42:44.406 [error] Telemetry event
+
+20:42:44.406 [error] Telemetry event
+
+20:42:44.406 [error] Telemetry event
+
+20:42:44.406 [error] Telemetry event
+
+20:42:44.406 [error] Telemetry event
+
+20:42:44.406 [error] Telemetry event
+
+20:42:44.407 [error] Telemetry event
+
+20:42:44.407 [error] Telemetry event
+
+20:42:44.407 [error] Telemetry event
+
+20:42:44.407 [error] Telemetry event
+
+20:42:44.407 [error] Telemetry event
+
+20:42:44.407 [error] Telemetry event
+
+20:42:44.407 [error] Telemetry event
+
+20:42:44.407 [error] Telemetry event
+
+20:42:44.407 [error] Telemetry event
+
+20:42:44.407 [error] Telemetry event
+
+20:42:44.408 [error] Telemetry event
+
+20:42:44.408 [error] Telemetry event
+
+20:42:44.408 [error] Telemetry event
+
+20:42:44.408 [error] Telemetry event
+
+20:42:44.408 [error] Telemetry event
+
+20:42:44.408 [error] Telemetry event
+
+20:42:44.408 [error] Telemetry event
+
+20:42:44.408 [error] Telemetry event
+
+20:42:44.408 [error] Telemetry event
+
+20:42:44.409 [error] Telemetry event
+
+20:42:44.409 [error] Telemetry event
+...
+20:42:44.453 [info] Telemetry event
+
+20:42:44.454 [info] Telemetry event
+..
+20:42:44.455 [info] Telemetry event
+
+20:42:44.456 [info] Telemetry event
+.
+20:42:44.458 [info] Telemetry event
+
+20:42:44.459 [info] Telemetry event
+.
+20:42:44.460 [info] Telemetry event
+
+20:42:44.461 [info] Telemetry event
+.
+20:42:44.462 [info] Telemetry event
+
+20:42:44.463 [info] Telemetry event
+..
+20:42:44.464 [info] Telemetry event
+
+20:42:44.465 [info] Telemetry event
+.
+20:42:44.466 [info] Telemetry event
+
+20:42:44.467 [info] Telemetry event
+..
+20:42:44.469 [info] Telemetry event
+
+20:42:44.469 [info] Telemetry event
+.
+20:42:44.471 [info] Telemetry event
+
+20:42:45.348 [info] Telemetry event
+.
+20:42:45.349 [info] Telemetry event
+
+20:42:45.358 [info] Telemetry event
+
+20:42:45.360 [info] Telemetry event
+
+20:42:45.514 [info] Telemetry event
+
+20:42:45.518 [info] Telemetry event
+
+20:42:45.677 [info] Telemetry event
+
+20:42:45.684 [info] Telemetry event
+.
+20:42:45.686 [info] Telemetry event
+
+20:42:45.787 [info] Telemetry event
+.
+20:42:45.789 [info] Telemetry event
+
+20:42:45.956 [info] Telemetry event
+.
+20:42:45.958 [info] Telemetry event
+
+20:42:46.042 [info] Telemetry event
+
+20:42:46.124 [error] GenServer #PID<0.4616.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.4614.0>, :killed}
+State: %{owner: #PID<0.4614.0>, config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.Transport.UDP, transport_options: [ip: {127, 0, 0, 1}], handler_module: nil, datagram_options: %{io_backend: :gen_udp, required_metadata: [], datagram_handler: Abyss.WatchdogTestHandler, required_capabilities: [], execution: :keyed, route_key: #Function<25.75817866/1 in Abyss.DatagramWatchdogTest."test an expired arm cannot target a replacement keyed worker or endpoint generation"/1>, runtime_options: [init_timeout: 80, callback_timeout: 5000]}, handler_options: [owner: #PID<0.4596.0>], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 1, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, context: %{send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.4618.0>, generation: #Reference<0.3208709782.1666973701.70627>, admission: #PID<0.4617.0>, io_backend: :gen_udp}, generation: #Reference<0.3208709782.1666973701.70627>, endpoint_id: {#PID<0.4612.0>, "listener-1"}}, bytes: 0, dropped: 0, workers: %{}, server: #PID<0.4612.0>, writer: #PID<0.4618.0>, admission: #PID<0.4617.0>, draining: nil, internal_events_rejected: %{timer: 0, send_outcomes: 0}, receipts: %{}, high_items: 1, routing: nil, inputs: %{}, timers: %{}, limits: %{send_timeout: 100, max_queue: 128, max_key_queue: 32, callback_timeout: 5000, route_timeout: 1000, max_keys: 128, idle_timeout: 60000, terminate_timeout: 100, init_timeout: 80, max_key_queue_bytes: 262144, max_key_bytes: 1024, max_queue_bytes: 1048576, max_timers: 128, max_actions: 32, max_action_bytes: 1048576}, high_bytes: 386, poll: nil, drain_timer: nil, route_queue: {[], []}}
+
+20:42:46.126 [info] Telemetry event
+
+20:42:46.134 [info] Telemetry event
+
+20:42:46.141 [info] Telemetry event
+.
+20:42:46.143 [info] Telemetry event
+
+20:42:46.226 [info] Telemetry event
+
+20:42:46.227 [info] Telemetry event
+
+20:42:46.310 [info] Telemetry event
+
+20:42:46.311 [info] Telemetry event
+
+20:42:47.324 [info] Telemetry event
+.
+20:42:47.325 [info] Telemetry event
+
+20:42:47.415 [info] Telemetry event
+.
+20:42:47.417 [info] Telemetry event
+
+20:42:47.506 [info] Telemetry event
+....................................
+20:42:48.130 [info] Telemetry event
+
+20:42:48.130 [info] Telemetry event
+.
+20:42:48.130 [info] Telemetry event
+
+20:42:48.131 [info] Telemetry event
+...
+20:42:48.132 [info] Telemetry event
+
+20:42:48.132 [info] The function passed as a handler with ID #Reference<0.3208709782.1666973701.71617> is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+
+20:42:48.154 [info] Telemetry event
+.........
+20:42:48.331 [info] Telemetry event
+
+20:42:48.333 [info] Telemetry event
+
+20:42:48.339 [info] Telemetry event
+
+20:42:48.340 [info] Telemetry event
+.
+20:42:48.342 [info] Telemetry event
+
+20:42:48.344 [info] Telemetry event
+
+20:42:48.349 [info] Telemetry event
+
+20:42:48.350 [info] Telemetry event
+.
+20:42:48.352 [info] Telemetry event
+
+20:42:48.353 [info] Telemetry event
+
+20:42:48.356 [info] Telemetry event
+
+20:42:48.356 [info] Telemetry event
+.
+20:42:48.357 [info] Telemetry event
+
+20:42:48.358 [info] Telemetry event
+.
+20:42:48.359 [info] Telemetry event
+
+20:42:48.360 [info] Telemetry event
+
+20:42:48.362 [info] Telemetry event
+
+20:42:48.362 [info] Telemetry event
+..
+20:42:48.367 [info] Telemetry event
+
+20:42:48.367 [info] Telemetry event
+
+20:42:48.371 [info] Telemetry event
+
+20:42:48.372 [info] Telemetry event
+.
+20:42:48.376 [info] Telemetry event
+
+20:42:48.378 [info] Telemetry event
+.
+20:42:48.378 [info] Telemetry event
+
+20:42:48.379 [info] Telemetry event
+
+20:42:48.381 [info] Telemetry event
+
+20:42:48.381 [info] Telemetry event
+.
+20:42:48.381 [info] Telemetry event
+
+20:42:48.381 [info] Telemetry event
+.
+20:42:48.382 [info] Telemetry event
+
+20:42:48.382 [info] Telemetry event
+.
+20:42:48.382 [info] Telemetry event
+
+20:42:48.382 [info] Telemetry event
+..
+20:42:48.383 [info] Telemetry event
+
+20:42:48.383 [info] Telemetry event
+.
+20:42:48.383 [info] Telemetry event
+
+20:42:48.383 [info] Telemetry event
+..
+20:42:48.383 [info] Telemetry event
+
+20:42:48.384 [info] Telemetry event
+
+20:42:48.384 [info] Telemetry event
+..
+20:42:48.384 [info] Telemetry event
+
+20:42:48.384 [info] Telemetry event
+..
+20:42:48.385 [info] Telemetry event
+
+20:42:48.385 [info] Telemetry event
+.
+20:42:48.385 [info] Telemetry event
+
+20:42:48.385 [info] Telemetry event
+..
+20:42:48.386 [info] Telemetry event
+
+20:42:48.386 [info] Telemetry event
+..
+20:42:48.386 [info] Telemetry event
+
+20:42:48.387 [info] Telemetry event
+...
+20:42:48.387 [info] The function passed as a handler with ID :test_response_time_handler is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.................................
+20:42:48.530 [info] Telemetry event
+
+20:42:48.532 [info] Telemetry event
+
+20:42:48.535 [info] Telemetry event
+
+20:42:48.536 [info] Telemetry event
+.
+20:42:48.538 [info] Telemetry event
+
+20:42:48.539 [error] GenServer #PID<0.5137.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.5135.0>, :killed}
+State: %{owner: #PID<0.5135.0>, socket: #Port<0.727>, queue: {[], []}, admission: #PID<0.5136.0>, generation: #Reference<0.3208709782.1666973701.73462>, transport: Abyss.Transport.UDP, max_bytes: 1048576, max_queue: 128, owner_monitor: #Reference<0.3208709782.1666973701.73471>, queue_bytes: 0, sending: false, owns_admission: false}
+
+20:42:48.540 [info] Telemetry event
+
+20:42:48.541 [info] Telemetry event
+
+20:42:48.542 [error] GenServer #PID<0.5147.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.5145.0>, :killed}
+State: %{owner: #PID<0.5145.0>, socket: #Port<0.729>, queue: {[], []}, admission: #PID<0.5146.0>, generation: #Reference<0.3208709782.1666973700.65398>, transport: Abyss.Transport.UDP, max_bytes: 1048576, max_queue: 128, owner_monitor: #Reference<0.3208709782.1666973700.65407>, queue_bytes: 0, sending: false, owns_admission: false}
+
+20:42:48.543 [info] Telemetry event
+.
+20:42:48.544 [info] The function passed as a handler with ID "start-deadline-#PID<0.5153.0>" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+
+20:42:48.546 [info] Telemetry event
+
+20:42:48.578 [info] Telemetry event
+
+20:42:48.579 [info] Telemetry event
+
+20:42:48.680 [info] Telemetry event
+.
+20:42:48.682 [info] Telemetry event
+
+20:42:48.741 [info] Telemetry event
+.
+20:42:48.743 [info] Telemetry event
+
+20:42:48.746 [info] Telemetry event
+
+20:42:48.747 [info] Telemetry event
+.
+20:42:48.749 [info] Telemetry event
+
+20:42:48.791 [info] Telemetry event
+
+20:42:48.793 [info] Telemetry event
+
+20:42:48.893 [info] Telemetry event
+.
+20:42:48.895 [info] Telemetry event
+
+20:42:48.898 [info] Telemetry event
+
+20:42:48.899 [info] Telemetry event
+
+20:42:48.901 [info] Telemetry event
+.
+20:42:48.902 [info] Telemetry event
+
+20:42:48.904 [info] Telemetry event
+
+20:42:48.911 [info] Telemetry event
+
+20:42:48.915 [info] Telemetry event
+
+20:42:48.916 [info] Telemetry event
+
+20:42:48.918 [info] Telemetry event
+
+20:42:48.919 [info] Telemetry event
+
+20:42:48.919 [info] Telemetry event
+.
+20:42:48.920 [info] Telemetry event
+
+20:42:48.922 [info] Telemetry event
+.
+20:42:48.923 [info] Telemetry event
+
+20:42:48.965 [info] Telemetry event
+
+20:42:48.966 [info] Telemetry event
+
+20:42:48.967 [info] Telemetry event
+.
+20:42:48.968 [info] Telemetry event
+
+20:42:48.969 [error] Telemetry event
+
+20:42:49.021 [info] Telemetry event
+.
+20:42:49.023 [info] Telemetry event
+
+20:42:49.077 [info] Telemetry event
+..
+20:42:49.085 [info] Telemetry event
+
+20:42:49.087 [error] Telemetry event
+
+20:42:49.088 [info] Telemetry event
+
+20:42:49.091 [info] Telemetry event
+
+20:42:49.094 [info] Telemetry event
+
+20:42:49.095 [info] Telemetry event
+
+20:42:49.096 [info] Telemetry event
+.
+20:42:49.105 [info] Telemetry event
+.
+20:42:49.106 [info] Telemetry event
+
+20:42:49.119 [info] Telemetry event
+.
+20:42:49.120 [info] Telemetry event
+
+20:42:49.121 [info] Telemetry event
+.
+20:42:49.121 [info] Telemetry event
+
+20:42:49.129 [info] Telemetry event
+.
+20:42:49.129 [info] Telemetry event
+
+20:42:49.130 [info] Telemetry event
+
+20:42:49.138 [info] Telemetry event
+
+20:42:49.138 [info] Telemetry event
+.
+20:42:49.139 [info] Telemetry event
+
+20:42:49.140 [info] Telemetry event
+
+20:42:49.142 [info] Telemetry event
+
+20:42:49.144 [info] Telemetry event
+
+20:42:49.150 [info] Telemetry event
+
+20:42:49.150 [info] Telemetry event
+.
+20:42:49.253 [info] Telemetry event
+.
+20:42:49.253 [info] Telemetry event
+
+20:42:49.254 [info] Telemetry event
+
+20:42:49.262 [info] Telemetry event
+
+20:42:49.262 [info] Telemetry event
+.
+20:42:49.263 [info] Telemetry event
+
+20:42:49.281 [info] Telemetry event
+.
+20:42:49.281 [info] Telemetry event
+
+20:42:49.289 [info] Telemetry event
+.
+20:42:49.289 [info] Telemetry event
+
+20:42:49.291 [info] Telemetry event
+
+20:42:49.299 [info] Telemetry event
+
+20:42:49.305 [info] Telemetry event
+.
+20:42:49.305 [info] Telemetry event
+
+20:42:49.408 [info] Telemetry event
+
+20:42:49.412 [info] Telemetry event
+
+20:42:49.414 [info] Telemetry event
+.
+20:42:49.416 [info] Telemetry event
+
+20:42:49.426 [info] Telemetry event
+.
+20:42:49.429 [info] Telemetry event
+
+20:42:49.449 [info] Telemetry event
+
+20:42:49.486 [info] Telemetry event
+
+20:42:49.487 [info] Telemetry event
+.......................
+20:42:50.417 [error] GenServer #PID<0.5703.0> terminating
+** (RuntimeError) init crashed
+    test/abyss/quic_test.exs:16: Abyss.QUICServiceTest.Handler.init/3
+    (abyss 0.8.1) lib/abyss/quic/service.ex:453: anonymous fn/1 in Abyss.QUIC.Worker.handle_info/2
+    (abyss 0.8.1) lib/abyss/quic/service.ex:547: Abyss.QUIC.Worker.watched/3
+    (stdlib 7.3.0.1) gen_server.erl:2434: :gen_server.try_handle_info/3
+    (stdlib 7.3.0.1) gen_server.erl:2420: :gen_server.handle_msg/3
+    (stdlib 7.3.0.1) proc_lib.erl:333: :proc_lib.init_p_do_apply/3
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.5697.0>, connection: %{id: #PID<0.5702.0>, generation: #Reference<0.3208709782.1666973701.76987>}, initialized: false}}]]
+..
+20:42:50.420 [error] GenServer #PID<0.5711.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.5709.0>, :killed}
+State: %{owner: #PID<0.5709.0>, socket: #Port<0.817>, queue: {[], []}, admission: #PID<0.5710.0>, generation: #Reference<0.3208709782.1666973697.68761>, transport: Abyss.QUIC.SocketTransport, max_bytes: 1048576, max_queue: 128, owner_monitor: #Reference<0.3208709782.1666973697.68771>, queue_bytes: 0, sending: false, owns_admission: false}
+..
+20:42:50.459 [error] GenServer #PID<0.5744.0> terminating
+** (stop) {:binding_failed, {:error, :init_failed}}
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.5738.0>, connection: %{id: #PID<0.5743.0>, generation: #Reference<0.3208709782.1666973701.77137>}, initialized: false}}]]
+.
+20:42:50.460 [error] GenServer #PID<0.5750.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.5752.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 52985}, port: 0, shutdown_timeout: 50, socket: #Port<0.821>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.3208709782.1666973701.77197> => %{id: #PID<0.5755.0>, generation: #Reference<0.3208709782.1666973701.77190>}}, writer: #PID<0.5752.0>, receiver: #PID<0.5754.0>, admission: #PID<0.5751.0>, generation: #Reference<0.3208709782.1666973701.77175>, endpoint: #PID<0.5753.0>, callback_timeout: 5000, backend: Abyss.QUICServiceTest.Backend, init_timeout: 5000, writer_timeout: 1000, alpn: ["test"], _backend: Abyss.QUICServiceTest.Backend, poll_interval: 10, event_batch: 32, writer_max_bytes: 1048576, quic_options: [], max_connections: 128, worker_refs: %{#PID<0.5756.0> => #Reference<0.3208709782.1666973701.77197>}, writer_max_queue: 128}}]]
+
+20:42:50.461 [error] GenServer #PID<0.5758.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.5761.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 58780}, port: 0, shutdown_timeout: 50, socket: #Port<0.822>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.3208709782.1666973697.68868> => %{id: #PID<0.5763.0>, generation: #Reference<0.3208709782.1666973697.68861>}}, writer: #PID<0.5760.0>, receiver: #PID<0.5762.0>, admission: #PID<0.5759.0>, generation: #Reference<0.3208709782.1666973697.68846>, endpoint: #PID<0.5761.0>, callback_timeout: 5000, backend: Abyss.QUICServiceTest.Backend, init_timeout: 5000, writer_timeout: 1000, alpn: ["test"], _backend: Abyss.QUICServiceTest.Backend, poll_interval: 10, event_batch: 32, writer_max_bytes: 1048576, quic_options: [], max_connections: 128, worker_refs: %{#PID<0.5764.0> => #Reference<0.3208709782.1666973697.68868>}, writer_max_queue: 128}}]]
+
+20:42:50.462 [error] GenServer #PID<0.5766.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.5770.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 57954}, port: 0, shutdown_timeout: 50, socket: #Port<0.823>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.3208709782.1666973697.68913> => %{id: #PID<0.5771.0>, generation: #Reference<0.3208709782.1666973697.68906>}}, writer: #PID<0.5768.0>, receiver: #PID<0.5770.0>, admission: #PID<0.5767.0>, generation: #Reference<0.3208709782.1666973697.68890>, endpoint: #PID<0.5769.0>, callback_timeout: 5000, backend: Abyss.QUICServiceTest.Backend, init_timeout: 5000, writer_timeout: 1000, alpn: ["test"], _backend: Abyss.QUICServiceTest.Backend, poll_interval: 10, event_batch: 32, writer_max_bytes: 1048576, quic_options: [], max_connections: 128, worker_refs: %{#PID<0.5772.0> => #Reference<0.3208709782.1666973697.68913>}, writer_max_queue: 128}}]]
+...
+20:42:50.516 [error] GenServer #PID<0.5785.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.5787.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 56469}, port: 0, shutdown_timeout: 50, socket: #Port<0.825>, callbacks: %{#PID<0.5791.0> => {#Reference<0.3208709782.1666973701.77292>, #Reference<0.3208709782.1666973701.77296>}}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.3208709782.1666973701.77287> => %{id: #PID<0.5790.0>, generation: #Reference<0.3208709782.1666973701.77280>}}, writer: #PID<0.5787.0>, receiver: #PID<0.5789.0>, admission: #PID<0.5786.0>, generation: #Reference<0.3208709782.1666973701.77261>, endpoint: #PID<0.5788.0>, callback_timeout: 5000, backend: Abyss.QUICServiceTest.Backend, init_timeout: 5000, writer_timeout: 1000, alpn: ["test"], _backend: Abyss.QUICServiceTest.Backend, poll_interval: 10, event_batch: 32, writer_max_bytes: 1048576, quic_options: [], max_connections: 128, worker_refs: %{#PID<0.5791.0> => #Reference<0.3208709782.1666973701.77287>}, writer_max_queue: 128}}]]
+...
+20:42:50.519 [error] GenServer #PID<0.5807.0> terminating
+** (stop) {:binding_failed, {:error, :refused}}
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.5801.0>, connection: %{id: #PID<0.5806.0>, generation: #Reference<0.3208709782.1666973701.77347>}, initialized: false}}]]
+....
+20:42:50.524 [error] GenServer #PID<0.5833.0> terminating
+** (stop) {:binding_failed, false}
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.5827.0>, connection: %{id: #PID<0.5832.0>, generation: #Reference<0.3208709782.1666973697.69075>}, initialized: false}}]]
+...
+20:42:50.729 [info] Telemetry event
+
+20:42:50.744 [info] Telemetry event
+.
+20:42:50.746 [info] Telemetry event
+
+20:42:50.829 [info] Telemetry event
+.
+20:42:50.830 [info] Telemetry event
+
+20:42:50.834 [info] Telemetry event
+
+20:42:50.837 [info] Telemetry event
+
+20:42:50.838 [info] Telemetry event
+.
+20:42:50.839 [info] Telemetry event
+
+20:42:50.913 [info] Telemetry event
+.
+20:42:50.915 [info] Telemetry event
+
+20:42:50.938 [info] Telemetry event
+
+20:42:50.940 [info] Telemetry event
+
+20:42:50.963 [info] Telemetry event
+.
+20:42:50.965 [info] Telemetry event
+
+20:42:50.997 [info] Telemetry event
+
+20:42:50.997 [error] GenServer #PID<0.5947.0> terminating
+** (stop) {:runtime_exit, :killed}
+Last message: {:EXIT, #PID<0.5949.0>, :killed}
+State: %{runtime: #PID<0.5949.0>, mode: :running, handlers: %{}, dropped: 0, starter: #PID<0.5948.0>, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.RuntimeBlockingTransport, transport_options: [ip: {127, 0, 0, 1}], handler_module: nil, datagram_options: %{io_backend: :gen_udp, required_metadata: [], datagram_handler: Abyss.RuntimeTestHandler, required_capabilities: [], execution: :per_datagram, route_key: nil, runtime_options: [send_timeout: 10]}, handler_options: [owner: #PID<0.5944.0>], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 1, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, server_pid: #PID<0.5945.0>, listener_id: "listener-1", generation: #Reference<0.3208709782.1666973697.69684>, local_info: {{127, 0, 0, 1}, 60143}, armed: true, reservation: nil, transport: Abyss.RuntimeBlockingTransport, listener_socket: #Port<0.845>, native_select: nil, drain_waiter: nil, dispatcher: nil, runtime_counter_source: #PID<0.5949.0>, runtime_drop_counters: %{dropped: 0, internal_events_rejected: %{timer: 0, send_outcomes: 0}}, runtime_send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.5951.0>, generation: #Reference<0.3208709782.1666973697.69684>, admission: #PID<0.5950.0>, io_backend: :gen_udp}, memberships: [], desired_key: {#PID<0.5945.0>, "listener-1"}, received: 1, active_high_water: 0, retained_high_water: 0, listener_span: %Abyss.Telemetry{span_name: :listener, telemetry_span_context: #Reference<0.3208709782.1666973701.78150>, start_time: -576460720194439911, start_metadata: %{broadcast: false, handler: nil, server_pid: #PID<0.5945.0>, listener_id: "listener-1", local_info: {{127, 0, 0, 1}, 60143}, listener_socket: #Port<0.845>, sampled: true, telemetry_span_context: #Reference<0.3208709782.1666973701.78150>}}}
+.
+20:42:51.001 [info] Telemetry event
+
+20:42:51.067 [info] Telemetry event
+.
+20:42:51.069 [info] Telemetry event
+
+20:42:51.199 [info] Telemetry event
+.
+20:42:51.201 [info] Telemetry event
+
+20:42:51.204 [info] Telemetry event
+
+20:42:51.218 [info] Telemetry event
+.
+20:42:51.220 [info] Telemetry event
+
+20:42:51.250 [info] Telemetry event
+.
+20:42:51.252 [info] Telemetry event
+
+20:42:51.285 [info] Telemetry event
+..
+20:42:51.288 [info] Telemetry event
+
+20:42:51.305 [info] Telemetry event
+.
+20:42:51.307 [info] Telemetry event
+
+20:42:51.340 [info] Telemetry event
+.
+20:42:51.342 [info] Telemetry event
+
+20:42:51.396 [info] Telemetry event
+.
+20:42:51.398 [info] Telemetry event
+
+20:42:51.411 [info] Telemetry event
+.
+20:42:51.413 [info] Telemetry event
+
+20:42:51.418 [info] Telemetry event
+.
+20:42:51.419 [info] Telemetry event
+
+20:42:51.473 [info] Telemetry event
+.
+20:42:51.475 [info] Telemetry event
+
+20:42:51.478 [info] Telemetry event
+
+20:42:51.479 [info] Telemetry event
+
+20:42:51.481 [info] Telemetry event
+
+20:42:51.484 [info] Telemetry event
+
+20:42:51.486 [info] Telemetry event
+
+20:42:51.487 [info] Telemetry event
+
+20:42:51.491 [info] Telemetry event
+
+20:42:51.492 [info] Telemetry event
+.
+20:42:51.494 [info] Telemetry event
+
+20:42:51.517 [info] Telemetry event
+
+20:42:51.539 [info] Telemetry event
+
+20:42:51.563 [info] Telemetry event
+
+20:42:51.587 [info] Telemetry event
+
+20:42:51.588 [info] Telemetry event
+
+20:42:51.589 [info] Telemetry event
+
+20:42:51.590 [info] Telemetry event
+.
+20:42:51.592 [info] Telemetry event
+
+20:42:51.627 [info] Telemetry event
+.
+20:42:51.628 [info] Telemetry event
+
+20:42:51.645 [info] Telemetry event
+.
+20:42:51.647 [info] Telemetry event
+
+20:42:51.680 [info] Telemetry event
+.
+Finished in 31.8 seconds (7.8s async, 24.0s sync)
+3 doctests, 688 tests, 0 failures

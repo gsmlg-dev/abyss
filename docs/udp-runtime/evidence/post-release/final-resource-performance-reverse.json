@@ -1,0 +1,331 @@
+{
+  "candidate": "cd7f26822e366d65e3f168246020cd41ee7b7f3f",
+  "baseline": "cd65c84073c66de460ab883206414cf8ce0154bf",
+  "runtime": "OTP27 devenv",
+  "schedulers": 8,
+  "stress": "already passed separately; not repeated",
+  "workload": "500warmup+3000sequential64byte request/replies; reverse-order paired serial3samples per4modes; no concurrent local builds/tests",
+  "samples": [
+    {
+      "label": "candidate",
+      "mode": "legacy",
+      "repeat": 1,
+      "log": "final-steady-reverse-candidate-legacy-1.log",
+      "throughput_per_second": 8082.832871264721,
+      "latency_median_us": 119.0,
+      "latency_p95_us": 168.0,
+      "latency_p99_us": 192.0
+    },
+    {
+      "label": "baseline",
+      "mode": "legacy",
+      "repeat": 1,
+      "log": "final-steady-reverse-baseline-legacy-1.log",
+      "throughput_per_second": 9637.315686337499,
+      "latency_median_us": 103.0,
+      "latency_p95_us": 141.0,
+      "latency_p99_us": 158.0
+    },
+    {
+      "label": "candidate",
+      "mode": "per_datagram",
+      "repeat": 1,
+      "log": "final-steady-reverse-candidate-per_datagram-1.log",
+      "throughput_per_second": 3309.1325439949173,
+      "latency_median_us": 295.0,
+      "latency_p95_us": 398.0,
+      "latency_p99_us": 461.0
+    },
+    {
+      "label": "baseline",
+      "mode": "per_datagram",
+      "repeat": 1,
+      "log": "final-steady-reverse-baseline-per_datagram-1.log",
+      "throughput_per_second": 3477.2650614838417,
+      "latency_median_us": 280.0,
+      "latency_p95_us": 377.0,
+      "latency_p99_us": 425.0
+    },
+    {
+      "label": "candidate",
+      "mode": "endpoint",
+      "repeat": 1,
+      "log": "final-steady-reverse-candidate-endpoint-1.log",
+      "throughput_per_second": 3681.266159224578,
+      "latency_median_us": 266.0,
+      "latency_p95_us": 362.0,
+      "latency_p99_us": 417.0
+    },
+    {
+      "label": "baseline",
+      "mode": "endpoint",
+      "repeat": 1,
+      "log": "final-steady-reverse-baseline-endpoint-1.log",
+      "throughput_per_second": 3625.820190742314,
+      "latency_median_us": 267.0,
+      "latency_p95_us": 379.0,
+      "latency_p99_us": 444.0
+    },
+    {
+      "label": "candidate",
+      "mode": "keyed",
+      "repeat": 1,
+      "log": "final-steady-reverse-candidate-keyed-1.log",
+      "throughput_per_second": 3335.723935487099,
+      "latency_median_us": 293.0,
+      "latency_p95_us": 402.0,
+      "latency_p99_us": 458.0
+    },
+    {
+      "label": "baseline",
+      "mode": "keyed",
+      "repeat": 1,
+      "log": "final-steady-reverse-baseline-keyed-1.log",
+      "throughput_per_second": 3531.085914851394,
+      "latency_median_us": 275.0,
+      "latency_p95_us": 369.0,
+      "latency_p99_us": 426.0
+    },
+    {
+      "label": "candidate",
+      "mode": "legacy",
+      "repeat": 2,
+      "log": "final-steady-reverse-candidate-legacy-2.log",
+      "throughput_per_second": 9616.401734798874,
+      "latency_median_us": 103.0,
+      "latency_p95_us": 141.0,
+      "latency_p99_us": 162.0
+    },
+    {
+      "label": "baseline",
+      "mode": "legacy",
+      "repeat": 2,
+      "log": "final-steady-reverse-baseline-legacy-2.log",
+      "throughput_per_second": 9244.87833740108,
+      "latency_median_us": 106.0,
+      "latency_p95_us": 143.0,
+      "latency_p99_us": 159.0
+    },
+    {
+      "label": "candidate",
+      "mode": "per_datagram",
+      "repeat": 2,
+      "log": "final-steady-reverse-candidate-per_datagram-2.log",
+      "throughput_per_second": 3258.3408094153015,
+      "latency_median_us": 300.0,
+      "latency_p95_us": 400.0,
+      "latency_p99_us": 457.0
+    },
+    {
+      "label": "baseline",
+      "mode": "per_datagram",
+      "repeat": 2,
+      "log": "final-steady-reverse-baseline-per_datagram-2.log",
+      "throughput_per_second": 3377.545402654075,
+      "latency_median_us": 291.0,
+      "latency_p95_us": 380.0,
+      "latency_p99_us": 431.0
+    },
+    {
+      "label": "candidate",
+      "mode": "endpoint",
+      "repeat": 2,
+      "log": "final-steady-reverse-candidate-endpoint-2.log",
+      "throughput_per_second": 3334.4855833515803,
+      "latency_median_us": 293.0,
+      "latency_p95_us": 409.0,
+      "latency_p99_us": 471.0
+    },
+    {
+      "label": "baseline",
+      "mode": "endpoint",
+      "repeat": 2,
+      "log": "final-steady-reverse-baseline-endpoint-2.log",
+      "throughput_per_second": 3711.6356064627,
+      "latency_median_us": 263.0,
+      "latency_p95_us": 359.0,
+      "latency_p99_us": 425.0
+    },
+    {
+      "label": "candidate",
+      "mode": "keyed",
+      "repeat": 2,
+      "log": "final-steady-reverse-candidate-keyed-2.log",
+      "throughput_per_second": 3422.9616833669165,
+      "latency_median_us": 284.0,
+      "latency_p95_us": 381.0,
+      "latency_p99_us": 440.0
+    },
+    {
+      "label": "baseline",
+      "mode": "keyed",
+      "repeat": 2,
+      "log": "final-steady-reverse-baseline-keyed-2.log",
+      "throughput_per_second": 3516.1290700659038,
+      "latency_median_us": 277.0,
+      "latency_p95_us": 370.0,
+      "latency_p99_us": 424.0
+    },
+    {
+      "label": "candidate",
+      "mode": "legacy",
+      "repeat": 3,
+      "log": "final-steady-reverse-candidate-legacy-3.log",
+      "throughput_per_second": 9549.821418339478,
+      "latency_median_us": 104.0,
+      "latency_p95_us": 141.0,
+      "latency_p99_us": 160.0
+    },
+    {
+      "label": "baseline",
+      "mode": "legacy",
+      "repeat": 3,
+      "log": "final-steady-reverse-baseline-legacy-3.log",
+      "throughput_per_second": 9731.34986797802,
+      "latency_median_us": 102.0,
+      "latency_p95_us": 138.0,
+      "latency_p99_us": 155.0
+    },
+    {
+      "label": "candidate",
+      "mode": "per_datagram",
+      "repeat": 3,
+      "log": "final-steady-reverse-candidate-per_datagram-3.log",
+      "throughput_per_second": 3420.690158446368,
+      "latency_median_us": 286.0,
+      "latency_p95_us": 379.0,
+      "latency_p99_us": 440.0
+    },
+    {
+      "label": "baseline",
+      "mode": "per_datagram",
+      "repeat": 3,
+      "log": "final-steady-reverse-baseline-per_datagram-3.log",
+      "throughput_per_second": 3467.654871245975,
+      "latency_median_us": 280.0,
+      "latency_p95_us": 375.0,
+      "latency_p99_us": 429.0
+    },
+    {
+      "label": "candidate",
+      "mode": "endpoint",
+      "repeat": 3,
+      "log": "final-steady-reverse-candidate-endpoint-3.log",
+      "throughput_per_second": 3502.6187913163076,
+      "latency_median_us": 277.0,
+      "latency_p95_us": 394.0,
+      "latency_p99_us": 458.0
+    },
+    {
+      "label": "baseline",
+      "mode": "endpoint",
+      "repeat": 3,
+      "log": "final-steady-reverse-baseline-endpoint-3.log",
+      "throughput_per_second": 3699.401436847518,
+      "latency_median_us": 263.0,
+      "latency_p95_us": 364.0,
+      "latency_p99_us": 425.0
+    },
+    {
+      "label": "candidate",
+      "mode": "keyed",
+      "repeat": 3,
+      "log": "final-steady-reverse-candidate-keyed-3.log",
+      "throughput_per_second": 3179.899642367287,
+      "latency_median_us": 306.0,
+      "latency_p95_us": 426.0,
+      "latency_p99_us": 500.0
+    },
+    {
+      "label": "baseline",
+      "mode": "keyed",
+      "repeat": 3,
+      "log": "final-steady-reverse-baseline-keyed-3.log",
+      "throughput_per_second": 3534.0684195646027,
+      "latency_median_us": 276.0,
+      "latency_p95_us": 370.0,
+      "latency_p99_us": 420.0
+    }
+  ],
+  "median_of_three": {
+    "baseline": {
+      "legacy": {
+        "throughput_per_second": 9637.315686337499,
+        "latency_median_us": 103.0,
+        "latency_p95_us": 141.0,
+        "latency_p99_us": 158.0
+      },
+      "per_datagram": {
+        "throughput_per_second": 3467.654871245975,
+        "latency_median_us": 280.0,
+        "latency_p95_us": 377.0,
+        "latency_p99_us": 429.0
+      },
+      "endpoint": {
+        "throughput_per_second": 3699.401436847518,
+        "latency_median_us": 263.0,
+        "latency_p95_us": 364.0,
+        "latency_p99_us": 425.0
+      },
+      "keyed": {
+        "throughput_per_second": 3531.085914851394,
+        "latency_median_us": 276.0,
+        "latency_p95_us": 370.0,
+        "latency_p99_us": 424.0
+      }
+    },
+    "candidate": {
+      "legacy": {
+        "throughput_per_second": 9549.821418339478,
+        "latency_median_us": 104.0,
+        "latency_p95_us": 141.0,
+        "latency_p99_us": 162.0
+      },
+      "per_datagram": {
+        "throughput_per_second": 3309.1325439949173,
+        "latency_median_us": 295.0,
+        "latency_p95_us": 398.0,
+        "latency_p99_us": 457.0
+      },
+      "endpoint": {
+        "throughput_per_second": 3502.6187913163076,
+        "latency_median_us": 277.0,
+        "latency_p95_us": 394.0,
+        "latency_p99_us": 458.0
+      },
+      "keyed": {
+        "throughput_per_second": 3335.723935487099,
+        "latency_median_us": 293.0,
+        "latency_p95_us": 402.0,
+        "latency_p99_us": 458.0
+      }
+    }
+  },
+  "percent_delta": {
+    "legacy": {
+      "throughput_per_second": -0.907869689503471,
+      "latency_median_us": 0.9708737864077666,
+      "latency_p95_us": 0.0,
+      "latency_p99_us": 2.5316455696202445
+    },
+    "per_datagram": {
+      "throughput_per_second": -4.571456305110844,
+      "latency_median_us": 5.35714285714286,
+      "latency_p95_us": 5.57029177718833,
+      "latency_p99_us": 6.526806526806528
+    },
+    "endpoint": {
+      "throughput_per_second": -5.31931040441237,
+      "latency_median_us": 5.323193916349811,
+      "latency_p95_us": 8.241758241758234,
+      "latency_p99_us": 7.76470588235294
+    },
+    "keyed": {
+      "throughput_per_second": -5.532631719398906,
+      "latency_median_us": 6.159420289855078,
+      "latency_p95_us": 8.64864864864865,
+      "latency_p99_us": 8.018867924528305
+    }
+  },
+  "limits": "Host-managed sampled bounds only; no whole-VM/native reclamation claim. Steady loopback sample is not a production throughput guarantee."
+}

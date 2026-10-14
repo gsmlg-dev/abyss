@@ -1,0 +1,139 @@
+{
+  "baseline": "cd65c84073c66de460ab883206414cf8ce0154bf",
+  "candidate": "cd7f26822e366d65e3f168246020cd41ee7b7f3f",
+  "result": "MEASURED",
+  "sampling": "six serial samples per mode per source; two paired orders; all original samples retained",
+  "median_of_six": {
+    "baseline": {
+      "legacy": {
+        "throughput_per_second": 9496.783909179401,
+        "latency_median_us": 104.5,
+        "latency_p95_us": 142.0,
+        "latency_p99_us": 158.5
+      },
+      "per_datagram": {
+        "throughput_per_second": 3472.4599663649083,
+        "latency_median_us": 280.0,
+        "latency_p95_us": 376.0,
+        "latency_p99_us": 427.5
+      },
+      "endpoint": {
+        "throughput_per_second": 3649.050479320352,
+        "latency_median_us": 266.5,
+        "latency_p95_us": 371.5,
+        "latency_p99_us": 433.0
+      },
+      "keyed": {
+        "throughput_per_second": 3489.936168707464,
+        "latency_median_us": 277.5,
+        "latency_p95_us": 379.5,
+        "latency_p99_us": 434.5
+      }
+    },
+    "candidate": {
+      "legacy": {
+        "throughput_per_second": 9013.599767417803,
+        "latency_median_us": 108.0,
+        "latency_p95_us": 147.5,
+        "latency_p99_us": 167.5
+      },
+      "per_datagram": {
+        "throughput_per_second": 3359.3984483180216,
+        "latency_median_us": 290.5,
+        "latency_p95_us": 389.0,
+        "latency_p99_us": 450.0
+      },
+      "endpoint": {
+        "throughput_per_second": 3491.315381278744,
+        "latency_median_us": 276.5,
+        "latency_p95_us": 392.0,
+        "latency_p99_us": 450.5
+      },
+      "keyed": {
+        "throughput_per_second": 3205.8676894647915,
+        "latency_median_us": 304.5,
+        "latency_p95_us": 416.5,
+        "latency_p99_us": 485.5
+      }
+    }
+  },
+  "percent_delta": {
+    "legacy": {
+      "throughput_per_second": -5.087871287610978,
+      "latency_median_us": 3.349282296650724,
+      "latency_p95_us": 3.8732394366197243,
+      "latency_p99_us": 5.6782334384858135
+    },
+    "per_datagram": {
+      "throughput_per_second": -3.2559487839176837,
+      "latency_median_us": 3.750000000000009,
+      "latency_p95_us": 3.4574468085106336,
+      "latency_p99_us": 5.263157894736836
+    },
+    "endpoint": {
+      "throughput_per_second": -4.3226340368683225,
+      "latency_median_us": 3.7523452157598447,
+      "latency_p95_us": 5.518169582772536,
+      "latency_p99_us": 4.041570438799069
+    },
+    "keyed": {
+      "throughput_per_second": -8.139646844826965,
+      "latency_median_us": 9.72972972972972,
+      "latency_p95_us": 9.74967061923584,
+      "latency_p99_us": 11.737629459148447
+    }
+  },
+  "first_order": {
+    "legacy": {
+      "throughput_per_second": -9.96459281740012,
+      "latency_median_us": 6.666666666666665,
+      "latency_p95_us": 6.9930069930070005,
+      "latency_p99_us": 7.453416149068315
+    },
+    "per_datagram": {
+      "throughput_per_second": -1.9923805367266345,
+      "latency_median_us": 2.1428571428571352,
+      "latency_p95_us": 1.333333333333342,
+      "latency_p99_us": 3.9906103286384997
+    },
+    "endpoint": {
+      "throughput_per_second": -3.265063231817522,
+      "latency_median_us": 2.6022304832713727,
+      "latency_p95_us": 1.8276762402088753,
+      "latency_p99_us": 0.45351473922903285
+    },
+    "keyed": {
+      "throughput_per_second": -8.353237701613548,
+      "latency_median_us": 10.24734982332156,
+      "latency_p95_us": 10.741687979539648,
+      "latency_p99_us": 18.568232662192386
+    }
+  },
+  "reverse_order": {
+    "legacy": {
+      "throughput_per_second": -0.907869689503471,
+      "latency_median_us": 0.9708737864077666,
+      "latency_p95_us": 0.0,
+      "latency_p99_us": 2.5316455696202445
+    },
+    "per_datagram": {
+      "throughput_per_second": -4.571456305110844,
+      "latency_median_us": 5.35714285714286,
+      "latency_p95_us": 5.57029177718833,
+      "latency_p99_us": 6.526806526806528
+    },
+    "endpoint": {
+      "throughput_per_second": -5.31931040441237,
+      "latency_median_us": 5.323193916349811,
+      "latency_p95_us": 8.241758241758234,
+      "latency_p99_us": 7.76470588235294
+    },
+    "keyed": {
+      "throughput_per_second": -5.532631719398906,
+      "latency_median_us": 6.159420289855078,
+      "latency_p95_us": 8.64864864864865,
+      "latency_p99_us": 8.018867924528305
+    }
+  },
+  "limitation": "Loopback host measurements vary with sample order. These deltas are not a production performance guarantee or proof of no regression. No unrelated optimization or threshold change."
+}

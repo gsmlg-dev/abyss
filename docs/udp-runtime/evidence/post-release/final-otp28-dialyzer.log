@@ -1,0 +1,48 @@
+{"command": ["mix", "dialyzer"], "cwd": "/home/gao/Workspace/gsmlg-dev/abyss/.trees/post-release-hardening", "env": {"CI": "true", "ERL_FLAGS": "+S 8:8", "MIX_BUILD_PATH": "/tmp/abyss-post-hardening-otp28", "MIX_ENV": "dev"}, "source_head": "960c40aabdae0c308b0fae95b8c46643dee2b623"}
+Compiling 35 files (.ex)
+Generated abyss app
+Finding suitable PLTs
+Checking PLT...
+[:abyss, :elixir, :kernel, :logger, :machete, :public_key, :stdlib, :telemetry, :telemetry_metrics]
+Looking up modules in dialyzer.plt
+Looking up modules in dialyxir_erlang-28.5.0.5_elixir-1.18.5.plt
+Looking up modules in dialyxir_erlang-28.5.0.5.plt
+Finding applications for dialyxir_erlang-28.5.0.5.plt
+Finding modules for dialyxir_erlang-28.5.0.5.plt
+Creating dialyxir_erlang-28.5.0.5.plt
+Looking up modules in dialyxir_erlang-28.5.0.5.plt
+Removing 3 modules from dialyxir_erlang-28.5.0.5.plt
+Checking 19 modules in dialyxir_erlang-28.5.0.5.plt
+Adding 201 modules to dialyxir_erlang-28.5.0.5.plt
+done in 0m21.02s
+Finding applications for dialyxir_erlang-28.5.0.5_elixir-1.18.5.plt
+Finding modules for dialyxir_erlang-28.5.0.5_elixir-1.18.5.plt
+Copying dialyxir_erlang-28.5.0.5.plt to dialyxir_erlang-28.5.0.5_elixir-1.18.5.plt
+Looking up modules in dialyxir_erlang-28.5.0.5_elixir-1.18.5.plt
+Checking 220 modules in dialyxir_erlang-28.5.0.5_elixir-1.18.5.plt
+Adding 273 modules to dialyxir_erlang-28.5.0.5_elixir-1.18.5.plt
+done in 0m17.93s
+Finding applications for dialyzer.plt
+Finding modules for dialyzer.plt
+Copying dialyxir_erlang-28.5.0.5_elixir-1.18.5.plt to dialyzer.plt
+Looking up modules in dialyzer.plt
+Checking 493 modules in dialyzer.plt
+Adding 190 modules to dialyzer.plt
+done in 0m23.18s
+No :ignore_warnings opt specified in mix.exs and default does not exist.
+
+Starting Dialyzer
+[
+  check_plt: false,
+  init_plt: ~c"/home/gao/Workspace/gsmlg-dev/abyss/.trees/post-release-hardening/priv/plts/dialyzer.plt",
+  files: [~c"/tmp/abyss-post-hardening-otp28/lib/abyss/ebin/Elixir.Abyss.Dispatcher.SendCapability.beam",
+   ~c"/tmp/abyss-post-hardening-otp28/lib/abyss/ebin/Elixir.Abyss.Listener.beam",
+   ~c"/tmp/abyss-post-hardening-otp28/lib/abyss/ebin/Elixir.Abyss.Transport.UDP.Broadcast.beam",
+   ~c"/tmp/abyss-post-hardening-otp28/lib/abyss/ebin/Elixir.Abyss.Endpoint.beam",
+   ~c"/tmp/abyss-post-hardening-otp28/lib/abyss/ebin/Elixir.Abyss.Logger.beam",
+   ...],
+  warnings: [:error_handling, :extra_return, :missing_return, :unknown, ...]
+]
+Total errors: 0, Skipped: 0, Unnecessary Skips: 0
+done in 0m2.05s
+done (passed successfully)

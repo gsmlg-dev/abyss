@@ -1,0 +1,730 @@
+dhcp_optional	Set up job	﻿2026-10-14T12:43:31.8566332Z Current runner version: '2.337.0'
+dhcp_optional	Set up job	2026-10-14T12:43:31.8591531Z ##[group]Runner Image Provisioner
+dhcp_optional	Set up job	2026-10-14T12:43:31.8592642Z Hosted Compute Agent
+dhcp_optional	Set up job	2026-10-14T12:43:31.8593321Z Version: 20261002.596
+dhcp_optional	Set up job	2026-10-14T12:43:31.8593954Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+dhcp_optional	Set up job	2026-10-14T12:43:31.8594996Z Build Date: 2026-10-02T22:28:27Z
+dhcp_optional	Set up job	2026-10-14T12:43:31.8595743Z Worker ID: {b1a83811-9df9-4086-9587-09f4a2fd852a}
+dhcp_optional	Set up job	2026-10-14T12:43:31.8596465Z Region: westcentralus
+dhcp_optional	Set up job	2026-10-14T12:43:31.8597091Z Cloud: Azure
+dhcp_optional	Set up job	2026-10-14T12:43:31.8597622Z ##[endgroup]
+dhcp_optional	Set up job	2026-10-14T12:43:31.8599246Z ##[group]Operating System
+dhcp_optional	Set up job	2026-10-14T12:43:31.8600002Z Ubuntu
+dhcp_optional	Set up job	2026-10-14T12:43:31.8600520Z 24.04.5
+dhcp_optional	Set up job	2026-10-14T12:43:31.8601056Z LTS
+dhcp_optional	Set up job	2026-10-14T12:43:31.8601579Z ##[endgroup]
+dhcp_optional	Set up job	2026-10-14T12:43:31.8602164Z ##[group]Runner Image
+dhcp_optional	Set up job	2026-10-14T12:43:31.8602846Z Image: ubuntu-24.04
+dhcp_optional	Set up job	2026-10-14T12:43:31.8603416Z Version: 20261004.327.1
+dhcp_optional	Set up job	2026-10-14T12:43:31.8604513Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+dhcp_optional	Set up job	2026-10-14T12:43:31.8606647Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+dhcp_optional	Set up job	2026-10-14T12:43:31.8607711Z ##[endgroup]
+dhcp_optional	Set up job	2026-10-14T12:43:31.8610734Z ##[group]GITHUB_TOKEN Permissions
+dhcp_optional	Set up job	2026-10-14T12:43:31.8613236Z Actions: write
+dhcp_optional	Set up job	2026-10-14T12:43:31.8613899Z ArtifactMetadata: write
+dhcp_optional	Set up job	2026-10-14T12:43:31.8615159Z Attestations: write
+dhcp_optional	Set up job	2026-10-14T12:43:31.8615881Z Checks: write
+dhcp_optional	Set up job	2026-10-14T12:43:31.8616442Z CodeQuality: write
+dhcp_optional	Set up job	2026-10-14T12:43:31.8617033Z Contents: write
+dhcp_optional	Set up job	2026-10-14T12:43:31.8617634Z CopilotRequests: write
+dhcp_optional	Set up job	2026-10-14T12:43:31.8618244Z Deployments: write
+dhcp_optional	Set up job	2026-10-14T12:43:31.8618853Z Discussions: write
+dhcp_optional	Set up job	2026-10-14T12:43:31.8619396Z Drives: write
+dhcp_optional	Set up job	2026-10-14T12:43:31.8620000Z Issues: write
+dhcp_optional	Set up job	2026-10-14T12:43:31.8620662Z Metadata: read
+dhcp_optional	Set up job	2026-10-14T12:43:31.8621230Z Models: read
+dhcp_optional	Set up job	2026-10-14T12:43:31.8621832Z Packages: write
+dhcp_optional	Set up job	2026-10-14T12:43:31.8622383Z Pages: write
+dhcp_optional	Set up job	2026-10-14T12:43:31.8622921Z PullRequests: write
+dhcp_optional	Set up job	2026-10-14T12:43:31.8623662Z RepositoryProjects: write
+dhcp_optional	Set up job	2026-10-14T12:43:31.8624278Z SecurityEvents: write
+dhcp_optional	Set up job	2026-10-14T12:43:31.8625269Z Statuses: write
+dhcp_optional	Set up job	2026-10-14T12:43:31.8625890Z VulnerabilityAlerts: read
+dhcp_optional	Set up job	2026-10-14T12:43:31.8626509Z ##[endgroup]
+dhcp_optional	Set up job	2026-10-14T12:43:31.8628640Z Secret source: Actions
+dhcp_optional	Set up job	2026-10-14T12:43:31.8629581Z Cache mode: write
+dhcp_optional	Set up job	2026-10-14T12:43:31.8630366Z Prepare workflow directory
+dhcp_optional	Set up job	2026-10-14T12:43:31.9080679Z Prepare all required actions
+dhcp_optional	Set up job	2026-10-14T12:43:31.9129026Z Getting action download info
+dhcp_optional	Set up job	2026-10-14T12:43:32.2057708Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+dhcp_optional	Set up job	2026-10-14T12:43:32.3017792Z Download action repository 'erlef/setup-beam@v1' (SHA:54075bcc5e249e4758d363f27d099f55d843f124)
+dhcp_optional	Set up job	2026-10-14T12:43:32.8163822Z Download action repository 'dtolnay/rust-toolchain@stable' (SHA:686976e191b89faba57d3206551f0f330d8cb249)
+dhcp_optional	Set up job	2026-10-14T12:43:33.2418385Z Complete job name: dhcp_optional
+dhcp_optional	Run actions/checkout@v4	﻿2026-10-14T12:43:33.3353623Z ##[group]Run actions/checkout@v4
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.3355323Z with:
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.3356237Z   repository: gsmlg-dev/abyss
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.3364467Z   token: ***
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.3365553Z   ssh-strict: true
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.3366471Z   ssh-user: git
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.3367375Z   persist-credentials: true
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.3368363Z   clean: true
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.3369273Z   sparse-checkout-cone-mode: true
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.3370350Z   fetch-depth: 1
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.3371227Z   fetch-tags: false
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.3372137Z   show-progress: true
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.3373051Z   lfs: false
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.3373912Z   submodules: false
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.3374961Z   set-safe-directory: true
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.3376017Z   allow-unsafe-pr-checkout: false
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.3377360Z env:
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.3378178Z   CI: true
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.3379004Z ##[endgroup]
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4417185Z Syncing repository: gsmlg-dev/abyss
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4420105Z ##[group]Getting Git version info
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4421751Z Working directory is '/home/runner/work/abyss/abyss'
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4424078Z [command]/usr/bin/git version
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4533045Z git version 2.55.0
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4558294Z ##[endgroup]
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4572990Z Temporarily overriding HOME='/home/runner/work/_temp/e61e1029-d894-471e-b80b-8b91da78a18f' before making global git config changes
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4578215Z Adding repository directory to the temporary git global config as a safe directory
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4582429Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4632741Z Deleting the contents of '/home/runner/work/abyss/abyss'
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4640513Z ##[group]Initializing the repository
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4645827Z [command]/usr/bin/git init /home/runner/work/abyss/abyss
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4772534Z hint: Using 'master' as the name for the initial branch. This default branch name
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4774633Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4776929Z hint: to use in all of your new repositories, which will suppress this warning,
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4778471Z hint: call:
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4779297Z hint:
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4780353Z hint: 	git config --global init.defaultBranch <name>
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4781601Z hint:
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4782771Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4784641Z hint: 'development'. The just-created branch can be renamed via this command:
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4787445Z hint:
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4788945Z hint: 	git branch -m <name>
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4790450Z hint:
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4792202Z hint: Disable this message with "git config set advice.defaultBranchName false"
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4795553Z Initialized empty Git repository in /home/runner/work/abyss/abyss/.git/
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4802981Z [command]/usr/bin/git remote add origin https://github.com/gsmlg-dev/abyss
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4856226Z ##[endgroup]
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4859021Z ##[group]Disabling automatic garbage collection
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4861509Z [command]/usr/bin/git config --local gc.auto 0
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4894168Z ##[endgroup]
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4897055Z ##[group]Setting up auth
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4903016Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.4947197Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.5377735Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.5415045Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.5646253Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.5685706Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.5913998Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.5960322Z ##[endgroup]
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.5961877Z ##[group]Fetching the repository
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:33.5971641Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +997e6800def6beb14c430f94de65ac4e1a233716:refs/remotes/origin/codex/post-release-hardening
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:34.4810106Z From https://github.com/gsmlg-dev/abyss
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:34.4812092Z  * [new ref]         997e6800def6beb14c430f94de65ac4e1a233716 -> origin/codex/post-release-hardening
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:34.4818381Z ##[endgroup]
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:34.4819338Z ##[group]Determining the checkout info
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:34.4820291Z ##[endgroup]
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:34.4828598Z [command]/usr/bin/git sparse-checkout disable
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:34.4889874Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:34.4923149Z ##[group]Checking out the ref
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:34.4929907Z [command]/usr/bin/git checkout --progress --force -B codex/post-release-hardening refs/remotes/origin/codex/post-release-hardening
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:34.5562596Z Switched to a new branch 'codex/post-release-hardening'
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:34.5568740Z branch 'codex/post-release-hardening' set up to track 'origin/codex/post-release-hardening'.
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:34.5579316Z ##[endgroup]
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:34.5628028Z [command]/usr/bin/git log -1 --format=%H
+dhcp_optional	Run actions/checkout@v4	2026-10-14T12:43:34.5656233Z 997e6800def6beb14c430f94de65ac4e1a233716
+dhcp_optional	Run erlef/setup-beam@v1	﻿2026-10-14T12:43:34.5976136Z ##[group]Run erlef/setup-beam@v1
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:34.5976519Z with:
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:34.5976776Z   elixir-version: 1.18
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:34.5977056Z   otp-version: 28
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:34.5979525Z   github-token: ***
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:34.5979812Z   otp-architecture: 64
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:34.5980109Z   install-hex: true
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:34.5980370Z   install-rebar: true
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:34.5980699Z   version-type: loose
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:34.5980982Z   disable_problem_matchers: false
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:34.5981321Z   hexpm-mirrors: https://builds.hex.pm
+dhcp_optional	Run erlef/setup-beam@v1	
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:34.5981661Z env:
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:34.5981887Z   CI: true
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:34.5982124Z ##[endgroup]
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:34.8622774Z ##[group]Installing Erlang/OTP OTP-28.5.0.7 - built on amd64/ubuntu-24.04
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:35.4592160Z [command]/usr/bin/tar zx --strip-components=1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/aa24f0f9-d4a7-4626-9ceb-27b16f6a3b2e -f /home/runner/work/_temp/91959f92-080c-4dc4-ad8a-61046641c0ed
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:39.1771019Z [command]/home/runner/work/_temp/.setup-beam/otp/Install -minimal /home/runner/work/_temp/.setup-beam/otp
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:39.2093684Z Installed Erlang/OTP version
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:39.2114971Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -version
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:39.2252312Z Erlang (SMP,ASYNC_THREADS) (BEAM) emulator version 16.4.0.6
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:39.2286720Z ##[endgroup]
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:39.2297970Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -noshell -eval io:format(erlang:system_info(otp_release)), halt().
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:39.4984049Z 28::debug::Was not able to coerce latest with semver
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:39.5001363Z Using Elixir 1.18.5 (built for Erlang/OTP 27)
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:39.5002570Z ##[group]Installing Elixir v1.18.5-otp-27
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:39.7936443Z [command]/usr/bin/unzip -o -q /home/runner/work/_temp/3d2cad25-e479-47f0-9673-defac05b504f
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:40.2292623Z Installed Elixir version
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:40.2320806Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/elixir -v
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:40.4634977Z Erlang/OTP 28 [erts-16.4.0.6] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:1] [jit:ns]
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:40.4635704Z 
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:40.4695492Z Elixir 1.18.5 (compiled with Erlang/OTP 27)
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:40.4749480Z ##[endgroup]
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:40.4750474Z ##[group]Running mix local.rebar,--force
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:40.4758305Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.rebar --force
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:41.4687602Z * creating /home/runner/.mix/elixir/1-18-otp-28/rebar3
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:41.4759238Z ##[endgroup]
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:41.4759742Z ##[group]Running mix local.hex,--force
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:41.4776109Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.hex --force
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:42.4821236Z * creating /home/runner/.mix/archives/hex-2.5.2
+dhcp_optional	Run erlef/setup-beam@v1	2026-10-14T12:43:42.4909648Z ##[endgroup]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	﻿2026-10-14T12:43:42.5271694Z ##[group]Run dtolnay/rust-toolchain@stable
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5272036Z with:
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5272238Z   toolchain: stable
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5272437Z env:
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5272625Z   CI: true
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5272903Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5273351Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5273888Z ##[endgroup]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5339695Z ##[start-action display=Parse toolchain version;id=__dtolnay_rust-toolchain.parse]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5396392Z ##[group]Run if [[ -z $toolchain ]]; then
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5396822Z ^[[36;1mif [[ -z $toolchain ]]; then^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5397347Z ^[[36;1m  # GitHub does not enforce `required: true` inputs itself. https://github.com/actions/runner/issues/1070^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5397914Z ^[[36;1m  echo "'toolchain' is a required input" >&2^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5398225Z ^[[36;1m  exit 1^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5398560Z ^[[36;1melif [[ $toolchain =~ ^stable' '[0-9]+' '(year|month|week|day)s?' 'ago$ ]]; then^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5399036Z ^[[36;1m  if [[ Linux == macOS ]]; then^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5399559Z ^[[36;1m    echo "toolchain=1.$((($(date -v-$(sed 's/stable \([0-9]*\) \(.\).*/\1\2/' <<< $toolchain) +%s)/60/60/24-16569)/7/6))" >> $GITHUB_OUTPUT^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5400088Z ^[[36;1m  else^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5400499Z ^[[36;1m    echo "toolchain=1.$((($(date --date "${toolchain#stable }" +%s)/60/60/24-16569)/7/6))" >> $GITHUB_OUTPUT^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5400959Z ^[[36;1m  fi^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5401262Z ^[[36;1melif [[ $toolchain =~ ^stable' 'minus' '[0-9]+' 'releases?$ ]]; then^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5401786Z ^[[36;1m  echo "toolchain=1.$((($(date +%s)/60/60/24-16569)/7/6-${toolchain//[^0-9]/}))" >> $GITHUB_OUTPUT^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5402251Z ^[[36;1melif [[ $toolchain =~ ^1\.[0-9]+$ ]]; then^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5402761Z ^[[36;1m  echo "toolchain=1.$((i=${toolchain#1.}, c=($(date +%s)/60/60/24-16569)/7/6, i+9*i*(10*i<=c)+90*i*(100*i<=c)))" >> $GITHUB_OUTPUT^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5403256Z ^[[36;1melse^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5403449Z ^[[36;1m  delimiter=EOF^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5403749Z ^[[36;1m  while [[ $toolchain == *$delimiter* ]]; do delimiter+=_; done^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5404244Z ^[[36;1m  printf 'toolchain<<%s\n%s\n%s\n' "$delimiter" "$toolchain" "$delimiter" >> $GITHUB_OUTPUT^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5404662Z ^[[36;1mfi^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5679002Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5679523Z env:
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5679760Z   CI: true
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5680104Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5680672Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5681139Z   toolchain: stable
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5681405Z ##[endgroup]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5831921Z ##[end-action id=__dtolnay_rust-toolchain.parse;outcome=success;conclusion=success;duration_ms=49]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5836746Z ##[start-action display=Set $CARGO_HOME;id=__dtolnay_rust-toolchain.__run]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5869603Z ##[group]Run echo CARGO_HOME=${CARGO_HOME:-"$HOME/.cargo"} >> $GITHUB_ENV
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5870103Z ^[[36;1mecho CARGO_HOME=${CARGO_HOME:-"$HOME/.cargo"} >> $GITHUB_ENV^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5939301Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5939676Z env:
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5939874Z   CI: true
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5940142Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5940562Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.5940917Z ##[endgroup]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6036346Z ##[end-action id=__dtolnay_rust-toolchain.__run;outcome=success;conclusion=success;duration_ms=19]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6038528Z ##[start-action display=Install rustup if needed;id=__dtolnay_rust-toolchain.__run_2]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6063856Z ##[group]Run if ! command -v rustup &>/dev/null; then
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6064246Z ^[[36;1mif ! command -v rustup &>/dev/null; then^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6065522Z ^[[36;1m  curl --proto '=https' --tlsv1.2 --retry 10 --retry-connrefused --location --silent --show-error --fail https://sh.rustup.rs | sh -s -- --default-toolchain none -y^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6066287Z ^[[36;1m  echo "$CARGO_HOME/bin" >> $GITHUB_PATH^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6066737Z ^[[36;1mfi^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6129146Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6129497Z env:
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6129682Z   CI: true
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6129951Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6130372Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6130742Z   CARGO_HOME: /home/runner/.cargo
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6130982Z ##[endgroup]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6223757Z ##[end-action id=__dtolnay_rust-toolchain.__run_2;outcome=success;conclusion=success;duration_ms=18]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6226673Z ##[start-action display=Install rustup if needed on windows;id=__dtolnay_rust-toolchain.__run_3]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6234059Z ##[end-action id=__dtolnay_rust-toolchain.__run_3;outcome=skipped;conclusion=skipped;duration_ms=0]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6250086Z ##[start-action display=rustup toolchain install stable;id=__dtolnay_rust-toolchain.__run_4]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6268068Z ##[group]Run set -f  # split targets and components on commas and whitespace, without glob expansion
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6268760Z ^[[36;1mset -f  # split targets and components on commas and whitespace, without glob expansion^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6269204Z ^[[36;1mflags=()^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6269488Z ^[[36;1mfor t in ${targets//,/ }; do flags+=(--target "$t"); done^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6269896Z ^[[36;1mfor c in ${components//,/ }; do flags+=(--component "$c"); done^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6270390Z ^[[36;1mif [[ $toolchain == nightly && -n $components ]]; then flags+=(--allow-downgrade); fi^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6270821Z ^[[36;1mlog=$(mktemp)^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6271074Z ^[[36;1mtrap 'rm -f "$log"' EXIT^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6271334Z ^[[36;1mfor attempt in 1 2 3 4 5; do^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6271906Z ^[[36;1m  if rustup toolchain install "$toolchain" "${flags[@]}" --profile minimal --no-self-update --force-non-host 2>&1 | tee "$log"; then^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6272472Z ^[[36;1m    break^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6272684Z ^[[36;1m  else^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6272880Z ^[[36;1m    status=$?^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6273087Z ^[[36;1m  fi^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6273389Z ^[[36;1m  if [[ $attempt == 5 ]] || ! grep -Fq 'checksum failed for ' "$log" \^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6273950Z ^[[36;1m      || ! grep -Fq 'this is likely due to an ongoing update of the official release server' "$log"; then^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6274414Z ^[[36;1m    exit "$status"^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6274636Z ^[[36;1m  fi^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6275333Z ^[[36;1m  echo "Retrying rustup toolchain install in 30 seconds (retry $attempt of 4)" >&2^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6275774Z ^[[36;1m  sleep 30^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6275986Z ^[[36;1mdone^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6336846Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6337200Z env:
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6337390Z   CI: true
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6337654Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6338082Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6338476Z   CARGO_HOME: /home/runner/.cargo
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6338730Z   toolchain: stable
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6338932Z   targets: 
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6339116Z   components: 
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6339322Z   RUSTUP_PERMIT_COPY_RENAME: 1
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.6339557Z ##[endgroup]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:42.8807940Z info: syncing channel updates for stable-x86_64-unknown-linux-gnu
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0396715Z 
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0479607Z   stable-x86_64-unknown-linux-gnu unchanged - rustc 1.99.0 (b940084d7 2026-09-28)
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0480497Z 
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0550238Z ##[end-action id=__dtolnay_rust-toolchain.__run_4;outcome=success;conclusion=success;duration_ms=429]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0556380Z ##[start-action display=rustup default stable;id=__dtolnay_rust-toolchain.__run_5]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0574231Z ##[group]Run rustup default "$toolchain" --force-non-host
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0574667Z ^[[36;1mrustup default "$toolchain" --force-non-host^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0640395Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0640802Z env:
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0641007Z   CI: true
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0641304Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0641775Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0642222Z   CARGO_HOME: /home/runner/.cargo
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0642519Z   toolchain: stable
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0642761Z ##[endgroup]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0782787Z info: using existing install for stable-x86_64-unknown-linux-gnu
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0795209Z info: default toolchain set to stable-x86_64-unknown-linux-gnu
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0795807Z 
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0879015Z   stable-x86_64-unknown-linux-gnu unchanged - rustc 1.99.0 (b940084d7 2026-09-28)
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0879705Z 
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0899465Z ##[end-action id=__dtolnay_rust-toolchain.__run_5;outcome=success;conclusion=success;duration_ms=34]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0904142Z ##[start-action display=Create cachekey;id=__dtolnay_rust-toolchain.rustc-version]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0922510Z ##[group]Run DATE=$(rustc +"$toolchain" --version --verbose | sed -ne 's/^commit-date: \(20[0-9][0-9]\)-\([01][0-9]\)-\([0-3][0-9]\)$/\1\2\3/p')
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0923395Z ^[[36;1mDATE=$(rustc +"$toolchain" --version --verbose | sed -ne 's/^commit-date: \(20[0-9][0-9]\)-\([01][0-9]\)-\([0-3][0-9]\)$/\1\2\3/p')^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0924079Z ^[[36;1mHASH=$(rustc +"$toolchain" --version --verbose | sed -ne 's/^commit-hash: //p')^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0924598Z ^[[36;1mecho "cachekey=$(echo $DATE$HASH | head -c12)" >> $GITHUB_OUTPUT^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0989001Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0989359Z env:
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0989545Z   CI: true
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0989816Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0990263Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0990655Z   CARGO_HOME: /home/runner/.cargo
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0990913Z   toolchain: stable
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.0991123Z ##[endgroup]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1393459Z ##[end-action id=__dtolnay_rust-toolchain.rustc-version;outcome=success;conclusion=success;duration_ms=48]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1396656Z ##[start-action display=Disable incremental compilation;id=__dtolnay_rust-toolchain.__run_6]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1416923Z ##[group]Run if [ -z "${CARGO_INCREMENTAL+set}" ]; then
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1417494Z ^[[36;1mif [ -z "${CARGO_INCREMENTAL+set}" ]; then^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1477979Z ^[[36;1m  echo CARGO_INCREMENTAL=0 >> $GITHUB_ENV^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1478514Z ^[[36;1mfi^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1546029Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1546389Z env:
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1546576Z   CI: true
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1546849Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1547288Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1547681Z   CARGO_HOME: /home/runner/.cargo
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1547932Z ##[endgroup]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1643009Z ##[end-action id=__dtolnay_rust-toolchain.__run_6;outcome=success;conclusion=success;duration_ms=24]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1645758Z ##[start-action display=Enable colors in Cargo output;id=__dtolnay_rust-toolchain.__run_7]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1663633Z ##[group]Run if [ -z "${CARGO_TERM_COLOR+set}" ]; then
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1664025Z ^[[36;1mif [ -z "${CARGO_TERM_COLOR+set}" ]; then^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1664365Z ^[[36;1m  echo CARGO_TERM_COLOR=always >> $GITHUB_ENV^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1664652Z ^[[36;1mfi^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1725129Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1725515Z env:
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1725710Z   CI: true
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1726004Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1726476Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1727067Z   CARGO_HOME: /home/runner/.cargo
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1727350Z   CARGO_INCREMENTAL: 0
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1727582Z ##[endgroup]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1814048Z ##[end-action id=__dtolnay_rust-toolchain.__run_7;outcome=success;conclusion=success;duration_ms=16]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1817835Z ##[start-action display=Enable Cargo sparse registry;id=__dtolnay_rust-toolchain.__run_8]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1836074Z ##[group]Run # implemented in 1.66, stabilized in 1.68, made default in 1.70
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1836597Z ^[[36;1m# implemented in 1.66, stabilized in 1.68, made default in 1.70^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1837329Z ^[[36;1mif [ -z "${CARGO_REGISTRIES_CRATES_IO_PROTOCOL+set}" -o -f "/home/runner/work/_temp"/.implicit_cargo_registries_crates_io_protocol ]; then^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1838108Z ^[[36;1m  if rustc +"$toolchain" --version --verbose | grep -q '^release: 1\.6[89]\.'; then^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1838712Z ^[[36;1m    touch "/home/runner/work/_temp"/.implicit_cargo_registries_crates_io_protocol || true^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1839269Z ^[[36;1m    echo CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse >> $GITHUB_ENV^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1839794Z ^[[36;1m  elif rustc +"$toolchain" --version --verbose | grep -q '^release: 1\.6[67]\.'; then^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1840381Z ^[[36;1m    touch "/home/runner/work/_temp"/.implicit_cargo_registries_crates_io_protocol || true^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1840908Z ^[[36;1m    echo CARGO_REGISTRIES_CRATES_IO_PROTOCOL=git >> $GITHUB_ENV^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1841263Z ^[[36;1m  fi^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1841461Z ^[[36;1mfi^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1896936Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1897299Z env:
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1897485Z   CI: true
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1897758Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1898212Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1898591Z   CARGO_HOME: /home/runner/.cargo
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1898854Z   CARGO_INCREMENTAL: 0
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1899095Z   CARGO_TERM_COLOR: always
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1899329Z   toolchain: stable
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.1899544Z ##[endgroup]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2241677Z ##[end-action id=__dtolnay_rust-toolchain.__run_8;outcome=success;conclusion=success;duration_ms=42]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2246060Z ##[start-action display=Work around spurious network errors in curl 8.0;id=__dtolnay_rust-toolchain.__run_9]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2266692Z ##[group]Run # https://rust-lang.zulipchat.com/#narrow/stream/246057-t-cargo/topic/timeout.20investigation
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2267475Z ^[[36;1m# https://rust-lang.zulipchat.com/#narrow/stream/246057-t-cargo/topic/timeout.20investigation^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2268158Z ^[[36;1mif rustc +"$toolchain" --version --verbose | grep -q '^release: 1\.7[01]\.'; then^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2268659Z ^[[36;1m  echo CARGO_HTTP_MULTIPLEXING=false >> $GITHUB_ENV^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2268983Z ^[[36;1mfi^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2331574Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2331972Z env:
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2332172Z   CI: true
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2332467Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2332965Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2333378Z   CARGO_HOME: /home/runner/.cargo
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2333656Z   CARGO_INCREMENTAL: 0
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2333901Z   CARGO_TERM_COLOR: always
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2334199Z   toolchain: stable
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2334425Z ##[endgroup]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2548912Z ##[end-action id=__dtolnay_rust-toolchain.__run_9;outcome=success;conclusion=success;duration_ms=30]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2554145Z ##[start-action display=rustc +stable --version --verbose;id=__dtolnay_rust-toolchain.__run_10]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2572237Z ##[group]Run rustc +"$toolchain" --version --verbose
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2572642Z ^[[36;1mrustc +"$toolchain" --version --verbose^[[0m
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2634438Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2635264Z env:
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2635467Z   CI: true
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2635770Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2636281Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2636719Z   CARGO_HOME: /home/runner/.cargo
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2637013Z   CARGO_INCREMENTAL: 0
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2637273Z   CARGO_TERM_COLOR: always
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2637536Z   toolchain: stable
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2637771Z ##[endgroup]
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2829463Z rustc 1.99.0 (b940084d7 2026-09-28)
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2830489Z binary: rustc
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2831248Z commit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2832058Z commit-date: 2026-09-28
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2832636Z host: x86_64-unknown-linux-gnu
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2833224Z release: 1.99.0
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2833717Z LLVM version: 23.1.1
+dhcp_optional	Run dtolnay/rust-toolchain@stable	2026-10-14T12:43:43.2852396Z ##[end-action id=__dtolnay_rust-toolchain.__run_10;outcome=success;conclusion=success;duration_ms=29]
+dhcp_optional	Install isolated fixture tools	﻿2026-10-14T12:43:43.2911520Z ##[group]Run sudo apt-get update && sudo apt-get install -y iproute2 util-linux python3
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.2912163Z ^[[36;1msudo apt-get update && sudo apt-get install -y iproute2 util-linux python3^[[0m
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.2979485Z shell: /usr/bin/bash -e {0}
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.2979788Z env:
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.2980001Z   CI: true
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.2980326Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.2980854Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.2981296Z   CARGO_HOME: /home/runner/.cargo
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.2981592Z   CARGO_INCREMENTAL: 0
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.2981855Z   CARGO_TERM_COLOR: always
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.2982119Z ##[endgroup]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.3794564Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.4115838Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.4117467Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.4139869Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.4165775Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.4198357Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.5410724Z Get:7 https://packages.microsoft.com/ubuntu/24.04/prod noble/main all Packages [640 B]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.5736566Z Get:8 https://packages.microsoft.com/ubuntu/24.04/prod noble/main armhf Packages [12.4 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.5752462Z Get:9 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [576 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.5941996Z Get:10 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [518 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.6106961Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1397 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.6928964Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [308 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.6951520Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1702 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.7162528Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [342 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.7171969Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1805 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.8533909Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [411 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.8537684Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [50.7 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.8546880Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse Translation-en [14.0 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.8552199Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [748 B]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.8560268Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1145 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:43.9906242Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [231 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:44.1486567Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1221 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:44.2052595Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [246 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:44.2459721Z Get:24 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1713 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:44.2987117Z Get:25 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [392 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:44.2996632Z Get:26 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [45.4 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:44.3908889Z Get:27 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse Translation-en [12.1 kB]
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:47.0809125Z Fetched 12.5 MB in 1s (9111 kB/s)
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:48.0083105Z Reading package lists...
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:48.0392635Z Reading package lists...
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:48.2636911Z Building dependency tree...
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:48.2644475Z Reading state information...
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:48.4403510Z iproute2 is already the newest version (6.1.0-1ubuntu6.4).
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:48.4404371Z util-linux is already the newest version (2.39.3-9ubuntu6.6).
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:48.4405399Z python3 is already the newest version (3.12.3-0ubuntu2.1).
+dhcp_optional	Install isolated fixture tools	2026-10-14T12:43:48.4406118Z 0 upgraded, 0 newly installed, 0 to remove and 35 not upgraded.
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	﻿2026-10-14T12:43:48.4457971Z ##[group]Run python3 scripts/udp/p5_consumers.py
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:48.4458370Z ^[[36;1mpython3 scripts/udp/p5_consumers.py^[[0m
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:48.4520630Z shell: /usr/bin/bash -e {0}
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:48.4520885Z env:
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:48.4521066Z   CI: true
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:48.4521333Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:48.4521766Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:48.4522164Z   CARGO_HOME: /home/runner/.cargo
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:48.4522416Z   CARGO_INCREMENTAL: 0
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:48.4522642Z   CARGO_TERM_COLOR: always
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:48.4522879Z ##[endgroup]
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:48.4945728Z P5_STAGE=/tmp/abyss-p5-bbv_1apc
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:48.5671977Z COMMAND /tmp/abyss-p5-bbv_1apc/core-source ['mix', 'hex.build']
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0728739Z Building abyss 0.8.1
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0729568Z   Dependencies:
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0730008Z     telemetry ~> 1.0 (app: telemetry)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0730634Z     telemetry_metrics ~> 1.0 (app: telemetry_metrics)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0731306Z     ex_doc >= 0.0.0 (app: ex_doc)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0773497Z   App: abyss
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0773980Z   Name: abyss
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0774415Z   Files:
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0775020Z     lib
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0775415Z     lib/abyss
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0775843Z     lib/abyss/table_owner.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0776372Z     lib/abyss/server_config.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0776889Z     lib/abyss/listener_pool_scaler.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0777269Z     lib/abyss/endpoint.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0777605Z     lib/abyss/datagram_runtime.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0777970Z     lib/abyss/datagram_dispatcher.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0778335Z     lib/abyss/handler.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0778651Z     lib/abyss/utils.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0778943Z     lib/abyss/transport
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0779253Z     lib/abyss/transport/udp
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0779596Z     lib/abyss/transport/udp/broadcast.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0779978Z     lib/abyss/transport/udp/unicast.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0780362Z     lib/abyss/transport/udp/core.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0780732Z     lib/abyss/transport/udp/native.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0781103Z     lib/abyss/transport/udp/multicast.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0781475Z     lib/abyss/transport/udp.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0781809Z     lib/abyss/listener_pool.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0782130Z     lib/abyss/quic.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0782435Z     lib/abyss/shutdown_listener.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0783159Z     lib/abyss/dhcp_socket
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0783471Z     lib/abyss/dhcp_socket/native.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0783832Z     lib/abyss/transport.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0784149Z     lib/abyss/datagram.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0784487Z     lib/abyss/connection.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0785143Z     lib/abyss/quic
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0785458Z     lib/abyss/quic/handler.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0785808Z     lib/abyss/quic/service.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0786142Z     lib/abyss/listener_starter.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0786483Z     lib/abyss/server.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0786798Z     lib/abyss/telemetry.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0787121Z     lib/abyss/udp_admission.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0787453Z     lib/abyss/application.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0787795Z     lib/abyss/datagram_handler.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0788135Z     lib/abyss/client.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0788445Z     lib/abyss/datagram_actions.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0788782Z     lib/abyss/listener.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0789096Z     lib/abyss/datagram_worker.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0789436Z     lib/abyss/logger.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0789736Z     lib/abyss.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0790001Z     LICENSE
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0790244Z     mix.exs
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0790486Z     README.md
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0790748Z     docs/README.md
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0791032Z     docs/architecture.md
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0791339Z     docs/operations.md
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0791636Z     docs/dispatcher.md
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0791933Z     docs/quic-service.md
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0792258Z     docs/udp-broadcast-multicast.md
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0792871Z     docs/udp-runtime/design.md
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0793288Z     docs/udp-runtime/migration.md
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0793816Z   Version: 0.8.1
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0794207Z   Build tools: mix
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0794676Z   Description: Abyss is a pure Elixir UDP server
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0795678Z   Licenses: MIT
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0796013Z   Links: 
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0796397Z     Github: https://github.com/gsmlg-dev/abyss
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0796989Z     Changelog: https://hexdocs.pm/abyss/changelog.html
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.0797502Z   Elixir: ~> 1.13
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.1497515Z Package checksum: b9e3f5d02a08c5bed653a33b8877d866b041ae3c88ae484de7624a90bad97097
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.1498788Z Saved to abyss-0.8.1.tar
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.1575874Z COMMAND /tmp/abyss-p5-bbv_1apc/native-source ['mix', 'hex.build']
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6440909Z Building abyss_dhcp_socket 0.1.0
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6441462Z   Dependencies:
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6441832Z     rustler ~> 0.34 (app: rustler)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6485230Z   App: abyss_dhcp_socket
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6486084Z   Name: abyss_dhcp_socket
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6486581Z   Files:
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6486962Z     lib
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6487376Z     lib/abyss_dhcp_socket
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6487915Z     lib/abyss_dhcp_socket/native.ex
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6488452Z     mix.exs
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6488839Z     README.md
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6489235Z     LICENSE
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6489659Z     native/dhcp_socket/src
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6490193Z     native/dhcp_socket/src/arp.rs
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6490760Z     native/dhcp_socket/src/poll.rs
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6491316Z     native/dhcp_socket/src/lib.rs
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6491875Z     native/dhcp_socket/src/socket.rs
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6492450Z     native/dhcp_socket/Cargo.toml
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6492992Z     native/dhcp_socket/Cargo.lock
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6493545Z     native/dhcp_socket/.cargo
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6494326Z     native/dhcp_socket/.cargo/config.toml
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6495278Z   Version: 0.1.0
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6495732Z   Build tools: mix
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6496414Z   Description: Optional interface-bound DHCP and raw ARP sockets for Abyss
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6497416Z   Licenses: MIT
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6497915Z   Links: 
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6498341Z     GitHub: https://github.com/gsmlg-dev/abyss
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6498914Z   Elixir: ~> 1.13
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6830073Z Package checksum: 233858d3deab5e975f77caffd71ce13d7916d201a551e1b10f5c129555cba233
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.6832492Z Saved to abyss_dhcp_socket-0.1.0.tar
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:49.7078443Z COMMAND /tmp/abyss-p5-bbv_1apc/core-consumer ['mix', 'deps.get']
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:50.6427158Z Resolving Hex dependencies...
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:50.6715548Z Resolution completed in 0.027s
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:50.6727672Z Unchanged:
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:50.6728864Z   earmark_parser 1.4.46
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:50.6740324Z   ex_doc 0.40.4
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:50.6740701Z   makeup 1.2.3
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:50.6741059Z   makeup_elixir 1.0.1
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:50.6741448Z   makeup_erlang 1.1.0
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:50.6741840Z   nimble_parsec 1.4.2
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:50.6742372Z   telemetry 1.4.2
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:50.6742736Z   telemetry_metrics 1.2.0
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:50.6773537Z * Getting telemetry (Hex package)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:50.7349848Z * Getting telemetry_metrics (Hex package)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:50.7451164Z * Getting ex_doc (Hex package)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:50.8085999Z * Getting earmark_parser (Hex package)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:50.8209302Z * Getting makeup_elixir (Hex package)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:50.8270472Z * Getting makeup_erlang (Hex package)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:50.8317263Z * Getting makeup (Hex package)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:50.8399838Z * Getting nimble_parsec (Hex package)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:50.8780816Z COMMAND /tmp/abyss-p5-bbv_1apc/core-consumer ['mix', 'compile', '--warnings-as-errors']
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:51.4487854Z ==> earmark_parser
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:51.4488523Z Compiling 2 files (.xrl)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:51.4761811Z Compiling 1 file (.yrl)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:51.5076015Z Compiling 3 files (.erl)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:51.6593703Z Compiling 32 files (.ex)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:52.3129658Z Generated earmark_parser app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:52.3854413Z ==> nimble_parsec
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:52.3865852Z Compiling 4 files (.ex)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:52.7130826Z Generated nimble_parsec app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:52.7334128Z ==> makeup
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:52.7334587Z Compiling 15 files (.ex)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:53.1054250Z Generated makeup app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:53.1318037Z ==> makeup_elixir
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:43:53.1318569Z Compiling 6 files (.ex)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:01.5308864Z Generated makeup_elixir app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:01.5491154Z ==> makeup_erlang
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:01.5491509Z Compiling 4 files (.ex)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:11.6070824Z Generated makeup_erlang app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:11.6360391Z ==> ex_doc
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:11.6361093Z Compiling 30 files (.ex)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:12.7081265Z Generated ex_doc app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:13.0469760Z ==> p5_consumer
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:13.0470267Z ===> Analyzing applications...
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:13.0817381Z ===> Compiling telemetry
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:13.3066792Z ==> telemetry_metrics
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:13.3067540Z Compiling 7 files (.ex)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:13.4220453Z Generated telemetry_metrics app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:13.4298906Z ==> abyss
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:13.4299236Z Compiling 35 files (.ex)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:14.7686133Z Generated abyss app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:14.8081557Z ==> p5_consumer
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:14.8082722Z Generated p5_consumer app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:14.9542658Z COMMAND /tmp/abyss-p5-bbv_1apc/core-consumer ['mix', 'run', '/home/runner/work/abyss/abyss/scripts/udp/p5_core_consumer.exs']
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:15.6356422Z P5_CORE_NO_RUST_UDP_PASS
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:15.6485798Z COMMAND /tmp/abyss-p5-bbv_1apc/native-consumer ['mix', 'deps.get']
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.5604665Z Resolving Hex dependencies...
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.5928509Z Resolution completed in 0.03s
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.5948952Z New:
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.5949393Z   rustler 0.38.0
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.5960330Z Unchanged:
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.5961063Z   earmark_parser 1.4.46
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.5961942Z   ex_doc 0.40.4
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.5962619Z   jason 1.4.5
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.5963229Z   makeup 1.2.3
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.5963819Z   makeup_elixir 1.0.1
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.5964431Z   makeup_erlang 1.1.0
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.5965498Z   nimble_parsec 1.4.2
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.5965878Z   telemetry 1.4.2
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.5966239Z   telemetry_metrics 1.2.0
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.6010551Z * Getting rustler (Hex package)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.6545859Z * Getting jason (Hex package)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.6608009Z * Getting telemetry (Hex package)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.6701799Z * Getting telemetry_metrics (Hex package)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.6755799Z * Getting ex_doc (Hex package)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.7032406Z * Getting earmark_parser (Hex package)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.7161796Z * Getting makeup_elixir (Hex package)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.7228886Z * Getting makeup_erlang (Hex package)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.7280250Z * Getting makeup (Hex package)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.7366185Z * Getting nimble_parsec (Hex package)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:16.7783523Z COMMAND /tmp/abyss-p5-bbv_1apc/native-consumer ['mix', 'compile', '--warnings-as-errors']
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:17.3417849Z ==> earmark_parser
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:17.3418576Z Compiling 2 files (.xrl)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:17.3701272Z Compiling 1 file (.yrl)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:17.4012625Z Compiling 3 files (.erl)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:17.5806345Z Compiling 32 files (.ex)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:18.2149641Z Generated earmark_parser app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:18.2730726Z ==> jason
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:18.2732069Z Compiling 10 files (.ex)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:19.5543491Z Generated jason app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:19.5677650Z ==> rustler
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:19.5678495Z Compiling 7 files (.ex)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:19.7188834Z Generated rustler app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:19.7255710Z ==> abyss_dhcp_socket
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:19.7256457Z Compiling 1 file (.ex)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:21.2279153Z ^[[1m^[[92m    Updating^[[0m crates.io index
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.0159288Z ^[[1m^[[92m Downloading^[[0m crates ...
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.2879486Z ^[[1m^[[92m  Downloaded^[[0m void v1.0.2
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.2893545Z ^[[1m^[[92m  Downloaded^[[0m heck v0.5.0
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.2952492Z ^[[1m^[[92m  Downloaded^[[0m inventory v0.3.24
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.2973721Z ^[[1m^[[92m  Downloaded^[[0m rustler_sys v2.4.3
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.3149374Z ^[[1m^[[92m  Downloaded^[[0m unreachable v1.0.0
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.3164593Z ^[[1m^[[92m  Downloaded^[[0m windows-targets v0.52.6
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.3173136Z ^[[1m^[[92m  Downloaded^[[0m aho-corasick v1.1.4
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.3324418Z ^[[1m^[[92m  Downloaded^[[0m quote v1.0.46
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.3355479Z ^[[1m^[[92m  Downloaded^[[0m rustversion v1.0.22
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.3384753Z ^[[1m^[[92m  Downloaded^[[0m rustler_codegen v0.34.0
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.3634665Z ^[[1m^[[92m  Downloaded^[[0m proc-macro2 v1.0.106
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.3668974Z ^[[1m^[[92m  Downloaded^[[0m unicode-ident v1.0.24
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.3695962Z ^[[1m^[[92m  Downloaded^[[0m rustler v0.34.0
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.3736715Z ^[[1m^[[92m  Downloaded^[[0m socket2 v0.5.10
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.3816334Z ^[[1m^[[92m  Downloaded^[[0m memchr v2.8.2
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.3972044Z ^[[1m^[[92m  Downloaded^[[0m regex v1.12.4
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.4193646Z ^[[1m^[[92m  Downloaded^[[0m syn v2.0.118
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.4315884Z ^[[1m^[[92m  Downloaded^[[0m regex-syntax v0.8.11
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.4401782Z ^[[1m^[[92m  Downloaded^[[0m windows_aarch64_gnullvm v0.52.6
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.4480220Z ^[[1m^[[92m  Downloaded^[[0m windows_x86_64_gnullvm v0.52.6
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.4583399Z ^[[1m^[[92m  Downloaded^[[0m windows_i686_gnullvm v0.52.6
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.4665129Z ^[[1m^[[92m  Downloaded^[[0m regex-automata v0.4.14
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.4802307Z ^[[1m^[[92m  Downloaded^[[0m libc v0.2.186
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.5192820Z ^[[1m^[[92m  Downloaded^[[0m windows_aarch64_msvc v0.52.6
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.5307346Z ^[[1m^[[92m  Downloaded^[[0m windows_x86_64_gnu v0.52.6
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.5485230Z ^[[1m^[[92m  Downloaded^[[0m windows_i686_gnu v0.52.6
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.5668834Z ^[[1m^[[92m  Downloaded^[[0m windows_x86_64_msvc v0.52.6
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.5781624Z ^[[1m^[[92m  Downloaded^[[0m windows_i686_msvc v0.52.6
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.5902756Z ^[[1m^[[92m  Downloaded^[[0m windows-sys v0.52.0
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:22.7101035Z Compiling crate dhcp_socket in release mode (native/dhcp_socket)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:29.7262424Z Compiling lib/abyss_dhcp_socket/native.ex (it's taking more than 10s)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:32.6502039Z Copying /tmp/abyss-p5-bbv_1apc/native-package/native/dhcp_socket/target/release/libdhcp_socket.so to priv/native/dhcp_socket.so
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:32.6622389Z Generated abyss_dhcp_socket app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:32.6798293Z ==> nimble_parsec
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:32.6799040Z Compiling 4 files (.ex)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:32.9676998Z Generated nimble_parsec app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:32.9879583Z ==> makeup
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:32.9880335Z Compiling 15 files (.ex)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:33.3422061Z Generated makeup app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:33.3725181Z ==> makeup_elixir
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:33.3726422Z Compiling 6 files (.ex)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:41.6368329Z Generated makeup_elixir app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:41.6570286Z ==> makeup_erlang
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:41.6571701Z Compiling 4 files (.ex)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:51.9041504Z Generated makeup_erlang app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:51.9345155Z ==> ex_doc
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:51.9345885Z Compiling 30 files (.ex)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:52.9662947Z Generated ex_doc app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:53.3187275Z ==> p5_consumer
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:53.3188549Z ===> Analyzing applications...
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:53.3648174Z ===> Compiling telemetry
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:53.6211095Z ==> telemetry_metrics
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:53.6211978Z Compiling 7 files (.ex)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:53.7312410Z Generated telemetry_metrics app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:53.7401455Z ==> abyss
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:53.7402277Z Compiling 35 files (.ex)
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:55.0143273Z Generated abyss app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:55.0579500Z ==> p5_consumer
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:55.0579994Z Generated p5_consumer app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:55.2214043Z COMMAND /tmp/abyss-p5-bbv_1apc/native-consumer ['mix', 'run', '-e', 'true = Code.ensure_loaded?(AbyssDhcpSocket.Native); IO.puts("P5_NATIVE_LOAD_PASS")']
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:55.8019425Z ==> abyss_dhcp_socket
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:55.8020407Z Generated abyss_dhcp_socket app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:55.8117867Z ==> abyss
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:55.8118587Z Generated abyss app
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:55.8576878Z P5_NATIVE_LOAD_PASS
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:55.8653071Z COMMAND /home/runner/work/abyss/abyss ['python3', '/home/runner/work/abyss/abyss/scripts/udp/dhcp_fixture.py', '--consumer', '/tmp/abyss-p5-bbv_1apc/native-consumer']
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:57.3639913Z {"result": "PASS", "gates": ["native_bind_68", "broadcast_source_68", "unicast_source_68", "dhcp_owner_payload", "arp_probe_wire", "arp_owner_frame", "idempotent_close", "closed_send_errors", "close_kernel_release", "owner_death_explicit_close", "orphan_kernel_release"], "consumer": "/tmp/abyss-p5-bbv_1apc/native-consumer", "capabilities": ["CAP_NET_RAW", "CAP_NET_BIND_SERVICE"]}
+dhcp_optional	Package boundary and actual DHCP/ARP traffic	2026-10-14T12:44:57.4245103Z P5_PACKAGED_CONSUMERS_PASS /tmp/abyss-p5-bbv_1apc
+dhcp_optional	Post Run actions/checkout@v4	﻿2026-10-14T12:44:57.4425517Z Post job cleanup.
+dhcp_optional	Post Run actions/checkout@v4	2026-10-14T12:44:57.5321730Z [command]/usr/bin/git version
+dhcp_optional	Post Run actions/checkout@v4	2026-10-14T12:44:57.5365412Z git version 2.55.0
+dhcp_optional	Post Run actions/checkout@v4	2026-10-14T12:44:57.5406296Z Temporarily overriding HOME='/home/runner/work/_temp/fa40afed-4c37-4ed7-9051-85bc8054352b' before making global git config changes
+dhcp_optional	Post Run actions/checkout@v4	2026-10-14T12:44:57.5408106Z Adding repository directory to the temporary git global config as a safe directory
+dhcp_optional	Post Run actions/checkout@v4	2026-10-14T12:44:57.5413576Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+dhcp_optional	Post Run actions/checkout@v4	2026-10-14T12:44:57.5460071Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+dhcp_optional	Post Run actions/checkout@v4	2026-10-14T12:44:57.5498157Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+dhcp_optional	Post Run actions/checkout@v4	2026-10-14T12:44:57.5750178Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+dhcp_optional	Post Run actions/checkout@v4	2026-10-14T12:44:57.5784290Z http.https://github.com/.extraheader
+dhcp_optional	Post Run actions/checkout@v4	2026-10-14T12:44:57.5797674Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+dhcp_optional	Post Run actions/checkout@v4	2026-10-14T12:44:57.5845734Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+dhcp_optional	Post Run actions/checkout@v4	2026-10-14T12:44:57.6112310Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+dhcp_optional	Post Run actions/checkout@v4	2026-10-14T12:44:57.6157791Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+dhcp_optional	Complete job	﻿2026-10-14T12:44:57.6583255Z Cleaning up orphan processes
+dhcp_optional	Complete job	2026-10-14T12:44:57.6887366Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

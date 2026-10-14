@@ -1,0 +1,398 @@
+wire (27, native, keyed)	Set up job	﻿2026-10-14T12:44:07.7300023Z Current runner version: '2.337.0'
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7323660Z ##[group]Runner Image Provisioner
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7324501Z Hosted Compute Agent
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7324993Z Version: 20261002.596
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7325716Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7326400Z Build Date: 2026-10-02T22:28:27Z
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7326985Z Worker ID: {48376847-5f99-4c11-86e3-eef7444c1193}
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7327706Z Region: eastus
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7328174Z Cloud: Azure
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7328640Z ##[endgroup]
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7329826Z ##[group]Operating System
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7330372Z Ubuntu
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7330842Z 24.04.5
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7331273Z LTS
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7331729Z ##[endgroup]
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7332212Z ##[group]Runner Image
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7332734Z Image: ubuntu-24.04
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7333193Z Version: 20261004.327.1
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7334108Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7335738Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7336893Z ##[endgroup]
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7339384Z ##[group]GITHUB_TOKEN Permissions
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7341470Z Actions: write
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7342296Z ArtifactMetadata: write
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7342853Z Attestations: write
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7343328Z Checks: write
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7343815Z CodeQuality: write
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7344288Z Contents: write
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7344804Z CopilotRequests: write
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7345329Z Deployments: write
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7346045Z Discussions: write
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7346559Z Drives: write
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7347028Z Issues: write
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7347538Z Metadata: read
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7348067Z Models: read
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7348512Z Packages: write
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7348989Z Pages: write
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7349481Z PullRequests: write
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7349943Z RepositoryProjects: write
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7350547Z SecurityEvents: write
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7351026Z Statuses: write
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7351622Z VulnerabilityAlerts: read
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7352124Z ##[endgroup]
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7354338Z Secret source: Actions
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7355242Z Cache mode: write
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7356121Z Prepare workflow directory
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7757656Z Prepare all required actions
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.7797813Z Getting action download info
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:07.9741642Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:08.6800544Z Download action repository 'erlef/setup-beam@v1' (SHA:54075bcc5e249e4758d363f27d099f55d843f124)
+wire (27, native, keyed)	Set up job	2026-10-14T12:44:08.9943533Z Complete job name: wire (27, native, keyed)
+wire (27, native, keyed)	Run actions/checkout@v4	﻿2026-10-14T12:44:09.1582648Z ##[group]Run actions/checkout@v4
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1583821Z with:
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1584537Z   repository: gsmlg-dev/abyss
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1591046Z   token: ***
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1591815Z   ssh-strict: true
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1592547Z   ssh-user: git
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1593283Z   persist-credentials: true
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1594077Z   clean: true
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1594811Z   sparse-checkout-cone-mode: true
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1595756Z   fetch-depth: 1
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1596479Z   fetch-tags: false
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1597215Z   show-progress: true
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1597957Z   lfs: false
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1598667Z   submodules: false
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1599420Z   set-safe-directory: true
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1600258Z   allow-unsafe-pr-checkout: false
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1601287Z env:
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1601925Z   CI: true
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1602600Z   MIX_ENV: dev
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1603315Z   ABYSS_UDP_BACKEND: native
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1604129Z   ABYSS_UDP_API: datagram
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1604991Z   ABYSS_UDP_EXECUTION: keyed
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.1605877Z ##[endgroup]
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.2464550Z Syncing repository: gsmlg-dev/abyss
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.2467949Z ##[group]Getting Git version info
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.2469914Z Working directory is '/home/runner/work/abyss/abyss'
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.2472277Z [command]/usr/bin/git version
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3257773Z git version 2.55.0
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3276595Z ##[endgroup]
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3288676Z Temporarily overriding HOME='/home/runner/work/_temp/5e1a7db9-66ec-440f-b00c-75aa851e0ce6' before making global git config changes
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3290897Z Adding repository directory to the temporary git global config as a safe directory
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3293136Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3339746Z Deleting the contents of '/home/runner/work/abyss/abyss'
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3343115Z ##[group]Initializing the repository
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3345935Z [command]/usr/bin/git init /home/runner/work/abyss/abyss
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3505729Z hint: Using 'master' as the name for the initial branch. This default branch name
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3508238Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3510452Z hint: to use in all of your new repositories, which will suppress this warning,
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3512119Z hint: call:
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3512914Z hint:
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3514042Z hint: 	git config --global init.defaultBranch <name>
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3515062Z hint:
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3516291Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3518057Z hint: 'development'. The just-created branch can be renamed via this command:
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3519260Z hint:
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3519961Z hint: 	git branch -m <name>
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3520745Z hint:
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3521778Z hint: Disable this message with "git config set advice.defaultBranchName false"
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3523421Z Initialized empty Git repository in /home/runner/work/abyss/abyss/.git/
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3526537Z [command]/usr/bin/git remote add origin https://github.com/gsmlg-dev/abyss
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3569529Z ##[endgroup]
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3570822Z ##[group]Disabling automatic garbage collection
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3572707Z [command]/usr/bin/git config --local gc.auto 0
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3604083Z ##[endgroup]
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3605303Z ##[group]Setting up auth
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3609053Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3638151Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3948383Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.3978493Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.4167713Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.4198416Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.4393085Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.4455248Z ##[endgroup]
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.4456932Z ##[group]Fetching the repository
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.4460280Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +997e6800def6beb14c430f94de65ac4e1a233716:refs/remotes/origin/codex/post-release-hardening
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.8544057Z From https://github.com/gsmlg-dev/abyss
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.8545122Z  * [new ref]         997e6800def6beb14c430f94de65ac4e1a233716 -> origin/codex/post-release-hardening
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.8548439Z ##[endgroup]
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.8549058Z ##[group]Determining the checkout info
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.8551235Z ##[endgroup]
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.8557376Z [command]/usr/bin/git sparse-checkout disable
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.8610936Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.8639719Z ##[group]Checking out the ref
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:09.8643648Z [command]/usr/bin/git checkout --progress --force -B codex/post-release-hardening refs/remotes/origin/codex/post-release-hardening
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:10.0534395Z Switched to a new branch 'codex/post-release-hardening'
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:10.0538090Z branch 'codex/post-release-hardening' set up to track 'origin/codex/post-release-hardening'.
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:10.0547506Z ##[endgroup]
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:10.0594972Z [command]/usr/bin/git log -1 --format=%H
+wire (27, native, keyed)	Run actions/checkout@v4	2026-10-14T12:44:10.0619751Z 997e6800def6beb14c430f94de65ac4e1a233716
+wire (27, native, keyed)	Run erlef/setup-beam@v1	﻿2026-10-14T12:44:10.0833114Z ##[group]Run erlef/setup-beam@v1
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:10.0833413Z with:
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:10.0833623Z   elixir-version: 1.18
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:10.0833844Z   otp-version: 27
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:10.0835909Z   github-token: ***
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:10.0836135Z   otp-architecture: 64
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:10.0836360Z   install-hex: true
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:10.0836579Z   install-rebar: true
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:10.0836798Z   version-type: loose
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:10.0837028Z   disable_problem_matchers: false
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:10.0837314Z   hexpm-mirrors: https://builds.hex.pm
+wire (27, native, keyed)	Run erlef/setup-beam@v1	
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:10.0837586Z env:
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:10.0837778Z   CI: true
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:10.0837981Z   MIX_ENV: dev
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:10.0838186Z   ABYSS_UDP_BACKEND: native
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:10.0838422Z   ABYSS_UDP_API: datagram
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:10.0838655Z   ABYSS_UDP_EXECUTION: keyed
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:10.0838886Z ##[endgroup]
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:10.2520467Z ##[group]Installing Erlang/OTP OTP-27.3.4.18 - built on amd64/ubuntu-24.04
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:10.7067341Z [command]/usr/bin/tar zx --strip-components=1 --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/7ee8854a-1348-4a9e-85f1-1ea0d8c77068 -f /home/runner/work/_temp/d70c0872-0c42-4ce1-93ea-e9b9260f5574
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:17.7324333Z [command]/home/runner/work/_temp/.setup-beam/otp/Install -minimal /home/runner/work/_temp/.setup-beam/otp
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:17.7581835Z Installed Erlang/OTP version
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:17.7596975Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -version
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:17.7716648Z Erlang (SMP,ASYNC_THREADS) (BEAM) emulator version 15.2.7.13
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:17.7740561Z ##[endgroup]
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:17.7741248Z [command]/home/runner/work/_temp/.setup-beam/otp/bin/erl -noshell -eval io:format(erlang:system_info(otp_release)), halt().
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:17.9234024Z 27::debug::Was not able to coerce latest with semver
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:17.9246309Z Using Elixir 1.18.5 (built for Erlang/OTP 27)
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:17.9247407Z ##[group]Installing Elixir v1.18.5-otp-27
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:17.9983508Z [command]/usr/bin/unzip -o -q /home/runner/work/_temp/9b7737b9-4ecd-4dcf-9d77-94b283cdb2fd
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:18.3312829Z Installed Elixir version
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:18.3329025Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/elixir -v
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:18.4930613Z Erlang/OTP 27 [erts-15.2.7.13] [source] [64-bit] [smp:4:4] [ds:4:4:10] [async-threads:1] [jit:ns]
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:18.4931538Z 
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:18.4990559Z Elixir 1.18.5 (compiled with Erlang/OTP 27)
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:18.5038875Z ##[endgroup]
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:18.5039348Z ##[group]Running mix local.rebar,--force
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:18.5047477Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.rebar --force
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:19.0794524Z * creating /home/runner/.mix/elixir/1-18-otp-27/rebar3
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:19.0858120Z ##[endgroup]
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:19.0858536Z ##[group]Running mix local.hex,--force
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:19.0869249Z [command]/home/runner/work/_temp/.setup-beam/elixir/bin/mix local.hex --force
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:19.6765396Z * creating /home/runner/.mix/archives/hex-2.5.2
+wire (27, native, keyed)	Run erlef/setup-beam@v1	2026-10-14T12:44:19.6844071Z ##[endgroup]
+wire (27, native, keyed)	Install fixture tooling	﻿2026-10-14T12:44:19.6997184Z ##[group]Run sudo apt-get update && sudo apt-get install -y iproute2 util-linux python3
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.6997934Z ^[[36;1msudo apt-get update && sudo apt-get install -y iproute2 util-linux python3^[[0m
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.7414022Z shell: /usr/bin/bash -e {0}
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.7414297Z env:
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.7414499Z   CI: true
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.7414662Z   MIX_ENV: dev
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.7414889Z   ABYSS_UDP_BACKEND: native
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.7415092Z   ABYSS_UDP_API: datagram
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.7415291Z   ABYSS_UDP_EXECUTION: keyed
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.7415775Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.7416120Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.7416420Z ##[endgroup]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.8233969Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.8379072Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.8488540Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.8590997Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.8626490Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.8654883Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.9002536Z Get:7 https://packages.microsoft.com/ubuntu/24.04/prod noble/main all Packages [640 B]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.9081034Z Get:8 https://packages.microsoft.com/ubuntu/24.04/prod noble/main armhf Packages [12.4 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.9101686Z Get:9 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [576 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.9170998Z Get:10 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [518 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:19.9925328Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1397 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:20.0004446Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [308 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:20.0016806Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1702 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:20.0100892Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [342 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:20.0103149Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1805 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:20.0196488Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [411 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:20.0203284Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [50.7 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:20.0208993Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse Translation-en [14.0 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:20.0448743Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [748 B]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:20.0905338Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1145 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:20.1388271Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [231 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:20.1397967Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1221 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:20.1460556Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [246 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:20.1476637Z Get:24 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1713 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:20.1564879Z Get:25 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [392 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:20.1584819Z Get:26 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [45.4 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:20.1591851Z Get:27 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse Translation-en [12.1 kB]
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:26.6280678Z Fetched 12.5 MB in 1s (11.7 MB/s)
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:27.3465771Z Reading package lists...
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:27.3731828Z Reading package lists...
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:27.5796708Z Building dependency tree...
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:27.5802819Z Reading state information...
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:27.7602890Z iproute2 is already the newest version (6.1.0-1ubuntu6.4).
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:27.7603527Z util-linux is already the newest version (2.39.3-9ubuntu6.6).
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:27.7604033Z python3 is already the newest version (3.12.3-0ubuntu2.1).
+wire (27, native, keyed)	Install fixture tooling	2026-10-14T12:44:27.7604545Z 0 upgraded, 0 newly installed, 0 to remove and 35 not upgraded.
+wire (27, native, keyed)	Compile the locked service	﻿2026-10-14T12:44:27.7667261Z ##[group]Run mix deps.get && mix compile --warnings-as-errors
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:27.7667643Z ^[[36;1mmix deps.get && mix compile --warnings-as-errors^[[0m
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:27.7724182Z shell: /usr/bin/bash -e {0}
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:27.7724389Z env:
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:27.7724544Z   CI: true
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:27.7724696Z   MIX_ENV: dev
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:27.7724865Z   ABYSS_UDP_BACKEND: native
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:27.7725056Z   ABYSS_UDP_API: datagram
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:27.7725242Z   ABYSS_UDP_EXECUTION: keyed
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:27.7725708Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:27.7726091Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:27.7726366Z ##[endgroup]
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4091892Z Resolving Hex dependencies...
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4529364Z Resolution completed in 0.041s
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4611386Z Unchanged:
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4612774Z   bunt 1.0.0
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4627483Z   credo 1.7.19
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4628403Z   dhcp_ex 0.5.0
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4629094Z   dialyxir 1.4.8
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4629690Z   earmark_parser 1.4.46
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4630014Z   erlex 0.2.9
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4630263Z   ex_dns 0.5.0
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4630523Z   ex_doc 0.40.4
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4630773Z   file_system 1.1.1
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4631031Z   jason 1.4.5
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4631269Z   machete 0.3.12
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4631510Z   makeup 1.2.3
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4631755Z   makeup_elixir 1.0.1
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4632019Z   makeup_erlang 1.1.0
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4632298Z   mime 2.0.7
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4632523Z   mox 1.3.2
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4632762Z   nimble_ownership 1.0.2
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4633044Z   nimble_parsec 1.4.2
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4633305Z   telemetry 1.4.2
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4633557Z   telemetry_metrics 1.2.0
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4633787Z   tesla 1.21.3
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.4670563Z * Getting telemetry (Hex package)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.5117672Z * Getting telemetry_metrics (Hex package)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.5176088Z * Getting mox (Hex package)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.5206258Z * Getting ex_dns (Hex package)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.5497422Z * Getting dhcp_ex (Hex package)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.5548105Z * Getting machete (Hex package)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.5703457Z * Getting ex_doc (Hex package)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.5902323Z * Getting dialyxir (Hex package)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.6045190Z * Getting credo (Hex package)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.6529182Z * Getting bunt (Hex package)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.6556663Z * Getting file_system (Hex package)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.6602867Z * Getting jason (Hex package)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.6640976Z * Getting erlex (Hex package)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.6671022Z * Getting earmark_parser (Hex package)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.6758185Z * Getting makeup_elixir (Hex package)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.6800927Z * Getting makeup_erlang (Hex package)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.6835127Z * Getting makeup (Hex package)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.6890886Z * Getting nimble_parsec (Hex package)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.6925356Z * Getting tesla (Hex package)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.7056811Z * Getting mime (Hex package)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:28.7082640Z * Getting nimble_ownership (Hex package)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:29.1924179Z ==> earmark_parser
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:29.1924840Z Compiling 2 files (.xrl)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:29.2127880Z Compiling 1 file (.yrl)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:29.2374153Z Compiling 3 files (.erl)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:29.3768047Z Compiling 32 files (.ex)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:29.9138981Z Generated earmark_parser app
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:30.0212377Z ==> file_system
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:30.0237773Z Compiling 7 files (.ex)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:30.1891696Z Generated file_system app
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:30.2296149Z ==> mime
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:30.2296907Z Compiling 1 file (.ex)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:30.3044614Z Generated mime app
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:30.3184894Z ==> nimble_parsec
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:30.3185736Z Compiling 4 files (.ex)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:30.5893949Z Generated nimble_parsec app
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:30.5998326Z ==> bunt
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:30.5998812Z Compiling 2 files (.ex)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:30.8854698Z Generated bunt app
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:31.1582576Z ==> abyss
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:31.1583545Z ===> Analyzing applications...
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:31.1849514Z ===> Compiling telemetry
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:31.3611850Z ==> telemetry_metrics
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:31.3612266Z Compiling 7 files (.ex)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:31.4476831Z Generated telemetry_metrics app
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:31.4678814Z ==> jason
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:31.4679206Z Compiling 10 files (.ex)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:32.5110288Z Generated jason app
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:32.5744573Z ==> tesla
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:32.5745004Z Compiling 57 files (.ex)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:33.1835851Z Generated tesla app
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:33.2752529Z ==> ex_dns
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:33.2753001Z Compiling 71 files (.ex)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:34.7741532Z Generated ex_dns app
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:34.8678176Z ==> dhcp_ex
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:34.8679432Z Compiling 12 files (.ex)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:35.4312904Z Generated dhcp_ex app
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:35.5977955Z ==> credo
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:35.5978793Z Compiling 257 files (.ex)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:40.2302343Z Generated credo app
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:40.3598010Z ==> makeup
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:40.3599415Z Compiling 15 files (.ex)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:40.8872118Z Generated makeup app
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:41.0175069Z ==> makeup_elixir
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:41.0175940Z Compiling 6 files (.ex)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:48.2232759Z Generated makeup_elixir app
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:48.2406337Z ==> makeup_erlang
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:48.2406729Z Compiling 4 files (.ex)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:57.6293452Z Generated makeup_erlang app
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:57.6562488Z ==> ex_doc
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:57.6563149Z Compiling 30 files (.ex)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:58.5306044Z Generated ex_doc app
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:58.6006225Z ==> erlex
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:58.6007162Z Compiling 1 file (.xrl)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:58.6097598Z Compiling 1 file (.yrl)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:58.6537394Z Compiling 2 files (.erl)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:58.9603987Z Compiling 2 files (.ex)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:59.0834535Z Generated erlex app
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:59.0980358Z ==> dialyxir
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:59.0980727Z Compiling 70 files (.ex)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:59.5779558Z Generated dialyxir app
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:59.6593025Z ==> machete
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:44:59.6593749Z Compiling 43 files (.ex)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:45:00.2871324Z Generated machete app
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:45:00.3720003Z ==> abyss
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:45:00.3720889Z Compiling 35 files (.ex)
+wire (27, native, keyed)	Compile the locked service	2026-10-14T12:45:01.5577636Z Generated abyss app
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	﻿2026-10-14T12:45:01.7937711Z ##[group]Run python3 scripts/udp/network_fixture.py
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:01.7938059Z ^[[36;1mpython3 scripts/udp/network_fixture.py^[[0m
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:01.7993682Z shell: /usr/bin/bash -e {0}
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:01.7993901Z env:
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:01.7994052Z   CI: true
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:01.7994197Z   MIX_ENV: dev
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:01.7994361Z   ABYSS_UDP_BACKEND: native
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:01.7994555Z   ABYSS_UDP_API: datagram
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:01.7994749Z   ABYSS_UDP_EXECUTION: keyed
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:01.7994996Z   INSTALL_DIR_FOR_OTP: /home/runner/work/_temp/.setup-beam/otp
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:01.7995321Z   INSTALL_DIR_FOR_ELIXIR: /home/runner/work/_temp/.setup-beam/elixir
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:01.7995765Z ##[endgroup]
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:03.2021908Z WIRE RUNTIME %{otp: "27", elixir: "1.18.5", erts: "15.2.7.13", backend: "native"}
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:03.2023368Z {"os": "linux", "kernel": "6.17.0-1022-azure", "offered_load": "sequential barrier-qualified low-rate probes", "seed": "unique epoch per run", "payloads": "empty and unique short epoch datagrams"}
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:03.5167825Z PASS broadcast_limited_bidirectional_two_receivers
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:03.8192019Z PASS broadcast_directed_bidirectional_two_receivers
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:04.0202706Z PASS ipv4_strict_group_filter_foreign_socket_membership
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:04.6259900Z PASS ipv4_two_groups_bidirectional_two_subscribers
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:05.1301891Z PASS ipv4_leave_rejoin_idempotent_epoch_barriers
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:05.7364001Z PASS ipv4_two_interfaces_membership_egress_isolation
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:05.7372271Z PASS ipv4_ttl_or_hoplimit_wire_ancillary
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:05.8900882Z PASS ipv4_loopback_local_vs_remote_delivery
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:06.4964542Z PASS ipv6_two_groups_bidirectional_two_subscribers
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:07.0003974Z PASS ipv6_leave_rejoin_idempotent_epoch_barriers
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:07.6062299Z PASS ipv6_two_interfaces_membership_egress_isolation
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:07.6071034Z PASS ipv6_ttl_or_hoplimit_wire_ancillary
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:07.7601151Z PASS ipv6_loopback_local_vs_remote_delivery
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:07.7613235Z PASS ipv4_identical_payload_distinct_destination_metadata
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:08.0645330Z PASS ipv4_strict_reply_original_socket_second_interface
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:08.0659910Z PASS ipv6_identical_payload_distinct_destination_metadata
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:08.3687430Z PASS ipv6_strict_reply_original_socket_second_interface
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:08.3706355Z PASS ipv6_two_link_local_scopes_strict_original_socket_replies
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:08.3711770Z PASS ipv4_directed_broadcast_truthful_metadata_strict_unicast_reply
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:08.3715448Z PASS empty_datagram_original_listener_reply_port
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:08.3726308Z PASS distinct_datagrams_preserve_boundaries
+wire (27, native, keyed)	Verify independent UDP peers in isolated namespaces	2026-10-14T12:45:08.4012145Z {"result": "PASS", "backend": "native", "gates": ["broadcast_limited_bidirectional_two_receivers", "broadcast_directed_bidirectional_two_receivers", "ipv4_strict_group_filter_foreign_socket_membership", "ipv4_two_groups_bidirectional_two_subscribers", "ipv4_leave_rejoin_idempotent_epoch_barriers", "ipv4_two_interfaces_membership_egress_isolation", "ipv4_ttl_or_hoplimit_wire_ancillary", "ipv4_loopback_local_vs_remote_delivery", "ipv6_two_groups_bidirectional_two_subscribers", "ipv6_leave_rejoin_idempotent_epoch_barriers", "ipv6_two_interfaces_membership_egress_isolation", "ipv6_ttl_or_hoplimit_wire_ancillary", "ipv6_loopback_local_vs_remote_delivery", "ipv4_identical_payload_distinct_destination_metadata", "ipv4_strict_reply_original_socket_second_interface", "ipv6_identical_payload_distinct_destination_metadata", "ipv6_strict_reply_original_socket_second_interface", "ipv6_two_link_local_scopes_strict_original_socket_replies", "ipv4_directed_broadcast_truthful_metadata_strict_unicast_reply", "empty_datagram_original_listener_reply_port", "distinct_datagrams_preserve_boundaries"], "payload_sizes": [0, 6, 42, 46, 48, 49, 50, 51, 52, 55, 56, 57, 58, 62, 63, 64, 70], "unsupported": [], "topology": "3 endpoint namespaces, 2 isolated bridged subnets"}
+wire (27, native, keyed)	Post Run actions/checkout@v4	﻿2026-10-14T12:45:08.4664804Z Post job cleanup.
+wire (27, native, keyed)	Post Run actions/checkout@v4	2026-10-14T12:45:08.5342775Z [command]/usr/bin/git version
+wire (27, native, keyed)	Post Run actions/checkout@v4	2026-10-14T12:45:08.5379492Z git version 2.55.0
+wire (27, native, keyed)	Post Run actions/checkout@v4	2026-10-14T12:45:08.5410699Z Temporarily overriding HOME='/home/runner/work/_temp/2e9a523d-31b8-4250-81eb-313e7283232e' before making global git config changes
+wire (27, native, keyed)	Post Run actions/checkout@v4	2026-10-14T12:45:08.5411463Z Adding repository directory to the temporary git global config as a safe directory
+wire (27, native, keyed)	Post Run actions/checkout@v4	2026-10-14T12:45:08.5415138Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/abyss/abyss
+wire (27, native, keyed)	Post Run actions/checkout@v4	2026-10-14T12:45:08.5446803Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+wire (27, native, keyed)	Post Run actions/checkout@v4	2026-10-14T12:45:08.5476507Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+wire (27, native, keyed)	Post Run actions/checkout@v4	2026-10-14T12:45:08.5686742Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+wire (27, native, keyed)	Post Run actions/checkout@v4	2026-10-14T12:45:08.5710925Z http.https://github.com/.extraheader
+wire (27, native, keyed)	Post Run actions/checkout@v4	2026-10-14T12:45:08.5720424Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+wire (27, native, keyed)	Post Run actions/checkout@v4	2026-10-14T12:45:08.5755149Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+wire (27, native, keyed)	Post Run actions/checkout@v4	2026-10-14T12:45:08.5969233Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+wire (27, native, keyed)	Post Run actions/checkout@v4	2026-10-14T12:45:08.6001656Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+wire (27, native, keyed)	Complete job	﻿2026-10-14T12:45:08.6354592Z Cleaning up orphan processes
+wire (27, native, keyed)	Complete job	2026-10-14T12:45:08.6642060Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

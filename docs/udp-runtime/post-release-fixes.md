@@ -1,33 +1,62 @@
-# Abyss post-release hardening
+# Abyss 0.8.1 post-release hardening
 
-Work is in progress; no new release is claimed. Scope is Agent Note `27a599ba-c246-4263-92e9-77b80ef5605c` (revision 2), R1–R4, read in full. The immutable 0.8.0 release and [historical acceptance](../archive/udp-runtime/acceptance.md) remain attributed to their original sources.
+R1–R4 and final local/remote acceptance pass. Integration and publication are pending; this document does not yet claim release success.
 
-Baseline `cd65c84073c66de460ab883206414cf8ce0154bf`; worktree `.trees/post-release-hardening`, branch `codex/post-release-hardening`. Primary had only three untracked user input Markdown files, preserved. Exact commands, exit codes and source/runtime hashes will accompany the discriminating regressions and final validation.
+The input is Agent Note `27a599ba-c246-4263-92e9-77b80ef5605c`, revision 2, read in full and retained verbatim in [agent-note](evidence/post-release/agent-note.md). Baseline is actual checkout `cd65c84073c66de460ab883206414cf8ce0154bf`, preserving its documentation reorganization. Worktree `.trees/post-release-hardening`, branch `codex/post-release-hardening`; primary's three untracked user input Markdown files and all lockfiles remain preserved. Historical [0.8.0 acceptance](../archive/udp-runtime/acceptance.md) is unchanged and is not evidence for this patch.
 
-| Finding | Verification/result | Evidence |
+| Finding | Result | Discriminating evidence |
 |---|---|---|
-| R1 stale cross-phase watchdog | PASS: isolated final-harness RED4tests/2 intended failures; fixed scoped46/0 each OTP27/28 | `evidence/post-release/r1-*` |
-| R2 endpoint idle eviction | PASS: final RED 4 tests / 2 intended failures; fixed combined 50/0 each OTP27/28 | `evidence/post-release/r2-*` |
-| R3 missing native send telemetry | PASS: final RED 15 tests / 5 intended failures; fixed combined 84/0 each OTP27/28 | `evidence/post-release/r3-*` |
-| R4 public drop omission/overlap | PASS: portable RED 14/14 intended failures; native RED 2/2; stopped-window extension RED; final combined 144/0 OTP27/28, native 2/0 each | `evidence/post-release/r4-*` |
+| R1 watchdog identity | PASS | Final old-source RED: 4 tests, 2 intended stale init/callback kills. Fixed interacting suites: 46/0 on OTP27 and OTP28. `r1-source-identity.json`, `r1-*` logs. |
+| R2 endpoint lifetime | PASS | Isolated R1 source RED: 4 tests, 2 intended state/timer failures. Fixed interacting suites: 50/0 each. `r2-source-identity.json`, `r2-*` logs. |
+| R3 local native send accounting | PASS, including final macOS OTP28 | Exact final portable fixture RED on isolated R2 source: 15 tests, 5 intended failures. Fixed OTP27/28: 15/0; earlier interacting suites: 84/0 each. `r3-source-identity.json`, `r3-portable-repair-source-identity.json`, corresponding raw logs. |
+| R4 public drop accounting | PASS | Portable RED: 14/14 intended failures; native RED: 2/2; separate stopped-window extension RED: 1 intended failure. Fixed interacting suites: 144/0 each; native final: 2/0 each. `r4-source-identity.json`, `r4-native-source-identity.json`, `r4-*` logs. |
 
-Reproduction inputs and raw evidence live in [post-release evidence](evidence/post-release/); resumable ownership and next steps are in [progress](progress.md).
+Every watchdog arm now carries its own identity, phase and monotonic deadline and validates worker, invocation and generation. Actual previous-phase timer messages are held at observed barriers and delivered after the new arm is installed. Current limits and helper-DOWN/worker-settlement credit barriers remain enforced. The timer audit found no demonstrated analogous defect requiring another change. Small helpers remove the two introduced nesting findings without changing limits.
 
+Endpoint state is lazy and persists through ordinary idleness and pause/resume for its current generation, with no completed input or send credit retained merely to keep state. `idle_timeout` continues to govern finite keyed eviction; pending timers do not pin inactive keys. Stop, generation replacement and existing callback/application failure policies still retire state and managed timers. This is in-memory lifetime, not durable recovery.
 
-Baseline checkpoint (2026-10-14): actual cd65c84 OTP27 strict compile and full integration suite PASS,648tests+3doctests/0failures, exit0 (`baseline-otp27-tests.log`). Strict Credo actualbaseline 83findings/exit30 (`baseline-credo.json`, raw log). No source edits or lock changes in primary. R1 actual timer race regressions underway; R3/R4 source findings confirmed by independent read-only audit.
+Native instrumentation records the actual `sendmsg` result once under the registered logical server. Payload bytes exclude address controls; empty sends count once with zero bytes. Definite socket errors count once; validation/admission rejection, caller wait timeout and repeated receipt reads do not create send results. The Writer and custom-transport/optional QUIC contracts remain unchanged. Real IPv4/IPv6 traffic, strict replies, both transmitting same-handler endpoints, sampling 0/1 and late completion are covered.
 
+Public `dropped` is `drop_counts.ingress + drop_counts.runtime`, counting each known network input at its definitive ingress or runtime rejection. `internal_events_rejected` separates timer and send-outcome admission rejection, with fixed telemetry counter names. Network drop bytes use observed payload length; truncated native input never invents its original length. Callback failure, send failure, teardown discard and unknown kernel queue loss are separate. Runtime snapshots are absolute bounded maps, sent before rejection telemetry and guarded by original runtime PID/generation. They preserve counts while a stopped generation remains inspectable after normal or forced drain, without duplicate increments or a synchronous control cycle. Public counts reset with generation; telemetry retains logical-server lifetime. Legacy statistics keep their previous contract.
 
-Baseline resource gate PASS, exit0 (`baseline-runtime-stress-otp27.log`): all3policies ×5epochs, process baseline/final116, input high8items/7160bytes and egress4entries/2048bytes within configured quotas. These are sampled host-managed counters, not a whole-VM/native reclamation proof. Performance comparison will use actualcd65c84 source with controlled serial samples after compile/test activity finishes.
+## Combined validation
 
+Executable/workflow candidate `997e6800def6beb14c430f94de65ac4e1a233716` was pushed first; final portable fixture repair is `cd7f26822e366d65e3f168246020cd41ee7b7f3f`. The latter changes only two test/support files and their evidence. Local OTP27 uses the project devenv shell (Elixir 1.18.4, OTP27); OTP28 uses system Elixir 1.18.5. Exact ERTS identity, commands, environment, exit codes and captured hashes are in `final-*-results.json` and raw logs under [evidence](evidence/post-release/).
 
-R1 checkpoint: final actual-timer cross-phase regressions fail oldcd65c84 independently (4tests/2 intended stale init/callback kills, isolated `.trees/r1-red-baseline`, exit2). Fixed source preserves active init/callback/effects and bounded cleanup; stale invocation/key/generation arms harmless. OTP27/28 each46tests/0, exit0. Source hashes/commands in `r1-source-identity.json`; raw final RED/green logs retained. Other timer classes audited, no demonstrated analogous identity reuse changed. R1 ownership returned; next R2 endpoint lifetime.
+Starting commands, run from this worktree with `CI=true`, `ERL_FLAGS='+S 8:8'` and isolated `MIX_BUILD_PATH` per runtime:
 
-R2 checkpoint: isolated `babc1d1` fails final lifetime regressions (4 tests, 2 intended failures, exit 2). Fixed OTP27/28 each pass 50 interacting tests, exit 0. Endpoint state and its timer survive inactivity and pause/resume with zero completed input/egress credit; actual stop/replacement cancels old timers. Keyed eviction/status stability, obsolete-timer isolation and existing maximum-key limits remain tested. Production change is a three-line endpoint empty-queue guard. Commands/hashes in `r2-source-identity.json`. Next: R3 native local-send instrumentation and discriminating accounting regressions.
+```sh
+mix format --check-formatted
+mix compile --warnings-as-errors
+MIX_ENV=test mix compile --warnings-as-errors
+mix test --include integration --no-cover
+mix dialyzer
+mix docs --warnings-as-errors
+mix credo --strict --format json
+git diff --check
+```
 
-R3 checkpoint: isolated `d9c01b1` final-byte RED gives 15 tests / 5 intended failures, exit 2 (four native missing events after actual receive, one false GenUDP validation error). Fixed OTP27/28 each pass 84 interacting tests, exit 0. Actual IPv4/IPv6, all three backends, sampling 0/1, empty/strict sends, both transmitting same-handler endpoints, socket errors and delayed completion agree with receipts and counters. Portable failure uses a real 65,536-byte UDP send (`:emsgsize`); Linux native port-zero error is `:einval`. No Writer change. Commands/hashes in `r3-source-identity.json`. Credo retains 83 baseline findings plus two introduced R1 runtime nesting findings, which parent will fix before R4.
+| Gate | Result/evidence |
+|---|---|
+| Baseline integration | PASS, 648 tests + 3 doctests / 0, `baseline-otp27-tests.log` |
+| OTP28 combined integration/static/docs | PASS, 688 tests + 3 doctests / 0; format, both strict compiles, Dialyzer and documentation exit 0. `final-otp28-*` |
+| OTP27 combined integration | Initial FAIL, 688/1: unchanged async dispatcher EXIT assertion after 100ms. Same-seed 886179 targeted test PASS, full retry 688 + 3 doctests / 0. `final-otp27-integration.log`, `final-otp27-writer-diagnostic.log`, `final-otp27-integration-retry.log` |
+| Strict Credo | Absolute FAIL, exit30, 83 baseline findings; delta PASS, zero introduced. `baseline-credo.json`, `final-otp28-credo-comparison.json`; final OTP27 also83/zero introduced |
+| Optional QUIC compatibility | PASS, both unchanged scripts exit0; published engine/TLS0.21.6 provenance, network/control/lifecycle, fresh external UDP/QUIC release consumers and actual1MiB collector. `final-quic-source-identity.json`, `final-quic-*` logs; all lockfiles/source hashes preserved |
+| Resource gate | PASS:3policies ×5epochs; process116→116; input8items/7160bytes, egress4entries/2048bytes within quotas. `final-runtime-stress-otp27.log` |
+| Performance comparison | MEASURED:6serial samples per source/mode in both paired orders. Median throughput vs actualbaseline:legacy−5.09%, per_datagram−3.26%, endpoint−4.32%, keyed−8.14%. `final-performance-comparison.json` and48raw sample logs |
+| Final remote regression matrix | PASS3/3 atcd7f268:Linux27/28 andmacOS28. [run38567015353](https://github.com/gsmlg-dev/abyss/actions/runs/38567015353), `final-regressions-results.json` andall3joblogs |
+| Final remote wire/package matrix | PASS19/19 atcd7f268. [run38567021087](https://github.com/gsmlg-dev/abyss/actions/runs/38567021087), `final-network-results.json` andall19joblogs. Initial matrix38565997724 also19/19 |
+| Publication | NOT RUN |
 
-Watchdog lint checkpoint: R3 committed `c1aff38`; two introduced R1 nesting findings resolved using small expiry/phase helpers with unchanged arm identity, deadlines and cleanup barriers. OTP27/28 scoped interacting suites pass 79/0 (exit 0; exact command excludes the five unchanged endpoint-contract tests from R3's 84-test command). Strict Credo is absolute FAIL/exit 30 with exactly the same 83 baseline issue signatures; delta PASS, zero new or removed findings (`watchdog-lint-comparison.json`). Next: ordered R4 public drop accounting.
+The initial macOS fixture assumed a 65,536-byte IPv6 send must fail with `:emsgsize`; Darwin actually completed it locally. The final fixture suspends only its owning listener and closes its real registered socket, then requires public send/await to return `:closed`, exactly one six-byte error event, and unchanged isolated success counts. No failure assertion, family/backend/sample coverage or production deadline was weakened. Its exact-final-byte RED remains discriminating.
 
-R4 acceptance: fixed-cardinality network counters count definitive ingress or runtime rejection once; rejected timer/outcome events have separate counters and telemetry. Real traffic covers key/item/byte/route/global/validation/pause limits, two endpoints, reset scope, native kernel truncation and sampling 0/1. Absolute runtime snapshots are sent before rejection telemetry, guarded by runtime PID/generation, and retained through normal or deadline-forced drain; no listener increment duplicates a runtime rejection. Native truncation reports observed bytes only. Final stopped-window regression fails the pre-extension candidate on lost runtime count. Commands, source hashes and all failed attempts are retained in `r4-*` evidence.
+The Writer test and production dispatcher are byte-identical to the baseline. Shutdown can wait100ms per child plus fallback cleanup, so the existing async test's100ms assertion has a timing limitation; competing compilation was present but causation is unproven. No unrelated repair was made. OTP27's first Dialyzer attempt also found the configured shared `priv/plts/dialyzer.plt` overwritten by OTP28 (OldPLT); the task-generated28 cache was preserved and27 cache rebuilt and passed without source configuration changes. All initial failed logs remain retained.
 
-Patch preparation: GitHub/Hex latest version rechecked as 0.8.0; 0.8.1 selected. Combined final validation and publication remain pending. Absolute strict Credo is still FAIL with 83 baseline findings; acceptance requires zero introduced findings, with the normalized comparison retained.
+The initial19-job wire matrix verifies independent peers in fixture-owned namespaces across3backends ×3policies ×2runtimes, plus optional DHCP/ARP. It includes a fresh packaged core consumer with no Rust/QUIC and the optional native package; optional DHCP is not part of this publication. Final logs are collected with `collect_workflow.py`, checking each run's exact `headSha` and retaining every job's raw log/hash. Socket scoped IPv6 keeps its documented capability subset.
+
+## Delivery
+
+R1 `babc1d1`, R2 `d9c01b1`, R3 `c1aff38`, watchdog lint `960c40a`, R4 `7574a4a`, version preparation `997e680`, portable fixture repair `cd7f268`. Version0.8.1 was confirmed available after live GitHub/Hex checks. Final OTP28 integration after the fixture repair also passes688tests+3doctests/0 (`final-otp28-integration-final-results.json`). Executable candidatecd7f268 has passed final required local andremote gates; mainCI/release/tag/package checks remain pending. Follow [progress](progress.md) for the exact resumable next action.
+
+Performance measurements retain both initial and reverse sample orders. First-order legacy throughput fell9.96%, reverse-order0.91%; the combined median remains5.09% below baseline. Other policies' combined declines are3.26–8.14%, with increased sampled tail latency. These are reported limitations, not a claim of unchanged production performance. The maintenance prompt requires measurement against current source and supplies no new performance threshold. No unrelated optimization or threshold change was made. Resource results certify only sampled host-managed bounds and observed completion; kernel drops and whole-VM/native reclamation remain unmeasured.

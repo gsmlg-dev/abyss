@@ -1,0 +1,17 @@
+{"cmd": ["mix", "run", "--no-compile", "/home/gao/Workspace/gsmlg-dev/abyss/.trees/post-release-hardening/scripts/udp/steady.exs"], "cwd": "/home/gao/Workspace/gsmlg-dev/abyss/.trees/post-release-hardening", "source": "cd7f26822e366d65e3f168246020cd41ee7b7f3f", "build": "/tmp/abyss-post-hardening-otp27", "mode": "legacy", "exit": 0}
+STEADY_PASS: %{
+  count: 3000,
+  mode: "legacy",
+  warmup: 500,
+  payload_bytes: 64,
+  offered: :sequential_request_response,
+  throughput_per_second: 8374.648264772879,
+  latency_median_us: 117,
+  latency_p95_us: 153,
+  latency_p99_us: 173,
+  elapsed_us: 358224,
+  processes_before: 116,
+  processes_after_traffic: 122,
+  owner_mailbox_end: 0,
+  kernel_drops: :unmeasured
+}

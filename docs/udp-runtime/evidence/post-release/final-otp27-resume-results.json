@@ -1,0 +1,57 @@
+{
+  "source": "997e6800def6beb14c430f94de65ac4e1a233716",
+  "reason": "Retain original writer EXIT100ms failure; retry unchanged full suite without competing builds",
+  "env": {
+    "CI": "true",
+    "ERL_FLAGS": "+S 8:8",
+    "MIX_BUILD_PATH": "/tmp/abyss-post-hardening-otp27"
+  },
+  "results": [
+    {
+      "name": "writer-diagnostic",
+      "cmd": [
+        "mix",
+        "test",
+        "test/abyss/dispatcher_test.exs:280",
+        "--no-cover",
+        "--seed",
+        "886179"
+      ],
+      "overrides": {
+        "MIX_ENV": "test"
+      },
+      "exit": 0,
+      "seconds": 1.017427686136216,
+      "log": "final-otp27-writer-diagnostic.log"
+    },
+    {
+      "name": "integration-retry",
+      "cmd": [
+        "mix",
+        "test",
+        "--include",
+        "integration",
+        "--no-cover",
+        "--seed",
+        "886179"
+      ],
+      "overrides": {
+        "MIX_ENV": "test"
+      },
+      "exit": 0,
+      "seconds": 31.365452479105443,
+      "log": "final-otp27-integration-retry.log"
+    },
+    {
+      "name": "dialyzer",
+      "cmd": [
+        "mix",
+        "dialyzer"
+      ],
+      "overrides": {},
+      "exit": 1,
+      "seconds": 2.92121370555833,
+      "log": "final-otp27-dialyzer.log"
+    }
+  ]
+}

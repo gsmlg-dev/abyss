@@ -1,0 +1,24 @@
+{"cmd": ["mix", "dialyzer"], "cwd": "/home/gao/Workspace/gsmlg-dev/abyss/.trees/post-release-hardening", "source": "997e6800def6beb14c430f94de65ac4e1a233716", "env": {"CI": "true", "ERL_FLAGS": "+S 8:8", "MIX_BUILD_PATH": "/tmp/abyss-post-hardening-otp27"}}
+Compiling 35 files (.ex)
+Generated abyss app
+Finding suitable PLTs
+Checking PLT...
+[:abyss, :elixir, :kernel, :logger, :machete, :public_key, :stdlib, :telemetry, :telemetry_metrics]
+PLT is up to date!
+No :ignore_warnings opt specified in mix.exs and default does not exist.
+
+Starting Dialyzer
+[
+  check_plt: false,
+  init_plt: ~c"/home/gao/Workspace/gsmlg-dev/abyss/.trees/post-release-hardening/priv/plts/dialyzer.plt",
+  files: [~c"/tmp/abyss-post-hardening-otp27/lib/abyss/ebin/Elixir.Abyss.Dispatcher.SendCapability.beam",
+   ~c"/tmp/abyss-post-hardening-otp27/lib/abyss/ebin/Elixir.Abyss.Listener.beam",
+   ~c"/tmp/abyss-post-hardening-otp27/lib/abyss/ebin/Elixir.Abyss.Transport.UDP.Broadcast.beam",
+   ~c"/tmp/abyss-post-hardening-otp27/lib/abyss/ebin/Elixir.Abyss.Endpoint.beam",
+   ~c"/tmp/abyss-post-hardening-otp27/lib/abyss/ebin/Elixir.Abyss.Logger.beam",
+   ...],
+  warnings: [:error_handling, :extra_return, :missing_return, :unknown, ...]
+]
+:dialyzer.run error: Old PLT file /home/gao/Workspace/gsmlg-dev/abyss/.trees/post-release-hardening/priv/plts/dialyzer.plt
+
+Halting VM with exit status 1

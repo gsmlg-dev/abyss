@@ -1,0 +1,371 @@
+{"source": "cd7f26822e366d65e3f168246020cd41ee7b7f3f", "cmd": ["mix", "test", "--include", "integration", "--no-cover"], "env": {"CI": "true", "ERL_FLAGS": "+S 8:8", "MIX_ENV": "test", "MIX_BUILD_PATH": "/tmp/abyss-post-hardening-otp28"}, "hashes": {"lib/abyss.ex": "6f040597b676702c8faa7b414624d3d6200ac217684ec226cf0d9594c03fff79", "lib/abyss/application.ex": "a05a5369109945e21330d53dfe0970019e9e51cf53e3de19577b4b4069636629", "lib/abyss/client.ex": "5515a3426df2344723a8abbf2b053100f45279b8e6423ba1e11290ff52b0c73e", "lib/abyss/connection.ex": "75991f7efc9593ab6bc5825c4514c3e338853740947c0b44ebab72c8a5e87bb6", "lib/abyss/datagram.ex": "0b586088668bb63b013cf815fd35e001cd51dc1c72c372efb87de01431572d39", "lib/abyss/datagram_actions.ex": "ee4c6c44214f9bcb2e39f4cd537ac5745d0684417960f589f837d48eaafe2998", "lib/abyss/datagram_dispatcher.ex": "d8defa29e5bf0d388a8b4c14c594662fd4e2836bf99e991d9eb44586ba8d30b8", "lib/abyss/datagram_handler.ex": "21bc9d4ce1bd138d83811f63d5a1b4cb9d3099f763447a599521684b2b4f8ba7", "lib/abyss/datagram_runtime.ex": "b0404ad7a23ea3a20c4baeb513a9f1602afe3971d59885950805f7a80f83f2a5", "lib/abyss/datagram_worker.ex": "8ab4272c285733f4752d796e9fec73d4e9f9a01598bc47d0b73b9fe2cb85adcc", "lib/abyss/endpoint.ex": "18677499f2fab40fae3a86652d0ffc9c51d0f56cc0881b78e0e0fa05b3bdc3ab", "lib/abyss/handler.ex": "0af0763385283f6465a7ecfe0e8b89c1754336a1b2d87e9101e88eac5a7b0ef5", "lib/abyss/listener.ex": "daabd8aa70616987ed1289d6af1de26e3bd1afcb0081db59d6cf303136ef1f04", "lib/abyss/listener_pool.ex": "122eea5656bb9f9e7ade0046b8ff5b751f1099293cadc1528302f86256cb932e", "lib/abyss/listener_pool_scaler.ex": "7b95b946528141362dcc0298671b5a8a0eb73eae576680e1cadd4025fc232bdf", "lib/abyss/listener_starter.ex": "50c1219e3c35b5aa374fe9244206aa31ecf881701aab17dc905d4f3eac45fe1b", "lib/abyss/logger.ex": "ee0f45b8b65c63e8ef9e7347079db2e4a2d6228f9b19f59491a612c483842fb8", "lib/abyss/quic.ex": "440cb155d37d6f374cee704b8cc5c35a09dbb0759366116c8220d4cde3f3c9e2", "lib/abyss/server.ex": "c6ea5524f98e81582eb0020d49e3dd5fd8f669ac855ffc71a69f711d5d4b75bb", "lib/abyss/server_config.ex": "5c55bbea9191d52a0a75cab1aba60659e956fe873d54c594b34b963ff50f0ab9", "lib/abyss/shutdown_listener.ex": "87f1aa84a51af504d272af95ea634d8e17f9d87d9d16ba3df418836709e8b5fc", "lib/abyss/table_owner.ex": "55688ac9af73e6ce71e283855e211f3b512159666f97e59d83bd5fc431c63814", "lib/abyss/telemetry.ex": "5224da94291128de5f839adfb98e76a795c04381105b6d5b9e83dbaa34bc3860", "lib/abyss/transport.ex": "10fc757776b2a65aedba3580bef6b85f4afe13b4b2c0ea4bb77bde4ef0dfb6f6", "lib/abyss/udp_admission.ex": "0c956ad44c526f3cc305f357d73df8a74ec955dcfd9184faf87b0fe6c8f69233", "lib/abyss/utils.ex": "408052a43ecdb62edb68c9b0d35eabb6d081488b108522e9b0417a9cb1ce7637", "lib/abyss/dhcp_socket/native.ex": "254492642aecec2b7ed31ed03078a59b8e7775f8d57c4f4bc0afea35fadf3cf2", "lib/abyss/quic/handler.ex": "a0e1bc27356c3144db0b3651a524d9712b30a5890a3383be78d7bf78e0b762ed", "lib/abyss/quic/service.ex": "ecd853982f39301c88fd174d81978deeca28c21e6800797647fbd30b268d8b42", "lib/abyss/transport/udp.ex": "2f889cc2f32f250d67f2fbdacbc1a0ab632ddd03f9ae5ea54fbd6a2e677de9e0", "lib/abyss/transport/udp/broadcast.ex": "f1ad057fa576afccb837a6d8a6885319b41ba660f24feaa46abdbb746bf3c1ab", "lib/abyss/transport/udp/core.ex": "b650bad39f030ff6280cc66b3ddbf54d4dc20f9b9636f397e692700ae5ad2aa8", "lib/abyss/transport/udp/multicast.ex": "f6ffba3d638d89efd4f5259bc179fb20f46cbd20eb62b4100b845103908eb21a", "lib/abyss/transport/udp/native.ex": "e87cb0ef1bcf4fa80485f89bed298677d5cd8aeaa9aa4dd9112c19c5414d54bf", "lib/abyss/transport/udp/unicast.ex": "d72b568868750280a623c82670eac90c0a27b3e2010facf9d70b881c9ee19c36", "test/abyss_test.exs": "d79352af2b37a0539baf7ab18382e7030d5cb9303da2d5da87e24777c23ba21d", "test/shutdown_listener_test.exs": "6dd0884ac4ccfb9bd139bb6123b61aed9a0a8e920fbebb30f9b875cf71935764", "test/test_helper.exs": "e4c0dc55c45f802e14ef275def917688766ab2354e9c1d0434898eed5c94db6f", "test/abyss/client_regression_test.exs": "08fcacc638cb99d2afb17c43de4c25d11fd10706a5c9baa0511cb38c0f2949d6", "test/abyss/client_test.exs": "bb797de03631d65c5942d510a490467a793a29f97784f64a7e166f85301b69fe", "test/abyss/connection_admission_test.exs": "9e8b12d9d7790390f26d4e68bb593de498ab7538b2184c7edbfd78f349b3369e", "test/abyss/connection_test.exs": "42b322a0c6dfb260a7bbe5155dcfa2c031bf94a934dd4b130f81fda34fdcc84f", "test/abyss/datagram_config_test.exs": "722fa3abbbfc3a2f90eca499ebb73ac020276c881d471b16199506ebf0299e51", "test/abyss/datagram_runtime_test.exs": "d3d82c0d6dd7737a1ca4c9bff4aaa8d026d20f43a49a529a39cd24dabb1583c0", "test/abyss/datagram_test.exs": "0528839948fa5bc86cd45387cb5f2519e42c0f953c22ecd531ff2e2e5e42dbf7", "test/abyss/dispatcher_test.exs": "b3be5a500a3769e6935394dd94a21eebc1eb564277e69dc7ddd9077633a7a098", "test/abyss/endpoint_contract_test.exs": "7c10aac359670e6faf0d2e5de32aff48012763121ce029ada458564f57c72226", "test/abyss/handler_hardening_test.exs": "5188cf8abd96f36be5ace96508a14c42677f5fdeb1438aa0efb4d6bbb36f037c", "test/abyss/handler_test.exs": "8c263ee5c109aad594531a30661caf7760bad7aefb5f9e14ae1ee809d0d8e4f1", "test/abyss/listener_comprehensive_test.exs": "6ca11ae0479dcbb0ec15ed755fd265a20b69b70798c8d218fbc72feee5898636", "test/abyss/listener_pool_scaler_test.exs": "ff79d58a2c171943684333192481a8a601030d6895ed0a29adfa63e7e31442d4", "test/abyss/listener_pool_test.exs": "552259ba9bc21f951f35f4f09d3ae25b9a53163f8e9378c2f450c00f6f61aea0", "test/abyss/listener_test.exs": "1033507cc81d6c803a5e4875b18f85a2ebb0bb48e1c03456ac7ce493d4a9e8ab", "test/abyss/logger_test.exs": "46a959ee2a7e4fa0515672c520d67e3e8a40c2ca34b9129a4a7bf2a1040824b9", "test/abyss/metadata_requirements_test.exs": "f727b06e8a00846598bead560f0a4491119968d5b7c35877379874f123d1019f", "test/abyss/quic_test.exs": "30f390069bd2dc7fa7da3a8a2a9bbb0bba3de42c9c91cf5d931c3cdb78576a7e", "test/abyss/server_config_test.exs": "71e52d48cb60a2da9c79666ebe38c32cd260dc1d2e0fe9c0d39aba81dcdc7525", "test/abyss/server_test.exs": "49e4044de55c3c8ab2eff2f69315af7d8b8f4588dbcc066d75f9baa53ca6a472", "test/abyss/table_owner_scope_test.exs": "2c891860bbf0dea189ce06d7750ad387958ccf108d48829d6cc1824ede16950a", "test/abyss/table_owner_test.exs": "15717764a8ff6799c3d2452ee85d7452f4c7d46636c5a7fea3b5612db19fdca1", "test/abyss/telemetry_endpoint_test.exs": "5d9629ffe51e2a1ededa999e8f16fe2d6ff24745a53e9e1615f91e02a454224c", "test/abyss/telemetry_integration_test.exs": "563cccaf108eedf588439205309f04dafa013b3a14cece22c7edfcc31ca03448", "test/abyss/telemetry_metrics_test.exs": "e4c96374171671665ec8deec507174d88d42872f146b2d5dac6e7193feed49a5", "test/abyss/telemetry_test.exs": "1b9e40309e698564cb710fa7f3d4c8d08b911d7230f28450a6e3e284e3e5e054", "test/abyss/transport_udp_comprehensive_test.exs": "45d29490d7712a048a97716d0944f5e838ab3bd2bf0959de9ff50f288c1e2aa4", "test/abyss/udp_admission_test.exs": "f05c84d429cb0aa99c59f5fbbdaba4bb2f7f0c2d256de41fe0b6dd81a73972f9", "test/abyss/udp_backend_resolution_test.exs": "493c8520a123c26eb21b1eae0031c3e07db1fb7aaca1eba4b4bd86e50a5fcf85", "test/abyss/udp_host_hardening_test.exs": "02656128d72137bd1b30c307570e1c10543c2e6bad6900dc139d976036ec4ae5", "test/abyss/udp_membership_host_test.exs": "5dc493cf4fa111c8607a76e60eab4c38322759963084978e052f76315b9eaedc", "test/abyss/udp_peer_validation_test.exs": "97ace6ceec877794f8237d0c4b6b4441de7d80ff3af38acefaa2eac01e4af8b5", "test/abyss/utils_test.exs": "655f06bd95e72c03d491000e7604e39e777686a5a6699fdc56efc3f680312555", "test/abyss/datagram_watchdog_test.exs": "b4e458b750bfddeef62420bd5d9653798bc1ca090d1e4db66df4856cd4b442d9", "test/abyss/datagram_lifetime_test.exs": "945b39a28f0098468deda0af10bd481d8cee3c287705f98e76c28cbd6dcb3d4b", "test/abyss/datagram_send_accounting_test.exs": "ab695453559dc552b7c64d405a8e8ff7e86fcd8310da4016504cac8589712985", "test/abyss/datagram_native_send_accounting_test.exs": "985703ec749f0662377030b5f872e0ca99b91af3d77e586549bbe009aa7baa37", "test/abyss/datagram_drop_accounting_test.exs": "5d713fcc9112bdde56ce546d403e774a75f719faa1b658f0c815c5894afdba08", "test/abyss/datagram_native_drop_accounting_test.exs": "1190f5d9338baf9585d6d7236cdb5b8d0437ebb18bcbce8eca8d85f24c4a556d", "test/integration/client_test.exs": "9a4a112dc97a3874dd721511281ccf7549520ea128c08059c5cb1768e3859536", "test/integration/echo_test.exs": "b59af69eb084adc6708f5959826c4c027b9ce3f6ce356c1ca36c1da60152f7ba", "test/support/test_handler.ex": "425e5f4862cf5af796c532fa367a714dcd784e1d58a9ea0da880a48e9ec7d586", "test/support/test_helper.ex": "122a53c29fe4c86e61329079843c74723c2d97345ef70b271b4c29f19c3aeec7", "test/support/test_transport.ex": "ccaa8f94f3a359ea41525b89ef558916d4ec5930714b46261bdcea8b0e7bd5ea", "test/support/datagram_send_accounting_fixture.ex": "165d593b9cfe4c65e4db8c764c58a1ba93bc4b82f4a1d2c8014a0f60e663d29a", "test/support/datagram_drop_accounting_fixture.ex": "242942651200eed2ff85cf72ac5aaf291a8ddc576c77dc57816fb33d295e1cf7", "test/fixtures/quic/server_flight/README.md": "5fd910086bf9fde7332ed9a8b0715b4ffa664fb7a7697cb594848f0e82ecea71", "test/fixtures/quic/server_flight/leaf-key.pem": "0d06b9f348dd4a9744085e730e907f4bd459a88cccf726fb42fba9c897ab56e1", "test/fixtures/quic/server_flight/leaf-rsa.pem": "d2eaac781e5d6a7a74ccfa35120738d46c49ce4a1602806fcd763f82eaff3579", "test/fixtures/quic/server_flight/leaf.pem": "af218bb28763f8301e21c8ce0c1c878472aefbba8f1370f2d6f0d9013b603d76", "test/fixtures/quic/server_flight/root.pem": "e7fd4d3785727195ba69f287094c756cb523348884720a04ee2562a44b35e109", "test/abyss/transport/native_abi_probe.c": "bd17c429c3769df513edb93c786679285d60fb254ae97997f414e119ad5714d6", "test/abyss/transport/native_test.exs": "7f144fe8c662500a53f046591fec9368506642b95e794b2536870bc6ea442b9f", "test/abyss/transport/udp_test.exs": "9bc5ebbdc604c8d71bced6704b1165766be04d40ba1a3d68bab5ff882252f119", "test/abyss/transport/udp/broadcast_test.exs": "eced74a2a1edf61652b9b5da169acd608ad5cdbc2849b45971713411f6a99fd8", "test/abyss/transport/udp/core_test.exs": "d4c0a60383c758d466b83e24881b37cfc857a656b8afe611901e27e43e73a6c4", "test/abyss/transport/udp/multicast_regression_test.exs": "2694ae4c2bb14b7bec6d9e38bec191c4e9bfda50191071a380bda2e67702f788", "test/abyss/transport/udp/options_regression_test.exs": "40c50e8b1d195ad6f96027d41c84c1109a2a100e3b7490b9ebf380c06ea97a4f", "test/abyss/transport/udp/unicast_test.exs": "e302aaa8ca9ef946f22f7faca7b4f032af995e6ee680c0024aa49d9c6e0a0b9b", "scripts/phase1/ack_range_repro.exs": "f6b3fea735b2d2870efb98351e2e527165ea08c5c6d4be020060f8861e3ef9d0", "scripts/phase1/check.sh": "21f3dc3d45dba531ecfb3603bdd381b4f20a5071c89e48096190c599e4f6074e", "scripts/phase1/config.exs": "6cdd9e61452e46ee13f0b149c65900c62dbc9ac5511bc66836d271f6de8b0bc4", "scripts/phase1/controls.exs": "a9d3ce451be0559033a578928b6ae7d7cbbeea91563dd08d462f230554df9559", "scripts/phase1/faults.exs": "7b950a80de9af4be7a386f0b5b12d09bfaf50cbeeb3d0b2eca28fddc177fbc98", "scripts/phase1/independent_check.sh": "a344019be78ab11e7f437d79b334e0c59e0607a0e0031a818c6419f9a2528df7", "scripts/phase1/lifecycle.exs": "acd609a624c7bf38c6ef328e36b651c739f5e658268b838255437009dcfd84e4", "scripts/phase1/network.exs": "a58775d6b13458354602372845b85d2c6f7e4228a1f656c059d35f51999ba0d2", "scripts/phase1/peer.py": "5abfa79d009e3436a5202ae3b6318c17606a60739e93c394df24bd72effdb776", "scripts/phase1/published_provenance.exs": "f8a2ddc239b7905e539d03135c3ff809e916dcb29a0e4924e510a04547c4c232", "scripts/phase1/release_check.sh": "a8fed48494ca811f4314831b00486e5d81d6dcc5dade1d4e6c44c5b2cc5ed597", "scripts/udp/README.md": "02094220a546acc95d10054260ed1574e2cfc4025921d5facfd23237e32f71c2", "scripts/udp/backend_boot.exs": "885c25fac11f5c0bf0dfe98810a1cc2fb770c8acec14fbeedc4686fe71b0f802", "scripts/udp/backend_boot.sh": "698b2c0c80395ef5a1e480719d7d0e0fd4289597dec5e6a52b37aae3bfe67e9a", "scripts/udp/compare_steady.py": "d09fdc47e006180bf4ec5c59032e2e299027735b0c746efd831cb53d1ae824ca", "scripts/udp/dhcp_fixture.py": "eea5899d54551dc940750798ff01921a4dc0b54f39290eec7202faa57fd2d52f", "scripts/udp/network_fixture.py": "19f16fcf57b98f3b817db8e387d0de9e303f20c94f6fc50c89e89db2f3476d51", "scripts/udp/p5_consumers.py": "1204e9ee872bb4551f0742a53e45cf5cda4d376d90bddf1c43229d3af88b5fbf", "scripts/udp/p5_core_consumer.exs": "5000db881b644a5f015b972577772023ed0a8adefc8849f6b1aba841d048d119", "scripts/udp/p5_native_consumer.exs": "0b53dfce0c3d366537a8d2154af659cb570ab26aa4879dc9c83882c2dedccccc", "scripts/udp/runtime_smoke.exs": "4f28a858a67e2e35bd7916f43bd091517bedc84eeb60a6d2deea8ec9e06f2996", "scripts/udp/runtime_stress.exs": "4e185d2e3185e79ec238f40087193e713f2e922d92a88fec42d68b22f90b0ac0", "scripts/udp/server.exs": "9a3d82f470dd3f8aef71b69b734823ce84c18e52ed1fade40e3247c71b83fdf1", "scripts/udp/steady.exs": "b0bd01919a3e419c7125922af731b8b296f2b231a52d23b8bcf724f51f3f76ab", "scripts/udp/stress.exs": "0c6f9d6d50e3e9bbe232abd25ed6142332e06270fca8f9c64b1f2a24146de204"}}
+Running ExUnit with seed: 218484, max_cases: 16
+Excluding tags: [slow: true]
+Including tags: [:integration]
+
+.........
+20:54:06.731 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+............................
+20:54:06.843 [warning] Option :num_acceptors is deprecated. Use :num_listeners instead.
+.
+20:54:06.843 [warning] Option :num_acceptors is deprecated. Use :num_listeners instead.
+............
+20:54:06.883 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.........................
+20:54:06.984 [info] The function passed as a handler with ID "test-handler" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+....................................................................................................................................................................................................................................................................................................................
+20:54:28.286 [error] Telemetry event
+
+20:54:28.286 [info] Telemetry event
+
+20:54:28.286 [debug] Telemetry event
+
+20:54:28.286 [debug] Telemetry event
+.
+20:54:28.286 [error] Telemetry event
+...
+20:54:28.287 [debug] Telemetry event
+.
+20:54:28.287 [info] Telemetry event
+..
+20:54:28.287 [error] Telemetry event
+
+20:54:28.288 [info] Telemetry event
+
+20:54:28.288 [debug] Telemetry event
+.
+20:54:28.288 [debug] Telemetry event
+.
+20:54:28.288 [info] Telemetry event
+.
+20:54:28.288 [debug] Telemetry event
+..
+20:54:28.288 [error] Telemetry event
+.
+20:54:28.289 [debug] Telemetry event
+....
+20:54:28.290 [error] Telemetry event
+
+20:54:28.290 [info] Telemetry event
+..........
+20:54:28.292 [info] The function passed as a handler with ID :test_response_time_handler is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+.......................................
+20:54:28.784 [info] The function passed as a handler with ID #Reference<0.2620399649.2206203906.28727> is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+..............................................................
+20:54:30.540 [error] Telemetry event
+
+20:54:30.541 [error] Telemetry event
+
+20:54:30.541 [error] Telemetry event
+
+20:54:30.541 [error] Telemetry event
+
+20:54:30.541 [error] Telemetry event
+
+20:54:30.542 [error] Telemetry event
+
+20:54:30.542 [error] Telemetry event
+
+20:54:30.542 [error] Telemetry event
+
+20:54:30.542 [error] Telemetry event
+
+20:54:30.542 [error] Telemetry event
+
+20:54:30.543 [error] Telemetry event
+
+20:54:30.543 [error] Telemetry event
+
+20:54:30.543 [error] Telemetry event
+
+20:54:30.544 [error] Telemetry event
+
+20:54:30.544 [error] Telemetry event
+
+20:54:30.544 [error] Telemetry event
+
+20:54:30.544 [error] Telemetry event
+
+20:54:30.544 [error] Telemetry event
+
+20:54:30.545 [error] Telemetry event
+
+20:54:30.545 [error] Telemetry event
+
+20:54:30.545 [error] Telemetry event
+
+20:54:30.545 [error] Telemetry event
+
+20:54:30.545 [error] Telemetry event
+
+20:54:30.546 [error] Telemetry event
+
+20:54:30.546 [error] Telemetry event
+
+20:54:30.546 [error] Telemetry event
+
+20:54:30.546 [error] Telemetry event
+
+20:54:30.546 [error] Telemetry event
+
+20:54:30.546 [error] Telemetry event
+
+20:54:30.547 [error] Telemetry event
+
+20:54:30.547 [error] Telemetry event
+
+20:54:30.547 [error] Telemetry event
+
+20:54:30.548 [error] Telemetry event
+
+20:54:30.548 [error] Telemetry event
+
+20:54:30.548 [error] Telemetry event
+
+20:54:30.548 [error] Telemetry event
+
+20:54:30.548 [error] Telemetry event
+
+20:54:30.549 [error] Telemetry event
+
+20:54:30.549 [error] Telemetry event
+
+20:54:30.549 [error] Telemetry event
+
+20:54:30.549 [error] Telemetry event
+
+20:54:30.549 [error] Telemetry event
+
+20:54:30.550 [error] Telemetry event
+
+20:54:30.550 [error] Telemetry event
+
+20:54:30.550 [error] Telemetry event
+
+20:54:30.550 [error] Telemetry event
+
+20:54:30.550 [error] Telemetry event
+
+20:54:30.550 [error] Telemetry event
+
+20:54:30.551 [error] Telemetry event
+
+20:54:30.551 [error] Telemetry event
+
+20:54:30.551 [error] Telemetry event
+
+20:54:30.551 [error] Telemetry event
+
+20:54:30.551 [error] Telemetry event
+
+20:54:30.552 [error] Telemetry event
+
+20:54:30.552 [error] Telemetry event
+
+20:54:30.552 [error] Telemetry event
+
+20:54:30.552 [error] Telemetry event
+
+20:54:30.553 [error] Telemetry event
+
+20:54:30.553 [error] Telemetry event
+
+20:54:30.553 [error] Telemetry event
+
+20:54:30.553 [error] Telemetry event
+
+20:54:30.553 [error] Telemetry event
+
+20:54:30.553 [error] Telemetry event
+
+20:54:30.554 [error] Telemetry event
+
+20:54:30.554 [error] Telemetry event
+
+20:54:30.554 [error] Telemetry event
+
+20:54:30.554 [error] Telemetry event
+
+20:54:30.554 [error] Telemetry event
+
+20:54:30.555 [error] Telemetry event
+
+20:54:30.555 [error] Telemetry event
+
+20:54:30.555 [error] Telemetry event
+
+20:54:30.555 [error] Telemetry event
+
+20:54:30.555 [error] Telemetry event
+
+20:54:30.555 [error] Telemetry event
+
+20:54:30.556 [error] Telemetry event
+
+20:54:30.556 [error] Telemetry event
+
+20:54:30.556 [error] Telemetry event
+
+20:54:30.556 [error] Telemetry event
+
+20:54:30.556 [error] Telemetry event
+
+20:54:30.557 [error] Telemetry event
+
+20:54:30.557 [error] Telemetry event
+
+20:54:30.557 [error] Telemetry event
+
+20:54:30.557 [error] Telemetry event
+
+20:54:30.557 [error] Telemetry event
+
+20:54:30.557 [error] Telemetry event
+
+20:54:30.558 [error] Telemetry event
+
+20:54:30.558 [error] Telemetry event
+
+20:54:30.558 [error] Telemetry event
+
+20:54:30.558 [error] Telemetry event
+
+20:54:30.558 [error] Telemetry event
+
+20:54:30.559 [error] Telemetry event
+
+20:54:30.559 [error] Telemetry event
+
+20:54:30.559 [error] Telemetry event
+
+20:54:30.559 [error] Telemetry event
+
+20:54:30.559 [error] Telemetry event
+
+20:54:30.559 [error] Telemetry event
+
+20:54:30.560 [error] Telemetry event
+
+20:54:30.560 [error] Telemetry event
+
+20:54:30.560 [error] Telemetry event
+
+20:54:30.560 [error] Telemetry event
+...
+20:54:30.587 [error] GenServer #PID<0.2972.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.2969.0>, :killed}
+State: %{broadcast: false, socket: #Port<0.460>, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.Transport.UDP, transport_options: [], handler_module: Abyss.TestHandler, datagram_options: %{io_backend: :gen_udp, required_metadata: [], datagram_handler: nil, required_capabilities: [], runtime_options: [], execution: :per_datagram, route_key: nil}, handler_options: [], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 100, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, listener: #PID<0.2967.0>, idle_token: #Reference<0.2620399649.2206203906.32663>, idle_deadline: -576460697073, idle_timer: #Reference<0.2620399649.2206203906.32664>, read_timeout: 60000, memory_timer: #Reference<0.2620399649.2206203906.32660>, memory_check_interval: 10000, memory_token: #Reference<0.2620399649.2206203906.32659>, adaptive_timeout: 30000, connection_span: %Abyss.Telemetry{span_name: :test, telemetry_span_context: #Reference<0.2620399649.2206203906.32649>, start_time: -576460727076246575, start_metadata: %{sampled: true, telemetry_span_context: #Reference<0.2620399649.2206203906.32649>}}, processing_times: [1694]}
+
+20:54:30.693 [error] GenServer #PID<0.2984.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.2981.0>, :killed}
+State: %{broadcast: false, socket: #Port<0.461>, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.Transport.UDP, transport_options: [], handler_module: Abyss.TestHandler, datagram_options: %{io_backend: :gen_udp, required_metadata: [], datagram_handler: nil, required_capabilities: [], runtime_options: [], execution: :per_datagram, route_key: nil}, handler_options: [], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 100, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, listener: #PID<0.2979.0>, idle_token: #Reference<0.2620399649.2206203909.33569>, idle_deadline: -576460697068, idle_timer: #Reference<0.2620399649.2206203909.33570>, read_timeout: 60000, memory_timer: #Reference<0.2620399649.2206203909.33568>, memory_check_interval: 10000, memory_token: #Reference<0.2620399649.2206203909.33567>, adaptive_timeout: 30000, connection_span: %Abyss.Telemetry{span_name: :test, telemetry_span_context: #Reference<0.2620399649.2206203909.33561>, start_time: -576460727067812884, start_metadata: %{sampled: true, telemetry_span_context: #Reference<0.2620399649.2206203909.33561>}}, processing_times: [1090]}
+.
+20:54:30.696 [error] GenServer #PID<0.2994.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.2991.0>, :killed}
+State: %{broadcast: false, socket: #Port<0.462>, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.Transport.UDP, transport_options: [], handler_module: Abyss.TestHandler, datagram_options: %{io_backend: :gen_udp, required_metadata: [], datagram_handler: nil, required_capabilities: [], runtime_options: [], execution: :per_datagram, route_key: nil}, handler_options: [], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 100, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, listener: #PID<0.2989.0>, idle_token: #Reference<0.2620399649.2206203909.33649>, idle_deadline: -576460696964, idle_timer: #Reference<0.2620399649.2206203909.33650>, read_timeout: 60000, memory_timer: #Reference<0.2620399649.2206203909.33646>, memory_check_interval: 10000, memory_token: #Reference<0.2620399649.2206203909.33645>, adaptive_timeout: 30000, connection_span: %Abyss.Telemetry{span_name: :test, telemetry_span_context: #Reference<0.2620399649.2206203909.33639>, start_time: -576460726963561021, start_metadata: %{sampled: true, telemetry_span_context: #Reference<0.2620399649.2206203909.33639>}}, processing_times: [1406]}
+........................
+20:54:30.871 [info] The function passed as a handler with ID "scaler-test-#PID<0.3079.0>" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+...............................
+20:54:31.255 [info] The function passed as a handler with ID :integration_test_handler is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+......
+20:54:32.523 [error] Telemetry event
+.
+20:54:32.578 [error] GenServer #PID<0.5156.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.5154.0>, :killed}
+State: %{owner: #PID<0.5154.0>, socket: #Port<0.686>, queue: {[], []}, admission: #PID<0.5155.0>, generation: #Reference<0.2620399649.2206203909.37858>, transport: Abyss.Transport.UDP, max_bytes: 1048576, max_queue: 128, queue_bytes: 0, owner_monitor: #Reference<0.2620399649.2206203909.37867>, sending: false, owns_admission: false}
+
+20:54:32.580 [error] GenServer #PID<0.5166.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.5164.0>, :killed}
+State: %{owner: #PID<0.5164.0>, socket: #Port<0.688>, queue: {[], []}, admission: #PID<0.5165.0>, generation: #Reference<0.2620399649.2206203905.34076>, transport: Abyss.Transport.UDP, max_bytes: 1048576, max_queue: 128, queue_bytes: 0, owner_monitor: #Reference<0.2620399649.2206203905.34085>, sending: false, owns_admission: false}
+....
+20:54:32.646 [info] The function passed as a handler with ID "start-deadline-#PID<0.5221.0>" is a local function.
+This means that it is either an anonymous function or a capture of a function without a module specified. That may cause a performance penalty when calling that handler. For more details see the note in `telemetry:attach/4` documentation.
+
+https://hexdocs.pm/telemetry/telemetry.html#attach/4
+...................................
+20:54:33.405 [error] Telemetry event
+....................................
+20:54:36.030 [error] GenServer #PID<0.5830.0> terminating
+** (stop) {:binding_failed, {:error, :refused}}
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.5824.0>, connection: %{id: #PID<0.5829.0>, generation: #Reference<0.2620399649.2206203908.36077>}, initialized: false}}]]
+..
+20:54:36.085 [error] GenServer #PID<0.5843.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.5845.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 36184}, port: 0, shutdown_timeout: 50, socket: #Port<0.817>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.2620399649.2206203908.36185> => %{id: #PID<0.5848.0>, generation: #Reference<0.2620399649.2206203908.36178>}}, writer: #PID<0.5845.0>, receiver: #PID<0.5847.0>, admission: #PID<0.5844.0>, generation: #Reference<0.2620399649.2206203908.36163>, backend: Abyss.QUICServiceTest.Backend, endpoint: #PID<0.5846.0>, init_timeout: 5000, callback_timeout: 5000, writer_timeout: 1000, alpn: ["test"], _backend: Abyss.QUICServiceTest.Backend, poll_interval: 10, event_batch: 32, writer_max_bytes: 1048576, quic_options: [], max_connections: 128, worker_refs: %{#PID<0.5849.0> => #Reference<0.2620399649.2206203908.36185>}, writer_max_queue: 128}}]]
+
+20:54:36.087 [error] GenServer #PID<0.5851.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.5854.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 53945}, port: 0, shutdown_timeout: 50, socket: #Port<0.818>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.2620399649.2206203908.36226> => %{id: #PID<0.5856.0>, generation: #Reference<0.2620399649.2206203908.36219>}}, writer: #PID<0.5853.0>, receiver: #PID<0.5855.0>, admission: #PID<0.5852.0>, generation: #Reference<0.2620399649.2206203908.36204>, backend: Abyss.QUICServiceTest.Backend, endpoint: #PID<0.5854.0>, init_timeout: 5000, callback_timeout: 5000, writer_timeout: 1000, alpn: ["test"], _backend: Abyss.QUICServiceTest.Backend, poll_interval: 10, event_batch: 32, writer_max_bytes: 1048576, quic_options: [], max_connections: 128, worker_refs: %{#PID<0.5857.0> => #Reference<0.2620399649.2206203908.36226>}, writer_max_queue: 128}}]]
+
+20:54:36.089 [error] GenServer #PID<0.5859.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.5863.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 34619}, port: 0, shutdown_timeout: 50, socket: #Port<0.819>, callbacks: %{}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.2620399649.2206203908.36266> => %{id: #PID<0.5864.0>, generation: #Reference<0.2620399649.2206203908.36259>}}, writer: #PID<0.5861.0>, receiver: #PID<0.5863.0>, admission: #PID<0.5860.0>, generation: #Reference<0.2620399649.2206203908.36244>, backend: Abyss.QUICServiceTest.Backend, endpoint: #PID<0.5862.0>, init_timeout: 5000, callback_timeout: 5000, writer_timeout: 1000, alpn: ["test"], _backend: Abyss.QUICServiceTest.Backend, poll_interval: 10, event_batch: 32, writer_max_bytes: 1048576, quic_options: [], max_connections: 128, worker_refs: %{#PID<0.5865.0> => #Reference<0.2620399649.2206203908.36266>}, writer_max_queue: 128}}]]
+.
+20:54:36.091 [error] GenServer #PID<0.5874.0> terminating
+** (stop) {:binding_failed, false}
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.5868.0>, connection: %{id: #PID<0.5873.0>, generation: #Reference<0.2620399649.2206203908.36301>}, initialized: false}}]]
+..
+20:54:36.297 [error] GenServer #PID<0.5887.0> terminating
+** (stop) killed
+Last message: {:EXIT, #PID<0.5885.0>, :killed}
+State: %{owner: #PID<0.5885.0>, socket: #Port<0.822>, queue: {[], []}, admission: #PID<0.5886.0>, generation: #Reference<0.2620399649.2206203907.29834>, transport: Abyss.QUIC.SocketTransport, max_bytes: 1048576, max_queue: 128, queue_bytes: 0, owner_monitor: #Reference<0.2620399649.2206203907.29844>, sending: false, owns_admission: false}
+...
+20:54:36.298 [error] GenServer #PID<0.5902.0> terminating
+** (RuntimeError) init crashed
+    test/abyss/quic_test.exs:16: Abyss.QUICServiceTest.Handler.init/3
+    (abyss 0.8.1) lib/abyss/quic/service.ex:453: anonymous fn/1 in Abyss.QUIC.Worker.handle_info/2
+    (abyss 0.8.1) lib/abyss/quic/service.ex:547: Abyss.QUIC.Worker.watched/3
+    (stdlib 7.3.0.1) gen_server.erl:2434: :gen_server.try_handle_info/3
+    (stdlib 7.3.0.1) gen_server.erl:2420: :gen_server.handle_msg/3
+    (stdlib 7.3.0.1) proc_lib.erl:333: :proc_lib.init_p_do_apply/3
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.5896.0>, connection: %{id: #PID<0.5901.0>, generation: #Reference<0.2620399649.2206203908.36350>}, initialized: false}}]]
+......
+20:54:36.344 [error] GenServer #PID<0.5951.0> terminating
+** (stop) {:host_component_down, :killed}
+Last message: {:EXIT, #PID<0.5953.0>, :killed}
+State: [data: [{~c"State", %{local: {{127, 0, 0, 1}, 37003}, port: 0, shutdown_timeout: 50, socket: #Port<0.828>, callbacks: %{#PID<0.5957.0> => {#Reference<0.2620399649.2206203907.30141>, #Reference<0.2620399649.2206203907.30145>}}, ip: {127, 0, 0, 1}, handler: Abyss.QUICServiceTest.Handler, workers: %{#Reference<0.2620399649.2206203907.30136> => %{id: #PID<0.5956.0>, generation: #Reference<0.2620399649.2206203907.30129>}}, writer: #PID<0.5953.0>, receiver: #PID<0.5955.0>, admission: #PID<0.5952.0>, generation: #Reference<0.2620399649.2206203907.30110>, backend: Abyss.QUICServiceTest.Backend, endpoint: #PID<0.5954.0>, init_timeout: 5000, callback_timeout: 5000, writer_timeout: 1000, alpn: ["test"], _backend: Abyss.QUICServiceTest.Backend, poll_interval: 10, event_batch: 32, writer_max_bytes: 1048576, quic_options: [], max_connections: 128, worker_refs: %{#PID<0.5957.0> => #Reference<0.2620399649.2206203907.30136>}, writer_max_queue: 128}}]]
+.
+20:54:36.346 [error] GenServer #PID<0.5971.0> terminating
+** (stop) {:binding_failed, {:error, :init_failed}}
+Last message: :attach
+State: [data: [{~c"State", %{owner: #PID<0.5965.0>, connection: %{id: #PID<0.5970.0>, generation: #Reference<0.2620399649.2206203907.30187>}, initialized: false}}]]
+....
+20:54:36.431 [error] GenServer #PID<0.6061.0> terminating
+** (stop) {:runtime_exit, :killed}
+Last message: {:EXIT, #PID<0.6063.0>, :killed}
+State: %{runtime: #PID<0.6063.0>, mode: :running, handlers: %{}, dropped: 0, starter: #PID<0.6062.0>, server_config: %Abyss.ServerConfig{port: 0, transport_module: Abyss.RuntimeBlockingTransport, transport_options: [ip: {127, 0, 0, 1}], handler_module: nil, datagram_options: %{io_backend: :gen_udp, required_metadata: [], datagram_handler: Abyss.RuntimeTestHandler, required_capabilities: [], runtime_options: [send_timeout: 10], execution: :per_datagram, route_key: nil}, handler_options: [owner: #PID<0.6058.0>], genserver_options: [], supervisor_options: [], broadcast: false, num_listeners: 1, num_connections: 16384, max_connections_retry_count: 5, max_connections_retry_wait: 1000, read_timeout: 60000, shutdown_timeout: 15000, udp_buffer_size: 65536, dynamic_listeners: false, min_listeners: 10, max_listeners: 1000, listener_scale_threshold: 0.8, silent_terminate_on_error: false, max_packet_size: 8192, connection_telemetry_sample_rate: 0.05, handler_memory_check_interval: 10000, handler_memory_warning_threshold: 100, handler_memory_hard_limit: 150, datagram_dispatcher: nil, dispatcher_options: [], dispatcher_max_queue: 128, dispatcher_max_queue_bytes: 1048576, admission_start_timeout: 1000}, server_pid: #PID<0.6059.0>, listener_id: "listener-1", generation: #Reference<0.2620399649.2206203908.37152>, local_info: {{127, 0, 0, 1}, 42926}, armed: true, reservation: nil, transport: Abyss.RuntimeBlockingTransport, listener_socket: #Port<0.844>, native_select: nil, drain_waiter: nil, dispatcher: nil, runtime_counter_source: #PID<0.6063.0>, runtime_drop_counters: %{dropped: 0, internal_events_rejected: %{timer: 0, send_outcomes: 0}}, runtime_send: %Abyss.Dispatcher.SendCapability{writer: #PID<0.6065.0>, generation: #Reference<0.2620399649.2206203908.37152>, admission: #PID<0.6064.0>, io_backend: :gen_udp}, memberships: [], desired_key: {#PID<0.6059.0>, "listener-1"}, received: 1, active_high_water: 0, retained_high_water: 0, listener_span: %Abyss.Telemetry{span_name: :listener, telemetry_span_context: #Reference<0.2620399649.2206203908.37170>, start_time: -576460721259658215, start_metadata: %{broadcast: false, handler: nil, server_pid: #PID<0.6059.0>, listener_id: "listener-1", local_info: {{127, 0, 0, 1}, 42926}, listener_socket: #Port<0.844>, sampled: true, telemetry_span_context: #Reference<0.2620399649.2206203908.37170>}}}
+....................
+Finished in 30.9 seconds (6.9s async, 24.0s sync)
+3 doctests, 688 tests, 0 failures

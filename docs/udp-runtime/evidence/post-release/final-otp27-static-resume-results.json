@@ -1,0 +1,48 @@
+{
+  "source": "cd7f26822e366d65e3f168246020cd41ee7b7f3f",
+  "reason": "Retain original writer EXIT100ms failure; retry unchanged full suite without competing builds",
+  "env": {
+    "CI": "true",
+    "ERL_FLAGS": "+S 8:8",
+    "MIX_BUILD_PATH": "/tmp/abyss-post-hardening-otp27"
+  },
+  "results": [
+    {
+      "name": "dialyzer-retry",
+      "cmd": [
+        "mix",
+        "dialyzer"
+      ],
+      "overrides": {},
+      "exit": 0,
+      "seconds": 57.45499886665493,
+      "log": "final-otp27-dialyzer-retry.log"
+    },
+    {
+      "name": "docs",
+      "cmd": [
+        "mix",
+        "docs",
+        "--warnings-as-errors"
+      ],
+      "overrides": {},
+      "exit": 0,
+      "seconds": 1.0179209732450545,
+      "log": "final-otp27-docs.log"
+    },
+    {
+      "name": "credo",
+      "cmd": [
+        "mix",
+        "credo",
+        "--strict",
+        "--format",
+        "json"
+      ],
+      "overrides": {},
+      "exit": 30,
+      "seconds": 2.2030334062874317,
+      "log": "final-otp27-credo.log"
+    }
+  ]
+}
