@@ -1,0 +1,22 @@
+{
+  "version": "0.9.0",
+  "published": true,
+  "stage": "/tmp/abyss-release-consumers-wwz8bbi0",
+  "packages": {
+    "abyss": {
+      "sha256": "d13364b95d070abce970c5e7633e49648f9fc9157a7ca5f4d88464454b6d7a48"
+    },
+    "abyss_raw": {
+      "sha256": "6fea2ac8089c09a0ab58fbc96031b29badd83d50486c9ee3b29eb15a2a567c9d"
+    }
+  },
+  "gates": [
+    "standalone_extracted_raw",
+    "core_only_no_rust_udp",
+    "combined_native_load_and_operation_errors",
+    "explicit_native_mix_release_artifact",
+    "released_0_8_1_facade",
+    "isolated_dhcp_arp_wire_and_cleanup"
+  ],
+  "result": "PASS"
+}

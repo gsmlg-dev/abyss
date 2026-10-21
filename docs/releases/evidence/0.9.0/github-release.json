@@ -1,0 +1,66 @@
+{
+  "assets": [
+    {
+      "apiUrl": "https://api.github.com/repos/gsmlg-dev/abyss/releases/assets/661156273",
+      "contentType": "application/x-tar",
+      "createdAt": "2026-10-21T02:48:33Z",
+      "digest": "sha256:d13364b95d070abce970c5e7633e49648f9fc9157a7ca5f4d88464454b6d7a48",
+      "downloadCount": 1,
+      "id": "RA_kwDON9B6E84naHGx",
+      "label": "",
+      "name": "abyss-0.9.0.tar",
+      "size": 117760,
+      "state": "uploaded",
+      "updatedAt": "2026-10-21T02:48:33Z",
+      "url": "https://github.com/gsmlg-dev/abyss/releases/download/0.9.0/abyss-0.9.0.tar"
+    },
+    {
+      "apiUrl": "https://api.github.com/repos/gsmlg-dev/abyss/releases/assets/661156299",
+      "contentType": "application/x-tar",
+      "createdAt": "2026-10-21T02:48:34Z",
+      "digest": "sha256:6fea2ac8089c09a0ab58fbc96031b29badd83d50486c9ee3b29eb15a2a567c9d",
+      "downloadCount": 1,
+      "id": "RA_kwDON9B6E84naHHL",
+      "label": "",
+      "name": "abyss_raw-0.9.0.tar",
+      "size": 22016,
+      "state": "uploaded",
+      "updatedAt": "2026-10-21T02:48:34Z",
+      "url": "https://github.com/gsmlg-dev/abyss/releases/download/0.9.0/abyss_raw-0.9.0.tar"
+    },
+    {
+      "apiUrl": "https://api.github.com/repos/gsmlg-dev/abyss/releases/assets/661156326",
+      "contentType": "application/json",
+      "createdAt": "2026-10-21T02:48:35Z",
+      "digest": "sha256:3d7455c4f24a5d7c0b0d61ba0d94693c2e3cfe8d13950fc3bbbb59024fc7d08a",
+      "downloadCount": 1,
+      "id": "RA_kwDON9B6E84naHHm",
+      "label": "",
+      "name": "manifest.json",
+      "size": 675,
+      "state": "uploaded",
+      "updatedAt": "2026-10-21T02:48:35Z",
+      "url": "https://github.com/gsmlg-dev/abyss/releases/download/0.9.0/manifest.json"
+    },
+    {
+      "apiUrl": "https://api.github.com/repos/gsmlg-dev/abyss/releases/assets/661156342",
+      "contentType": "application/octet-stream",
+      "createdAt": "2026-10-21T02:48:36Z",
+      "digest": "sha256:4bfe1eee3c26885836a04f9718155306c7cfc5b781f392982c42a15186f98a05",
+      "downloadCount": 1,
+      "id": "RA_kwDON9B6E84naHH2",
+      "label": "",
+      "name": "SHA256SUMS",
+      "size": 248,
+      "state": "uploaded",
+      "updatedAt": "2026-10-21T02:48:36Z",
+      "url": "https://github.com/gsmlg-dev/abyss/releases/download/0.9.0/SHA256SUMS"
+    }
+  ],
+  "body": "# Abyss 0.9.0\n\nThe optional native package is now `abyss_raw`, released together with core at\nversion `0.9.0`. Explicitly add `{:abyss_raw, \"~> 0.9.0\"}` for interface-bound\nDHCP client sockets and raw ARP. Ordinary core consumers retain their Rust-free\nbuild and runtime boundary.\n\n`Abyss.DhcpSocket.Native` retains all five operations, owner messages and native\nresource behavior. The implementation name `AbyssDhcpSocket.Native` is retained\nso the released core `0.8.1` facade also works with the new add-on. Native artifacts\nnow belong to `:abyss_raw`. A missing add-on is reported as\n`{:error, {:missing_optional_dependency, :abyss_raw}}`; failed native loads retain\n`{:error, {:optional_dependency_load_failed, :abyss_raw, reason}}` and operation\nerrors remain unchanged.\n\nThe coordinated workflow requires committed shared versions, builds both\narchives at one selected source commit, creates one immutable tag and GitHub\nRelease, and publishes both packages and docs. Retry verifies any existing\npublication against the intended artifacts before uploading missing packages.\nCompletion requires fresh Hex consumers and checksum verification of both.\n\nNo new packet protocols or changes to the OTP socket backend are included.\n\nCoordinated release **COMPLETE**.\n\nSelected commit: `f336d939ff8a23b38c66072f1d1ba5873b5ef43b`. Both package versions: `0.9.0`.\n\nArtifacts are immutable. Retry this version only at the same commit. Conflicts require a new shared version; never replace an upload or move the tag.\n\n| Package | Hex upload | Documentation | Verification |\n| --- | --- | --- | --- |\n| `abyss` | verified | published | passed |\n| `abyss_raw` | verified | published | passed |\n\n<!-- coordinated-release-state\n{\n  \"version\": \"0.9.0\",\n  \"commit\": \"f336d939ff8a23b38c66072f1d1ba5873b5ef43b\",\n  \"status\": \"complete\",\n  \"packages\": {\n    \"abyss\": {\n      \"upload\": \"verified\",\n      \"docs\": \"published\",\n      \"verification\": \"passed\",\n      \"hex_sha256\": \"d13364b95d070abce970c5e7633e49648f9fc9157a7ca5f4d88464454b6d7a48\"\n    },\n    \"abyss_raw\": {\n      \"upload\": \"verified\",\n      \"docs\": \"published\",\n      \"verification\": \"passed\",\n      \"hex_sha256\": \"6fea2ac8089c09a0ab58fbc96031b29badd83d50486c9ee3b29eb15a2a567c9d\"\n    }\n  }\n}\n-->",
+  "isDraft": false,
+  "isPrerelease": false,
+  "publishedAt": "2026-10-21T02:48:32Z",
+  "tagName": "0.9.0",
+  "url": "https://github.com/gsmlg-dev/abyss/releases/tag/0.9.0"
+}

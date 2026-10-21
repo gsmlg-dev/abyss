@@ -1,0 +1,12 @@
+Test	Run tests	2026-10-21T02:50:23.7235881Z Running ExUnit with seed: 665934, max_cases: 8
+Test	Run tests	2026-10-21T02:50:25.1947768Z   1) test writer death invalidates dispatcher capability instead of retaining success (Abyss.DispatcherTest)
+Test	Run tests	2026-10-21T02:50:25.2012952Z ##[error]     test/abyss/dispatcher_test.exs:280
+Test	Run tests	2026-10-21T02:50:25.2024830Z      Assertion failed, no matching message after 100ms
+Test	Run tests	2026-10-21T02:50:25.2041570Z      The following variables were pinned:
+Test	Run tests	2026-10-21T02:50:25.2042530Z        dispatcher = #PID<0.5956.0>
+Test	Run tests	2026-10-21T02:50:25.2043263Z      The process mailbox is empty.
+Test	Run tests	2026-10-21T02:50:25.2044147Z      code: assert_receive {:EXIT, ^dispatcher, {:writer_exit, :killed}}
+Test	Run tests	2026-10-21T02:50:25.2045018Z      stacktrace:
+Test	Run tests	2026-10-21T02:50:25.2045728Z        test/abyss/dispatcher_test.exs:298: (test)
+Test	Run tests	2026-10-21T02:50:25.2046336Z
+Test	Run tests	2026-10-21T02:50:39.9731305Z 3 doctests, 691 tests, 1 failure, 7 excluded

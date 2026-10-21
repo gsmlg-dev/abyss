@@ -1,0 +1,177 @@
+{
+  "schema": 1,
+  "status": "COMPLETE",
+  "verified_at_utc": "2026-10-21T03:03:22.689521+00:00",
+  "version": "0.9.0",
+  "source_commit": "f336d939ff8a23b38c66072f1d1ba5873b5ef43b",
+  "tag": "0.9.0",
+  "github_release": "https://github.com/gsmlg-dev/abyss/releases/tag/0.9.0",
+  "coordinated_release_state": {
+    "version": "0.9.0",
+    "commit": "f336d939ff8a23b38c66072f1d1ba5873b5ef43b",
+    "status": "complete",
+    "packages": {
+      "abyss": {
+        "upload": "verified",
+        "docs": "published",
+        "verification": "passed",
+        "hex_sha256": "d13364b95d070abce970c5e7633e49648f9fc9157a7ca5f4d88464454b6d7a48"
+      },
+      "abyss_raw": {
+        "upload": "verified",
+        "docs": "published",
+        "verification": "passed",
+        "hex_sha256": "6fea2ac8089c09a0ab58fbc96031b29badd83d50486c9ee3b29eb15a2a567c9d"
+      }
+    }
+  },
+  "packages": [
+    {
+      "name": "abyss",
+      "path": ".",
+      "artifact": "abyss-0.9.0.tar",
+      "sha256": "d13364b95d070abce970c5e7633e49648f9fc9157a7ca5f4d88464454b6d7a48",
+      "content_sha256": "c76c1ae44e2617b3935a956d32d2e49aaafe4409a71106855e0c1cadf9863f4f",
+      "hex_url": "https://hex.pm/packages/abyss/0.9.0",
+      "docs_url": "https://hexdocs.pm/abyss/0.9.0/",
+      "docs_http_status": 200,
+      "requirements": {
+        "ex_doc": {
+          "app": "ex_doc",
+          "optional": false,
+          "requirement": ">= 0.0.0"
+        },
+        "telemetry": {
+          "app": "telemetry",
+          "optional": false,
+          "requirement": "~> 1.0"
+        },
+        "telemetry_metrics": {
+          "app": "telemetry_metrics",
+          "optional": false,
+          "requirement": "~> 1.0"
+        }
+      },
+      "packaged_file_count": 47,
+      "github_asset_checksum_matches": true,
+      "hex_archive_byte_equal": true,
+      "hex_checksum_matches": true,
+      "hex_has_docs": true,
+      "all_packaged_sources_match_tag": true,
+      "all_packaged_sources_match_worktree": true
+    },
+    {
+      "name": "abyss_raw",
+      "path": "packages/abyss_raw",
+      "artifact": "abyss_raw-0.9.0.tar",
+      "sha256": "6fea2ac8089c09a0ab58fbc96031b29badd83d50486c9ee3b29eb15a2a567c9d",
+      "content_sha256": "4de925b94ab607f4c6ebf2ad3e5a5b2bc52cfda20b62cbf0fa8b6b7707976b77",
+      "hex_url": "https://hex.pm/packages/abyss_raw/0.9.0",
+      "docs_url": "https://hexdocs.pm/abyss_raw/0.9.0/",
+      "docs_http_status": 200,
+      "requirements": {
+        "rustler": {
+          "app": "rustler",
+          "optional": false,
+          "requirement": "~> 0.34"
+        }
+      },
+      "packaged_file_count": 11,
+      "github_asset_checksum_matches": true,
+      "hex_archive_byte_equal": true,
+      "hex_checksum_matches": true,
+      "hex_has_docs": true,
+      "all_packaged_sources_match_tag": true,
+      "all_packaged_sources_match_worktree": true
+    }
+  ],
+  "verification": {
+    "workflow_published_consumers": "published-workflow-consumers.json",
+    "independent_published_consumers": "published-consumers.json",
+    "independent_linux_native_wire": "published-native-wire.json",
+    "published_consumer_gates_per_run": 6,
+    "isolated_native_assertions": 11,
+    "core_suite": {
+      "tests": 691,
+      "doctests": 3,
+      "failures": 0,
+      "excluded": 7
+    },
+    "raw_suite": {
+      "tests": 3,
+      "failures": 0
+    },
+    "release_helper_tests": {
+      "tests": 20,
+      "failures": 0
+    },
+    "udp_regression_jobs": {
+      "passed": 3,
+      "total": 3
+    },
+    "isolated_network_jobs": {
+      "passed": 19,
+      "total": 19
+    }
+  },
+  "limitations": {
+    "credo": {
+      "status": "FAIL",
+      "findings": 83,
+      "warnings": 15,
+      "refactoring": 15,
+      "readability": 48,
+      "design": 5,
+      "scope": "unchanged files",
+      "unchanged_files": [
+        "lib/abyss/datagram_dispatcher.ex",
+        "lib/abyss/handler.ex",
+        "lib/abyss/listener_pool.ex",
+        "lib/abyss/logger.ex",
+        "lib/abyss/quic/service.ex",
+        "lib/abyss/server.ex",
+        "lib/abyss/utils.ex",
+        "test/abyss/connection_test.exs",
+        "test/abyss/handler_test.exs",
+        "test/abyss/listener_pool_test.exs",
+        "test/abyss/server_config_test.exs",
+        "test/abyss/transport/udp/broadcast_test.exs",
+        "test/abyss/transport/udp/core_test.exs",
+        "test/abyss/transport/udp/unicast_test.exs",
+        "test/abyss/transport/udp_test.exs",
+        "test/abyss/transport_udp_comprehensive_test.exs",
+        "test/abyss/utils_test.exs",
+        "test/abyss_test.exs",
+        "test/support/test_handler.ex",
+        "test/support/test_helper.ex",
+        "test/support/test_transport.ex"
+      ]
+    },
+    "dialyzer": {
+      "status": "FAIL",
+      "message": "Old PLT file /home/runner/work/abyss/abyss/priv/plts/dialyzer.plt",
+      "scope": "existing cache configuration; no unrelated repair"
+    },
+    "test_attempt_1": {
+      "status": "FAIL",
+      "seed": 665934,
+      "max_cases": 8,
+      "test": "test/abyss/dispatcher_test.exs:280",
+      "assertion_line": 298,
+      "message": "No matching dispatcher EXIT message after 100 ms; mailbox empty",
+      "unchanged_against_baseline": [
+        "lib/abyss/datagram_dispatcher.ex",
+        "test/abyss/dispatcher_test.exs",
+        "mix.lock",
+        ".github/workflows/test.yml"
+      ],
+      "scoped_current_and_baseline": "19 tests, 0 failures, 18 excluded each",
+      "attempt_2": "PASS on unchanged source, 691 tests and 3 doctests; 7 excluded",
+      "cause": "Exact scheduling cause not established"
+    },
+    "native_platforms": {
+      "linux": "PASS, including isolated DHCP/ARP",
+      "other_native_platforms": "NOT RUN; no new FreeBSD/native-platform verification claim"
+    }
+  }
+}
