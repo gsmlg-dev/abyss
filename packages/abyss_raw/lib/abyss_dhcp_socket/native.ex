@@ -25,7 +25,7 @@ defmodule AbyssDhcpSocket.Native do
   """
 
   use Rustler,
-    otp_app: :abyss_dhcp_socket,
+    otp_app: :abyss_raw,
     crate: "dhcp_socket",
     path: "native/dhcp_socket"
 

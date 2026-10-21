@@ -267,23 +267,28 @@ an explicit response policy for ambiguous one-to-many use. See
 Ordinary core installation does not compile Rust or load a native artifact.
 `Abyss.DhcpSocket.Native` is a pure-Elixir facade. Without the optional package,
 its functions return
-`{:error, {:missing_optional_dependency, :abyss_dhcp_socket}}`.
+`{:error, {:missing_optional_dependency, :abyss_raw}}`.
 
-DHCP users must explicitly add `packages/abyss_dhcp_socket`; this is a dependency
-migration. The independently buildable package is unpublished. With Mix
-supporting sparse Git dependencies, pin the repository dependency:
+DHCP and raw ARP users explicitly install the add-on at the shared release version:
 
 ```elixir
-{:abyss_dhcp_socket,
- git: "https://github.com/gsmlg-dev/abyss.git",
- tag: "0.8.0",
- sparse: "packages/abyss_dhcp_socket"}
+{:abyss, "~> 0.9.0"},
+{:abyss_raw, "~> 0.9.0"}
 ```
 
-For a local opt-in fixture, use an explicit path to the extracted package.
-Core production metadata declares neither the dependency nor a local path.
-The implementation module is `AbyssDhcpSocket.Native`, and its OTP
-app/artifact is `:abyss_dhcp_socket`. The facade preserves the five operations
-and owner messages; `open/2` returns the opaque resource directly. The package
-still requires Cargo/Rust and Linux raw ARP/bind capabilities. See the
-[package guidance](https://github.com/gsmlg-dev/abyss/blob/main/packages/abyss_dhcp_socket/README.md).
+The standalone source package is `packages/abyss_raw`. Its manifest and Hex
+archive contain everything needed to build it without the parent checkout.
+Core declares neither this dependency nor Rustler, and the add-on does not
+depend on core.
+
+The implementation module intentionally remains `AbyssDhcpSocket.Native` and
+the Rust crate remains `dhcp_socket`. This preserves the released Abyss 0.8.1
+facade as well as current `Abyss.DhcpSocket.Native` callers. There is one NIF
+loader; its OTP application and `priv/native` artifact belong to `:abyss_raw`.
+The facade resolves it at runtime, preserving native-load errors separately
+from absent-package errors and operation results. It preserves all five
+operations and owner messages; `open/2` returns the opaque resource directly.
+The package requires Cargo/Rust and the existing platform-specific raw ARP
+and interface-bind capabilities. See the
+[package guidance](https://github.com/gsmlg-dev/abyss/blob/main/packages/abyss_raw/README.md)
+and [coordinated release policy](../releases.md).

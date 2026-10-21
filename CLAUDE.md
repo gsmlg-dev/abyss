@@ -52,8 +52,9 @@ mix credo --strict
 # Generate documentation
 mix docs
 
-# Publish package
-mix publish  # Runs format + hex.publish
+# Publish both packages through the coordinated workflow
+# See docs/releases.md; versions must already be committed.
+python3 scripts/release/release.py check --version 0.9.0
 
 # Full CI pipeline check
 mix ci  # Runs format check, credo strict, and integration tests

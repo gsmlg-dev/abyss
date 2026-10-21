@@ -1,6 +1,6 @@
 # Documentation guide
 
-These guides describe Abyss 0.8 and the architecture in the current source tree. Start with the [project README](../README.md) for installation and a runnable UDP echo.
+These guides describe Abyss 0.9 and the architecture in the current source tree. Start with the [project README](../README.md) for installation and a runnable UDP echo.
 
 ## Choose an API
 
@@ -24,6 +24,7 @@ Broadcast and multicast are addressing choices. The datagram API's execution pol
 | Admission, send receipts and protocol routing | [Dispatcher and writer](dispatcher.md) |
 | Optional QUIC engine, handlers, stream I/O and draining | [QUIC service](quic-service.md) |
 | Inspection, telemetry, shutdown and scoped verification | [Operations and development](operations.md) |
+| Shared versions, package artifacts and publication recovery | [Coordinated releases](releases.md) |
 
 Module and function details are available in the [API reference](https://hexdocs.pm/abyss).
 

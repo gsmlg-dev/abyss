@@ -11,12 +11,12 @@ Abyss is a supervised Elixir UDP service library. It provides socket ownership, 
 ```elixir
 def deps do
   [
-    {:abyss, "~> 0.8.1"}
+    {:abyss, "~> 0.9.0"}
   ]
 end
 ```
 
-QUIC applications explicitly install `elixir_quic` and its engine dependencies. DHCP native users explicitly install the optional, currently unpublished `abyss_dhcp_socket` package. See the [QUIC guide](docs/quic-service.md) and [DHCP migration](docs/udp-runtime/migration.md).
+QUIC applications explicitly install `elixir_quic` and its engine dependencies. DHCP and raw ARP users explicitly add `{:abyss_raw, "~> 0.9.0"}`. Both packages share each release version; core does not depend on the add-on. See the [QUIC guide](docs/quic-service.md) and [DHCP migration](docs/udp-runtime/migration.md).
 
 ## Datagram echo
 
@@ -90,6 +90,7 @@ The [documentation guide](docs/README.md) is the entry point for:
 - [Dispatcher and writer](docs/dispatcher.md): routing, send capabilities and receipts.
 - [QUIC service](docs/quic-service.md): optional engine and application handlers.
 - [Operations and development](docs/operations.md): inspection, telemetry and scoped checks.
+- [Coordinated releases](docs/releases.md): version policy, package boundaries and publication recovery.
 
 Source-attributed plans, diagnostics and release evidence are separated in the [historical archive](https://github.com/gsmlg-dev/abyss/tree/main/docs/archive). Current guides describe behavior; historical measurements do not imply a universal throughput improvement.
 

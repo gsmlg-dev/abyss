@@ -1,107 +1,91 @@
 name: release
+
 on:
   workflow_dispatch:
     inputs:
       release-version:
         required: true
-        description: 'The version of the release'
-        default: '0.1.0'
+        description: 'Committed shared version and bare tag (for example 0.9.0)'
       git-ref:
         required: true
-        description: 'The git revison of repo, branch, tag or commit'
+        description: 'Exact commit, tag or branch to release'
         default: 'main'
 
 permissions:
   contents: write
 
+# One repository-wide publication lane, including different requested versions.
+concurrency:
+  group: coordinated-hex-release
+  cancel-in-progress: false
+
 jobs:
-  tests:
-    name: Run tests (Elixir ${{matrix.elixir}}, OTP ${{matrix.otp}})
-
-    strategy:
-      matrix:
-        include:
-          - elixir: 1.18
-            otp: 27
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        ref: ${{ github.event.inputs.git-ref }}
-
-    - name: Set up Elixir
-      uses: erlef/setup-beam@v1
-      with:
-        otp-version: ${{ matrix.otp }}
-        elixir-version: ${{ matrix.elixir }}
-
-    - name: Install dependencies
-      env:
-        MIX_ENV: test
-      run: |
-        mix deps.get
-
-    - name: Check source code format
-      run: mix format --check-formatted
-
-    - name: Remove compiled application files
-      run: mix clean
-
-    - name: Compile & lint dependencies
-      run: mix compile --warnings-as-errors
-      env:
-        MIX_ENV: test
-
-    - name: Run tests
-      run: mix test
-
   release:
-    name: Publish release to hex.pm
+    name: Validate, publish and verify both packages
     runs-on: ubuntu-latest
-    needs: [ tests ]
-    steps:
-      - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-        with:
-          access_token: ${{ secrets.GITHUB_TOKEN }}
+    env:
+      CI: 'true'
+      RELEASE_VERSION: ${{ inputs.release-version }}
+      ARTIFACTS: ${{ github.workspace }}/release-artifacts
 
-      - name: ⬇️ Checkout repo
+    steps:
+      - name: Check out the selected release source once
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.git-ref }}
+          ref: ${{ inputs.git-ref }}
+          fetch-depth: 0
 
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
         with:
-          otp-version: 27
-          elixir-version: 1.18
+          otp-version: '28'
+          elixir-version: '1.18'
 
-      - name: Install Deps
-        env:
-          MIX_ENV: prod
+      - name: Set up Rust for the optional native package
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Linux wire fixture tools
         run: |
-          mix deps.get
-          sed -i 's%@version "[0-9\.]\+"%@version "${{ github.event.inputs.release-version }}"%' mix.exs
-          sed -i 's%{:abyss, "~> [0-9\.]\+"}%{:abyss, "~> ${{ github.event.inputs.release-version }}"}%' README.md
+          sudo apt-get update
+          sudo apt-get install --yes iproute2 util-linux python3
 
-      - name: Publish to hex.pm
+      - name: Validate package set, committed versions and release helpers
+        run: |
+          python3 scripts/release/release.py check --version "$RELEASE_VERSION" --committed
+          python3 -m unittest discover -s scripts/release -p 'test_*.py' -v
+          python3 -m py_compile scripts/release/release.py scripts/release/verify_consumers.py
+
+      - name: Validate both package projects
+        run: |
+          for package in . packages/abyss_raw; do
+            (
+              cd "$package"
+              mix deps.get
+              mix format --check-formatted
+              MIX_ENV=test mix compile --warnings-as-errors
+              mix test
+              mix docs --warnings-as-errors
+            )
+          done
+
+      - name: Build both immutable archives from the selected commit
+        run: python3 scripts/release/release.py build --version "$RELEASE_VERSION" --artifacts "$ARTIFACTS"
+
+      - name: Verify archive consumers, legacy compatibility and Linux wire traffic
+        run: |
+          python3 scripts/release/verify_consumers.py --version "$RELEASE_VERSION" \
+            --artifacts "$ARTIFACTS" --legacy --wire --output "$ARTIFACTS/local-consumers.json"
+
+      - name: Publish one coordinated GitHub and Hex release, then verify Hex consumers
         env:
-          MIX_ENV: dev
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
-        run: |
-          mix hex.publish --yes
+        run: python3 scripts/release/release.py publish --version "$RELEASE_VERSION" --artifacts "$ARTIFACTS"
 
-      - name: Create Git Tag
-        uses: actions/github-script@v7
+      - name: Retain release artifacts and verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: 'refs/tags/${{ github.event.inputs.release-version }}',
-              sha: context.sha
-            })
+          name: coordinated-release-${{ inputs.release-version }}
+          path: release-artifacts/
+          if-no-files-found: warn

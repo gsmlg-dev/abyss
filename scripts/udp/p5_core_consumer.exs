@@ -4,6 +4,10 @@ defmodule P5CoreEcho do
   def handle_datagram(datagram, state), do: {:ok, state, [{:reply, datagram.payload}]}
 end
 
+if expected = System.get_env("ABYSS_EXPECTED_VERSION") do
+  ^expected = Application.spec(:abyss, :vsn) |> to_string()
+end
+
 for executable <- ["cargo", "rustc", "rustup"] do
   nil = System.find_executable(executable)
 end
@@ -14,12 +18,12 @@ false = Code.ensure_loaded?(ElixirQuic)
 
 false =
   Enum.any?(Map.keys(Mix.Project.deps_paths()), fn app ->
-    app in [:rustler, :abyss_dhcp_socket, :elixir_quic, :ex_ssl]
+    app in [:rustler, :abyss_raw, :abyss_dhcp_socket, :elixir_quic, :ex_ssl]
   end)
 
 false =
   Enum.any?(Application.loaded_applications(), fn {app, _, _} ->
-    app in [:rustler, :abyss_dhcp_socket, :elixir_quic, :ex_ssl]
+    app in [:rustler, :abyss_raw, :abyss_dhcp_socket, :elixir_quic, :ex_ssl]
   end)
 
 for {function, arguments} <- [
@@ -29,7 +33,7 @@ for {function, arguments} <- [
       {:send_arp_probe, [make_ref(), {127, 0, 0, 1}]},
       {:close, [make_ref()]}
     ] do
-  {:error, {:missing_optional_dependency, :abyss_dhcp_socket}} =
+  {:error, {:missing_optional_dependency, :abyss_raw}} =
     apply(Abyss.DhcpSocket.Native, function, arguments)
 end
 

@@ -1,6 +1,6 @@
 defmodule Abyss.DhcpSocket.Native do
   @moduledoc """
-  Compatibility facade for the optional `abyss_dhcp_socket` package.
+  Compatibility facade for the optional `abyss_raw` package.
 
   Install the optional package explicitly to use this feature. Provides a
   broadcast-capable UDP socket bound to the interface (`SO_BINDTODEVICE` on
@@ -44,8 +44,8 @@ defmodule Abyss.DhcpSocket.Native do
   defp invoke(function, arguments) do
     case Code.ensure_loaded(@implementation) do
       {:module, @implementation} -> apply(@implementation, function, arguments)
-      {:error, :nofile} -> {:error, {:missing_optional_dependency, :abyss_dhcp_socket}}
-      {:error, reason} -> {:error, {:optional_dependency_load_failed, :abyss_dhcp_socket, reason}}
+      {:error, :nofile} -> {:error, {:missing_optional_dependency, :abyss_raw}}
+      {:error, reason} -> {:error, {:optional_dependency_load_failed, :abyss_raw, reason}}
     end
   end
 end

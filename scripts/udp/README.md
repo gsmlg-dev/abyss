@@ -74,8 +74,11 @@ python3 scripts/udp/p5_consumers.py
 `steady.exs` uses the same sequential64-byte workload on baseline/final code;
 measurements are samples, not a whole-VM bound. The package consumer gate builds
 fresh Hex contents outside the checkout, hides Rust/Cargo for core and explicitly
-adds the unpublished DHCP package for native tests. DHCP capabilities remain
-inside the owned namespace. It performs no publication.
+adds `abyss_raw` at the common version for native tests. It also checks the
+released Abyss 0.8.1 facade and a packaged Mix release. `--no-wire` runs the
+unprivileged checks while reporting isolated DHCP/ARP as NOT RUN. DHCP capabilities remain
+inside the owned namespace. It performs no publication. Coordinated publication is described in
+[the release guide](../../docs/releases.md).
 
 `compare_steady.py` writes fresh paired logs and its JSON summary to
 `_build/udp-evidence/`. Recorded release evidence is retained separately in

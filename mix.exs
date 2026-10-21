@@ -2,7 +2,7 @@ defmodule Abyss.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/gsmlg-dev/abyss"
-  @version "0.8.1"
+  @version "0.9.0"
 
   def project do
     [
@@ -92,7 +92,7 @@ defmodule Abyss.MixProject do
       maintainers: ["Jonathan Gao"],
       licenses: ["MIT"],
       files:
-        ~w(lib LICENSE mix.exs README.md docs/README.md docs/architecture.md docs/operations.md
+        ~w(lib LICENSE mix.exs README.md docs/README.md docs/architecture.md docs/operations.md docs/releases.md
            docs/dispatcher.md docs/quic-service.md docs/udp-broadcast-multicast.md
            docs/udp-runtime/design.md docs/udp-runtime/migration.md),
       links: %{
@@ -110,6 +110,7 @@ defmodule Abyss.MixProject do
         {"docs/README.md", filename: "documentation", title: "Documentation guide"},
         "docs/architecture.md",
         "docs/operations.md",
+        "docs/releases.md",
         "docs/dispatcher.md",
         "docs/quic-service.md",
         "docs/udp-broadcast-multicast.md",
@@ -125,7 +126,7 @@ defmodule Abyss.MixProject do
           "docs/dispatcher.md",
           "docs/quic-service.md"
         ],
-        Operations: ["docs/operations.md"]
+        Operations: ["docs/operations.md", "docs/releases.md"]
       ],
       source_url: @source_url,
       source_ref: @version
@@ -142,10 +143,6 @@ defmodule Abyss.MixProject do
         "format --check-formatted",
         "credo --strict",
         "test --cover --include integration"
-      ],
-      publish: [
-        "format",
-        "hex.publish --yes"
       ]
     ]
   end

@@ -13,7 +13,7 @@ application explicitly adds both Abyss and the engine to its dependencies:
 ```elixir
 def deps do
   [
-    {:abyss, "~> 0.8.0"},
+    {:abyss, "~> 0.9.0"},
     {:elixir_quic, "== 0.21.6"}
   ]
 end
