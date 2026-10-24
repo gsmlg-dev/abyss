@@ -20,7 +20,7 @@ Choose an unused version after checking Hex and repository tags. Update both
 manifests, installation examples and release notes, then validate before committing:
 
 ```sh
-python3 scripts/release/release.py check --version 0.9.0
+python3 scripts/release/release.py check --version 0.10.0
 python3 -m unittest discover -s scripts/release -p 'test_*.py'
 mix format --check-formatted
 mix test --no-cover test/abyss/dhcp_socket_native_test.exs
@@ -42,18 +42,18 @@ dispatch. Do not edit versions inside a release runner. From the repository's
 GitHub Actions **release** workflow, select the branch containing the coordinated
 workflow and supply:
 
-- `release-version`: the committed common version, for example `0.9.0`.
+- `release-version`: the committed common version, for example `0.10.0`.
 - `git-ref`: the exact source commit, or a ref resolving to that commit.
 
-CLI dispatch also supports releasing a source ref different from the workflow ref:
+CLI dispatch accepts an exact source commit independently of the workflow ref:
 
 ```sh
-gh workflow run release.yml --ref codex/abyss-raw-release \
-  -f release-version=0.9.0 -f git-ref=<validated-commit>
+gh workflow run release.yml --ref main \
+  -f release-version=0.10.0 -f git-ref=<validated-commit>
 ```
 
 The workflow validates the selected checkout, builds every package from that
-commit, and uses the existing bare version tag convention (`0.9.0`). It rejects
+commit, and uses the existing bare version tag convention (`0.10.0`). It rejects
 an existing tag that points elsewhere. Only manual dispatch starts publication;
 one repository-wide concurrency group serializes releases without canceling
 an upload in progress. The workflow needs the repository's existing `HEX_API_KEY`

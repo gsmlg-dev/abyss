@@ -363,6 +363,9 @@ defmodule Abyss.QUIC.Service do
       {key, value} when key in [:retry_limit, :event_limit, :operation_limit] ->
         is_integer(value) and value in 1..10_000
 
+      {:idle_timeout, :infinity} ->
+        true
+
       {key, value}
       when key in [:handshake_timeout, :idle_timeout, :closing_timeout, :draining_timeout] ->
         is_integer(value) and value > 0

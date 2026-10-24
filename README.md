@@ -11,12 +11,12 @@ Abyss is a supervised Elixir UDP service library. It provides socket ownership, 
 ```elixir
 def deps do
   [
-    {:abyss, "~> 0.9.0"}
+    {:abyss, "~> 0.10.0"}
   ]
 end
 ```
 
-QUIC applications explicitly install `elixir_quic` and its engine dependencies. DHCP and raw ARP users explicitly add `{:abyss_raw, "~> 0.9.0"}`. Both packages share each release version; core does not depend on the add-on. See the [QUIC guide](docs/quic-service.md) and [DHCP migration](docs/udp-runtime/migration.md).
+QUIC applications explicitly install `elixir_quic` and its engine dependencies. DHCP and raw ARP users explicitly add `{:abyss_raw, "~> 0.10.0"}`. Both packages share each release version; core does not depend on the add-on. See the [QUIC guide](docs/quic-service.md) and [DHCP migration](docs/udp-runtime/migration.md).
 
 ## Datagram echo
 

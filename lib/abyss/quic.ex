@@ -54,6 +54,15 @@ defmodule Abyss.QUIC do
   def ready(connection), do: backend_for_handle(connection, :ready, [connection])
   def info(connection), do: backend_for_handle(connection, :info, [connection])
 
+  @doc """
+  Requests one bounded QUIC PING using the engine's public operation API.
+
+  Requires `elixir_quic` 0.21.17 or later. Applications own the keepalive cadence;
+  admission does not confirm peer receipt. Operation references, finite deadlines,
+  blocked and unknown results follow the engine's normal write contract.
+  """
+  def ping(connection, opts \\ []), do: backend_for_handle(connection, :ping, [connection, opts])
+
   def events(connection, max \\ 32, opts \\ []),
     do: backend_for_handle(connection, :events, [connection, max, opts])
 
