@@ -39,10 +39,14 @@ defmodule Abyss.QUICServiceTest do
 
   defmodule Backend do
     def listen(opts) do
-      {:ok, endpoint} = Agent.start_link(fn -> %{acceptor: opts[:acceptor], queue: []} end)
+      {:ok, endpoint} =
+        Agent.start_link(fn -> %{acceptor: opts[:acceptor], queue: [], options: opts} end)
+
       if observer = opts[:tls][:observer], do: send(observer, {:endpoint, endpoint})
       {:ok, endpoint}
     end
+
+    def options(endpoint), do: Agent.get(endpoint, & &1.options)
 
     def connection(metadata \\ %{alpn: "test"}) do
       {:ok, pid} = Agent.start_link(fn -> %{metadata: metadata, events: []} end)
@@ -352,17 +356,24 @@ defmodule Abyss.QUICServiceTest do
   end
 
   test "an abnormal supervised restart replaces the listener generation and old workers" do
+    engine_options = [idle_timeout: :infinity, handshake_timeout: 2000]
+
     child =
       {Abyss.QUIC,
        handler: {Handler, self()},
        alpn: ["test"],
        tls: [cert: [], key: :test, observer: self()],
        _backend: Backend,
+       quic_options: engine_options,
        shutdown_timeout: 50}
 
     {:ok, supervisor} = Supervisor.start_link([child], strategy: :one_for_one)
     [{_, listener, :worker, _}] = Supervisor.which_children(supervisor)
     endpoint = endpoint!()
+
+    assert Keyword.take(Backend.options(endpoint), [:idle_timeout, :handshake_timeout]) ==
+             engine_options
+
     state = :sys.get_state(listener)
     connection = Backend.connection(%{alpn: "test", observer: self()})
     Backend.push(endpoint, connection)
@@ -376,7 +387,10 @@ defmodule Abyss.QUICServiceTest do
                    1_000
 
     assert_receive {:DOWN, ^worker_ref, :process, ^worker, _}, 1_000
-    endpoint!()
+    replacement_endpoint = endpoint!()
+
+    assert Keyword.take(Backend.options(replacement_endpoint), [:idle_timeout, :handshake_timeout]) ==
+             engine_options
 
     [{_, replacement, :worker, _}] = Supervisor.which_children(supervisor)
     refute replacement == listener
@@ -444,6 +458,41 @@ defmodule Abyss.QUICServiceTest do
                  quic_options: engine
                )
     end
+  end
+
+  test "forwards finite and disabled local idle policy with independent operation bounds" do
+    for idle_timeout <- [1000, :infinity] do
+      engine_options = [
+        idle_timeout: idle_timeout,
+        handshake_timeout: 2000,
+        closing_timeout: 3000,
+        draining_timeout: 4000
+      ]
+
+      assert {:ok, listener} = start_listener(quic_options: engine_options)
+      endpoint = endpoint!()
+
+      assert Keyword.take(Backend.options(endpoint), Keyword.keys(engine_options)) ==
+               engine_options
+
+      assert :ok = Abyss.QUIC.stop(listener)
+    end
+  end
+
+  test "rejects invalid idle policies and keeps other engine timers finite" do
+    for value <- [0, -1, nil, false, "infinity", 1.5] do
+      assert {:error, :invalid_quic_options} =
+               start_listener(quic_options: [idle_timeout: value])
+    end
+
+    for key <- [:handshake_timeout, :closing_timeout, :draining_timeout],
+        value <- [:infinity, 0, -1] do
+      assert {:error, :invalid_quic_options} =
+               start_listener(quic_options: [{:idle_timeout, :infinity}, {key, value}])
+    end
+
+    assert {:error, :invalid_quic_options} =
+             start_listener(quic_options: [idle_timeout: :infinity, idle_timeout: 1000])
   end
 
   test "invalid startup returns an error without an asynchronous caller exit" do

@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.0] - 2026-10-25
+
+### Added
+
+- Accept `idle_timeout: :infinity` in QUIC engine options, with finite peer
+  timeout negotiation still applying. Handshake, callback, closing and draining
+  deadlines remain independently bounded.
+- Expose `Abyss.QUIC.ping/2` for caller-managed QUIC keepalive with bounded
+  operation accounting and deadlines. Applications explicitly install
+  `elixir_quic` 0.21.17 or newer for these engine capabilities.
+
+### Changed
+
+- Release `abyss` and `abyss_raw` together at 0.10.0; ordinary UDP consumers
+  retain the core package's Rust-free and optional-QUIC dependency boundary.
+
 ## [0.8.1] - 2026-10-14
 
 ### Fixed

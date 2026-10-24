@@ -68,6 +68,12 @@ jobs:
             )
           done
 
+      - name: Verify the supported published QUIC idle policy and keepalive
+        working-directory: examples/quic_echo
+        run: |
+          mix deps.get
+          mix run --no-start ../../scripts/phase1/idle_policy.exs
+
       - name: Build both immutable archives from the selected commit
         run: python3 scripts/release/release.py build --version "$RELEASE_VERSION" --artifacts "$ARTIFACTS"
 

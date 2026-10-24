@@ -13,15 +13,15 @@ application explicitly adds both Abyss and the engine to its dependencies:
 ```elixir
 def deps do
   [
-    {:abyss, "~> 0.9.0"},
-    {:elixir_quic, "== 0.21.6"}
+    {:abyss, "~> 0.10.0"},
+    {:elixir_quic, "== 0.21.17"}
   ]
 end
 ```
 
 The published engine uses OTP application `:elixir_quic` and facade `Quic`;
 its source is `gsmlg-dev/http_fetch` under `apps/elixir_quic`. It requires Hex `ex_ssl`
-`0.21.6`, whose TLS facade remains `SSL.QUIC`. Abyss does not provide a legacy
+`0.21.17`, whose TLS facade remains `SSL.QUIC`. Abyss does not provide a legacy
 `QUIC` alias or fall back to an older engine. The examples pin these published
 packages and use `ABYSS_PATH` only to select the Abyss checkout under test.
 Do not set `runtime: false` on these runtime dependencies.
@@ -90,6 +90,35 @@ host failures restart under the application's supervisor with fresh generations.
 Choose the `stop/2` call timeout and supervisor child shutdown timeout longer than
 `shutdown_timeout`. A stop-call timeout does not confirm listener termination.
 
+## Idle policy and keepalive
+
+With `elixir_quic` 0.21.17, set `quic_options: [idle_timeout: :infinity]` to
+disable the local connection idle limit. Positive integer values retain their
+finite millisecond meaning; `0` is rejected. Omitting the option retains the
+engine's finite default. Only the idle limit supports `:infinity`: handshake,
+closing, draining, host initialization, callbacks, writes and shutdown keep
+their independent finite bounds.
+
+The engine advertises a zero `max_idle_timeout` transport parameter for this
+disabled local policy. A peer's finite idle limit still applies. QUIC selects
+the smaller nonzero advertised limit and applies its three-PTO minimum; neither
+endpoint can override the peer's policy. `Abyss.QUIC.info(connection)` exposes
+`idle_timeout` metadata with `local_ms`, `peer_ms`, `negotiated_ms` and
+`effective_ms`; disabled values are reported as `:infinity`. Avoid contradictory
+raw idle transport parameters in TLS options: the engine rejects them.
+
+For a peer with a finite limit, an application can call
+`Abyss.QUIC.ping(connection, timeout: 1000)` on its own bounded schedule.
+This delegates to the engine's public PING operation, with finite operation
+deadlines and its normal admission and result accounting. There is no automatic
+keepalive timer. An admitted PING is not proof of peer receipt; handle blocked,
+unknown and error results as for other writes, and do not blindly replay an
+unknown operation. Keepalive cannot guarantee network or peer availability.
+
+The listener passes the selected policy unchanged to its endpoint. Newly
+accepted connections and supervised listener replacements use the same
+configuration; existing connections are not resumed after a host restart.
+
 ## Application callbacks
 
 A listener owns its socket, one blocking receive process, writer and endpoint.
@@ -133,7 +162,7 @@ while already attached consumers and the writer continue to progress.
 Connection handles carry engine generations; streams embed their connection
 handle and stream ID. Treat them as opaque. The facade delegates `ready`, `info`,
 `events`, `open_stream`, `read`, `send_stream`, `reset_stream`, `stop_stream`,
-`close` and `operation_status` to public engine operations. No endpoint-private
+`close`, `ping` and `operation_status` to public engine operations. No endpoint-private
 connection enumeration is part of the consumer API.
 The event vocabulary is `{:ready, metadata}`, `{:stream_open, stream, :bidi | :uni}`,
 `{:readable, stream}`, `{:stopped, stream, code}` and `:writable`, followed by
@@ -212,3 +241,15 @@ and [original QUIC acceptance](https://github.com/gsmlg-dev/abyss/blob/main/docs
 retain their historical dependency versions, commands and gate status.
 Unit/fake-backend tests verify host regressions; independent peer transfers
 provide the network evidence.
+
+The current idle-policy gate uses the locked published engine, real TLS and
+loopback UDP. It checks idle negotiation, quiet persistence against actual
+finite-expiry control connections, PING operation results, listener recreation
+and independent handshake expiry. Run it from either QUIC example:
+
+```sh
+mix deps.get
+mix run --no-start ../../scripts/phase1/idle_policy.exs
+```
+
+This gate runs on OTP 27 and 28 in CI and before release publication.

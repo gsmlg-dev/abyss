@@ -8,7 +8,7 @@ defmodule AbyssCollectExample.MixProject do
       elixir: "~> 1.18",
       deps: [
         {:abyss, path: System.get_env("ABYSS_PATH", "../..")},
-        {:elixir_quic, "== 0.21.6"}
+        {:elixir_quic, "== 0.21.17"}
       ]
     ]
   end

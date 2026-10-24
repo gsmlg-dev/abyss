@@ -47,3 +47,27 @@ jobs:
 
       - name: Run tests
         run: mix test
+
+  quic_idle_policy:
+    name: QUIC idle policy / OTP ${{ matrix.otp }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        otp: ['27', '28']
+    env:
+      CI: 'true'
+    defaults:
+      run:
+        working-directory: examples/quic_echo
+    steps:
+      - uses: actions/checkout@v5
+      - uses: erlef/setup-beam@v1
+        with:
+          elixir-version: '1.18'
+          otp-version: ${{ matrix.otp }}
+      - name: Fetch the locked published QUIC engine
+        run: mix deps.get
+      - name: Verify idle negotiation, keepalive and listener recreation over UDP
+        run: mix run --no-start ../../scripts/phase1/idle_policy.exs
