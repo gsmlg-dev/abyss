@@ -22,7 +22,7 @@ concurrency:
 jobs:
   release:
     name: Validate, publish and verify both packages
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     env:
       CI: 'true'
       RELEASE_VERSION: ${{ inputs.release-version }}
@@ -30,7 +30,7 @@ jobs:
 
     steps:
       - name: Check out the selected release source once
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: ${{ inputs.git-ref }}
           fetch-depth: 0
@@ -38,8 +38,8 @@ jobs:
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
         with:
-          otp-version: '28'
-          elixir-version: '1.18'
+          otp-version: '29'
+          elixir-version: '1.20'
 
       - name: Set up Rust for the optional native package
         uses: dtolnay/rust-toolchain@stable
@@ -90,7 +90,7 @@ jobs:
 
       - name: Retain release artifacts and verification evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: coordinated-release-${{ inputs.release-version }}
           path: release-artifacts/

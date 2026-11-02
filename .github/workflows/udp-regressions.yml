@@ -13,32 +13,46 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             otp: '27'
-            elixir: '1.18'
-          - os: ubuntu-latest
+            elixir: '1.20'
+          - os: ubuntu-26.04
             otp: '28'
-            elixir: '1.18'
-          - os: macos-14
-            otp: '28'
-            elixir: '1.18'
+            elixir: '1.20'
+          - os: ubuntu-26.04
+            otp: '29'
+            elixir: '1.20'
+          - os: ubuntu-26.04-arm
+            otp: '29'
+            elixir: '1.20'
+          # GitHub currently exposes macOS 27 ARM64 under the xcode-27 preview label.
+          - os: xcode-27
+            otp: '29'
+            elixir: '1.20'
+          - os: macos-26-intel
+            otp: '29'
+            elixir: '1.20'
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     env:
       CI: 'true'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: erlef/setup-beam@v1
+        id: beam
+        env:
+          # setup-beam has no macos27 mapping yet; macOS OTP archives use only the architecture.
+          ImageOS: ${{ runner.os == 'macOS' && 'macos26' || 'ubuntu26' }}
         with:
           elixir-version: ${{ matrix.elixir }}
           otp-version: ${{ matrix.otp }}
       - name: Cache dependencies by operating system and runtime
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             deps
             _build
-          key: udp-${{ runner.os }}-${{ runner.arch }}-otp${{ matrix.otp }}-elixir${{ matrix.elixir }}-${{ hashFiles('mix.lock') }}
+          key: udp-${{ runner.os }}-${{ runner.arch }}-otp${{ steps.beam.outputs.otp-version }}-elixir${{ steps.beam.outputs.elixir-version }}-${{ hashFiles('mix.lock') }}
       - name: Fetch locked dependencies
         run: mix deps.get
       - name: Create macOS wrong-peer loopback fixture
@@ -105,7 +119,7 @@ jobs:
         run: mix run scripts/udp/stress.exs
       - name: Retain scoped coverage evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: udp-${{ runner.os }}-${{ runner.arch }}-otp${{ matrix.otp }}
           path: cover/*.coverdata

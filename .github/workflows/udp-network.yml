@@ -8,12 +8,12 @@ on:
 
 jobs:
   wire:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
-        otp: ['27', '28']
+        otp: ['27', '28', '29']
         backend: [inet, socket, native]
         execution: [per_datagram, endpoint, keyed]
     env:
@@ -23,10 +23,10 @@ jobs:
       ABYSS_UDP_API: datagram
       ABYSS_UDP_EXECUTION: ${{ matrix.execution }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: erlef/setup-beam@v1
         with:
-          elixir-version: '1.18'
+          elixir-version: '1.20'
           otp-version: ${{ matrix.otp }}
       - name: Install fixture tooling
         run: sudo apt-get update && sudo apt-get install -y iproute2 util-linux python3
@@ -36,16 +36,16 @@ jobs:
         run: python3 scripts/udp/network_fixture.py
 
   dhcp_optional:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     timeout-minutes: 20
     env:
       CI: 'true'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: erlef/setup-beam@v1
         with:
-          elixir-version: '1.18'
-          otp-version: '28'
+          elixir-version: '1.20'
+          otp-version: '29'
       - uses: dtolnay/rust-toolchain@stable
       - name: Install isolated fixture tools
         run: sudo apt-get update && sudo apt-get install -y iproute2 util-linux python3
